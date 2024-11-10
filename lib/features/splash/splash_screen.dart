@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:your_chef/config/routes/routes.dart';
 import 'package:your_chef/core/constants/colors.dart';
-import 'package:your_chef/core/constants/strings.dart';
+import 'package:your_chef/core/constants/keys.dart';
+import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
+import 'package:your_chef/core/utils/shared_preferences_helper.dart';
 import 'package:your_chef/core/widgets/icons/app_logo.dart';
+import 'package:your_chef/core/widgets/texts/logo_text.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -12,6 +16,20 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    Future.delayed(const Duration(seconds: 3), () {
+      if (!mounted) return;
+      final bool onboarding =
+          SharedPreferencesHelper.get<bool>(SharedPrefsKeys.onboarding) ??
+              false;
+      if (!onboarding) {
+        context.pushReplacementNamed(AppRoutes.onboarding);
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,13 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
             const AppLogo(),
             10.height,
-            Text(
-              AppStrings.appName,
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primary,
-                  ),
-            ),
+            const LogoText(),
             const Spacer(),
             const Center(
               child: CircularProgressIndicator(color: AppColors.primary),

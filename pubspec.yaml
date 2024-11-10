@@ -16,6 +16,7 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^8.1.6
   flutter_dotenv: ^5.2.1
+  flutter_screenutil: ^5.9.3
   get_it: ^8.0.2
   shared_preferences: ^2.3.3
   smooth_page_indicator: ^1.2.0+3
@@ -56,10 +57,11 @@ flutter:
   assets:
     - .env
     - assets/images/
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+    - assets/images/onboarding/
+  fonts:
+    - family: Vivaldii
+      fonts:
+        - asset: assets/fonts/Vivaldii.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

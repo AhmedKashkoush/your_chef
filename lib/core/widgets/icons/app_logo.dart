@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../constants/images.dart';
 
@@ -22,7 +23,7 @@ class AppLogo extends StatelessWidget {
   }
 
   Widget _buildAvatar() => CircleAvatar(
-        radius: size,
+        radius: size.r,
         backgroundImage: const AssetImage(AppImages.logo),
       );
 }
