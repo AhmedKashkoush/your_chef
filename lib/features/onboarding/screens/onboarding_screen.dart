@@ -93,38 +93,40 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         controller: _controller,
         children: _views,
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(16.0).r,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (!_atStart)
-              PreviousButton(
-                onPressed: _previous,
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0).r,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (!_atStart)
+                PreviousButton(
+                  onPressed: _previous,
+                ),
+              const Spacer(),
+              SmoothPageIndicator(
+                count: _views.length,
+                controller: _controller,
+                effect: const ExpandingDotsEffect(
+                  activeDotColor: AppColors.primary,
+                  dotHeight: 12,
+                  dotWidth: 12,
+                  expansionFactor: 5,
+                ),
+                onDotClicked: _onDotClicked,
               ),
-            const Spacer(),
-            SmoothPageIndicator(
-              count: _views.length,
-              controller: _controller,
-              effect: const ExpandingDotsEffect(
-                activeDotColor: AppColors.primary,
-                dotHeight: 12,
-                dotWidth: 12,
-                expansionFactor: 5,
-              ),
-              onDotClicked: _onDotClicked,
-            ),
-            const Spacer(),
-            if (!_hasEnded)
-              NextButton(
-                onPressed: _next,
-              )
-            else
-              PrimaryButton(
-                text: AppStrings.getStarted,
-                onPressed: _getStarted,
-              )
-          ],
+              const Spacer(),
+              if (!_hasEnded)
+                NextButton(
+                  onPressed: _next,
+                )
+              else
+                PrimaryButton(
+                  text: AppStrings.getStarted,
+                  onPressed: _getStarted,
+                )
+            ],
+          ),
         ),
       ),
     );

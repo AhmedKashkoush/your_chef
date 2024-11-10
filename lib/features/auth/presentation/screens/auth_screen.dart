@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
@@ -18,63 +19,174 @@ class _AuthScreenState extends State<AuthScreen>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController =
       TabController(length: 2, vsync: this);
-  @override
-  Widget build(BuildContext context) {
-    return OrientationWidget(
-      portrait: _AuthScreenPortrait(
-        tabController: _tabController,
-      ),
-      landscape: const SizedBox.shrink(),
-    );
-  }
-}
 
-class _AuthScreenPortrait extends StatelessWidget {
-  final TabController tabController;
-  const _AuthScreenPortrait({required this.tabController});
+  final TextEditingController _loginEmailController = TextEditingController(),
+      _loginPasswordController = TextEditingController();
+  final ValueNotifier<bool> _loginPasswordVisibility =
+      ValueNotifier<bool>(false);
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    _loginEmailController.dispose();
+    _loginPasswordController.dispose();
+    _loginPasswordVisibility.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        centerTitle: true,
+        title: const Text.rich(
+          TextSpan(text: 'Free ', children: [
+            TextSpan(
+              text: 'Palestine',
+              style: TextStyle(
+                color: Colors.green,
+              ),
+            ),
+          ]),
+          style: TextStyle(
+            color: Colors.red,
+            fontStyle: FontStyle.italic,
+          ),
+        ),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            const AppLogo(),
-            10.height,
-            const Text(
-              AppStrings.welcome,
-              style: TextStyle(fontSize: 22),
-            ),
-            const LogoText(),
-            10.height,
-            _TabBarWidget(tabController: tabController),
-            Expanded(
-              child: _TabBarViewWidget(tabController: tabController),
-            ),
-          ],
+      body: OrientationWidget(
+        portrait: _AuthScreenPortrait(
+          tabController: _tabController,
+          loginEmailController: _loginEmailController,
+          loginPasswordController: _loginPasswordController,
+          loginPasswordVisibility: _loginPasswordVisibility,
+        ),
+        landscape: _AuthScreenLandscape(
+          tabController: _tabController,
+          loginEmailController: _loginEmailController,
+          loginPasswordController: _loginPasswordController,
+          loginPasswordVisibility: _loginPasswordVisibility,
         ),
       ),
     );
   }
 }
 
-class _TabBarViewWidget extends StatelessWidget {
-  const _TabBarViewWidget({
+class _AuthScreenPortrait extends StatelessWidget {
+  final TabController tabController;
+  final TextEditingController loginEmailController, loginPasswordController;
+  final ValueNotifier<bool> loginPasswordVisibility;
+  const _AuthScreenPortrait({
     required this.tabController,
+    required this.loginEmailController,
+    required this.loginPasswordController,
+    required this.loginPasswordVisibility,
   });
 
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        children: [
+          const AppLogo(),
+          10.height,
+          Text(
+            AppStrings.welcome,
+            style: TextStyle(fontSize: 18.sp),
+          ),
+          const LogoText(),
+          10.height,
+          _TabBarWidget(tabController: tabController),
+          Expanded(
+            child: _TabBarViewWidget(
+              tabController: tabController,
+              loginEmailController: loginEmailController,
+              loginPasswordController: loginPasswordController,
+              loginPasswordVisibility: loginPasswordVisibility,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _AuthScreenLandscape extends StatelessWidget {
   final TabController tabController;
+  final TextEditingController loginEmailController, loginPasswordController;
+  final ValueNotifier<bool> loginPasswordVisibility;
+  const _AuthScreenLandscape({
+    required this.tabController,
+    required this.loginEmailController,
+    required this.loginPasswordController,
+    required this.loginPasswordVisibility,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const FittedBox(child: AppLogo()),
+                10.height,
+                Text(
+                  AppStrings.welcome,
+                  style: TextStyle(fontSize: 10.sp),
+                ),
+                const LogoText(),
+              ],
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Column(
+              children: [
+                _TabBarWidget(tabController: tabController),
+                Expanded(
+                  child: _TabBarViewWidget(
+                    tabController: tabController,
+                    loginEmailController: loginEmailController,
+                    loginPasswordController: loginPasswordController,
+                    loginPasswordVisibility: loginPasswordVisibility,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _TabBarViewWidget extends StatelessWidget {
+  final TabController tabController;
+  final TextEditingController loginEmailController, loginPasswordController;
+  final ValueNotifier<bool> loginPasswordVisibility;
+  const _TabBarViewWidget({
+    required this.tabController,
+    required this.loginEmailController,
+    required this.loginPasswordController,
+    required this.loginPasswordVisibility,
+  });
 
   @override
   Widget build(BuildContext context) {
     return TabBarView(
       controller: tabController,
-      children: const [
-        LoginView(),
-        SizedBox.shrink(),
+      children: [
+        LoginView(
+          emailController: loginEmailController,
+          passwordController: loginPasswordController,
+          passwordVisibility: loginPasswordVisibility,
+        ),
+        const SizedBox.shrink(),
       ],
     );
   }

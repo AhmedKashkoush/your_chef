@@ -26,8 +26,9 @@ class LoginSuccessState extends LoginState {
 
 class LoginErrorState extends LoginState {
   final String message;
+  final ErrorType type;
 
-  const LoginErrorState(this.message);
+  const LoginErrorState(this.message, [this.type = ErrorType.normal]);
   @override
   List<Object> get props => [message];
 }

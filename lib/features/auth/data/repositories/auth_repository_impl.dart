@@ -63,4 +63,20 @@ class AuthRepository implements IAuthRepository {
       return const Left(ServerFailure('Something went wrong'));
     }
   }
+
+  @override
+  Future<Either<Failure, User>> googleSignIn() async {
+    try {
+      final UserModel user = await remoteDataSource.googleSignIn();
+      return Right(user.toEntity());
+    } on AuthException {
+      return const Left(AuthFailure('Invalid credentials'));
+    } on NetworkException {
+      return const Left(NetworkFailure('Check your internet connection'));
+    } on ServerException {
+      return const Left(ServerFailure('Something went wrong'));
+    } catch (e) {
+      return const Left(ServerFailure('Something went wrong'));
+    }
+  }
 }

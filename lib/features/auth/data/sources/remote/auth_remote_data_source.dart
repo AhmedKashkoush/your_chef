@@ -7,6 +7,7 @@ import '../../models/user_model.dart';
 
 abstract class IAuthRemoteDataSource {
   Future<UserModel> login(LoginOptions options);
+  Future<UserModel> googleSignIn();
   Future<void> register(RegisterOptions options);
   Future<void> resetPassword(ResetPasswordOptions options);
 }
@@ -18,7 +19,8 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
 
   @override
   Future<UserModel> login(LoginOptions options) async {
-    if (!await NetworkHelper.isConnected) {
+    final isConnected = await NetworkHelper.isConnected;
+    if (!isConnected) {
       throw ex.NetworkException('Check your internet connection');
     }
 
@@ -65,4 +67,9 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
 
   @override
   Future<void> resetPassword(ResetPasswordOptions options) async {}
+
+  @override
+  Future<UserModel> googleSignIn() async {
+    throw UnimplementedError();
+  }
 }

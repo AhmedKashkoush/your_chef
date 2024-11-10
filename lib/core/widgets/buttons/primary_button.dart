@@ -25,7 +25,15 @@ class PrimaryButton extends StatelessWidget {
         ),
       ),
       child: loading
-          ? const Center(child: CircularProgressIndicator())
+          ? SizedBox(
+              height: 30.h,
+              width: 30.w,
+              child: const FittedBox(
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+            )
           : Text(
               text,
               style: const TextStyle(

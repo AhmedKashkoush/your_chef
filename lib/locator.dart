@@ -9,6 +9,7 @@ import 'package:your_chef/features/auth/presentation/bloc/login/login_bloc.dart'
 import 'package:your_chef/features/auth/presentation/bloc/register/register_bloc.dart';
 
 import 'features/auth/data/repositories/auth_repository_impl.dart';
+import 'features/auth/domain/usecases/google_sign_in_usecase.dart';
 
 final GetIt locator = GetIt.instance;
 
@@ -56,13 +57,16 @@ void _initUseCases() {
   locator.registerLazySingleton<ResetPasswordUseCase>(
     () => ResetPasswordUseCase(locator<IAuthRepository>()),
   );
+  locator.registerLazySingleton<GoogleSignUseCase>(
+    () => GoogleSignUseCase(locator<IAuthRepository>()),
+  );
 }
 
 //?Blocs
 void _initBlocs() {
   //*Auth
   locator.registerFactory<LoginBloc>(
-    () => LoginBloc(locator<LoginUseCase>()),
+    () => LoginBloc(locator<LoginUseCase>(), locator<GoogleSignUseCase>()),
   );
   locator.registerFactory<RegisterBloc>(
     () => RegisterBloc(locator<RegisterUseCase>()),

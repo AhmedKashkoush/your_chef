@@ -10,3 +10,9 @@ class LoginSubmitEvent extends LoginEvent {
   @override
   List<Object> get props => [options];
 }
+
+class GoogleSignInEvent extends LoginEvent {
+  const GoogleSignInEvent();
+  @override
+  List<Object> get props => [];
+}

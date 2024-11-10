@@ -3,23 +3,42 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:your_chef/core/constants/strings.dart';
+import 'package:your_chef/core/errors/error_types.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
+import 'package:your_chef/core/options/options.dart';
+import 'package:your_chef/core/utils/messages.dart';
 import 'package:your_chef/core/widgets/buttons/primary_button.dart';
+import 'package:your_chef/core/widgets/fields/custom_text_field.dart';
 import 'package:your_chef/features/auth/presentation/bloc/login/login_bloc.dart';
 
 class LoginView extends StatelessWidget {
-  const LoginView({super.key});
+  final TextEditingController emailController, passwordController;
+  final ValueNotifier<bool> passwordVisibility;
+  const LoginView({
+    super.key,
+    required this.emailController,
+    required this.passwordController,
+    required this.passwordVisibility,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<LoginBloc, LoginState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is LoginErrorState) {
+          AppMessages.showErrorMessage(context, state.message, state.type);
+        }
+
+        if (state is LoginSuccessState) {}
+      },
       builder: (context, state) {
         return ListView(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 40).r,
           children: [
             CustomTextField(
               keyboardType: TextInputType.emailAddress,
+              controller: emailController,
+              enabled: state is! LoginLoadingState,
               hintText: AppStrings.email,
               inputFormatters: [
                 FilteringTextInputFormatter.deny(RegExp(r'\s')),
@@ -27,65 +46,99 @@ class LoginView extends StatelessWidget {
               prefixIcon: const Icon(Icons.email),
             ),
             10.height,
-            const CustomTextField(
-              hintText: AppStrings.password,
-              obscureText: true,
-              obscuringCharacter: '*',
-              prefixIcon: Icon(Icons.password),
-              suffixIcon: Icon(Icons.remove_red_eye),
+            ValueListenableBuilder(
+                valueListenable: passwordVisibility,
+                builder: (_, visible, __) {
+                  return CustomTextField(
+                    hintText: AppStrings.password,
+                    enabled: state is! LoginLoadingState,
+                    controller: passwordController,
+                    obscureText: !visible,
+                    obscuringCharacter: '*',
+                    prefixIcon: const Icon(Icons.password),
+                    suffixIcon: IconButton(
+                      onPressed: _toggleVisibility,
+                      icon: visible
+                          ? const Icon(Icons.visibility_off)
+                          : const Icon(Icons.visibility),
+                    ),
+                  );
+                }),
+            20.height,
+            PrimaryButton(
+              onPressed: () => _login(context),
+              loading: state is LoginLoadingState,
+              text: AppStrings.login,
             ),
             20.height,
-            PrimaryButton(onPressed: () {}, text: AppStrings.login),
+            Row(
+              children: [
+                Expanded(
+                  child: Divider(
+                    endIndent: 10.w,
+                    color: Colors.grey.withOpacity(0.5),
+                    thickness: 1,
+                  ),
+                ),
+                const Text(
+                  AppStrings.or,
+                  style: TextStyle(color: Colors.grey),
+                ),
+                Expanded(
+                  child: Divider(
+                    indent: 10.w,
+                    color: Colors.grey.withOpacity(0.5),
+                    thickness: 1,
+                  ),
+                ),
+              ],
+            ),
+            20.height,
+            OutlinedButton.icon(
+              onPressed: () {},
+              icon: const Icon(Icons.facebook),
+              label: const Text(AppStrings.signInWithGoogle),
+            )
           ],
         );
       },
     );
   }
-}
 
-class CustomTextField extends StatelessWidget {
-  final TextInputType? keyboardType;
-  final Widget? prefixIcon, suffixIcon;
-  final bool obscureText;
-  final String? hintText, labelText;
-  final String obscuringCharacter;
-  final TextEditingController? controller;
-  final List<TextInputFormatter>? inputFormatters;
-
-  const CustomTextField({
-    super.key,
-    this.keyboardType,
-    this.prefixIcon,
-    this.suffixIcon,
-    this.obscureText = false,
-    this.hintText,
-    this.labelText,
-    this.obscuringCharacter = '•',
-    this.controller,
-    this.inputFormatters,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      obscureText: obscureText,
-      obscuringCharacter: obscuringCharacter,
-      keyboardType: keyboardType,
-      inputFormatters: inputFormatters,
-      decoration: InputDecoration(
-        isDense: true,
-        prefixIcon: prefixIcon,
-        suffixIcon: suffixIcon,
-        hintText: hintText,
-        labelText: labelText,
-        border: OutlineInputBorder(
-          borderSide: BorderSide.none,
-          borderRadius: BorderRadius.circular(10.r),
-        ),
-        filled: true,
-        fillColor: Colors.grey.withOpacity(0.3),
-      ),
+  void _login(BuildContext context) {
+    if (emailController.text.trim().isEmpty &&
+        passwordController.text.trim().isEmpty) {
+      AppMessages.showErrorMessage(
+        context,
+        'Enter your credentials',
+        ErrorType.auth,
+      );
+      return;
+    }
+    if (emailController.text.trim().isEmpty) {
+      AppMessages.showErrorMessage(
+        context,
+        'Enter email',
+        ErrorType.auth,
+      );
+      return;
+    }
+    if (passwordController.text.trim().isEmpty) {
+      AppMessages.showErrorMessage(
+        context,
+        'Enter password',
+        ErrorType.auth,
+      );
+      return;
+    }
+    final LoginOptions options = LoginOptions(
+      email: emailController.text.trim(),
+      password: passwordController.text.trim(),
     );
+    context.read<LoginBloc>().add(LoginSubmitEvent(options));
+  }
+
+  void _toggleVisibility() {
+    passwordVisibility.value = !passwordVisibility.value;
   }
 }

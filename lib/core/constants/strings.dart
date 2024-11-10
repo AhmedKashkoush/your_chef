@@ -20,4 +20,6 @@ class AppStrings {
 
   static const String email = 'Email';
   static const String password = 'Password';
+  static const String or = 'Or';
+  static const String signInWithGoogle = 'Sign In With Google';
 }
