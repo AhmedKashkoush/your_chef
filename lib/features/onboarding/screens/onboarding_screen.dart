@@ -4,6 +4,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:your_chef/config/routes/routes.dart';
 import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/constants/images.dart';
+import 'package:your_chef/core/constants/keys.dart';
 import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/widgets/buttons/primary_button.dart';
@@ -11,6 +12,8 @@ import 'package:your_chef/features/onboarding/widgets/next_button.dart';
 import 'package:your_chef/features/onboarding/widgets/onboarding_view.dart';
 import 'package:your_chef/features/onboarding/widgets/previous_button.dart';
 import 'package:your_chef/features/onboarding/widgets/skip_button.dart';
+
+import '../../../core/utils/shared_preferences_helper.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -132,7 +135,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  void _skip() {
+  void _skip() async {
+    await SharedPreferencesHelper.set<bool>(SharedPrefsKeys.onboarding, true);
+    if (!mounted) return;
     context.pushReplacementNamed(AppRoutes.auth);
   }
 
@@ -163,7 +168,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  void _getStarted() {
+  void _getStarted() async {
+    await SharedPreferencesHelper.set<bool>(SharedPrefsKeys.onboarding, true);
+    if (!mounted) return;
     context.pushReplacementNamed(AppRoutes.auth);
   }
 }

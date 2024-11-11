@@ -16,6 +16,12 @@ class LoginLoadingState extends LoginState {
   List<Object> get props => [];
 }
 
+class GoogleLoginLoadingState extends LoginState {
+  const GoogleLoginLoadingState();
+  @override
+  List<Object> get props => [];
+}
+
 class LoginSuccessState extends LoginState {
   final User user;
 

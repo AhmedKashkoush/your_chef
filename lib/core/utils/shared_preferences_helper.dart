@@ -7,7 +7,7 @@ class SharedPreferencesHelper {
     _prefs = await SharedPreferences.getInstance();
   }
 
-  Future<void> set<T>(String key, T value) async {
+  static Future<void> set<T>(String key, T value) async {
     switch (value.runtimeType) {
       case const (String):
         await _prefs.setString(key, value as String);

@@ -45,7 +45,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   FutureOr<void> _googleSign(
       GoogleSignInEvent event, Emitter<LoginState> emit) async {
-    emit(const LoginLoadingState());
+    emit(const GoogleLoginLoadingState());
     final Either<Failure, User> result = await googleSignUseCase();
 
     result.fold((failure) {

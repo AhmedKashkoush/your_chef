@@ -7,6 +7,7 @@ import 'package:your_chef/core/widgets/icons/app_logo.dart';
 import 'package:your_chef/core/widgets/layout/orientation_widget.dart';
 import 'package:your_chef/core/widgets/texts/logo_text.dart';
 import 'package:your_chef/features/auth/presentation/widgets/login_view.dart';
+import 'package:your_chef/features/auth/presentation/widgets/register_view.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -20,10 +21,20 @@ class _AuthScreenState extends State<AuthScreen>
   late final TabController _tabController =
       TabController(length: 2, vsync: this);
 
+  final GlobalKey<FormState> _registerFormKey = GlobalKey<FormState>();
+
   final TextEditingController _loginEmailController = TextEditingController(),
-      _loginPasswordController = TextEditingController();
+      _loginPasswordController = TextEditingController(),
+      _registerNameController = TextEditingController(),
+      _registerEmailController = TextEditingController(),
+      _registerPasswordController = TextEditingController(),
+      _registerPhoneController = TextEditingController(),
+      _registerAddressController = TextEditingController(),
+      _registerConfirmController = TextEditingController();
   final ValueNotifier<bool> _loginPasswordVisibility =
-      ValueNotifier<bool>(false);
+          ValueNotifier<bool>(false),
+      _registerPasswordVisibility = ValueNotifier<bool>(false),
+      _registerConfirmVisibility = ValueNotifier<bool>(false);
 
   @override
   void dispose() {
@@ -31,6 +42,14 @@ class _AuthScreenState extends State<AuthScreen>
     _loginEmailController.dispose();
     _loginPasswordController.dispose();
     _loginPasswordVisibility.dispose();
+    _registerNameController.dispose();
+    _registerEmailController.dispose();
+    _registerPasswordController.dispose();
+    _registerPhoneController.dispose();
+    _registerAddressController.dispose();
+    _registerConfirmController.dispose();
+    _registerPasswordVisibility.dispose();
+    _registerConfirmVisibility.dispose();
     super.dispose();
   }
 
@@ -61,12 +80,30 @@ class _AuthScreenState extends State<AuthScreen>
           loginEmailController: _loginEmailController,
           loginPasswordController: _loginPasswordController,
           loginPasswordVisibility: _loginPasswordVisibility,
+          registerFormKey: _registerFormKey,
+          registerNameController: _registerNameController,
+          registerEmailController: _registerEmailController,
+          registerPasswordController: _registerPasswordController,
+          registerPhoneController: _registerPhoneController,
+          registerAddressController: _registerAddressController,
+          registerConfirmController: _registerConfirmController,
+          registerPasswordVisibility: _registerPasswordVisibility,
+          registerConfirmVisibility: _registerConfirmVisibility,
         ),
         landscape: _AuthScreenLandscape(
           tabController: _tabController,
           loginEmailController: _loginEmailController,
           loginPasswordController: _loginPasswordController,
           loginPasswordVisibility: _loginPasswordVisibility,
+          registerFormKey: _registerFormKey,
+          registerNameController: _registerNameController,
+          registerEmailController: _registerEmailController,
+          registerPasswordController: _registerPasswordController,
+          registerPhoneController: _registerPhoneController,
+          registerAddressController: _registerAddressController,
+          registerConfirmController: _registerConfirmController,
+          registerPasswordVisibility: _registerPasswordVisibility,
+          registerConfirmVisibility: _registerConfirmVisibility,
         ),
       ),
     );
@@ -75,13 +112,32 @@ class _AuthScreenState extends State<AuthScreen>
 
 class _AuthScreenPortrait extends StatelessWidget {
   final TabController tabController;
-  final TextEditingController loginEmailController, loginPasswordController;
-  final ValueNotifier<bool> loginPasswordVisibility;
+  final GlobalKey<FormState> registerFormKey;
+  final TextEditingController loginEmailController,
+      loginPasswordController,
+      registerNameController,
+      registerEmailController,
+      registerPasswordController,
+      registerPhoneController,
+      registerAddressController,
+      registerConfirmController;
+  final ValueNotifier<bool> loginPasswordVisibility,
+      registerPasswordVisibility,
+      registerConfirmVisibility;
   const _AuthScreenPortrait({
     required this.tabController,
     required this.loginEmailController,
     required this.loginPasswordController,
     required this.loginPasswordVisibility,
+    required this.registerFormKey,
+    required this.registerNameController,
+    required this.registerEmailController,
+    required this.registerPasswordController,
+    required this.registerPhoneController,
+    required this.registerAddressController,
+    required this.registerConfirmController,
+    required this.registerPasswordVisibility,
+    required this.registerConfirmVisibility,
   });
 
   @override
@@ -104,6 +160,15 @@ class _AuthScreenPortrait extends StatelessWidget {
               loginEmailController: loginEmailController,
               loginPasswordController: loginPasswordController,
               loginPasswordVisibility: loginPasswordVisibility,
+              registerFormKey: registerFormKey,
+              registerNameController: registerNameController,
+              registerEmailController: registerEmailController,
+              registerPasswordController: registerPasswordController,
+              registerPhoneController: registerPhoneController,
+              registerAddressController: registerAddressController,
+              registerConfirmController: registerConfirmController,
+              registerPasswordVisibility: registerPasswordVisibility,
+              registerConfirmVisibility: registerConfirmVisibility,
             ),
           ),
         ],
@@ -114,13 +179,32 @@ class _AuthScreenPortrait extends StatelessWidget {
 
 class _AuthScreenLandscape extends StatelessWidget {
   final TabController tabController;
-  final TextEditingController loginEmailController, loginPasswordController;
-  final ValueNotifier<bool> loginPasswordVisibility;
+  final GlobalKey<FormState> registerFormKey;
+  final TextEditingController loginEmailController,
+      loginPasswordController,
+      registerNameController,
+      registerEmailController,
+      registerPasswordController,
+      registerPhoneController,
+      registerAddressController,
+      registerConfirmController;
+  final ValueNotifier<bool> loginPasswordVisibility,
+      registerPasswordVisibility,
+      registerConfirmVisibility;
   const _AuthScreenLandscape({
     required this.tabController,
     required this.loginEmailController,
     required this.loginPasswordController,
     required this.loginPasswordVisibility,
+    required this.registerFormKey,
+    required this.registerNameController,
+    required this.registerEmailController,
+    required this.registerPasswordController,
+    required this.registerPhoneController,
+    required this.registerAddressController,
+    required this.registerConfirmController,
+    required this.registerPasswordVisibility,
+    required this.registerConfirmVisibility,
   });
 
   @override
@@ -151,9 +235,18 @@ class _AuthScreenLandscape extends StatelessWidget {
                 Expanded(
                   child: _TabBarViewWidget(
                     tabController: tabController,
+                    registerFormKey: registerFormKey,
                     loginEmailController: loginEmailController,
                     loginPasswordController: loginPasswordController,
                     loginPasswordVisibility: loginPasswordVisibility,
+                    registerNameController: registerNameController,
+                    registerEmailController: registerEmailController,
+                    registerPasswordController: registerPasswordController,
+                    registerPhoneController: registerPhoneController,
+                    registerAddressController: registerAddressController,
+                    registerConfirmController: registerConfirmController,
+                    registerPasswordVisibility: registerPasswordVisibility,
+                    registerConfirmVisibility: registerConfirmVisibility,
                   ),
                 ),
               ],
@@ -167,13 +260,32 @@ class _AuthScreenLandscape extends StatelessWidget {
 
 class _TabBarViewWidget extends StatelessWidget {
   final TabController tabController;
-  final TextEditingController loginEmailController, loginPasswordController;
-  final ValueNotifier<bool> loginPasswordVisibility;
+  final GlobalKey<FormState> registerFormKey;
+  final TextEditingController loginEmailController,
+      loginPasswordController,
+      registerNameController,
+      registerEmailController,
+      registerPasswordController,
+      registerPhoneController,
+      registerAddressController,
+      registerConfirmController;
+  final ValueNotifier<bool> loginPasswordVisibility,
+      registerPasswordVisibility,
+      registerConfirmVisibility;
   const _TabBarViewWidget({
     required this.tabController,
     required this.loginEmailController,
     required this.loginPasswordController,
     required this.loginPasswordVisibility,
+    required this.registerNameController,
+    required this.registerEmailController,
+    required this.registerPasswordController,
+    required this.registerPhoneController,
+    required this.registerAddressController,
+    required this.registerConfirmController,
+    required this.registerPasswordVisibility,
+    required this.registerConfirmVisibility,
+    required this.registerFormKey,
   });
 
   @override
@@ -186,7 +298,18 @@ class _TabBarViewWidget extends StatelessWidget {
           passwordController: loginPasswordController,
           passwordVisibility: loginPasswordVisibility,
         ),
-        const SizedBox.shrink(),
+        RegisterView(
+          tabController: tabController,
+          formKey: registerFormKey,
+          nameController: registerNameController,
+          emailController: registerEmailController,
+          passwordController: registerPasswordController,
+          phoneController: registerPhoneController,
+          addressController: registerAddressController,
+          confirmController: registerConfirmController,
+          passwordVisibility: registerPasswordVisibility,
+          confirmVisibility: registerConfirmVisibility,
+        ),
       ],
     );
   }

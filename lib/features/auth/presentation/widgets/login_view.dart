@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:your_chef/config/routes/routes.dart';
 import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/errors/error_types.dart';
+import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/options/options.dart';
 import 'package:your_chef/core/utils/messages.dart';
+import 'package:your_chef/core/widgets/buttons/auth_button.dart';
 import 'package:your_chef/core/widgets/buttons/primary_button.dart';
 import 'package:your_chef/core/widgets/fields/custom_text_field.dart';
 import 'package:your_chef/features/auth/presentation/bloc/login/login_bloc.dart';
@@ -29,7 +32,10 @@ class LoginView extends StatelessWidget {
           AppMessages.showErrorMessage(context, state.message, state.type);
         }
 
-        if (state is LoginSuccessState) {}
+        if (state is LoginSuccessState) {
+          AppMessages.showSuccessMessage(context, 'Login successful');
+          context.pushReplacementNamed(AppRoutes.home);
+        }
       },
       builder: (context, state) {
         return ListView(
@@ -94,15 +100,18 @@ class LoginView extends StatelessWidget {
               ],
             ),
             20.height,
-            OutlinedButton.icon(
-              onPressed: () {},
-              icon: const Icon(Icons.facebook),
-              label: const Text(AppStrings.signInWithGoogle),
+            AuthButton(
+              onPressed: () => _googleSignIn(context),
+              authType: AuthType.google,
             )
           ],
         );
       },
     );
+  }
+
+  void _googleSignIn(BuildContext context) {
+    context.read<LoginBloc>().add(const GoogleSignInEvent());
   }
 
   void _login(BuildContext context) {

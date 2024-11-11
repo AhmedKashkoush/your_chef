@@ -4,6 +4,7 @@ import 'package:your_chef/config/routes/routes.dart';
 import 'package:your_chef/features/auth/presentation/bloc/login/login_bloc.dart';
 import 'package:your_chef/features/auth/presentation/bloc/register/register_bloc.dart';
 import 'package:your_chef/features/auth/presentation/screens/auth_screen.dart';
+import 'package:your_chef/features/home/presentation/screens/home_screen.dart';
 import 'package:your_chef/features/onboarding/screens/onboarding_screen.dart';
 import 'package:your_chef/features/splash/splash_screen.dart';
 import 'package:your_chef/locator.dart';
@@ -33,6 +34,10 @@ class AppRouter {
             ],
             child: const AuthScreen(),
           ),
+        );
+      case AppRoutes.home:
+        return MaterialPageRoute(
+          builder: (_) => const HomeScreen(),
         );
       default:
         return null;

@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:label="Your Chef"
         android:name="${applicationName}"
@@ -30,6 +31,15 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+            <activity
+                android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+                android:exported="false"
+            />
+            <activity
+                android:name="com.google.android.gms.auth.api.signin.internal.AuthDialogActivity"
+                android:exported="false"
+            />
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and

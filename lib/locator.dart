@@ -1,4 +1,6 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:your_chef/features/auth/data/sources/remote/auth_remote_data_source.dart';
 import 'package:your_chef/features/auth/domain/repositories/auth_repository.dart';
@@ -26,13 +28,21 @@ void _initExternal() {
   locator.registerLazySingleton<SupabaseClient>(
     () => Supabase.instance.client,
   );
+  locator.registerLazySingleton<GoogleSignIn>(
+    () => GoogleSignIn(
+      clientId: dotenv.env['GOOGLE_CLIENT_ID'],
+    ),
+  );
 }
 
 //? Remote Sources
 void _initRemoteSources() {
   //*Auth
   locator.registerLazySingleton<IAuthRemoteDataSource>(
-    () => SupabaseAuthRemoteDataSource(locator<SupabaseClient>()),
+    () => SupabaseAuthRemoteDataSource(
+      locator<SupabaseClient>(),
+      locator<GoogleSignIn>(),
+    ),
   );
 }
 
