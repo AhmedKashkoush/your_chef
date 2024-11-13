@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:your_chef/config/routes/routes.dart';
 import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/errors/error_types.dart';
@@ -49,7 +50,7 @@ class LoginView extends StatelessWidget {
               inputFormatters: [
                 FilteringTextInputFormatter.deny(RegExp(r'\s')),
               ],
-              prefixIcon: const Icon(Icons.email),
+              prefixIcon: const Icon(HugeIcons.strokeRoundedMail01),
             ),
             10.height,
             ValueListenableBuilder(
@@ -61,12 +62,12 @@ class LoginView extends StatelessWidget {
                     controller: passwordController,
                     obscureText: !visible,
                     obscuringCharacter: '*',
-                    prefixIcon: const Icon(Icons.password),
+                    prefixIcon: const Icon(HugeIcons.strokeRoundedLockPassword),
                     suffixIcon: IconButton(
                       onPressed: _toggleVisibility,
                       icon: visible
-                          ? const Icon(Icons.visibility_off)
-                          : const Icon(Icons.visibility),
+                          ? const Icon(HugeIcons.strokeRoundedViewOff)
+                          : const Icon(HugeIcons.strokeRoundedEye),
                     ),
                   );
                 }),

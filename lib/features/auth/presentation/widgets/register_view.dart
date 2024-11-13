@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/options/options.dart';
 import 'package:your_chef/core/utils/messages.dart';
@@ -72,7 +73,7 @@ class RegisterView extends StatelessWidget {
                 validator: _validateName,
                 enabled: state is! RegisterLoadingState,
                 hintText: AppStrings.name,
-                prefixIcon: const Icon(Icons.person),
+                prefixIcon: const Icon(HugeIcons.strokeRoundedUser),
               ),
               10.height,
               CustomTextField(
@@ -82,7 +83,7 @@ class RegisterView extends StatelessWidget {
                 enabled: state is! RegisterLoadingState,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 hintText: AppStrings.phone,
-                prefixIcon: const Icon(Icons.phone),
+                prefixIcon: const Icon(HugeIcons.strokeRoundedCall),
               ),
               10.height,
               CustomTextField(
@@ -91,7 +92,7 @@ class RegisterView extends StatelessWidget {
                 validator: _validateAddress,
                 enabled: state is! RegisterLoadingState,
                 hintText: AppStrings.address,
-                prefixIcon: const Icon(Icons.location_pin),
+                prefixIcon: const Icon(HugeIcons.strokeRoundedLocation01),
               ),
               10.height,
               CustomTextField(
@@ -103,7 +104,7 @@ class RegisterView extends StatelessWidget {
                 inputFormatters: [
                   FilteringTextInputFormatter.deny(RegExp(r'\s')),
                 ],
-                prefixIcon: const Icon(Icons.email),
+                prefixIcon: const Icon(HugeIcons.strokeRoundedMail01),
               ),
               10.height,
               ValueListenableBuilder(
@@ -116,12 +117,13 @@ class RegisterView extends StatelessWidget {
                       validator: _validatePassword,
                       obscureText: !visible,
                       obscuringCharacter: '*',
-                      prefixIcon: const Icon(Icons.password),
+                      prefixIcon:
+                          const Icon(HugeIcons.strokeRoundedLockPassword),
                       suffixIcon: IconButton(
                         onPressed: _toggleVisibility,
                         icon: visible
-                            ? const Icon(Icons.visibility_off)
-                            : const Icon(Icons.visibility),
+                            ? const Icon(HugeIcons.strokeRoundedViewOff)
+                            : const Icon(HugeIcons.strokeRoundedEye),
                       ),
                     );
                   }),
@@ -136,12 +138,13 @@ class RegisterView extends StatelessWidget {
                       validator: _validateConfirm,
                       obscureText: !visible,
                       obscuringCharacter: '*',
-                      prefixIcon: const Icon(Icons.password),
+                      prefixIcon:
+                          const Icon(HugeIcons.strokeRoundedLockPassword),
                       suffixIcon: IconButton(
                         onPressed: _toggleConfirmVisibility,
                         icon: visible
-                            ? const Icon(Icons.visibility_off)
-                            : const Icon(Icons.visibility),
+                            ? const Icon(HugeIcons.strokeRoundedViewOff)
+                            : const Icon(HugeIcons.strokeRoundedEye),
                       ),
                     );
                   }),

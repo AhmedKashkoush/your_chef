@@ -1,10 +1,9 @@
-import 'dart:developer';
-
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:your_chef/core/errors/exceptions.dart' as ex;
 import 'package:your_chef/core/options/options.dart';
 import 'package:your_chef/core/utils/network_helper.dart';
+import 'package:your_chef/core/utils/user_helper.dart';
 
 import '../../models/user_model.dart';
 
@@ -27,8 +26,6 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
     if (!isConnected) {
       throw ex.NetworkException('Check your internet connection');
     }
-
-    log('response.toString()');
 
     final AuthResponse response = await client.auth
         .signInWithPassword(
@@ -55,7 +52,10 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
       throw ex.AuthException('Invalid credentials');
     }
 
-    return UserModel.fromJson(data);
+    final UserModel signedUser = UserModel.fromJson(data);
+    await UserHelper.signIn(signedUser);
+
+    return signedUser;
   }
 
   @override
@@ -144,8 +144,14 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
       await client.from('users').insert(data.toJson());
       final Map<String, dynamic> newData =
           await client.from('users').select('*').eq('id', user.id).single();
-      return UserModel.fromJson(newData);
+      final UserModel signedUser = UserModel.fromJson(newData);
+      await UserHelper.signIn(signedUser);
+
+      return signedUser;
     }
-    return UserModel.fromJson(data);
+    final UserModel signedUser = UserModel.fromJson(data);
+    await UserHelper.signIn(signedUser);
+
+    return signedUser;
   }
 }

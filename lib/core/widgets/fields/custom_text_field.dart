@@ -3,14 +3,19 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomTextField extends StatelessWidget {
+  final void Function()? onTap;
+  final void Function(String)? onFieldSubmitted;
+  final TextInputAction? textInputAction;
   final TextInputType? keyboardType;
   final Widget? prefixIcon, suffixIcon;
-  final bool obscureText, enabled;
+  final bool obscureText, enabled, readOnly;
   final String? hintText, labelText;
   final String obscuringCharacter;
   final TextEditingController? controller;
   final List<TextInputFormatter>? inputFormatters;
   final String? Function(String?)? validator;
+  final TextStyle? hintStyle, labelStyle;
+  final Color? prefixIconColor, suffixIconColor;
 
   const CustomTextField({
     super.key,
@@ -25,11 +30,23 @@ class CustomTextField extends StatelessWidget {
     this.inputFormatters,
     this.enabled = true,
     this.validator,
+    this.readOnly = false,
+    this.onTap,
+    this.hintStyle,
+    this.labelStyle,
+    this.prefixIconColor,
+    this.suffixIconColor,
+    this.textInputAction,
+    this.onFieldSubmitted,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onTap: onTap,
+      onFieldSubmitted: onFieldSubmitted,
+      textInputAction: textInputAction,
+      readOnly: readOnly,
       controller: controller,
       validator: validator,
       obscureText: obscureText,
@@ -41,8 +58,12 @@ class CustomTextField extends StatelessWidget {
         isDense: true,
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
+        prefixIconColor: prefixIconColor,
+        suffixIconColor: suffixIconColor,
         hintText: hintText,
+        hintStyle: hintStyle,
         labelText: labelText,
+        labelStyle: labelStyle,
         border: OutlineInputBorder(
           borderSide: BorderSide.none,
           borderRadius: BorderRadius.circular(10.r),
