@@ -1,15 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:your_chef/config/routes/routes.dart';
+import 'package:your_chef/core/errors/error_types.dart';
 import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/utils/messages.dart';
+import 'package:your_chef/core/utils/network_helper.dart';
 import 'package:your_chef/core/utils/user_helper.dart';
+import 'package:your_chef/core/widgets/errors/custom_error_widget.dart';
 import 'package:your_chef/core/widgets/fields/search_field.dart';
+import 'package:your_chef/core/widgets/loading/skeleton_loading_widget.dart';
+import 'package:your_chef/features/home/domain/entities/category.dart';
+import 'package:your_chef/features/home/domain/entities/offer.dart';
+import 'package:your_chef/features/home/domain/entities/product.dart';
+import 'package:your_chef/features/home/domain/entities/restaurant.dart';
+import 'package:your_chef/features/home/presentation/bloc/home_bloc.dart';
+import 'package:your_chef/features/home/presentation/widgets/categories_section.dart';
+import 'package:your_chef/features/home/presentation/widgets/foods_section.dart';
+import 'package:your_chef/features/home/presentation/widgets/offers_section.dart';
+import 'package:your_chef/features/home/presentation/widgets/restaurants_section.dart';
+import 'package:your_chef/features/home/presentation/widgets/section_header.dart';
 import 'package:your_chef/locator.dart';
 
 import '../../../../core/widgets/avatars/user_avatar.dart';
@@ -22,20 +36,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool _isLoading = true;
-
-  @override
-  void initState() {
-    _load();
-    super.initState();
-  }
-
-  Future<void> _load() async {
-    await Future.delayed(const Duration(seconds: 4), () {
-      setState(() {
-        _isLoading = false;
-      });
-    });
+  Future<void> _load(BuildContext context) async {
+    context.read<HomeBloc>().add(const GetHomeDataEvent());
   }
 
   @override
@@ -72,158 +74,129 @@ class _HomeScreenState extends State<HomeScreen> {
           // ),
         ],
       ),
-      body: Skeletonizer(
-        enabled: _isLoading,
-        containersColor: Theme.of(context).iconTheme.color?.withOpacity(0.1),
-        enableSwitchAnimation: true,
-        child: RefreshIndicator.adaptive(
-          onRefresh: () async {
-            await Future.delayed(const Duration(seconds: 1));
-            _isLoading = true;
-            setState(() {});
-            await _load();
-          },
-          child: ListView(
-            padding: const EdgeInsets.all(16.0).r,
-            children: [
-              Text(
-                'Welcome ${UserHelper.user?.name.split(' ').first}! 👋',
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              30.height,
-              Text(
-                "Today's Offer",
-                style: TextStyle(
-                  fontSize: 20.sp,
-                  color: Theme.of(context).iconTheme.color?.withOpacity(0.3),
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              10.height,
-              Container(
-                height: 140.h,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primaryContainer,
-                  borderRadius: BorderRadius.circular(12.r),
-                ),
-              ),
-              const Divider(),
-              Text(
-                "Available Categories",
-                style: TextStyle(
-                  fontSize: 20.sp,
-                  color: Theme.of(context).iconTheme.color?.withOpacity(0.3),
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              10.height,
-              SizedBox(
-                height: 100.h,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 5,
-                  separatorBuilder: (_, __) => 10.width,
-                  itemBuilder: (_, index) => Column(
-                    children: [
-                      Container(
-                        width: 64.w,
-                        height: 64.h,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12.r),
-                          color: Theme.of(context).colorScheme.primaryContainer,
-                        ),
-                      ),
-                      5.height,
-                      Text(
-                        'Title',
-                        style: TextStyle(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+      body: BlocConsumer<HomeBloc, HomeState>(listener: (context, state) {
+        if (state.errorType == ErrorType.network) {
+          AppMessages.showErrorMessage(context, state.error, state.errorType);
+        }
+      }, builder: (context, state) {
+        if (state.status == RequestStatus.failure) {
+          return CustomErrorWidget(
+            onRetry: () => _load(context),
+            error: state.error,
+            type: state.errorType,
+          );
+        }
+        return SkeletonLoadingWidget(
+          loading: state.status == RequestStatus.loading,
+          child: RefreshIndicator.adaptive(
+            onRefresh: () async {
+              await Future.delayed(const Duration(seconds: 1));
+              if (!context.mounted) return;
+              _load(context);
+            },
+            child: ListView(
+              padding: const EdgeInsets.all(16.0).r,
+              children: [
+                Text(
+                  'Welcome ${UserHelper.user?.name.split(' ').first}! 👋',
+                  style: TextStyle(
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
-              const Divider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Restaurants",
-                    style: TextStyle(
-                      fontSize: 20.sp,
-                      color:
-                          Theme.of(context).iconTheme.color?.withOpacity(0.3),
-                      fontWeight: FontWeight.bold,
-                    ),
+                30.height,
+                if (state.offers.isNotEmpty ||
+                    state.status == RequestStatus.loading) ...[
+                  const SectionHeader(
+                    title: "Today's Offer",
+                    // onPressed: () {},
                   ),
-                  TextButton(
+                  10.height,
+                  OffersSection(
+                    offers: state.status == RequestStatus.loading
+                        ? [
+                            const Offer(id: 0, image: ''),
+                          ]
+                        : state.offers,
+                  ),
+                  const Divider(),
+                ],
+                //?Categories
+                if (state.categories.isNotEmpty ||
+                    state.status == RequestStatus.loading) ...[
+                  const SectionHeader(
+                    title: "Available Categories",
+                    // onPressed: () {},
+                  ),
+                  10.height,
+                  CategoriesSection(
+                    categories: state.status == RequestStatus.loading
+                        ? List.generate(
+                            5,
+                            (_) => const Category(id: 0, name: '', image: ''),
+                          )
+                        : state.categories,
+                  ),
+                  const Divider(),
+                ],
+                //?Restaurants
+                if (state.restaurants.isNotEmpty ||
+                    state.status == RequestStatus.loading) ...[
+                  SectionHeader(
+                    title: "Restaurants",
                     onPressed: () {},
-                    child: const Text('View All'),
+                  ),
+                  RestaurantsSection(
+                    restaurants: state.status == RequestStatus.loading
+                        ? List.generate(
+                            5,
+                            (_) => const Restaurant(
+                              id: 0,
+                              name: '',
+                              address: '',
+                              description: '',
+                              images: [],
+                              phone: '',
+                              profileImage: '',
+                              rate: 0,
+                            ),
+                          )
+                        : state.restaurants,
+                  ),
+                  const Divider(),
+                ],
+                //?Foods
+                if (state.products.isNotEmpty ||
+                    state.status == RequestStatus.loading) ...[
+                  SectionHeader(
+                    title: "Popular Foods",
+                    onPressed: () {},
+                  ),
+                  FoodsSection(
+                    foods: state.status == RequestStatus.loading
+                        ? List.generate(
+                            5,
+                            (_) => const Product(
+                              id: 0,
+                              categoryId: 0,
+                              restaurantId: 0,
+                              name: '',
+                              description: '',
+                              price: 0,
+                              rate: 0,
+                              sale: 0,
+                              trending: false,
+                              images: [],
+                            ),
+                          )
+                        : state.products,
                   ),
                 ],
-              ),
-              SizedBox(
-                height: 140.h,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 5,
-                  separatorBuilder: (_, __) => 10.width,
-                  itemBuilder: (_, index) => Container(
-                    width: 140.w,
-                    height: 140.h,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12.r),
-                      color: Theme.of(context).colorScheme.primaryContainer,
-                    ),
-                  ),
-                ),
-              ),
-              const Divider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Popular Foods",
-                    style: TextStyle(
-                      fontSize: 20.sp,
-                      color:
-                          Theme.of(context).iconTheme.color?.withOpacity(0.3),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text('View All'),
-                  ),
-                ],
-              ),
-              GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10.w,
-                  mainAxisSpacing: 10.h,
-                ),
-                shrinkWrap: true,
-                primary: false,
-                itemCount: 4,
-                itemBuilder: (_, index) => Container(
-                  width: 180.w,
-                  height: 180.h,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12.r),
-                    color: Theme.of(context).colorScheme.primaryContainer,
-                  ),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 

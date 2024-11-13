@@ -11,3 +11,10 @@ class NetworkHelper {
       !(await _connectivity.checkConnectivity())
           .contains(ConnectivityResult.none);
 }
+
+enum RequestStatus {
+  initial,
+  loading,
+  failure,
+  success,
+}

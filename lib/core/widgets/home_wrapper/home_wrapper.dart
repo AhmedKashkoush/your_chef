@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/widgets/views/persistent_view.dart';
+import 'package:your_chef/features/home/presentation/bloc/home_bloc.dart';
 import 'package:your_chef/features/home/presentation/screens/home_screen.dart';
+import 'package:your_chef/locator.dart';
 
 class HomeWrapper extends StatefulWidget {
   const HomeWrapper({super.key});
@@ -16,7 +19,13 @@ class _HomeWrapperState extends State<HomeWrapper> {
   int _currentIndex = 0;
   final PageController _controller = PageController();
   final List<Widget> _screens = [
-    const HomeScreen(),
+    BlocProvider(
+      create: (context) => locator<HomeBloc>()
+        ..add(
+          const GetHomeDataEvent(),
+        ),
+      child: const HomeScreen(),
+    ),
     const SizedBox(),
     const SizedBox(),
     const SizedBox(),
