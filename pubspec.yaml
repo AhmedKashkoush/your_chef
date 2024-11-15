@@ -64,6 +64,8 @@ flutter:
     - assets/images/
     - assets/images/onboarding/
     - assets/images/auth/
+    - assets/images/dummy/categories/
+    - assets/images/dummy/offers/
   fonts:
     - family: Vivaldii
       fonts:

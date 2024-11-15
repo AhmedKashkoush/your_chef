@@ -19,11 +19,11 @@ import 'package:your_chef/features/home/domain/entities/offer.dart';
 import 'package:your_chef/features/home/domain/entities/product.dart';
 import 'package:your_chef/features/home/domain/entities/restaurant.dart';
 import 'package:your_chef/features/home/presentation/bloc/home_bloc.dart';
-import 'package:your_chef/features/home/presentation/widgets/categories_section.dart';
-import 'package:your_chef/features/home/presentation/widgets/foods_section.dart';
-import 'package:your_chef/features/home/presentation/widgets/offers_section.dart';
-import 'package:your_chef/features/home/presentation/widgets/restaurants_section.dart';
-import 'package:your_chef/features/home/presentation/widgets/section_header.dart';
+import 'package:your_chef/features/home/presentation/widgets/sections/categories_section.dart';
+import 'package:your_chef/features/home/presentation/widgets/sections/foods_section.dart';
+import 'package:your_chef/features/home/presentation/widgets/sections/offers_section.dart';
+import 'package:your_chef/features/home/presentation/widgets/sections/restaurants_section.dart';
+import 'package:your_chef/features/home/presentation/widgets/sections/section_header.dart';
 import 'package:your_chef/locator.dart';
 
 import '../../../../core/widgets/avatars/user_avatar.dart';
@@ -108,25 +108,29 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (state.offers.isNotEmpty ||
                     state.status == RequestStatus.loading) ...[
                   const SectionHeader(
-                    title: "Today's Offer",
+                    title: "Today's Offers",
                     // onPressed: () {},
                   ),
                   10.height,
                   OffersSection(
                     offers: state.status == RequestStatus.loading
                         ? [
-                            const Offer(id: 0, image: ''),
+                            const Offer(
+                              id: 0,
+                              restaurantId: 0,
+                              image: '',
+                            ),
                           ]
                         : state.offers,
                   ),
-                  const Divider(),
                 ],
                 //?Categories
                 if (state.categories.isNotEmpty ||
                     state.status == RequestStatus.loading) ...[
-                  const SectionHeader(
+                  const Divider(),
+                  SectionHeader(
                     title: "Available Categories",
-                    // onPressed: () {},
+                    onPressed: () {},
                   ),
                   10.height,
                   CategoriesSection(
@@ -137,11 +141,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           )
                         : state.categories,
                   ),
-                  const Divider(),
                 ],
                 //?Restaurants
                 if (state.restaurants.isNotEmpty ||
                     state.status == RequestStatus.loading) ...[
+                  const Divider(),
                   SectionHeader(
                     title: "Restaurants",
                     onPressed: () {},
@@ -163,11 +167,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           )
                         : state.restaurants,
                   ),
-                  const Divider(),
                 ],
                 //?Foods
                 if (state.products.isNotEmpty ||
                     state.status == RequestStatus.loading) ...[
+                  const Divider(),
                   SectionHeader(
                     title: "Popular Foods",
                     onPressed: () {},

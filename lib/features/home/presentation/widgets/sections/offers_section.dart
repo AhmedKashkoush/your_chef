@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:your_chef/features/home/domain/entities/offer.dart';
+import 'package:your_chef/features/home/presentation/widgets/items/offer_item.dart';
 
 class OffersSection extends StatelessWidget {
   final List<Offer> offers;
@@ -11,12 +11,6 @@ class OffersSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 140.h,
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primaryContainer,
-        borderRadius: BorderRadius.circular(12.r),
-      ),
-    );
+    return OfferItem(offer: offers.first);
   }
 }

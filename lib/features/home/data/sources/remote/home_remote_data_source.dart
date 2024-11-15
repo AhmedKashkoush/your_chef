@@ -1,4 +1,5 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:your_chef/core/dummy/dummy_data.dart';
 import 'package:your_chef/core/errors/exceptions.dart' as ex;
 import 'package:your_chef/core/utils/network_helper.dart';
 import 'package:your_chef/features/home/data/models/category_model.dart';
@@ -25,7 +26,7 @@ class SupabaseHomeRemoteDataSource extends IHomeRemoteDataSource {
       throw ex.NetworkException('Check your internet connection');
     }
     await Future.delayed(const Duration(seconds: 4));
-    return [];
+    return AppDummies.categories.take(5).toList();
   }
 
   @override
@@ -35,7 +36,7 @@ class SupabaseHomeRemoteDataSource extends IHomeRemoteDataSource {
       throw ex.NetworkException('Check your internet connection');
     }
     await Future.delayed(const Duration(seconds: 4));
-    return [];
+    return AppDummies.foods.take(4).toList()..shuffle();
   }
 
   @override
@@ -45,7 +46,7 @@ class SupabaseHomeRemoteDataSource extends IHomeRemoteDataSource {
       throw ex.NetworkException('Check your internet connection');
     }
     await Future.delayed(const Duration(seconds: 4));
-    return [];
+    return AppDummies.restaurants.take(5).toList()..shuffle();
   }
 
   @override
@@ -55,6 +56,6 @@ class SupabaseHomeRemoteDataSource extends IHomeRemoteDataSource {
       throw ex.NetworkException('Check your internet connection');
     }
     await Future.delayed(const Duration(seconds: 4));
-    return [];
+    return AppDummies.offers..shuffle();
   }
 }
