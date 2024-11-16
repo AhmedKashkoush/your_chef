@@ -29,13 +29,26 @@ class LoginView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<LoginBloc, LoginState>(
       listener: (context, state) {
-        if (state is LoginErrorState) {
-          AppMessages.showErrorMessage(context, state.message, state.type);
-        }
+        if (state is GoogleLoginLoadingState) {
+          AppMessages.showLoadingDialog(
+            context,
+            message: 'Just a moment...',
+          );
+        } else {
+          if (context.canPop()) {
+            context.pop();
+          }
+          // if (state is! LoginLoadingState) {
+          //   context.pop();
+          // }
+          if (state is LoginErrorState) {
+            AppMessages.showErrorMessage(context, state.message, state.type);
+          }
 
-        if (state is LoginSuccessState) {
-          AppMessages.showSuccessMessage(context, 'Login successful');
-          context.pushReplacementNamed(AppRoutes.home);
+          if (state is LoginSuccessState) {
+            AppMessages.showSuccessMessage(context, 'Login successful');
+            context.pushReplacementNamed(AppRoutes.home);
+          }
         }
       },
       builder: (context, state) {
@@ -73,7 +86,10 @@ class LoginView extends StatelessWidget {
                 }),
             20.height,
             PrimaryButton(
-              onPressed: () => _login(context),
+              onPressed:
+                  state is GoogleLoginLoadingState || state is LoginLoadingState
+                      ? () {}
+                      : () => _login(context),
               loading: state is LoginLoadingState,
               text: AppStrings.login,
             ),
@@ -102,7 +118,10 @@ class LoginView extends StatelessWidget {
             ),
             20.height,
             AuthButton(
-              onPressed: () => _googleSignIn(context),
+              onPressed:
+                  state is GoogleLoginLoadingState || state is LoginLoadingState
+                      ? () {}
+                      : () => _googleSignIn(context),
               authType: AuthType.google,
             )
           ],

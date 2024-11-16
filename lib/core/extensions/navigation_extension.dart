@@ -22,5 +22,6 @@ extension NavigationExtension on BuildContext {
         arguments: arguments,
       );
 
-  void pop<T extends Object?>([T? result]) => Navigator.of(this).pop();
+  void pop<T extends Object?>([T? result]) => Navigator.of(this).pop(result);
+  bool canPop() => Navigator.of(this).canPop();
 }

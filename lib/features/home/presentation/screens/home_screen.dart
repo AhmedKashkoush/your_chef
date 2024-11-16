@@ -3,12 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hugeicons/hugeicons.dart';
 
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:your_chef/config/routes/routes.dart';
 import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/errors/error_types.dart';
 import 'package:your_chef/core/extensions/media_query_extension.dart';
-import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/utils/messages.dart';
@@ -27,7 +24,6 @@ import 'package:your_chef/features/home/presentation/widgets/sections/foods_sect
 import 'package:your_chef/features/home/presentation/widgets/sections/offers_section.dart';
 import 'package:your_chef/features/home/presentation/widgets/sections/restaurants_section.dart';
 import 'package:your_chef/features/home/presentation/widgets/sections/section_header.dart';
-import 'package:your_chef/locator.dart';
 
 import '../../../../core/widgets/avatars/user_avatar.dart';
 
@@ -74,16 +70,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               actions: [
                 IconButton(
-                  onPressed: () => _signOut(context),
-                  icon: const Icon(
-                    HugeIcons.strokeRoundedLogout02,
-                  ),
+                  onPressed: () {},
+                  icon: const Icon(HugeIcons.strokeRoundedNotification03),
                 ),
-
-                // IconButton(
-                //   onPressed: () {},
-                //   icon: const Icon(HugeIcons.strokeRoundedNotification03),
-                // ),
               ],
             ),
             body: BlocConsumer<HomeBloc, HomeState>(listener: (context, state) {
@@ -274,14 +263,5 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ],
     );
-  }
-
-  void _signOut(BuildContext context) async {
-    await locator<SupabaseClient>().auth.signOut();
-
-    await UserHelper.signOut();
-    if (!context.mounted) return;
-    AppMessages.showSuccessMessage(context, 'Sign out successful');
-    context.pushReplacementNamed(AppRoutes.auth);
   }
 }

@@ -8,6 +8,8 @@ import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/widgets/views/persistent_view.dart';
 import 'package:your_chef/features/home/presentation/bloc/home_bloc.dart';
 import 'package:your_chef/features/home/presentation/screens/home_screen.dart';
+import 'package:your_chef/features/settings/presentation/bloc/settings_bloc.dart';
+import 'package:your_chef/features/settings/presentation/screens/settings_screen.dart';
 import 'package:your_chef/locator.dart';
 
 class HomeWrapper extends StatefulWidget {
@@ -31,7 +33,10 @@ class _HomeWrapperState extends State<HomeWrapper> {
     const SizedBox(),
     const SizedBox(),
     const SizedBox(),
-    const SizedBox(),
+    BlocProvider(
+      create: (context) => locator<SettingsBloc>(),
+      child: const SettingsScreen(),
+    ),
   ];
 
   final List<IconData> _icons = [
