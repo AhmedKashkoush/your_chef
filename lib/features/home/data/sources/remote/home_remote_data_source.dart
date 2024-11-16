@@ -12,7 +12,8 @@ abstract class IHomeRemoteDataSource {
   Future<List<OfferModel>> getOffers();
   Future<List<CategoryModel>> getCategories();
   Future<List<RestaurantModel>> getRestaurants();
-  Future<List<ProductModel>> getProducts();
+  Future<List<ProductModel>> getPopularProducts();
+  Future<List<ProductModel>> getOnSaleProducts();
 }
 
 class SupabaseHomeRemoteDataSource extends IHomeRemoteDataSource {
@@ -30,13 +31,25 @@ class SupabaseHomeRemoteDataSource extends IHomeRemoteDataSource {
   }
 
   @override
-  Future<List<ProductModel>> getProducts() async {
+  Future<List<ProductModel>> getPopularProducts() async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
       throw ex.NetworkException('Check your internet connection');
     }
     await Future.delayed(const Duration(seconds: 4));
-    return AppDummies.foods.take(4).toList()..shuffle();
+    return AppDummies.foods.where((food) => food.trending).take(6).toList()
+      ..shuffle();
+  }
+
+  @override
+  Future<List<ProductModel>> getOnSaleProducts() async {
+    final isConnected = await NetworkHelper.isConnected;
+    if (!isConnected) {
+      throw ex.NetworkException('Check your internet connection');
+    }
+    await Future.delayed(const Duration(seconds: 4));
+    return AppDummies.foods.where((food) => food.sale > 0).take(6).toList()
+      ..shuffle();
   }
 
   @override

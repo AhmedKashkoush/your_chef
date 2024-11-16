@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:your_chef/core/constants/colors.dart';
+import 'package:your_chef/core/extensions/theme_extension.dart';
 
 class SectionHeader extends StatelessWidget {
   final String title;
@@ -12,23 +13,30 @@ class SectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          title,
-          style: TextStyle(
-            fontSize: 20.sp,
-            color: Theme.of(context).iconTheme.color?.withOpacity(0.3),
-            fontWeight: FontWeight.bold,
+    return SafeArea(
+      bottom: false,
+      top: false,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 20,
+              color: context.theme.iconTheme.color?.withOpacity(0.3),
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-        if (onPressed != null)
-          TextButton(
-            onPressed: () {},
-            child: const Text('View All'),
-          ),
-      ],
+          if (onPressed != null)
+            TextButton(
+              onPressed: () {},
+              child: const Text(
+                'View All',
+                style: TextStyle(color: AppColors.secondary),
+              ),
+            ),
+        ],
+      ),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
+import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/features/home/domain/entities/restaurant.dart';
 
 class RestaurantItem extends StatelessWidget {
@@ -17,11 +18,11 @@ class RestaurantItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: size.w,
+      width: size,
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.r),
-        color: Theme.of(context).iconTheme.color?.withOpacity(0.1),
+        color: context.theme.iconTheme.color?.withOpacity(0.1),
         image: DecorationImage(
           fit: BoxFit.cover,
           image: CachedNetworkImageProvider(
@@ -46,7 +47,7 @@ class RestaurantItem extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(16.0).r,
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,9 +56,9 @@ class RestaurantItem extends StatelessWidget {
                   restaurant.name,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 20.sp,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -67,13 +68,13 @@ class RestaurantItem extends StatelessWidget {
                 Text.rich(
                   TextSpan(
                     text: '${restaurant.rate} ',
-                    children: [
+                    children: const [
                       WidgetSpan(
                         alignment: PlaceholderAlignment.middle,
                         child: Icon(
                           Icons.star_rounded,
                           color: AppColors.primary,
-                          size: 14.sp,
+                          size: 14,
                         ),
                       ),
                     ],

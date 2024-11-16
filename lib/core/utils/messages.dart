@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:your_chef/core/errors/error_types.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
+import 'package:your_chef/core/extensions/theme_extension.dart';
 
 class AppMessages {
   static void showSuccessMessage(BuildContext context, String message,
@@ -19,9 +20,9 @@ class AppMessages {
             10.width,
             Text(
               message,
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: Colors.white,
-                  ),
+              style: context.theme.textTheme.bodyLarge?.copyWith(
+                color: Colors.white,
+              ),
             ),
           ],
         ),
@@ -59,9 +60,9 @@ class AppMessages {
             10.width,
             Text(
               message,
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: Colors.white,
-                  ),
+              style: context.theme.textTheme.bodyLarge?.copyWith(
+                color: Colors.white,
+              ),
             ),
           ],
         ),

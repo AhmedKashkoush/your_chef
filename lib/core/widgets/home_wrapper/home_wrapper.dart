@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:your_chef/core/constants/colors.dart';
+import 'package:your_chef/core/extensions/media_query_extension.dart';
+import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/widgets/views/persistent_view.dart';
 import 'package:your_chef/features/home/presentation/bloc/home_bloc.dart';
 import 'package:your_chef/features/home/presentation/screens/home_screen.dart';
@@ -50,22 +52,34 @@ class _HomeWrapperState extends State<HomeWrapper> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      body: PageView(
-        controller: _controller,
-        physics: const NeverScrollableScrollPhysics(),
-        children: _screens
-            .map(
-              (screen) => PersistentView(
-                child: screen,
-              ),
+      body: Stack(
+        children: [
+          PageView(
+            controller: _controller,
+            physics: const NeverScrollableScrollPhysics(),
+            children: _screens
+                .map(
+                  (screen) => PersistentView(
+                    child: screen,
+                  ),
+                )
+                .toList(),
+          ),
+          if (context.isLandscape)
+            _BottomBarLandscape(
+              icons: _icons,
+              currentIndex: _currentIndex,
+              onTap: _changeIndex,
+            ),
+        ],
+      ),
+      bottomNavigationBar: context.isPortrait
+          ? _BottomBarPortrait(
+              icons: _icons,
+              currentIndex: _currentIndex,
+              onTap: _changeIndex,
             )
-            .toList(),
-      ),
-      bottomNavigationBar: _BottomBar(
-        icons: _icons,
-        currentIndex: _currentIndex,
-        onTap: _changeIndex,
-      ),
+          : null,
     );
   }
 
@@ -75,9 +89,9 @@ class _HomeWrapperState extends State<HomeWrapper> {
   }
 }
 
-class _BottomBar extends StatelessWidget {
+class _BottomBarPortrait extends StatelessWidget {
   final void Function(int) onTap;
-  const _BottomBar({
+  const _BottomBarPortrait({
     required List<IconData> icons,
     required int currentIndex,
     required this.onTap,
@@ -92,7 +106,7 @@ class _BottomBar extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(12.0).r,
       decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
+        color: context.theme.scaffoldBackgroundColor,
         borderRadius: BorderRadius.circular(25),
       ),
       child: Row(
@@ -117,6 +131,57 @@ class _BottomBar extends StatelessWidget {
             ),
           );
         }).toList(),
+      ),
+    );
+  }
+}
+
+class _BottomBarLandscape extends StatelessWidget {
+  final void Function(int) onTap;
+  const _BottomBarLandscape({
+    required List<IconData> icons,
+    required int currentIndex,
+    required this.onTap,
+  })  : _icons = icons,
+        _currentIndex = currentIndex;
+
+  final List<IconData> _icons;
+  final int _currentIndex;
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      left: false,
+      right: false,
+      child: Container(
+        margin: const EdgeInsets.all(12.0).r,
+        decoration: BoxDecoration(
+          color: context.theme.scaffoldBackgroundColor,
+          borderRadius: BorderRadius.circular(25),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: _icons.map((icon) {
+            int index = _icons.indexOf(icon);
+            if (index == 2) {
+              return Transform.translate(
+                offset: const Offset(16, 0),
+                child: FloatingActionButton(
+                  onPressed: () {},
+                  backgroundColor: AppColors.primary,
+                  child: Icon(icon, color: Colors.white),
+                ),
+              );
+            }
+            return IconButton(
+              onPressed: () => onTap(index),
+              icon: Icon(
+                icon,
+                color: _currentIndex == index ? AppColors.primary : null,
+              ),
+            );
+          }).toList(),
+        ),
       ),
     );
   }

@@ -4,7 +4,8 @@ class HomeState extends Equatable {
   final List<Offer> offers;
   final List<Category> categories;
   final List<Restaurant> restaurants;
-  final List<Product> products;
+  final List<Product> popularProducts;
+  final List<Product> onSaleProducts;
   final RequestStatus status;
   final ErrorType errorType;
   final String error;
@@ -13,7 +14,8 @@ class HomeState extends Equatable {
     this.offers = const [],
     this.categories = const [],
     this.restaurants = const [],
-    this.products = const [],
+    this.popularProducts = const [],
+    this.onSaleProducts = const [],
     this.status = RequestStatus.initial,
     this.error = '',
     this.errorType = ErrorType.normal,
@@ -23,7 +25,8 @@ class HomeState extends Equatable {
     List<Offer>? offers,
     List<Category>? categories,
     List<Restaurant>? restaurants,
-    List<Product>? products,
+    List<Product>? popularProducts,
+    List<Product>? onSaleProducts,
     RequestStatus? status,
     String? error,
     ErrorType? errorType,
@@ -32,7 +35,8 @@ class HomeState extends Equatable {
         offers: offers ?? this.offers,
         categories: categories ?? this.categories,
         restaurants: restaurants ?? this.restaurants,
-        products: products ?? this.products,
+        popularProducts: popularProducts ?? this.popularProducts,
+        onSaleProducts: onSaleProducts ?? this.onSaleProducts,
         status: status ?? this.status,
         error: error ?? this.error,
         errorType: errorType ?? this.errorType,
@@ -43,7 +47,7 @@ class HomeState extends Equatable {
         offers,
         categories,
         restaurants,
-        products,
+        popularProducts,
         status,
         error,
         errorType,

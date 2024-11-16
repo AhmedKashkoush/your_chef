@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:your_chef/core/constants/strings.dart';
 
 class AuthButton extends StatelessWidget {
@@ -17,7 +16,7 @@ class AuthButton extends StatelessWidget {
       onPressed: onPressed,
       icon: Image.asset(
         "assets/images/auth/${authType.name}.png",
-        width: 20.w,
+        width: 20,
       ),
       label: Text(_text),
     );

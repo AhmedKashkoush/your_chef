@@ -25,12 +25,14 @@ class PrimaryButton extends StatelessWidget {
         ),
       ),
       child: loading
-          ? SizedBox(
-              height: 30.h,
-              width: 30.w,
-              child: const FittedBox(
+          ? const SizedBox(
+              height: 30,
+              width: 30,
+              child: FittedBox(
                 child: Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
                 ),
               ),
             )

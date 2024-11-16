@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/widgets/fields/custom_text_field.dart';
 
 class SearchField extends StatefulWidget {
@@ -53,16 +54,16 @@ class _SearchFieldState extends State<SearchField> {
       readOnly: widget.readOnly,
       hintText: 'Search',
       hintStyle: TextStyle(
-        color: Theme.of(context).iconTheme.color?.withOpacity(0.5),
+        color: context.theme.iconTheme.color?.withOpacity(0.5),
       ),
       prefixIcon: const Icon(HugeIcons.strokeRoundedSearch01),
-      prefixIconColor: Theme.of(context).iconTheme.color?.withOpacity(0.5),
+      prefixIconColor: context.theme.iconTheme.color?.withOpacity(0.5),
       suffixIcon: _canClear
           ? IconButton(
               onPressed: _clear,
               icon: Icon(
                 HugeIcons.strokeRoundedCancel01,
-                color: Theme.of(context).iconTheme.color?.withOpacity(0.5),
+                color: context.theme.iconTheme.color?.withOpacity(0.5),
               ),
             )
           : null,

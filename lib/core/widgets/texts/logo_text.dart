@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/constants/strings.dart';
+import 'package:your_chef/core/extensions/theme_extension.dart';
 
 class LogoText extends StatelessWidget {
   const LogoText({
@@ -11,11 +12,11 @@ class LogoText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       AppStrings.appName,
-      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-            color: AppColors.primary,
-            fontFamily: 'Vivaldii',
-          ),
+      style: context.theme.textTheme.headlineMedium?.copyWith(
+        fontWeight: FontWeight.bold,
+        color: AppColors.primary,
+        fontFamily: 'Vivaldii',
+      ),
     );
   }
 }

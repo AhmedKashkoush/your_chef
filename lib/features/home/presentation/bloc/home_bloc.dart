@@ -12,7 +12,8 @@ import 'package:your_chef/features/home/domain/entities/product.dart';
 import 'package:your_chef/features/home/domain/entities/restaurant.dart';
 import 'package:your_chef/features/home/domain/usecases/get_categories_usecase.dart';
 import 'package:your_chef/features/home/domain/usecases/get_offers_usecase.dart';
-import 'package:your_chef/features/home/domain/usecases/get_products_usecase.dart';
+import 'package:your_chef/features/home/domain/usecases/get_on_sale_products_usecase.dart';
+import 'package:your_chef/features/home/domain/usecases/get_popular_products_usecase.dart';
 import 'package:your_chef/features/home/domain/usecases/get_restaurants_usecase.dart';
 
 part 'home_events.dart';
@@ -22,12 +23,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final GetOffersUseCase getOffersUseCase;
   final GetCategoriesUseCase getCategoriesUseCase;
   final GetRestaurantsUseCase getRestaurantsUseCase;
-  final GetProductsUseCase getProductsUseCase;
+  final GetPopularProductsUseCase getPopularProductsUseCase;
+  final GetOnSaleProductsUseCase getOnSaleProductsUseCase;
   HomeBloc(
     this.getOffersUseCase,
     this.getCategoriesUseCase,
     this.getRestaurantsUseCase,
-    this.getProductsUseCase,
+    this.getPopularProductsUseCase,
+    this.getOnSaleProductsUseCase,
   ) : super(
           const HomeState(),
         ) {
@@ -41,7 +44,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         offers: const [],
         categories: const [],
         restaurants: const [],
-        products: const [],
+        popularProducts: const [],
+        onSaleProducts: const [],
         error: '',
         errorType: ErrorType.normal,
         status: RequestStatus.loading,
@@ -52,7 +56,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       getOffersUseCase(),
       getCategoriesUseCase(),
       getRestaurantsUseCase(),
-      getProductsUseCase(),
+      getPopularProductsUseCase(),
+      getOnSaleProductsUseCase(),
     ]);
 
     data[0].fold((failure) {
@@ -61,7 +66,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           offers: const [],
           categories: const [],
           restaurants: const [],
-          products: const [],
+          popularProducts: const [],
+          onSaleProducts: const [],
           error: failure.message,
           errorType: ErrorType.network,
           status: RequestStatus.failure,
@@ -71,7 +77,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           offers: const [],
           categories: const [],
           restaurants: const [],
-          products: const [],
+          popularProducts: const [],
+          onSaleProducts: const [],
           error: failure.message,
           errorType: ErrorType.normal,
           status: RequestStatus.failure,
@@ -84,7 +91,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             offers: const [],
             categories: const [],
             restaurants: const [],
-            products: const [],
+            popularProducts: const [],
+            onSaleProducts: const [],
             error: failure.message,
             errorType: ErrorType.network,
             status: RequestStatus.failure,
@@ -94,7 +102,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             offers: const [],
             categories: const [],
             restaurants: const [],
-            products: const [],
+            popularProducts: const [],
+            onSaleProducts: const [],
             error: failure.message,
             errorType: ErrorType.normal,
             status: RequestStatus.failure,
@@ -107,7 +116,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
               offers: const [],
               categories: const [],
               restaurants: const [],
-              products: const [],
+              popularProducts: const [],
+              onSaleProducts: const [],
               error: failure.message,
               errorType: ErrorType.network,
               status: RequestStatus.failure,
@@ -117,7 +127,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
               offers: const [],
               categories: const [],
               restaurants: const [],
-              products: const [],
+              popularProducts: const [],
+              onSaleProducts: const [],
               error: failure.message,
               errorType: ErrorType.normal,
               status: RequestStatus.failure,
@@ -130,7 +141,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
                 offers: const [],
                 categories: const [],
                 restaurants: const [],
-                products: const [],
+                popularProducts: const [],
+                onSaleProducts: const [],
                 error: failure.message,
                 errorType: ErrorType.network,
                 status: RequestStatus.failure,
@@ -140,24 +152,52 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
                 offers: const [],
                 categories: const [],
                 restaurants: const [],
-                products: const [],
+                popularProducts: const [],
+                onSaleProducts: const [],
                 error: failure.message,
                 errorType: ErrorType.normal,
                 status: RequestStatus.failure,
               ));
             }
-          }, (products) {
-            emit(
-              state.copyWith(
-                offers: List.from(offers),
-                categories: List.from(categories),
-                restaurants: List.from(restaurants),
-                products: List.from(products),
-                error: '',
-                errorType: ErrorType.normal,
-                status: RequestStatus.success,
-              ),
-            );
+          }, (popularProducts) {
+            data[4].fold((failure) {
+              if (failure is NetworkFailure) {
+                emit(state.copyWith(
+                  offers: const [],
+                  categories: const [],
+                  restaurants: const [],
+                  popularProducts: const [],
+                  onSaleProducts: const [],
+                  error: failure.message,
+                  errorType: ErrorType.network,
+                  status: RequestStatus.failure,
+                ));
+              } else {
+                emit(state.copyWith(
+                  offers: const [],
+                  categories: const [],
+                  restaurants: const [],
+                  popularProducts: const [],
+                  onSaleProducts: const [],
+                  error: failure.message,
+                  errorType: ErrorType.normal,
+                  status: RequestStatus.failure,
+                ));
+              }
+            }, (onSaleProducts) {
+              emit(
+                state.copyWith(
+                  offers: List.from(offers),
+                  categories: List.from(categories),
+                  restaurants: List.from(restaurants),
+                  popularProducts: List.from(popularProducts),
+                  onSaleProducts: List.from(onSaleProducts),
+                  error: '',
+                  errorType: ErrorType.normal,
+                  status: RequestStatus.success,
+                ),
+              );
+            });
           });
         });
       });

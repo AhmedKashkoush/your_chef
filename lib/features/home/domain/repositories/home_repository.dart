@@ -10,5 +10,6 @@ abstract class IHomeRepository {
   Future<Either<Failure, List<Offer>>> getOffers();
   Future<Either<Failure, List<Category>>> getCategories();
   Future<Either<Failure, List<Restaurant>>> getRestaurants();
-  Future<Either<Failure, List<Product>>> getProducts();
+  Future<Either<Failure, List<Product>>> getPopularProducts();
+  Future<Either<Failure, List<Product>>> getOnSaleProducts();
 }

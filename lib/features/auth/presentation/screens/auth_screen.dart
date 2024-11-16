@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/constants/strings.dart';
+import 'package:your_chef/core/extensions/media_query_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/widgets/icons/app_logo.dart';
 import 'package:your_chef/core/widgets/layout/orientation_widget.dart';
@@ -91,6 +91,7 @@ class _AuthScreenState extends State<AuthScreen>
           registerConfirmVisibility: _registerConfirmVisibility,
         ),
         landscape: _AuthScreenLandscape(
+          keyboardShown: context.keyboardShown,
           tabController: _tabController,
           loginEmailController: _loginEmailController,
           loginPasswordController: _loginPasswordController,
@@ -147,9 +148,9 @@ class _AuthScreenPortrait extends StatelessWidget {
         children: [
           const AppLogo(),
           10.height,
-          Text(
+          const Text(
             AppStrings.welcome,
-            style: TextStyle(fontSize: 18.sp),
+            style: TextStyle(fontSize: 18),
           ),
           const LogoText(),
           10.height,
@@ -178,6 +179,7 @@ class _AuthScreenPortrait extends StatelessWidget {
 }
 
 class _AuthScreenLandscape extends StatelessWidget {
+  final bool keyboardShown;
   final TabController tabController;
   final GlobalKey<FormState> registerFormKey;
   final TextEditingController loginEmailController,
@@ -205,6 +207,7 @@ class _AuthScreenLandscape extends StatelessWidget {
     required this.registerConfirmController,
     required this.registerPasswordVisibility,
     required this.registerConfirmVisibility,
+    required this.keyboardShown,
   });
 
   @override
@@ -214,18 +217,36 @@ class _AuthScreenLandscape extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const FittedBox(child: AppLogo()),
-                10.height,
-                Text(
-                  AppStrings.welcome,
-                  style: TextStyle(fontSize: 10.sp),
-                ),
-                const LogoText(),
-              ],
-            ),
+            child: keyboardShown
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const FittedBox(child: AppLogo()),
+                      4.width,
+                      const Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            AppStrings.welcome,
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          LogoText(),
+                        ],
+                      ),
+                    ],
+                  )
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const FittedBox(child: AppLogo()),
+                      10.height,
+                      const Text(
+                        AppStrings.welcome,
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      const LogoText(),
+                    ],
+                  ),
           ),
           Expanded(
             flex: 2,

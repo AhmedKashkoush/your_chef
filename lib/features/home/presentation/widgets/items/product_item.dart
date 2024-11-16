@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
+import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/features/home/domain/entities/product.dart';
 
 class ProductItem extends StatelessWidget {
@@ -18,7 +19,7 @@ class ProductItem extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.r),
-        color: Theme.of(context).iconTheme.color?.withOpacity(0.1),
+        color: context.theme.iconTheme.color?.withOpacity(0.1),
         image: DecorationImage(
           fit: BoxFit.cover,
           image: CachedNetworkImageProvider(
@@ -54,7 +55,7 @@ class ProductItem extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(10.0).r,
+          padding: const EdgeInsets.all(10.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,10 +64,10 @@ class ProductItem extends StatelessWidget {
                 food.name,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
+                style: const TextStyle(
                   height: 0.9,
                   color: Colors.white,
-                  fontSize: 18.sp,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -76,7 +77,7 @@ class ProductItem extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: Colors.white.withOpacity(0.8),
-                  fontSize: 14.sp,
+                  fontSize: 14,
                 ),
               ),
               if (food.sale > 0.0)
@@ -88,7 +89,7 @@ class ProductItem extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: AppColors.primary.withOpacity(0.8),
-                        fontSize: 16.sp,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -98,7 +99,7 @@ class ProductItem extends StatelessWidget {
                       style: TextStyle(
                         height: 0.8,
                         color: Colors.white.withOpacity(0.5),
-                        fontSize: 14.sp,
+                        fontSize: 14,
                         decoration: TextDecoration.lineThrough,
                         decorationColor: Colors.white.withOpacity(0.5),
                         fontWeight: FontWeight.bold,
@@ -113,7 +114,7 @@ class ProductItem extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: AppColors.primary.withOpacity(0.8),
-                    fontSize: 16.sp,
+                    fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -123,13 +124,13 @@ class ProductItem extends StatelessWidget {
               Text.rich(
                 TextSpan(
                   text: '${food.rate} ',
-                  children: [
+                  children: const [
                     WidgetSpan(
                       alignment: PlaceholderAlignment.middle,
                       child: Icon(
                         Icons.star_rounded,
                         color: AppColors.primary,
-                        size: 14.sp,
+                        size: 14,
                       ),
                     ),
                   ],

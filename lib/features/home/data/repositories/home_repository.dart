@@ -33,9 +33,25 @@ class HomeRepository extends IHomeRepository {
   }
 
   @override
-  Future<Either<Failure, List<Product>>> getProducts() async {
+  Future<Either<Failure, List<Product>>> getPopularProducts() async {
     try {
-      final List<ProductModel> products = await remoteDataSource.getProducts();
+      final List<ProductModel> products =
+          await remoteDataSource.getPopularProducts();
+      return Right(products.map((product) => product.toEntity()).toList());
+    } on NetworkException {
+      return const Left(NetworkFailure('Check your internet connection'));
+    } on ServerException {
+      return const Left(ServerFailure('Server Failure'));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Product>>> getOnSaleProducts() async {
+    try {
+      final List<ProductModel> products =
+          await remoteDataSource.getOnSaleProducts();
       return Right(products.map((product) => product.toEntity()).toList());
     } on NetworkException {
       return const Left(NetworkFailure('Check your internet connection'));

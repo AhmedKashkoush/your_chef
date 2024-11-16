@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
+import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/widgets/layout/orientation_widget.dart';
 
 class OnboardingView extends StatelessWidget {
@@ -112,9 +113,9 @@ class _BodyTextWidget extends StatelessWidget {
     return Text(
       body,
       textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            color: Colors.grey,
-          ),
+      style: context.theme.textTheme.bodyMedium?.copyWith(
+        color: Colors.grey,
+      ),
     );
   }
 }
@@ -130,10 +131,10 @@ class _TitleTextWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       title,
-      style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-            fontWeight: FontWeight.bold,
-            color: AppColors.primary,
-          ),
+      style: context.theme.textTheme.headlineLarge?.copyWith(
+        fontWeight: FontWeight.bold,
+        color: AppColors.primary,
+      ),
     );
   }
 }
