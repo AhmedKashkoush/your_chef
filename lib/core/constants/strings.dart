@@ -1,4 +1,5 @@
 class AppStrings {
+  const AppStrings._();
   static const String appName = 'Your Chef';
 
   static const String onboardingTitle1 = 'Orders';

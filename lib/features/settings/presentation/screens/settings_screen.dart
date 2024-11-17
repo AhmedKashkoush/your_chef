@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:your_chef/config/routes/routes.dart';
+import 'package:your_chef/core/constants/urls.dart';
 import 'package:your_chef/core/extensions/media_query_extension.dart';
 import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/utils/messages.dart';
+import 'package:your_chef/core/utils/url_helper.dart';
 import 'package:your_chef/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:your_chef/features/settings/presentation/widgets/action_tile.dart';
 import 'package:your_chef/features/settings/presentation/widgets/user_tile.dart';
@@ -62,9 +64,9 @@ class SettingsScreen extends StatelessWidget {
                       onTap: () {},
                       onSignOut: () => _signOut(context),
                     ),
-                    30.height,
+                    16.height,
                     const Divider(),
-                    30.height,
+                    16.height,
                     ActionTile(
                       onTap: () {},
                       title: 'Switch Accounts',
@@ -98,9 +100,15 @@ class SettingsScreen extends StatelessWidget {
                     const Divider(),
                     8.height,
                     ActionTile(
-                      onTap: () {},
+                      onTap: () => UrlHelper.openUrl(AppUrls.privacyPolicy),
                       title: 'Terms & Conditions',
                       icon: HugeIcons.strokeRoundedSecurity,
+                    ),
+                    8.height,
+                    ActionTile(
+                      onTap: () {},
+                      title: 'Report An Issue',
+                      icon: HugeIcons.strokeRoundedAlert02,
                     ),
                     8.height,
                     ActionTile(

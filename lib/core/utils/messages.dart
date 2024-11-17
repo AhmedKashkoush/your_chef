@@ -5,6 +5,7 @@ import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 
 class AppMessages {
+  const AppMessages._();
   static Future<bool?> showConfirmDialog(
     BuildContext context, {
     required String message,

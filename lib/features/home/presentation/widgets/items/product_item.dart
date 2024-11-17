@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:your_chef/config/routes/routes.dart';
 import 'package:your_chef/core/constants/colors.dart';
+import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/features/home/domain/entities/product.dart';
@@ -15,25 +17,33 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12.r),
-        color: context.theme.iconTheme.color?.withOpacity(0.1),
-        image: DecorationImage(
-          fit: BoxFit.cover,
-          image: CachedNetworkImageProvider(
-            food.images.first,
+    return GestureDetector(
+      onTap: () {
+        context.pushNamed(AppRoutes.product, arguments: food);
+      },
+      child: Hero(
+        tag: '${food.id}${food.categoryId}${food.restaurantId}',
+        child: Container(
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12.r),
+            color: context.theme.iconTheme.color?.withOpacity(0.1),
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: CachedNetworkImageProvider(
+                food.images.first,
+              ),
+            ),
           ),
+          child: food.sale > 0
+              ? Banner(
+                  message: "${(food.sale * 100).toStringAsFixed(0)}% Sale",
+                  location: BannerLocation.topEnd,
+                  child: _buildItem(),
+                )
+              : _buildItem(),
         ),
       ),
-      child: food.sale > 0
-          ? Banner(
-              message: "${(food.sale * 100).toStringAsFixed(0)}% Sale",
-              location: BannerLocation.topEnd,
-              child: _buildItem(),
-            )
-          : _buildItem(),
     );
   }
 

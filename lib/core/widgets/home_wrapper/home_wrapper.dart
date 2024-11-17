@@ -55,36 +55,47 @@ class _HomeWrapperState extends State<HomeWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      body: Stack(
-        children: [
-          PageView(
-            controller: _controller,
-            physics: const NeverScrollableScrollPhysics(),
-            children: _screens
-                .map(
-                  (screen) => PersistentView(
-                    child: screen,
-                  ),
-                )
-                .toList(),
+    return PopScope(
+      canPop: _currentIndex == 0,
+      onPopInvokedWithResult: (_, __) {
+        if (_currentIndex == 0) return;
+        _changeIndex(0);
+      },
+      child: Scaffold(
+        extendBody: true,
+        body: SafeArea(
+          top: false,
+          bottom: false,
+          child: Stack(
+            children: [
+              PageView(
+                controller: _controller,
+                physics: const NeverScrollableScrollPhysics(),
+                children: _screens
+                    .map(
+                      (screen) => PersistentView(
+                        child: screen,
+                      ),
+                    )
+                    .toList(),
+              ),
+              if (context.isLandscape)
+                _BottomBarLandscape(
+                  icons: _icons,
+                  currentIndex: _currentIndex,
+                  onTap: _changeIndex,
+                ),
+            ],
           ),
-          if (context.isLandscape)
-            _BottomBarLandscape(
-              icons: _icons,
-              currentIndex: _currentIndex,
-              onTap: _changeIndex,
-            ),
-        ],
+        ),
+        bottomNavigationBar: context.isPortrait
+            ? _BottomBarPortrait(
+                icons: _icons,
+                currentIndex: _currentIndex,
+                onTap: _changeIndex,
+              )
+            : null,
       ),
-      bottomNavigationBar: context.isPortrait
-          ? _BottomBarPortrait(
-              icons: _icons,
-              currentIndex: _currentIndex,
-              onTap: _changeIndex,
-            )
-          : null,
     );
   }
 

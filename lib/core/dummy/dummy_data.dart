@@ -6,6 +6,7 @@ import 'package:your_chef/features/home/data/models/product_model.dart';
 import 'package:your_chef/features/home/data/models/restaurant_model.dart';
 
 class AppDummies {
+  const AppDummies._();
   static const String _base = 'assets/images/dummy';
 
   static const List<String> _categories = [
