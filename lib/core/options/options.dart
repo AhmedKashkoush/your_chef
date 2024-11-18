@@ -1,3 +1,5 @@
+import 'dart:io';
+
 abstract class AppOptions {
   const AppOptions();
 }
@@ -40,5 +42,14 @@ class UpdatePasswordOptions extends AppOptions {
   const UpdatePasswordOptions({
     required this.oldPassword,
     required this.newPassword,
+  });
+}
+
+class UploadProfileOptions extends AppOptions {
+  final String uid;
+  final File photo;
+  const UploadProfileOptions({
+    required this.uid,
+    required this.photo,
   });
 }

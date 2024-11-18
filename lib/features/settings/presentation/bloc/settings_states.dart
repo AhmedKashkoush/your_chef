@@ -28,5 +28,5 @@ class SettingsErrorState extends SettingsState {
 
   const SettingsErrorState(this.message, [this.type = ErrorType.normal]);
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [message, type];
 }

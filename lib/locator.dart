@@ -7,8 +7,10 @@ import 'package:your_chef/features/auth/domain/repositories/auth_repository.dart
 import 'package:your_chef/features/auth/domain/usecases/login_usecase.dart';
 import 'package:your_chef/features/auth/domain/usecases/register_usecase.dart';
 import 'package:your_chef/features/auth/domain/usecases/reset_password_usecase.dart';
+import 'package:your_chef/features/auth/domain/usecases/upload_profile_photo_usecase.dart';
 import 'package:your_chef/features/auth/presentation/bloc/login/login_bloc.dart';
 import 'package:your_chef/features/auth/presentation/bloc/register/register_bloc.dart';
+import 'package:your_chef/features/auth/presentation/bloc/upload_profile_photo/upload_profile_photo_bloc.dart';
 import 'package:your_chef/features/home/data/repositories/home_repository_impl.dart';
 import 'package:your_chef/features/home/data/sources/remote/home_remote_data_source.dart';
 import 'package:your_chef/features/home/domain/repositories/home_repository.dart';
@@ -99,12 +101,14 @@ void _initUseCases() {
   locator.registerLazySingleton<LoginUseCase>(
     () => LoginUseCase(locator<IAuthRepository>()),
   );
-
   locator.registerLazySingleton<ResetPasswordUseCase>(
     () => ResetPasswordUseCase(locator<IAuthRepository>()),
   );
   locator.registerLazySingleton<GoogleSignUseCase>(
     () => GoogleSignUseCase(locator<IAuthRepository>()),
+  );
+  locator.registerLazySingleton<UploadProfilePhotoUseCase>(
+    () => UploadProfilePhotoUseCase(locator<IAuthRepository>()),
   );
 
   //*Home
@@ -137,6 +141,9 @@ void _initBlocs() {
   );
   locator.registerFactory<RegisterBloc>(
     () => RegisterBloc(locator<RegisterUseCase>()),
+  );
+  locator.registerFactory<UploadProfilePhotoBloc>(
+    () => UploadProfilePhotoBloc(locator<UploadProfilePhotoUseCase>()),
   );
   //*Home
   locator.registerFactory<HomeBloc>(

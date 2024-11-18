@@ -34,10 +34,10 @@ class AuthRepository implements IAuthRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> register(RegisterOptions options) async {
+  Future<Either<Failure, String>> register(RegisterOptions options) async {
     try {
-      await remoteDataSource.register(options);
-      return const Right(unit);
+      final String uid = await remoteDataSource.register(options);
+      return Right(uid);
     } on AuthException {
       return const Left(AuthFailure('Invalid credentials'));
     } on NetworkException {
@@ -71,6 +71,24 @@ class AuthRepository implements IAuthRepository {
     try {
       final UserModel user = await remoteDataSource.googleSignIn();
       return Right(user.toEntity());
+    } on AuthException {
+      return const Left(AuthFailure('Invalid credentials'));
+    } on NetworkException {
+      return const Left(NetworkFailure('Check your internet connection'));
+    } on ServerException {
+      return const Left(ServerFailure('Something went wrong'));
+    } catch (e) {
+      log(e.toString());
+      return const Left(ServerFailure('Something went wrong'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> uploadProfilePhoto(
+      UploadProfileOptions options) async {
+    try {
+      await remoteDataSource.uploadProfilePhoto(options);
+      return const Right(unit);
     } on AuthException {
       return const Left(AuthFailure('Invalid credentials'));
     } on NetworkException {

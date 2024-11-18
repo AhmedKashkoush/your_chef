@@ -10,8 +10,9 @@ import '../../models/user_model.dart';
 abstract class IAuthRemoteDataSource {
   Future<UserModel> login(LoginOptions options);
   Future<UserModel> googleSignIn();
-  Future<void> register(RegisterOptions options);
+  Future<String> register(RegisterOptions options);
   Future<void> resetPassword(ResetPasswordOptions options);
+  Future<void> uploadProfilePhoto(UploadProfileOptions options);
 }
 
 class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
@@ -59,7 +60,7 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
   }
 
   @override
-  Future<void> register(RegisterOptions options) async {
+  Future<String> register(RegisterOptions options) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
       throw ex.NetworkException('Check your internet connection');
@@ -90,6 +91,7 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
     );
     await client.from('users').insert(data.toJson());
     await client.auth.signOut();
+    return user.id;
   }
 
   @override
@@ -153,5 +155,19 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
     await UserHelper.signIn(signedUser);
 
     return signedUser;
+  }
+
+  @override
+  Future<void> uploadProfilePhoto(UploadProfileOptions options) async {
+    final isConnected = await NetworkHelper.isConnected;
+    if (!isConnected) {
+      throw ex.NetworkException('Check your internet connection');
+    }
+    final String filename =
+        '${options.uid}/${DateTime.now().millisecondsSinceEpoch}';
+
+    await client.storage.from('avatars').upload(filename, options.photo);
+    final String url = client.storage.from('avatars').getPublicUrl(filename);
+    await client.from('users').update({"image": url}).eq('id', options.uid);
   }
 }

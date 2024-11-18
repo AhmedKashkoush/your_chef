@@ -8,6 +8,7 @@ import 'package:your_chef/core/options/options.dart';
 import 'package:your_chef/core/utils/messages.dart';
 import 'package:your_chef/core/widgets/buttons/primary_button.dart';
 import 'package:your_chef/features/auth/presentation/bloc/register/register_bloc.dart';
+import 'package:your_chef/features/auth/presentation/screens/upload_profile_photo_screen.dart';
 
 import '../../../../core/constants/strings.dart';
 import '../../../../core/widgets/fields/custom_text_field.dart';
@@ -37,7 +38,6 @@ class RegisterView extends StatelessWidget {
   });
 
   void _clearControllers() {
-    nameController.text = '';
     nameController.clear();
     phoneController.clear();
     addressController.clear();
@@ -49,12 +49,14 @@ class RegisterView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<RegisterBloc, RegisterState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state is RegisterErrorState) {
           AppMessages.showErrorMessage(context, state.message, state.type);
         }
 
         if (state is RegisterSuccessState) {
+          await _showProfileUploadScreen(context, state.uid);
+          if (!context.mounted) return;
           tabController.animateTo(0);
           _clearControllers();
           AppMessages.showSuccessMessage(context, 'Account Created');
@@ -81,7 +83,10 @@ class RegisterView extends StatelessWidget {
                 controller: phoneController,
                 validator: _validatePhone,
                 enabled: state is! RegisterLoadingState,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(11),
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
                 hintText: AppStrings.phone,
                 prefixIcon: const Icon(HugeIcons.strokeRoundedCall),
               ),
@@ -158,6 +163,18 @@ class RegisterView extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Future<void> _showProfileUploadScreen(BuildContext context, String uid) {
+    return showModalBottomSheet(
+      context: context,
+      isDismissible: false,
+      isScrollControlled: true,
+      useSafeArea: true,
+      builder: (context) => UploadProfilePhotoScreen(
+        uid: uid,
+      ),
     );
   }
 

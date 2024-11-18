@@ -48,6 +48,7 @@ class HomeState extends Equatable {
         categories,
         restaurants,
         popularProducts,
+        onSaleProducts,
         status,
         error,
         errorType,

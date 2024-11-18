@@ -20,7 +20,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   FutureOr<void> _register(
       RegisterSubmitEvent event, Emitter<RegisterState> emit) async {
     emit(const RegisterLoadingState());
-    final Either<Failure, Unit> result = await registerUseCase(event.options);
+    final Either<Failure, String> result = await registerUseCase(event.options);
 
     result.fold((failure) {
       if (failure is AuthFailure) {
@@ -32,8 +32,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       if (failure is ServerFailure) {
         emit(RegisterErrorState(failure.message, ErrorType.normal));
       }
-    }, (_) {
-      emit(const RegisterSuccessState());
+    }, (uid) {
+      emit(RegisterSuccessState(uid));
     });
   }
 }

@@ -17,9 +17,10 @@ class RegisterLoadingState extends RegisterState {
 }
 
 class RegisterSuccessState extends RegisterState {
-  const RegisterSuccessState();
+  final String uid;
+  const RegisterSuccessState(this.uid);
   @override
-  List<Object> get props => [];
+  List<Object> get props => [uid];
 }
 
 class RegisterErrorState extends RegisterState {
@@ -28,5 +29,5 @@ class RegisterErrorState extends RegisterState {
 
   const RegisterErrorState(this.message, this.type);
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [message, type];
 }

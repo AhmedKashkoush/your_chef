@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:your_chef/core/constants/colors.dart';
+import 'package:your_chef/core/extensions/space_extension.dart';
 
 class PrimaryButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String text;
   final bool loading;
+  final IconData? icon;
 
   const PrimaryButton({
     super.key,
     required this.onPressed,
     required this.text,
     this.loading = false,
+    this.icon,
   });
 
   @override
@@ -36,12 +39,24 @@ class PrimaryButton extends StatelessWidget {
                 ),
               ),
             )
-          : Text(
-              text,
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (icon != null) ...[
+                  Icon(
+                    icon,
+                    color: Colors.white,
+                  ),
+                  10.width,
+                ],
+                Text(
+                  text,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
     );
   }
