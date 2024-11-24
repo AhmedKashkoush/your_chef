@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:your_chef/config/routes/routes.dart';
+import 'package:your_chef/core/options/options.dart';
 import 'package:your_chef/core/widgets/home_wrapper/home_wrapper.dart';
 import 'package:your_chef/features/auth/presentation/bloc/login/login_bloc.dart';
 import 'package:your_chef/features/auth/presentation/bloc/register/register_bloc.dart';
 import 'package:your_chef/features/auth/presentation/screens/auth_screen.dart';
 import 'package:your_chef/features/auth/presentation/screens/email_reset_screen.dart';
+import 'package:your_chef/features/auth/presentation/screens/otp_screen.dart';
 import 'package:your_chef/features/home/domain/entities/product.dart';
 import 'package:your_chef/features/onboarding/screens/onboarding_screen.dart';
 import 'package:your_chef/features/products/presentation/screens/product_details_screen.dart';
@@ -43,6 +45,15 @@ class AppRouter {
       case AppRoutes.resetEmail:
         return _slideTransition(
           const EmailResetScreen(),
+        );
+      case AppRoutes.otp:
+        return MaterialPageRoute(
+          builder: (_) => OtpScreen(
+            options: ResetPasswordOptions(
+              email: (settings.arguments as Map<String, dynamic>)['email'],
+              phone: (settings.arguments as Map<String, dynamic>)['phone'],
+            ),
+          ),
         );
       case AppRoutes.home:
         return MaterialPageRoute(

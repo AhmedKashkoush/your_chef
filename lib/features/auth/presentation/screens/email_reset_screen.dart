@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:your_chef/config/routes/routes.dart';
 import 'package:your_chef/core/constants/strings.dart';
+import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/widgets/buttons/primary_button.dart';
 import 'package:your_chef/core/widgets/fields/custom_text_field.dart';
@@ -68,7 +70,14 @@ class _EmailResetScreenState extends State<EmailResetScreen> {
                   valueListenable: _valid,
                   builder: (_, valid, __) {
                     return PrimaryButton(
-                      onPressed: valid ? () {} : null,
+                      onPressed: valid
+                          ? () => context.pushReplacementNamed(
+                                AppRoutes.otp,
+                                arguments: {
+                                  'email': _emailController.text.trim(),
+                                },
+                              )
+                          : null,
                       text: AppStrings.sendCode,
                     );
                   }),

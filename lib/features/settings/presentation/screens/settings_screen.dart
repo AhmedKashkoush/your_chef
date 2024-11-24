@@ -1,8 +1,8 @@
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:your_chef/config/routes/routes.dart';
 import 'package:your_chef/core/constants/urls.dart';
 import 'package:your_chef/core/extensions/media_query_extension.dart';
@@ -84,9 +84,7 @@ class SettingsScreen extends StatelessWidget {
                     ),
                     8.height,
                     ActionTile(
-                      onTap: () {
-                        openAppSettings();
-                      },
+                      onTap: _openNotifications,
                       title: 'Notifications',
                       icon: HugeIcons.strokeRoundedNotification03,
                     ),
@@ -131,6 +129,12 @@ class SettingsScreen extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  void _openNotifications() {
+    AppSettings.openAppSettings(
+      type: AppSettingsType.notification,
     );
   }
 

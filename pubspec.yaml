@@ -7,6 +7,7 @@ version: 1.0.0+1
 environment:
   sdk: ^3.5.4
 dependencies:
+  app_settings: ^5.1.1
   badges: ^3.1.2
   cached_network_image: ^3.4.1
   carousel_slider: ^5.0.0
@@ -26,6 +27,7 @@ dependencies:
   hugeicons: ^0.0.7
   image_picker: ^1.1.2
   permission_handler: ^11.3.1
+  pinput: ^5.0.0
   shared_preferences: ^2.3.3
   skeletonizer: ^1.4.2
   smooth_page_indicator: ^1.2.0+3

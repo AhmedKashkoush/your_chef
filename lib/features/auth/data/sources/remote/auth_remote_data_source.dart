@@ -10,6 +10,8 @@ import '../../models/user_model.dart';
 abstract class IAuthRemoteDataSource {
   Future<UserModel> login(LoginOptions options);
   Future<UserModel> googleSignIn();
+  Future<void> sendOtpCode(ResetPasswordOptions options);
+  Future<void> verify(VerifyOtpOptions options);
   Future<String> register(RegisterOptions options);
   Future<void> resetPassword(ResetPasswordOptions options);
   Future<void> uploadProfilePhoto(UploadProfileOptions options);
@@ -169,5 +171,34 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
     await client.storage.from('avatars').upload(filename, options.photo);
     final String url = client.storage.from('avatars').getPublicUrl(filename);
     await client.from('users').update({"image": url}).eq('id', options.uid);
+  }
+
+  @override
+  Future<void> sendOtpCode(ResetPasswordOptions options) async {
+    final isConnected = await NetworkHelper.isConnected;
+    if (!isConnected) {
+      throw ex.NetworkException('Check your internet connection');
+    }
+
+    await client.auth.signInWithOtp(
+      email: options.email,
+      phone: options.phone,
+      shouldCreateUser: false,
+      emailRedirectTo: null,
+    );
+  }
+
+  @override
+  Future<void> verify(VerifyOtpOptions options) async {
+    final isConnected = await NetworkHelper.isConnected;
+    if (!isConnected) {
+      throw ex.NetworkException('Check your internet connection');
+    }
+    await client.auth.verifyOTP(
+      type: options.email != null ? OtpType.magiclink : OtpType.sms,
+      token: options.otp,
+      email: options.email,
+      phone: options.phone,
+    );
   }
 }

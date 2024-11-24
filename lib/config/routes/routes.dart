@@ -3,6 +3,7 @@ class AppRoutes {
   static const String onboarding = '/onboarding';
   static const String auth = '/auth';
   static const String resetEmail = '/resetEmail';
+  static const String otp = '/otp';
   static const String home = '/';
   static const String product = '/product';
   static const String themes = '/themes';

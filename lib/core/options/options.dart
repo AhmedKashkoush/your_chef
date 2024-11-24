@@ -24,9 +24,20 @@ class RegisterOptions extends AppOptions {
 }
 
 class ResetPasswordOptions extends AppOptions {
-  final String email;
+  final String? email, phone;
   const ResetPasswordOptions({
-    required this.email,
+    this.email,
+    this.phone,
+  });
+}
+
+class VerifyOtpOptions extends AppOptions {
+  final String? email, phone;
+  final String otp;
+  const VerifyOtpOptions({
+    this.email,
+    this.phone,
+    required this.otp,
   });
 }
 

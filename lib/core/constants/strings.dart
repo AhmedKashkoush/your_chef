@@ -32,6 +32,12 @@ class AppStrings {
   static const String resetYourEmail = "Reset your email";
   static const String sendCode = "Send code";
 
+  static const String otpTitle = "Enter the code sent to";
+  static const String codeNotSent = "Code not sent?";
+  static const String tryAgainAfter = "Try again after";
+  static const String resend = "Resend";
+  static const String verify = "Verify";
+
   static const String enterYourName = "Enter your name";
   static const String enterYourEmail = "Enter your email";
   static const String enterYourPhone = "Enter your phone";

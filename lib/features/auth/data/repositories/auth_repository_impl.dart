@@ -100,4 +100,39 @@ class AuthRepository implements IAuthRepository {
       return const Left(ServerFailure('Something went wrong'));
     }
   }
+
+  @override
+  Future<Either<Failure, Unit>> sendOtpCode(
+      ResetPasswordOptions options) async {
+    try {
+      await remoteDataSource.sendOtpCode(options);
+      return const Right(unit);
+    } on AuthException {
+      return const Left(AuthFailure('Invalid credentials'));
+    } on NetworkException {
+      return const Left(NetworkFailure('Check your internet connection'));
+    } on ServerException {
+      return const Left(ServerFailure('Something went wrong'));
+    } catch (e) {
+      log(e.toString());
+      return const Left(ServerFailure('Something went wrong'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> verify(VerifyOtpOptions options) async {
+    try {
+      await remoteDataSource.verify(options);
+      return const Right(unit);
+    } on AuthException {
+      return const Left(AuthFailure('Invalid credentials'));
+    } on NetworkException {
+      return const Left(NetworkFailure('Check your internet connection'));
+    } on ServerException {
+      return const Left(ServerFailure('Something went wrong'));
+    } catch (e) {
+      log(e.toString());
+      return const Left(ServerFailure('Something went wrong'));
+    }
+  }
 }
