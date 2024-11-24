@@ -17,6 +17,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  bool _loading = false;
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 3), () async {
@@ -27,6 +28,9 @@ class _SplashScreenState extends State<SplashScreen> {
       if (!onboarding) {
         context.pushReplacementNamed(AppRoutes.onboarding);
       } else {
+        setState(() {
+          _loading = true;
+        });
         await UserHelper.checkUser();
         if (!mounted) return;
         if (UserHelper.user == null) {
@@ -55,9 +59,10 @@ class _SplashScreenState extends State<SplashScreen> {
             10.height,
             const LogoText(),
             const Spacer(),
-            const Center(
-              child: CircularProgressIndicator(color: AppColors.primary),
-            ),
+            if (_loading)
+              const Center(
+                child: CircularProgressIndicator(color: AppColors.primary),
+              ),
             const Spacer(),
           ],
         ),

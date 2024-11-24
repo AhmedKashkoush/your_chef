@@ -25,7 +25,8 @@ class _AuthScreenState extends State<AuthScreen>
 
   final TextEditingController _loginEmailController = TextEditingController(),
       _loginPasswordController = TextEditingController(),
-      _registerNameController = TextEditingController(),
+      _registerFNameController = TextEditingController(),
+      _registerLNameController = TextEditingController(),
       _registerEmailController = TextEditingController(),
       _registerPasswordController = TextEditingController(),
       _registerPhoneController = TextEditingController(),
@@ -42,7 +43,8 @@ class _AuthScreenState extends State<AuthScreen>
     _loginEmailController.dispose();
     _loginPasswordController.dispose();
     _loginPasswordVisibility.dispose();
-    _registerNameController.dispose();
+    _registerFNameController.dispose();
+    _registerLNameController.dispose();
     _registerEmailController.dispose();
     _registerPasswordController.dispose();
     _registerPhoneController.dispose();
@@ -81,7 +83,8 @@ class _AuthScreenState extends State<AuthScreen>
           loginPasswordController: _loginPasswordController,
           loginPasswordVisibility: _loginPasswordVisibility,
           registerFormKey: _registerFormKey,
-          registerNameController: _registerNameController,
+          registerFNameController: _registerFNameController,
+          registerLNameController: _registerLNameController,
           registerEmailController: _registerEmailController,
           registerPasswordController: _registerPasswordController,
           registerPhoneController: _registerPhoneController,
@@ -97,7 +100,8 @@ class _AuthScreenState extends State<AuthScreen>
           loginPasswordController: _loginPasswordController,
           loginPasswordVisibility: _loginPasswordVisibility,
           registerFormKey: _registerFormKey,
-          registerNameController: _registerNameController,
+          registerFNameController: _registerFNameController,
+          registerLNameController: _registerLNameController,
           registerEmailController: _registerEmailController,
           registerPasswordController: _registerPasswordController,
           registerPhoneController: _registerPhoneController,
@@ -116,7 +120,8 @@ class _AuthScreenPortrait extends StatelessWidget {
   final GlobalKey<FormState> registerFormKey;
   final TextEditingController loginEmailController,
       loginPasswordController,
-      registerNameController,
+      registerFNameController,
+      registerLNameController,
       registerEmailController,
       registerPasswordController,
       registerPhoneController,
@@ -131,7 +136,8 @@ class _AuthScreenPortrait extends StatelessWidget {
     required this.loginPasswordController,
     required this.loginPasswordVisibility,
     required this.registerFormKey,
-    required this.registerNameController,
+    required this.registerFNameController,
+    required this.registerLNameController,
     required this.registerEmailController,
     required this.registerPasswordController,
     required this.registerPhoneController,
@@ -162,7 +168,8 @@ class _AuthScreenPortrait extends StatelessWidget {
               loginPasswordController: loginPasswordController,
               loginPasswordVisibility: loginPasswordVisibility,
               registerFormKey: registerFormKey,
-              registerNameController: registerNameController,
+              registerFNameController: registerFNameController,
+              registerLNameController: registerLNameController,
               registerEmailController: registerEmailController,
               registerPasswordController: registerPasswordController,
               registerPhoneController: registerPhoneController,
@@ -184,7 +191,8 @@ class _AuthScreenLandscape extends StatelessWidget {
   final GlobalKey<FormState> registerFormKey;
   final TextEditingController loginEmailController,
       loginPasswordController,
-      registerNameController,
+      registerFNameController,
+      registerLNameController,
       registerEmailController,
       registerPasswordController,
       registerPhoneController,
@@ -199,7 +207,8 @@ class _AuthScreenLandscape extends StatelessWidget {
     required this.loginPasswordController,
     required this.loginPasswordVisibility,
     required this.registerFormKey,
-    required this.registerNameController,
+    required this.registerFNameController,
+    required this.registerLNameController,
     required this.registerEmailController,
     required this.registerPasswordController,
     required this.registerPhoneController,
@@ -260,7 +269,8 @@ class _AuthScreenLandscape extends StatelessWidget {
                     loginEmailController: loginEmailController,
                     loginPasswordController: loginPasswordController,
                     loginPasswordVisibility: loginPasswordVisibility,
-                    registerNameController: registerNameController,
+                    registerFNameController: registerFNameController,
+                    registerLNameController: registerLNameController,
                     registerEmailController: registerEmailController,
                     registerPasswordController: registerPasswordController,
                     registerPhoneController: registerPhoneController,
@@ -284,7 +294,8 @@ class _TabBarViewWidget extends StatelessWidget {
   final GlobalKey<FormState> registerFormKey;
   final TextEditingController loginEmailController,
       loginPasswordController,
-      registerNameController,
+      registerFNameController,
+      registerLNameController,
       registerEmailController,
       registerPasswordController,
       registerPhoneController,
@@ -298,7 +309,8 @@ class _TabBarViewWidget extends StatelessWidget {
     required this.loginEmailController,
     required this.loginPasswordController,
     required this.loginPasswordVisibility,
-    required this.registerNameController,
+    required this.registerFNameController,
+    required this.registerLNameController,
     required this.registerEmailController,
     required this.registerPasswordController,
     required this.registerPhoneController,
@@ -322,7 +334,8 @@ class _TabBarViewWidget extends StatelessWidget {
         RegisterView(
           tabController: tabController,
           formKey: registerFormKey,
-          nameController: registerNameController,
+          fNameController: registerFNameController,
+          lNameController: registerLNameController,
           emailController: registerEmailController,
           passwordController: registerPasswordController,
           phoneController: registerPhoneController,

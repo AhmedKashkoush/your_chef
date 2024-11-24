@@ -20,9 +20,12 @@ class UserTile extends StatelessWidget {
       onTap: onTap,
       contentPadding: const EdgeInsets.symmetric(horizontal: 4).r,
       horizontalTitleGap: 4,
-      leading: UserAvatar(
-        url: UserHelper.user?.image ?? '',
-        radius: 40,
+      leading: Hero(
+        tag: 'user-image-settings',
+        child: UserAvatar(
+          url: UserHelper.user?.image ?? '',
+          radius: 40,
+        ),
       ),
       // minLeadingWidth: 48,
       title: Text(

@@ -15,7 +15,8 @@ import '../../../../core/widgets/fields/custom_text_field.dart';
 
 class RegisterView extends StatelessWidget {
   final GlobalKey<FormState> formKey;
-  final TextEditingController nameController,
+  final TextEditingController fNameController,
+      lNameController,
       phoneController,
       addressController,
       emailController,
@@ -25,7 +26,8 @@ class RegisterView extends StatelessWidget {
   final TabController tabController;
   const RegisterView({
     super.key,
-    required this.nameController,
+    required this.fNameController,
+    required this.lNameController,
     required this.phoneController,
     required this.addressController,
     required this.emailController,
@@ -38,7 +40,8 @@ class RegisterView extends StatelessWidget {
   });
 
   void _clearControllers() {
-    nameController.clear();
+    fNameController.clear();
+    lNameController.clear();
     phoneController.clear();
     addressController.clear();
     emailController.clear();
@@ -69,13 +72,30 @@ class RegisterView extends StatelessWidget {
             padding:
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 40).r,
             children: [
-              CustomTextField(
-                keyboardType: TextInputType.name,
-                controller: nameController,
-                validator: _validateName,
-                enabled: state is! RegisterLoadingState,
-                hintText: AppStrings.name,
-                prefixIcon: const Icon(HugeIcons.strokeRoundedUser),
+              Row(
+                children: [
+                  Expanded(
+                    child: CustomTextField(
+                      keyboardType: TextInputType.name,
+                      controller: fNameController,
+                      validator: _validateName,
+                      enabled: state is! RegisterLoadingState,
+                      hintText: AppStrings.fName,
+                      prefixIcon: const Icon(HugeIcons.strokeRoundedUser),
+                    ),
+                  ),
+                  10.width,
+                  Expanded(
+                    child: CustomTextField(
+                      keyboardType: TextInputType.name,
+                      controller: lNameController,
+                      validator: _validateName,
+                      enabled: state is! RegisterLoadingState,
+                      hintText: AppStrings.lName,
+                      prefixIcon: const Icon(HugeIcons.strokeRoundedUser),
+                    ),
+                  ),
+                ],
               ),
               10.height,
               CustomTextField(
@@ -255,8 +275,10 @@ class RegisterView extends StatelessWidget {
 
   void _register(BuildContext context) {
     if (!formKey.currentState!.validate()) return;
+    final String fullName =
+        '${fNameController.text.trim()} ${lNameController.text.trim()}';
     final RegisterOptions options = RegisterOptions(
-      name: nameController.text.trim(),
+      name: fullName,
       phone: phoneController.text.trim(),
       address: addressController.text.trim(),
       email: emailController.text.trim(),

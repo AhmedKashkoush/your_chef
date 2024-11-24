@@ -21,35 +21,40 @@ class ProductItem extends StatelessWidget {
       onTap: () {
         context.pushNamed(AppRoutes.product, arguments: food);
       },
-      child: Hero(
-        tag: '${food.id}${food.categoryId}${food.restaurantId}',
-        child: Container(
-          clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12.r),
-            color: context.theme.iconTheme.color?.withOpacity(0.1),
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: CachedNetworkImageProvider(
-                food.images.first,
+      child: food.sale > 0
+          ? ClipRRect(
+              borderRadius: BorderRadius.circular(12.r),
+              clipBehavior: Clip.antiAlias,
+              child: Banner(
+                message: "${(food.sale * 100).toStringAsFixed(0)}% Sale",
+                location: BannerLocation.topEnd,
+                child: _buildItem(context),
               ),
-            ),
-          ),
-          child: food.sale > 0
-              ? Banner(
-                  message: "${(food.sale * 100).toStringAsFixed(0)}% Sale",
-                  location: BannerLocation.topEnd,
-                  child: _buildItem(),
-                )
-              : _buildItem(),
-        ),
-      ),
+            )
+          : _buildItem(context),
     );
   }
 
-  Stack _buildItem() {
+  Stack _buildItem(BuildContext context) {
     return Stack(
       children: [
+        Hero(
+          tag:
+              '${food.id}${food.categoryId}${food.restaurantId}${food.images.first}',
+          child: Container(
+            // clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+              // borderRadius: BorderRadius.circular(12.r),
+              color: context.theme.iconTheme.color?.withOpacity(0.1),
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: CachedNetworkImageProvider(
+                  food.images.first,
+                ),
+              ),
+            ),
+          ),
+        ),
         Container(
           width: double.infinity,
           height: double.infinity,
@@ -70,24 +75,32 @@ class ProductItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                food.name,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  height: 0.9,
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+              Hero(
+                tag:
+                    '${food.id}${food.categoryId}${food.restaurantId}${food.name}',
+                child: Text(
+                  food.name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    height: 0.9,
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-              Text(
-                food.description,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.8),
-                  fontSize: 14,
+              Hero(
+                tag:
+                    '${food.id}${food.categoryId}${food.restaurantId}${food.description}',
+                child: Text(
+                  food.description,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.8),
+                    fontSize: 14,
+                  ),
                 ),
               ),
               if (food.sale > 0.0)

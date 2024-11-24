@@ -16,7 +16,7 @@ import 'package:your_chef/core/widgets/buttons/custom_icon_button.dart';
 import 'package:your_chef/core/widgets/buttons/primary_button.dart';
 import 'package:your_chef/core/widgets/layout/orientation_widget.dart';
 import 'package:your_chef/features/auth/presentation/bloc/upload_profile_photo/upload_profile_photo_bloc.dart';
-import 'package:your_chef/features/auth/presentation/widgets/choose_photo_source_sheet.dart';
+import 'package:your_chef/core/widgets/bottom_sheets/choose_photo_source_sheet.dart';
 import 'package:your_chef/features/auth/presentation/widgets/photo_avatar.dart';
 import 'package:your_chef/locator.dart';
 

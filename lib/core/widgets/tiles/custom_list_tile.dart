@@ -21,6 +21,7 @@ class CustomListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+      type: MaterialType.transparency,
       child: ListTile(
         onTap: onTap,
         tileColor: context.theme.iconTheme.color?.withOpacity(0.1),

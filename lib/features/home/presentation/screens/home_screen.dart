@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:your_chef/config/routes/routes.dart';
 
 import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/errors/error_types.dart';
 import 'package:your_chef/core/extensions/media_query_extension.dart';
+import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/utils/messages.dart';
@@ -56,9 +58,13 @@ class _HomeScreenState extends State<HomeScreen> {
               titleSpacing: 8.w,
               title: Row(
                 children: [
-                  UserAvatar(
-                    radius: 20,
-                    url: UserHelper.user?.image ?? '',
+                  Hero(
+                    tag: 'user-image',
+                    child: UserAvatar(
+                      radius: 20,
+                      url: UserHelper.user?.image ?? '',
+                      onTap: () => _goToProfile(context),
+                    ),
                   ),
                   10.width,
                   const Expanded(
@@ -71,7 +77,12 @@ class _HomeScreenState extends State<HomeScreen> {
               actions: [
                 IconButton(
                   onPressed: () {},
-                  icon: const Icon(HugeIcons.strokeRoundedNotification03),
+                  icon: Badge.count(
+                    count: 1,
+                    backgroundColor: Colors.red,
+                    textColor: Colors.white,
+                    child: const Icon(HugeIcons.strokeRoundedNotification03),
+                  ),
                 ),
               ],
             ),
@@ -264,4 +275,9 @@ class _HomeScreenState extends State<HomeScreen> {
       ],
     );
   }
+
+  void _goToProfile(BuildContext context) => context.pushNamed(
+        AppRoutes.profile,
+        arguments: 'user-image',
+      );
 }

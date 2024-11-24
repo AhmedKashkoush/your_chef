@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:your_chef/config/routes/routes.dart';
 import 'package:your_chef/core/constants/urls.dart';
 import 'package:your_chef/core/extensions/media_query_extension.dart';
@@ -19,6 +20,7 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool darkMode = context.theme.brightness == Brightness.dark;
     return Row(
       children: [
         if (context.isLandscape)
@@ -48,7 +50,9 @@ class SettingsScreen extends StatelessWidget {
                   if (state is SettingsSuccessState) {
                     if (!context.mounted) return;
                     AppMessages.showSuccessMessage(
-                        context, 'Sign out successful');
+                      context,
+                      'Sign out successful',
+                    );
                     context.pushReplacementNamed(AppRoutes.auth);
                   }
                 }
@@ -61,7 +65,7 @@ class SettingsScreen extends StatelessWidget {
                   ).r,
                   children: [
                     UserTile(
-                      onTap: () {},
+                      onTap: () => _goToProfile(context),
                       onSignOut: () => _signOut(context),
                     ),
                     16.height,
@@ -80,7 +84,9 @@ class SettingsScreen extends StatelessWidget {
                     ),
                     8.height,
                     ActionTile(
-                      onTap: () {},
+                      onTap: () {
+                        openAppSettings();
+                      },
                       title: 'Notifications',
                       icon: HugeIcons.strokeRoundedNotification03,
                     ),
@@ -92,9 +98,11 @@ class SettingsScreen extends StatelessWidget {
                     ),
                     8.height,
                     ActionTile(
-                      onTap: () {},
+                      onTap: () => _goToThemes(context),
                       title: 'Themes',
-                      icon: Icons.dark_mode_outlined,
+                      icon: darkMode
+                          ? Icons.dark_mode_outlined
+                          : Icons.light_mode_outlined,
                     ),
                     8.height,
                     const Divider(),
@@ -126,6 +134,8 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
+  void _goToThemes(BuildContext context) => context.pushNamed(AppRoutes.themes);
+
   void _signOut(BuildContext context) async {
     final bool? confirm = await AppMessages.showConfirmDialog(
       context,
@@ -138,4 +148,7 @@ class SettingsScreen extends StatelessWidget {
 
     context.read<SettingsBloc>().add(const SignOutEvent());
   }
+
+  void _goToProfile(BuildContext context) =>
+      context.pushNamed(AppRoutes.profile, arguments: 'user-image-settings');
 }

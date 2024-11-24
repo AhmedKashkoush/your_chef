@@ -4,14 +4,14 @@ import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 
 class PrimaryButton extends StatelessWidget {
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final String text;
   final bool loading;
   final IconData? icon;
 
   const PrimaryButton({
     super.key,
-    required this.onPressed,
+    this.onPressed,
     required this.text,
     this.loading = false,
     this.icon,

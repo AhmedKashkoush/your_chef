@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:your_chef/config/routes/routes.dart';
+import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/errors/error_types.dart';
 import 'package:your_chef/core/extensions/navigation_extension.dart';
@@ -38,9 +39,6 @@ class LoginView extends StatelessWidget {
           if (context.canPop()) {
             context.pop();
           }
-          // if (state is! LoginLoadingState) {
-          //   context.pop();
-          // }
           if (state is LoginErrorState) {
             AppMessages.showErrorMessage(context, state.message, state.type);
           }
@@ -84,6 +82,17 @@ class LoginView extends StatelessWidget {
                     ),
                   );
                 }),
+            14.height,
+            GestureDetector(
+              onTap: () => _goToResetEmail(context),
+              child: const Text(
+                AppStrings.forgotPassword,
+                textAlign: TextAlign.end,
+                style: TextStyle(
+                  color: AppColors.primary,
+                ),
+              ),
+            ),
             20.height,
             PrimaryButton(
               onPressed:
@@ -128,6 +137,10 @@ class LoginView extends StatelessWidget {
         );
       },
     );
+  }
+
+  void _goToResetEmail(BuildContext context) {
+    context.pushNamed(AppRoutes.resetEmail);
   }
 
   void _googleSignIn(BuildContext context) {

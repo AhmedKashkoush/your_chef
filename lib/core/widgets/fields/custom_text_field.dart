@@ -8,7 +8,7 @@ class CustomTextField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final TextInputType? keyboardType;
   final Widget? prefixIcon, suffixIcon;
-  final bool obscureText, enabled, readOnly;
+  final bool obscureText, enabled, readOnly, enableInteractiveSelection;
   final String? hintText, labelText;
   final String obscuringCharacter;
   final TextEditingController? controller;
@@ -16,6 +16,7 @@ class CustomTextField extends StatelessWidget {
   final String? Function(String?)? validator;
   final TextStyle? hintStyle, labelStyle;
   final Color? prefixIconColor, suffixIconColor;
+  final int? minLines, maxLines;
 
   const CustomTextField({
     super.key,
@@ -38,6 +39,9 @@ class CustomTextField extends StatelessWidget {
     this.suffixIconColor,
     this.textInputAction,
     this.onFieldSubmitted,
+    this.enableInteractiveSelection = true,
+    this.minLines,
+    this.maxLines = 1,
   });
 
   @override
@@ -54,6 +58,9 @@ class CustomTextField extends StatelessWidget {
       keyboardType: keyboardType,
       inputFormatters: inputFormatters,
       enabled: enabled,
+      enableInteractiveSelection: enableInteractiveSelection,
+      minLines: minLines,
+      maxLines: maxLines,
       decoration: InputDecoration(
         isDense: true,
         prefixIcon: prefixIcon,

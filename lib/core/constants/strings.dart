@@ -21,10 +21,21 @@ class AppStrings {
 
   static const String email = "Email";
   static const String password = "Password";
+  static const String forgotPassword = "Forgot password?";
   static const String confirmPassword = "Confirm Password";
   static const String name = "Name";
+  static const String fName = "First name";
+  static const String lName = "Last name";
   static const String phone = "Phone";
   static const String address = "Address";
+
+  static const String resetYourEmail = "Reset your email";
+  static const String sendCode = "Send code";
+
+  static const String enterYourName = "Enter your name";
+  static const String enterYourEmail = "Enter your email";
+  static const String enterYourPhone = "Enter your phone";
+  static const String enterYourAddress = "Enter your address";
 
   static const String or = "Or";
   static const String signInWithGoogle = "Sign In With Google";

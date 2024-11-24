@@ -8,7 +8,7 @@ class AppLogo extends StatelessWidget {
   const AppLogo({
     super.key,
     this.size = 64,
-    this.isHero = false,
+    this.isHero = true,
   });
 
   @override

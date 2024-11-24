@@ -42,7 +42,6 @@ class AppMessages {
         content: Text(
           message,
           style: const TextStyle(
-            color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
         ),

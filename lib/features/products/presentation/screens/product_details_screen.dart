@@ -65,7 +65,8 @@ class _ProductDetailsPortrait extends StatelessWidget {
               : null,
           flexibleSpace: FlexibleSpaceBar(
             background: Hero(
-              tag: '${product.id}${product.categoryId}${product.restaurantId}',
+              tag:
+                  '${product.id}${product.categoryId}${product.restaurantId}${product.images.first}',
               child: Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
@@ -83,14 +84,18 @@ class _ProductDetailsPortrait extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 8.0).r,
           sliver: SliverList.list(children: [
             ListTile(
-              title: Text(
-                product.name,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  height: 0.9,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+              title: Hero(
+                tag:
+                    '${product.id}${product.categoryId}${product.restaurantId}${product.name}',
+                child: Text(
+                  product.name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    height: 0.9,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               trailing: Text.rich(
@@ -162,12 +167,16 @@ class _ProductDetailsPortrait extends StatelessWidget {
             const Divider(),
             ListTile(
               isThreeLine: true,
-              subtitle: Text(
-                product.description,
-                maxLines: null,
-                style: TextStyle(
-                  color: context.theme.iconTheme.color?.withOpacity(0.8),
-                  fontSize: 18,
+              subtitle: Hero(
+                tag:
+                    '${product.id}${product.categoryId}${product.restaurantId}${product.description}',
+                child: Text(
+                  product.description,
+                  maxLines: null,
+                  style: TextStyle(
+                    color: context.theme.iconTheme.color?.withOpacity(0.8),
+                    fontSize: 18,
+                  ),
                 ),
               ),
             ),
