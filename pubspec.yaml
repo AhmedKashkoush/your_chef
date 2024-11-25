@@ -9,6 +9,7 @@ environment:
 dependencies:
   app_settings: ^5.1.1
   badges: ^3.1.2
+  bloc_concurrency: ^0.2.5
   cached_network_image: ^3.4.1
   carousel_slider: ^5.0.0
   connectivity_plus: ^6.1.0

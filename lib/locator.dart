@@ -26,6 +26,13 @@ import 'package:your_chef/features/settings/data/sources/remote/settings_remote_
 import 'package:your_chef/features/settings/domain/repositories/settings_repository.dart';
 import 'package:your_chef/features/settings/domain/usecases/sign_out_usecase.dart';
 import 'package:your_chef/features/settings/presentation/bloc/settings_bloc.dart';
+import 'package:your_chef/features/wishlist/data/repositories/wishlist_repository_impl.dart';
+import 'package:your_chef/features/wishlist/data/sources/remote/wishlist_remote_data_source.dart';
+import 'package:your_chef/features/wishlist/domain/repositories/wishlist_repository.dart';
+import 'package:your_chef/features/wishlist/domain/usecases/add_food_to_wishlist_usecase.dart';
+import 'package:your_chef/features/wishlist/domain/usecases/get_foods_wishlist_usecase.dart';
+import 'package:your_chef/features/wishlist/domain/usecases/remove_food_from_wishlist_usecase.dart';
+import 'package:your_chef/features/wishlist/presentation/bloc/wishlist_bloc.dart';
 
 import 'features/auth/data/repositories/auth_repository_impl.dart';
 import 'features/auth/domain/usecases/google_sign_in_usecase.dart';
@@ -71,6 +78,13 @@ void _initRemoteSources() {
     ),
   );
 
+  //*Wishlist
+  locator.registerLazySingleton<IWishlistRemoteDataSource>(
+    () => SupabaseWishlistRemoteDataSource(
+      locator<SupabaseClient>(),
+    ),
+  );
+
   //*Settings
   locator.registerLazySingleton<ISettingsRemoteDataSource>(
     () => SupabaseSettingsRemoteDataSource(
@@ -88,6 +102,10 @@ void _initRepositories() {
   //*Home
   locator.registerLazySingleton<IHomeRepository>(
     () => HomeRepository(locator<IHomeRemoteDataSource>()),
+  );
+  //*Wishlist
+  locator.registerLazySingleton<IWishlistRepository>(
+    () => WishlistRepository(locator<IWishlistRemoteDataSource>()),
   );
   //*Settings
   locator.registerLazySingleton<ISettingsRepository>(
@@ -136,6 +154,16 @@ void _initUseCases() {
   locator.registerLazySingleton<GetOnSaleProductsUseCase>(
     () => GetOnSaleProductsUseCase(locator<IHomeRepository>()),
   );
+  //*Wishlist
+  locator.registerLazySingleton<GetFoodsWishlistUseCase>(
+    () => GetFoodsWishlistUseCase(locator<IWishlistRepository>()),
+  );
+  locator.registerLazySingleton<AddFoodToWishlistUseCase>(
+    () => AddFoodToWishlistUseCase(locator<IWishlistRepository>()),
+  );
+  locator.registerLazySingleton<RemoveFoodFromWishlistUseCase>(
+    () => RemoveFoodFromWishlistUseCase(locator<IWishlistRepository>()),
+  );
   //*Settings
   locator.registerLazySingleton<SignOutUseCase>(
     () => SignOutUseCase(locator<ISettingsRepository>()),
@@ -168,6 +196,14 @@ void _initBlocs() {
       locator<GetRestaurantsUseCase>(),
       locator<GetPopularProductsUseCase>(),
       locator<GetOnSaleProductsUseCase>(),
+    ),
+  );
+  //*Wishlist
+  locator.registerFactory<WishlistBloc>(
+    () => WishlistBloc(
+      locator<GetFoodsWishlistUseCase>(),
+      locator<AddFoodToWishlistUseCase>(),
+      locator<RemoveFoodFromWishlistUseCase>(),
     ),
   );
   //*Settings

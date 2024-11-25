@@ -64,3 +64,11 @@ class UploadProfileOptions extends AppOptions {
     required this.photo,
   });
 }
+
+class PaginationOptions extends AppOptions {
+  final int page, limit;
+  const PaginationOptions({
+    this.page = 1,
+    this.limit = 10,
+  });
+}

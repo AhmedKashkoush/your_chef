@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hugeicons/hugeicons.dart';
-import 'package:your_chef/config/routes/routes.dart';
 
 import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/errors/error_types.dart';
 import 'package:your_chef/core/extensions/media_query_extension.dart';
-import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/utils/messages.dart';
 import 'package:your_chef/core/utils/network_helper.dart';
 import 'package:your_chef/core/utils/user_helper.dart';
+import 'package:your_chef/core/widgets/app_bars/custom_app_bar.dart';
 import 'package:your_chef/core/widgets/errors/custom_error_widget.dart';
-import 'package:your_chef/core/widgets/fields/search_field.dart';
 import 'package:your_chef/core/widgets/loading/skeleton_loading_widget.dart';
 import 'package:your_chef/features/home/domain/entities/category.dart';
 import 'package:your_chef/features/home/domain/entities/offer.dart';
@@ -26,8 +23,6 @@ import 'package:your_chef/features/home/presentation/widgets/sections/foods_sect
 import 'package:your_chef/features/home/presentation/widgets/sections/offers_section.dart';
 import 'package:your_chef/features/home/presentation/widgets/sections/restaurants_section.dart';
 import 'package:your_chef/features/home/presentation/widgets/sections/section_header.dart';
-
-import '../../../../core/widgets/avatars/user_avatar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -41,6 +36,8 @@ class _HomeScreenState extends State<HomeScreen> {
     context.read<HomeBloc>().add(const GetHomeDataEvent());
   }
 
+  final String _tag = 'home-user-image';
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -53,38 +50,8 @@ class _HomeScreenState extends State<HomeScreen> {
         Expanded(
           child: Scaffold(
             backgroundColor: context.theme.colorScheme.surface,
-            appBar: AppBar(
-              backgroundColor: Colors.transparent,
-              titleSpacing: 8.w,
-              title: Row(
-                children: [
-                  Hero(
-                    tag: 'user-image',
-                    child: UserAvatar(
-                      radius: 20,
-                      url: UserHelper.user?.image ?? '',
-                      onTap: () => _goToProfile(context),
-                    ),
-                  ),
-                  10.width,
-                  const Expanded(
-                    child: SearchField(
-                      readOnly: true,
-                    ),
-                  ),
-                ],
-              ),
-              actions: [
-                IconButton(
-                  onPressed: () {},
-                  icon: Badge.count(
-                    count: 1,
-                    backgroundColor: Colors.red,
-                    textColor: Colors.white,
-                    child: const Icon(HugeIcons.strokeRoundedNotification03),
-                  ),
-                ),
-              ],
+            appBar: CustomAppBar(
+              profileTag: _tag,
             ),
             body: BlocConsumer<HomeBloc, HomeState>(listener: (context, state) {
               if (state.errorType == ErrorType.network) {
@@ -275,9 +242,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ],
     );
   }
-
-  void _goToProfile(BuildContext context) => context.pushNamed(
-        AppRoutes.profile,
-        arguments: 'user-image',
-      );
 }
