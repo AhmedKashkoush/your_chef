@@ -47,3 +47,5 @@ app.*.map.json
 
 #keystore
 /android/app/keystore-debug.jks
+
+.vscode
