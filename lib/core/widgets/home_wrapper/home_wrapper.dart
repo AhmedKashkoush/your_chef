@@ -5,13 +5,11 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/extensions/media_query_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
-import 'package:your_chef/core/options/options.dart';
 import 'package:your_chef/core/widgets/views/persistent_view.dart';
 import 'package:your_chef/features/home/presentation/bloc/home_bloc.dart';
 import 'package:your_chef/features/home/presentation/screens/home_screen.dart';
 import 'package:your_chef/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:your_chef/features/settings/presentation/screens/settings_screen.dart';
-import 'package:your_chef/features/wishlist/presentation/bloc/wishlist_bloc.dart';
 import 'package:your_chef/features/wishlist/presentation/screens/wishlist_screen.dart';
 import 'package:your_chef/locator.dart';
 
@@ -33,15 +31,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
         ),
       child: const HomeScreen(),
     ),
-    BlocProvider(
-      create: (context) => locator<WishlistBloc>()
-        ..add(
-          const GetFoodsWishlistEvent(
-            PaginationOptions(),
-          ),
-        ),
-      child: const WishlistScreen(),
-    ),
+    const WishlistScreen(),
     const SizedBox(),
     const SizedBox(),
     BlocProvider(

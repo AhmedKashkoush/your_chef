@@ -2,7 +2,7 @@ part of 'wishlist_bloc.dart';
 
 class WishlistState extends Equatable {
   final List<Product> foods;
-  final bool foodsHasNext;
+  final bool foodsHasNext, addOrRemove;
   final String error;
   final RequestStatus status;
   final ErrorType errorType;
@@ -13,11 +13,13 @@ class WishlistState extends Equatable {
     this.error = '',
     this.status = RequestStatus.initial,
     this.errorType = ErrorType.normal,
+    this.addOrRemove = false,
   });
 
   WishlistState copyWith({
     List<Product>? foods,
     bool? foodsHasNext,
+    bool? addOrRemove,
     String? error,
     RequestStatus? status,
     ErrorType? errorType,
@@ -25,15 +27,13 @@ class WishlistState extends Equatable {
       WishlistState(
         foods: foods ?? this.foods,
         foodsHasNext: foodsHasNext ?? this.foodsHasNext,
+        addOrRemove: addOrRemove ?? this.addOrRemove,
         error: error ?? this.error,
         status: status ?? this.status,
         errorType: errorType ?? this.errorType,
       );
 
   @override
-  List<Object?> get props => [
-        foods,
-        error,
-        status,
-      ];
+  List<Object?> get props =>
+      [foods, error, status, errorType, foodsHasNext, addOrRemove];
 }

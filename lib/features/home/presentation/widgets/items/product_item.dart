@@ -15,23 +15,31 @@ class ProductItem extends StatelessWidget {
     required this.food,
   });
 
+  final String _tag = 'product';
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.pushNamed(AppRoutes.product, arguments: food);
+        context.pushNamed(
+          AppRoutes.product,
+          arguments: {
+            'food': food,
+            'tag': _tag,
+          },
+        );
       },
-      child: food.sale > 0
-          ? ClipRRect(
-              borderRadius: BorderRadius.circular(12.r),
-              clipBehavior: Clip.antiAlias,
-              child: Banner(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12.r),
+        clipBehavior: Clip.antiAlias,
+        child: food.sale > 0
+            ? Banner(
                 message: "${(food.sale * 100).toStringAsFixed(0)}% Sale",
                 location: BannerLocation.topEnd,
                 child: _buildItem(context),
-              ),
-            )
-          : _buildItem(context),
+              )
+            : _buildItem(context),
+      ),
     );
   }
 
@@ -40,11 +48,9 @@ class ProductItem extends StatelessWidget {
       children: [
         Hero(
           tag:
-              '${food.id}${food.categoryId}${food.restaurantId}${food.images.first}',
+              '$_tag${food.id}${food.categoryId}${food.restaurantId}${food.images.first}',
           child: Container(
-            // clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
-              // borderRadius: BorderRadius.circular(12.r),
               color: context.theme.iconTheme.color?.withOpacity(0.1),
               image: DecorationImage(
                 fit: BoxFit.cover,
@@ -77,7 +83,7 @@ class ProductItem extends StatelessWidget {
             children: [
               Hero(
                 tag:
-                    '${food.id}${food.categoryId}${food.restaurantId}${food.name}',
+                    '$_tag${food.id}${food.categoryId}${food.restaurantId}${food.name}',
                 child: Text(
                   food.name,
                   maxLines: 1,
@@ -92,7 +98,7 @@ class ProductItem extends StatelessWidget {
               ),
               Hero(
                 tag:
-                    '${food.id}${food.categoryId}${food.restaurantId}${food.description}',
+                    '$_tag${food.id}${food.categoryId}${food.restaurantId}${food.description}',
                 child: Text(
                   food.description,
                   maxLines: 2,

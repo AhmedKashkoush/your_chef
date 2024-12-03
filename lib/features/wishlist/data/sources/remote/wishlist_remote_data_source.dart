@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:your_chef/core/dummy/dummy_data.dart';
 import 'package:your_chef/core/options/options.dart';
@@ -39,8 +41,12 @@ class SupabaseWishlistRemoteDataSource implements IWishlistRemoteDataSource {
       throw ex.NetworkException('Check your internet connection');
     }
     await Future.delayed(const Duration(seconds: 4));
+    log(AppDummies.foodsWishlist.length.toString());
+    log(((options.page - 1)).toString());
     return AppDummies.foodsWishlist
-        .sublist(options.page - 1)
+        .sublist(
+          (options.page - 1) * options.limit,
+        )
         .take(options.limit)
         .toList();
   }

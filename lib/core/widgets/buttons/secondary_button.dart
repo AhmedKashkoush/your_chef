@@ -3,13 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 
-class PrimaryButton extends StatelessWidget {
+class SecondaryButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final String text;
   final bool loading;
   final IconData? icon;
 
-  const PrimaryButton({
+  const SecondaryButton({
     super.key,
     this.onPressed,
     required this.text,
@@ -19,12 +19,14 @@ class PrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return OutlinedButton(
       onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.primary,
+      style: OutlinedButton.styleFrom(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(14).r,
+          side: const BorderSide(
+            color: AppColors.primary,
+          ),
         ),
       ),
       child: loading
@@ -47,7 +49,6 @@ class PrimaryButton extends StatelessWidget {
                   Flexible(
                     child: Icon(
                       icon,
-                      color: Colors.white,
                     ),
                   ),
                   if (text.isNotEmpty) Flexible(child: 4.width),
@@ -58,7 +59,7 @@ class PrimaryButton extends StatelessWidget {
                     child: _buildText(),
                   )
                 else
-                  _buildText()
+                  _buildText(),
               ],
             ),
     );
@@ -69,7 +70,6 @@ class PrimaryButton extends StatelessWidget {
       text,
       overflow: TextOverflow.ellipsis,
       style: const TextStyle(
-        color: Colors.white,
         fontWeight: FontWeight.bold,
       ),
     );

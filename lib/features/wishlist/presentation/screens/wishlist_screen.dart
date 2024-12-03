@@ -1,17 +1,17 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:your_chef/core/errors/error_types.dart';
 import 'package:your_chef/core/extensions/media_query_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/options/options.dart';
+import 'package:your_chef/core/utils/messages.dart';
 import 'package:your_chef/core/utils/network_helper.dart';
 import 'package:your_chef/core/widgets/app_bars/custom_app_bar.dart';
 import 'package:your_chef/core/widgets/errors/custom_error_widget.dart';
-import 'package:your_chef/features/home/domain/entities/product.dart';
+import 'package:your_chef/core/widgets/loading/skeleton_loading_widget.dart';
 import 'package:your_chef/features/wishlist/presentation/bloc/wishlist_bloc.dart';
+import 'package:your_chef/features/wishlist/presentation/widgets/empty_wishlist_widget.dart';
+import 'package:your_chef/features/wishlist/presentation/widgets/wishlist_view_widget.dart';
 
 class WishlistScreen extends StatefulWidget {
   const WishlistScreen({super.key});
@@ -28,6 +28,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
   @override
   void initState() {
     _controller.addListener(_scrollListener);
+    _load();
     super.initState();
   }
 
@@ -38,7 +39,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
     super.dispose();
   }
 
-  void _load(BuildContext context) {
+  void _load() {
     context.read<WishlistBloc>().add(
           GetFoodsWishlistEvent(
             PaginationOptions(
@@ -52,10 +53,12 @@ class _WishlistScreenState extends State<WishlistScreen> {
     if (!_controller.hasClients) return;
     if (_controller.position.pixels >=
         _controller.position.maxScrollExtent - 200) {
+      if (!context.read<WishlistBloc>().state.foodsHasNext) return;
+      if (context.read<WishlistBloc>().state.error.isNotEmpty) return;
       context.read<WishlistBloc>().add(
             GetFoodsWishlistEvent(
               PaginationOptions(
-                page: ++_page,
+                page: _page,
               ),
             ),
           );
@@ -67,8 +70,9 @@ class _WishlistScreenState extends State<WishlistScreen> {
       const Duration(seconds: 1),
     );
     if (!context.mounted) return;
+    _page = 1;
     context.read<WishlistBloc>().add(
-          const GetFoodsWishlistEvent(
+          const RefreshFoodsWishlistEvent(
             PaginationOptions(),
           ),
         );
@@ -90,35 +94,108 @@ class _WishlistScreenState extends State<WishlistScreen> {
               profileTag: _tag,
             ),
             body: BlocConsumer<WishlistBloc, WishlistState>(
-              listener: (context, state) {},
+              listener: (context, state) {
+                if (!state.addOrRemove) {
+                  if (state.status == RequestStatus.success) {
+                    _page++;
+                  }
+                  return;
+                }
+                if (state.status == RequestStatus.loading) {
+                  AppMessages.showLoadingDialog(context,
+                      message: 'Just a moment...');
+                } else {
+                  Navigator.pop(context);
+                  if (state.status == RequestStatus.success) {
+                    AppMessages.showSuccessMessage(context, 'Item removed');
+                  } else {
+                    AppMessages.showErrorMessage(context, state.error);
+                  }
+                }
+              },
               builder: (context, state) {
-                log('message');
+                if (state.status == RequestStatus.initial) {
+                  return const SizedBox.shrink();
+                }
                 if (state.foods.isEmpty) {
-                  if (state.status == RequestStatus.loading) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
+                  if (state.status == RequestStatus.loading &&
+                      !state.addOrRemove) {
+                    return SkeletonLoadingWidget(
+                      loading: true,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 10.w,
+                              vertical: 10.h,
+                            ),
+                            child: Text(
+                              '${state.foods.length} ${state.foods.length == 1 ? "Item" : "Items"}',
+                              style:
+                                  context.theme.textTheme.titleLarge!.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          const Expanded(
+                            child: WishlistViewWidget(
+                              foods: [],
+                              loading: true,
+                              // error: state.status != RequestStatus.failure
+                              //     ? ''
+                              //     : state.error,
+                              // errorType: state.errorType,
+                              // loading: state.status == RequestStatus.loading,
+                            ),
+                          ),
+                        ],
+                      ),
                     );
                   }
 
-                  if (state.status == RequestStatus.failure) {
+                  if (state.status == RequestStatus.failure &&
+                      !state.addOrRemove) {
                     return CustomErrorWidget(
                       error: state.error,
                       type: state.errorType,
-                      onRetry: () => _load(context),
+                      onRetry: () => _load(),
                     );
                   }
+                  return const EmptyWishlistWidget();
                 }
 
-                return RefreshIndicator.adaptive(
-                  onRefresh: () => _refresh(context),
-                  child: _buildGridView(
-                    foods: state.foods,
-                    error: state.status != RequestStatus.failure
-                        ? ''
-                        : state.error,
-                    errorType: state.errorType,
-                    loading: state.status == RequestStatus.loading,
-                  ),
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10.w,
+                        vertical: 10.h,
+                      ),
+                      child: Text(
+                        '${state.foods.length} ${state.foods.length == 1 ? "Item" : "Items"}',
+                        style: context.theme.textTheme.titleLarge!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: WishlistViewWidget(
+                        onRefresh: () => _refresh(context),
+                        onRetry: () => _load(),
+                        controller: _controller,
+                        foods: state.foods,
+                        error: state.status != RequestStatus.failure &&
+                                !state.addOrRemove
+                            ? ''
+                            : state.error,
+                        errorType: state.errorType,
+                        loading: state.status == RequestStatus.loading &&
+                            !state.addOrRemove,
+                      ),
+                    ),
+                  ],
                 );
               },
             ),
@@ -128,44 +205,99 @@ class _WishlistScreenState extends State<WishlistScreen> {
     );
   }
 
-  Widget _buildGridView({
-    required List<Product> foods,
-    bool loading = false,
-    String error = '',
-    ErrorType errorType = ErrorType.normal,
-  }) {
-    return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 10.w,
-        mainAxisSpacing: 10.h,
-      ),
-      controller: _controller,
-      itemCount: foods.length + 1,
-      itemBuilder: (_, index) {
-        if (index == foods.length) {
-          if (loading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
+  // Widget _buildView({
+  //   required List<Product> foods,
+  //   bool loading = false,
+  //   String error = '',
+  //   ErrorType errorType = ErrorType.normal,
+  // }) {
+  //   return ListView.separated(
+  //     controller: _controller,
+  //     padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+  //     itemBuilder: (_, index) {
+  //       if (index == foods.length) {
+  //         if (loading) {
+  //           return SkeletonLoadingWidget(
+  //             loading: loading,
+  //             child: const WishlistItem(
+  //               food: Product(
+  //                 id: 0,
+  //                 categoryId: 0,
+  //                 restaurantId: 0,
+  //                 name: '',
+  //                 description: '',
+  //                 images: [],
+  //                 price: 0,
+  //                 rate: 0,
+  //                 sale: 0,
+  //                 trending: false,
+  //               ),
+  //             ),
+  //           );
+  //         }
 
-          if (error.isNotEmpty) {
-            return CustomErrorWidget(
-              error: error,
-              type: errorType,
-              onRetry: () => _load(context),
-            );
-          }
+  //         if (error.isNotEmpty) {
+  //           return CustomErrorWidget(
+  //             error: error,
+  //             type: errorType,
+  //             onRetry: () => _load(),
+  //           );
+  //         }
 
-          return const SizedBox.shrink();
-        }
-        return Container(
-          width: 40.w,
-          height: 40.h,
-          color: Colors.red,
-        );
-      },
-    );
-  }
+  //         return const SizedBox.shrink();
+  //       }
+  //       return WishlistItem(
+  //         food: foods[index],
+  //       );
+  //     },
+  //     separatorBuilder: (_, __) => 10.height,
+  //     itemCount: foods.length + 1,
+  //   );
+  //   // final bool isPortrait =
+  //   //     MediaQuery.of(context).orientation == Orientation.portrait;
+  //   // return GridView.builder(
+  //   //   padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+  //   //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+  //   //     crossAxisCount: isPortrait ? 2 : 3,
+  //   //     crossAxisSpacing: 10.w,
+  //   //     mainAxisSpacing: 10.h,
+  //   //   ),
+  //   //   controller: _controller,
+  //   //   itemCount: foods.length + 1,
+  //   //   itemBuilder: (_, index) {
+  //   //     if (index == foods.length) {
+  //   //       if (loading) {
+  //   //         return SkeletonLoadingWidget(
+  //   //           loading: loading,
+  //   //           child: const WishlistItem(
+  //   //             food: Product(
+  //   //               id: 0,
+  //   //               categoryId: 0,
+  //   //               restaurantId: 0,
+  //   //               name: '',
+  //   //               description: '',
+  //   //               images: [],
+  //   //               price: 0,
+  //   //               rate: 0,
+  //   //               sale: 0,
+  //   //               trending: false,
+  //   //             ),
+  //   //           ),
+  //   //         );
+  //   //       }
+
+  //   //       if (error.isNotEmpty) {
+  //   //         return CustomErrorWidget(
+  //   //           error: error,
+  //   //           type: errorType,
+  //   //           onRetry: () => _load(),
+  //   //         );
+  //   //       }
+
+  //   //       return const SizedBox.shrink();
+  //   //     }
+  //   //     return WishlistItem(food: foods[index]);
+  //   //   },
+  //   // );
+  // }
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:dartz/dartz.dart';
@@ -43,6 +44,8 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
     emit(
       state.copyWith(
         status: RequestStatus.loading,
+        foods: event.options.page == 1 ? const [] : state.foods,
+        addOrRemove: false,
       ),
     );
 
@@ -56,6 +59,7 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
             error: failure.message,
             status: RequestStatus.failure,
             errorType: ErrorType.network,
+            addOrRemove: false,
           ),
         );
       }
@@ -65,6 +69,7 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
             error: failure.message,
             status: RequestStatus.failure,
             errorType: ErrorType.normal,
+            addOrRemove: false,
           ),
         );
       }
@@ -75,6 +80,8 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
           status: RequestStatus.success,
           foods: [...oldFoods, ...foods],
           foodsHasNext: foods.length < event.options.limit ? false : true,
+          addOrRemove: false,
+          error: '',
         ),
       );
     });
@@ -87,6 +94,7 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
         status: RequestStatus.loading,
         foods: const [],
         foodsHasNext: true,
+        addOrRemove: false,
       ),
     );
 
@@ -100,6 +108,7 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
             error: failure.message,
             status: RequestStatus.failure,
             errorType: ErrorType.network,
+            addOrRemove: false,
           ),
         );
       }
@@ -109,6 +118,7 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
             error: failure.message,
             status: RequestStatus.failure,
             errorType: ErrorType.normal,
+            addOrRemove: false,
           ),
         );
       }
@@ -118,6 +128,8 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
         state.copyWith(
           status: RequestStatus.success,
           foods: [...oldFoods, ...foods],
+          addOrRemove: false,
+          error: '',
         ),
       );
     });
@@ -127,6 +139,7 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
       AddFoodToWishlistWishlistEvent event, Emitter<WishlistState> emit) async {
     emit(state.copyWith(
       status: RequestStatus.loading,
+      addOrRemove: true,
     ));
 
     final Either<Failure, Unit> result =
@@ -139,6 +152,7 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
             error: failure.message,
             status: RequestStatus.failure,
             errorType: ErrorType.network,
+            addOrRemove: true,
           ),
         );
       }
@@ -148,15 +162,19 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
             error: failure.message,
             status: RequestStatus.failure,
             errorType: ErrorType.normal,
+            addOrRemove: true,
           ),
         );
       }
     }, (_) {
       List<Product> oldFoods = state.foods;
+      log('after add: ${[...oldFoods, event.food]}');
       emit(
         state.copyWith(
           status: RequestStatus.success,
           foods: [...oldFoods, event.food],
+          addOrRemove: true,
+          error: '',
         ),
       );
     });
@@ -167,6 +185,7 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
       Emitter<WishlistState> emit) async {
     emit(state.copyWith(
       status: RequestStatus.loading,
+      addOrRemove: true,
     ));
 
     final Either<Failure, Unit> result =
@@ -179,6 +198,7 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
             error: failure.message,
             status: RequestStatus.failure,
             errorType: ErrorType.network,
+            addOrRemove: true,
           ),
         );
       }
@@ -188,16 +208,20 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
             error: failure.message,
             status: RequestStatus.failure,
             errorType: ErrorType.normal,
+            addOrRemove: true,
           ),
         );
       }
     }, (_) {
       List<Product> newFoods = List.from(state.foods);
       newFoods.remove(event.food);
+      log('after remove: $newFoods');
       emit(
         state.copyWith(
           status: RequestStatus.success,
           foods: newFoods,
+          addOrRemove: true,
+          error: '',
         ),
       );
     });

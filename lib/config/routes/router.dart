@@ -57,13 +57,18 @@ class AppRouter {
         );
       case AppRoutes.home:
         return MaterialPageRoute(
-          builder: (_) => const HomeWrapper(),
+          builder: (context) => const HomeWrapper(),
         );
       case AppRoutes.product:
         return MaterialPageRoute(
-          builder: (_) => ProductDetailsScreen(
-            product: settings.arguments as Product,
-          ),
+          builder: (_) {
+            final Map<String, dynamic> args =
+                settings.arguments as Map<String, dynamic>;
+            return ProductDetailsScreen(
+              product: args['food'] as Product,
+              tag: args['tag'] as String,
+            );
+          },
         );
       case AppRoutes.themes:
         return _slideTransition(
