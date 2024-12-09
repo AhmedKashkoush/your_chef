@@ -80,8 +80,9 @@ class AppDummies {
     20,
     (_) => ProductModel(
       id: Random().nextInt(1000),
-      categoryId: Random().nextInt(1000),
-      restaurantId: Random().nextInt(1000),
+      category: categories[Random().nextInt(categories.length)],
+      restaurant: restaurants[
+          Random().nextInt(restaurants.length)], // Random().nextInt(1000),
       name: 'Food',
       description: 'description',
       images: [_foods[Random().nextInt(_foods.length)]],

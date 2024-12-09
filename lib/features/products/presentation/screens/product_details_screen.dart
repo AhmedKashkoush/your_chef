@@ -12,16 +12,20 @@ import 'package:your_chef/core/utils/network_helper.dart';
 import 'package:your_chef/core/widgets/buttons/custom_icon_button.dart';
 import 'package:your_chef/core/widgets/layout/orientation_widget.dart';
 import 'package:your_chef/features/home/domain/entities/product.dart';
+import 'package:your_chef/features/products/presentation/widgets/add_to_cart_section.dart';
+import 'package:your_chef/features/products/presentation/widgets/product_tile.dart';
+import 'package:your_chef/features/products/presentation/widgets/restaurant_tile.dart';
 import 'package:your_chef/features/wishlist/presentation/bloc/wishlist_bloc.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
-  final Product product;
-  final String tag;
   const ProductDetailsScreen({
     super.key,
     required this.product,
     required this.tag,
   });
+
+  final Product product;
+  final String tag;
 
   @override
   Widget build(BuildContext context) {
@@ -36,39 +40,86 @@ class ProductDetailsScreen extends StatelessWidget {
           tag: tag,
         ),
       ),
+      bottomNavigationBar: AddToCartSection(
+        inCart: true,
+        count: 4,
+        product: product,
+      ),
     );
   }
 }
 
-class _ProductDetailsPortrait extends StatelessWidget {
-  final Product product;
-  final String tag;
+class _ProductDetailsPortrait extends StatefulWidget {
   const _ProductDetailsPortrait({
     required this.product,
     required this.tag,
   });
 
+  final Product product;
+  final String tag;
+
+  @override
+  State<_ProductDetailsPortrait> createState() =>
+      _ProductDetailsPortraitState();
+}
+
+class _ProductDetailsPortraitState extends State<_ProductDetailsPortrait> {
+  final ScrollController _scrollController = ScrollController();
+  bool _visible = false;
+
+  @override
+  void initState() {
+    _scrollController.addListener(_scrollListener);
+    super.initState();
+  }
+
+  void _scrollListener() {
+    if (!_scrollController.hasClients) return;
+    if (_scrollController.position.pixels >= kToolbarHeight * 6) {
+      if (_visible) return;
+      setState(() {
+        _visible = true;
+      });
+    } else {
+      if (!_visible) return;
+      setState(() {
+        _visible = false;
+      });
+    }
+  }
+
   void _toggleFavorite(BuildContext context) {
     if (AppDummies.foodsWishlist
-        .where((food) => food.id == product.id)
+        .where((food) => food.id == widget.product.id)
         .toList()
         .isEmpty) {
-      context.read<WishlistBloc>().add(AddFoodToWishlistWishlistEvent(product));
+      context
+          .read<WishlistBloc>()
+          .add(AddFoodToWishlistWishlistEvent(widget.product));
     } else {
       context
           .read<WishlistBloc>()
-          .add(RemoveFoodFromWishlistWishlistEvent(product));
+          .add(RemoveFoodFromWishlistWishlistEvent(widget.product));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
+      controller: _scrollController,
       slivers: [
         SliverAppBar(
           pinned: true,
+          titleSpacing: 0,
           // floating: true,
           expandedHeight: 260.h,
+          title: AnimatedOpacity(
+            opacity: _visible ? 1 : 0,
+            duration: const Duration(milliseconds: 200),
+            child: ProductTile(
+              product: widget.product,
+            ),
+          ),
           actions: [
             BlocConsumer<WishlistBloc, WishlistState>(
                 listener: (context, state) {
@@ -79,7 +130,7 @@ class _ProductDetailsPortrait extends StatelessWidget {
                 Navigator.pop(context);
                 if (state.status == RequestStatus.success) {
                   if (AppDummies.foodsWishlist
-                      .where((food) => food.id == product.id)
+                      .where((food) => food.id == widget.product.id)
                       .toList()
                       .isNotEmpty) {
                     AppMessages.showSuccessMessage(
@@ -99,7 +150,7 @@ class _ProductDetailsPortrait extends StatelessWidget {
               }
             }, builder: (context, state) {
               bool favorite = AppDummies.foodsWishlist
-                  .where((food) => food.id == product.id)
+                  .where((food) => food.id == widget.product.id)
                   .toList()
                   .isNotEmpty;
               return Padding(
@@ -125,13 +176,13 @@ class _ProductDetailsPortrait extends StatelessWidget {
           flexibleSpace: FlexibleSpaceBar(
             background: Hero(
               tag:
-                  '$tag${product.id}${product.categoryId}${product.restaurantId}${product.images.first}',
+                  '${widget.tag}${widget.product.id}${widget.product.images.first}',
               child: Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     fit: BoxFit.cover,
                     image: CachedNetworkImageProvider(
-                      product.images.first,
+                      widget.product.images.first,
                     ),
                   ),
                 ),
@@ -142,12 +193,12 @@ class _ProductDetailsPortrait extends StatelessWidget {
         SliverPadding(
           padding: const EdgeInsets.symmetric(vertical: 8.0).r,
           sliver: SliverList.list(children: [
+            RestaurantTile(restaurant: widget.product.restaurant),
             ListTile(
               title: Hero(
-                tag:
-                    '$tag${product.id}${product.categoryId}${product.restaurantId}${product.name}',
+                tag: '${widget.tag}${widget.product.id}}${widget.product.name}',
                 child: Text(
-                  product.name,
+                  widget.product.name,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
@@ -159,7 +210,7 @@ class _ProductDetailsPortrait extends StatelessWidget {
               ),
               trailing: Text.rich(
                 TextSpan(
-                  text: '${product.rate} ',
+                  text: '${widget.product.rate} ',
                   children: const [
                     WidgetSpan(
                       alignment: PlaceholderAlignment.middle,
@@ -180,7 +231,7 @@ class _ProductDetailsPortrait extends StatelessWidget {
             const Divider(),
             ListTile(
               title: Text(
-                '${(product.price - (product.price * product.sale)).toStringAsFixed(1)} EGP',
+                '${(widget.product.price - (widget.product.price * widget.product.sale)).toStringAsFixed(1)} EGP',
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: AppColors.primary.withOpacity(0.8),
@@ -188,9 +239,9 @@ class _ProductDetailsPortrait extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              subtitle: product.sale > 0
+              subtitle: widget.product.sale > 0
                   ? Text(
-                      '${product.price} EGP',
+                      '${widget.product.price} EGP',
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: context.theme.iconTheme.color?.withOpacity(0.5),
@@ -202,10 +253,10 @@ class _ProductDetailsPortrait extends StatelessWidget {
                       ),
                     )
                   : null,
-              trailing: product.sale > 0
+              trailing: widget.product.sale > 0
                   ? Text.rich(
                       TextSpan(
-                        text: '${(product.sale * 100).toInt()}% ',
+                        text: '${(widget.product.sale * 100).toInt()}% ',
                         children: [
                           TextSpan(
                             text: 'Sale',
@@ -227,10 +278,9 @@ class _ProductDetailsPortrait extends StatelessWidget {
             ListTile(
               isThreeLine: true,
               subtitle: Hero(
-                tag:
-                    '${product.id}${product.categoryId}${product.restaurantId}${product.description}',
+                tag: '${widget.product.id}${widget.product.description}',
                 child: Text(
-                  product.description,
+                  widget.product.description,
                   maxLines: null,
                   style: TextStyle(
                     color: context.theme.iconTheme.color?.withOpacity(0.8),
@@ -248,12 +298,13 @@ class _ProductDetailsPortrait extends StatelessWidget {
 }
 
 class _ProductDetailsLandscape extends StatelessWidget {
-  final Product product;
-  final String tag;
   const _ProductDetailsLandscape({
     required this.product,
     required this.tag,
   });
+
+  final Product product;
+  final String tag;
 
   @override
   Widget build(BuildContext context) {

@@ -1,17 +1,21 @@
 import 'package:equatable/equatable.dart';
+import 'package:your_chef/features/home/data/models/category_model.dart';
+import 'package:your_chef/features/home/data/models/restaurant_model.dart';
 import 'package:your_chef/features/home/domain/entities/product.dart';
 
 class ProductModel extends Equatable {
-  final int id, categoryId, restaurantId;
+  final int id;
   final String name, description;
+  final CategoryModel category;
+  final RestaurantModel restaurant;
   final List<String> images;
   final num price, rate, sale;
   final bool trending;
 
   const ProductModel({
     required this.id,
-    required this.categoryId,
-    required this.restaurantId,
+    required this.category,
+    required this.restaurant,
     required this.name,
     required this.description,
     required this.images,
@@ -24,8 +28,8 @@ class ProductModel extends Equatable {
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
       id: json['id'],
-      categoryId: json['category_id'],
-      restaurantId: json['restaurant_id'],
+      category: CategoryModel.fromJson(json['category']),
+      restaurant: RestaurantModel.fromJson(json['restaurant']),
       name: json['name'],
       description: json['description'],
       images: List<String>.from(json['images']),
@@ -38,8 +42,8 @@ class ProductModel extends Equatable {
 
   Map<String, dynamic> toJson() => {
         'id': id,
-        'category_id': categoryId,
-        'restaurant_id': restaurantId,
+        'category': category.toJson(),
+        'restaurant': restaurant.toJson(),
         'name': name,
         'description': description,
         'images': images,
@@ -51,8 +55,8 @@ class ProductModel extends Equatable {
 
   factory ProductModel.fromEntity(Product product) => ProductModel(
         id: product.id,
-        categoryId: product.categoryId,
-        restaurantId: product.restaurantId,
+        category: CategoryModel.fromEntity(product.category),
+        restaurant: RestaurantModel.fromEntity(product.restaurant),
         name: product.name,
         description: product.description,
         images: product.images,
@@ -64,8 +68,8 @@ class ProductModel extends Equatable {
 
   Product toEntity() => Product(
         id: id,
-        categoryId: categoryId,
-        restaurantId: restaurantId,
+        category: category.toEntity(),
+        restaurant: restaurant.toEntity(),
         name: name,
         description: description,
         images: images,
@@ -78,8 +82,8 @@ class ProductModel extends Equatable {
   @override
   List<Object?> get props => [
         id,
-        categoryId,
-        restaurantId,
+        category,
+        restaurant,
         name,
         description,
         images,

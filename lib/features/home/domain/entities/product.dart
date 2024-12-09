@@ -1,7 +1,11 @@
 import 'package:equatable/equatable.dart';
+import 'package:your_chef/features/home/domain/entities/category.dart';
+import 'package:your_chef/features/home/domain/entities/restaurant.dart';
 
 class Product extends Equatable {
-  final int id, categoryId, restaurantId;
+  final int id;
+  final Category category;
+  final Restaurant restaurant;
   final String name, description;
   final List<String> images;
   final num price, rate, sale;
@@ -9,8 +13,8 @@ class Product extends Equatable {
 
   const Product({
     required this.id,
-    required this.categoryId,
-    required this.restaurantId,
+    required this.category,
+    required this.restaurant,
     required this.name,
     required this.description,
     required this.images,
@@ -23,8 +27,8 @@ class Product extends Equatable {
   @override
   List<Object?> get props => [
         id,
-        categoryId,
-        restaurantId,
+        category,
+        restaurant,
         name,
         description,
         images,

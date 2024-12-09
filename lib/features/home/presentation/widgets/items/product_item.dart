@@ -47,8 +47,7 @@ class ProductItem extends StatelessWidget {
     return Stack(
       children: [
         Hero(
-          tag:
-              '$_tag${food.id}${food.categoryId}${food.restaurantId}${food.images.first}',
+          tag: '$_tag${food.id}${food.images.first}',
           child: Container(
             decoration: BoxDecoration(
               color: context.theme.iconTheme.color?.withOpacity(0.1),
@@ -82,8 +81,7 @@ class ProductItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Hero(
-                tag:
-                    '$_tag${food.id}${food.categoryId}${food.restaurantId}${food.name}',
+                tag: '$_tag${food.id}${food.name}',
                 child: Text(
                   food.name,
                   maxLines: 1,
@@ -97,8 +95,7 @@ class ProductItem extends StatelessWidget {
                 ),
               ),
               Hero(
-                tag:
-                    '$_tag${food.id}${food.categoryId}${food.restaurantId}${food.description}',
+                tag: '$_tag${food.id}${food.description}',
                 child: Text(
                   food.description,
                   maxLines: 2,

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:your_chef/core/constants/colors.dart';
+import 'package:your_chef/core/dummy/dummy_data.dart';
 import 'package:your_chef/core/errors/error_types.dart';
 import 'package:your_chef/core/extensions/media_query_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
@@ -15,7 +16,6 @@ import 'package:your_chef/core/widgets/errors/custom_error_widget.dart';
 import 'package:your_chef/core/widgets/loading/skeleton_loading_widget.dart';
 import 'package:your_chef/features/home/domain/entities/category.dart';
 import 'package:your_chef/features/home/domain/entities/offer.dart';
-import 'package:your_chef/features/home/domain/entities/product.dart';
 import 'package:your_chef/features/home/domain/entities/restaurant.dart';
 import 'package:your_chef/features/home/presentation/bloc/home_bloc.dart';
 import 'package:your_chef/features/home/presentation/widgets/sections/categories_section.dart';
@@ -188,18 +188,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           foods: state.status == RequestStatus.loading
                               ? List.generate(
                                   5,
-                                  (_) => const Product(
-                                    id: 0,
-                                    categoryId: 0,
-                                    restaurantId: 0,
-                                    name: '',
-                                    description: '',
-                                    price: 0,
-                                    rate: 0,
-                                    sale: 0,
-                                    trending: false,
-                                    images: [],
-                                  ),
+                                  (_) => AppDummies.foods.first.toEntity(),
                                 )
                               : state.popularProducts,
                         ),
@@ -215,20 +204,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         FoodsSection(
                           foods: state.status == RequestStatus.loading
                               ? List.generate(
-                                  5,
-                                  (_) => const Product(
-                                    id: 0,
-                                    categoryId: 0,
-                                    restaurantId: 0,
-                                    name: '',
-                                    description: '',
-                                    price: 0,
-                                    rate: 0,
-                                    sale: 0,
-                                    trending: false,
-                                    images: [],
-                                  ),
-                                )
+                                  5, (_) => AppDummies.foods.first.toEntity())
                               : state.onSaleProducts,
                         ),
                       ],
