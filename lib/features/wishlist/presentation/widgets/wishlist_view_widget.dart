@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/errors/error_types.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/widgets/errors/custom_error_widget.dart';
@@ -28,6 +29,7 @@ class WishlistViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator.adaptive(
+      color: AppColors.primary,
       onRefresh: () async => onRefresh?.call(),
       child: ListView.separated(
         controller: controller,

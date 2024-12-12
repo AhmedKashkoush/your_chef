@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:your_chef/core/extensions/media_query_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/widgets/buttons/primary_button.dart';
 import 'package:your_chef/core/widgets/buttons/secondary_button.dart';
 import 'package:your_chef/features/home/domain/entities/product.dart';
 
 class AddToCartSection extends StatefulWidget {
-  final bool inCart;
-  final int count;
-  final Product product;
   const AddToCartSection({
     super.key,
     required this.inCart,
@@ -17,12 +13,51 @@ class AddToCartSection extends StatefulWidget {
     required this.product,
   });
 
+  final int count;
+  final bool inCart;
+  final Product product;
+
   @override
   State<AddToCartSection> createState() => _AddToCartSectionState();
 }
 
 class _AddToCartSectionState extends State<AddToCartSection> {
-  late int _count = widget.count;
+  // late final int _count = widget.count;
+
+  // List<Widget> get _buildCounter {
+  //   return [
+  //     IconButton.filledTonal(
+  //       onPressed: _remove,
+  //       icon: const Icon(
+  //         HugeIcons.strokeRoundedMinusSign,
+  //       ),
+  //     ),
+  //     10.width,
+  //     Text('$_count'),
+  //     10.width,
+  //     IconButton.filledTonal(
+  //       onPressed: _add,
+  //       icon: const Icon(
+  //         HugeIcons.strokeRoundedPlusSign,
+  //       ),
+  //     ),
+  //   ];
+  // }
+
+  // void _add() {
+  //   if (_count == 100) return;
+  //   setState(() {
+  //     _count += 1;
+  //   });
+  // }
+
+  // void _remove() {
+  //   if (_count == 0) return;
+  //   setState(() {
+  //     _count -= 1;
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -31,64 +66,31 @@ class _AddToCartSectionState extends State<AddToCartSection> {
           ? Row(
               children: [
                 Expanded(
-                  // flex: 3,
                   child: SecondaryButton(
-                    text: context.isLandscape ? 'Remove' : '',
+                    text: 'Remove from cart',
                     icon: HugeIcons.strokeRoundedShoppingCartRemove01,
                     onPressed: () {},
                   ),
                 ),
                 10.width,
                 Expanded(
-                  // flex: 3,
                   child: PrimaryButton(
-                    text: context.isLandscape ? 'Add' : '',
-                    icon: HugeIcons.strokeRoundedShoppingCartAdd01,
-                    onPressed:
-                        _count > 0 && _count != widget.count ? () {} : null,
+                    text: 'View in cart',
+                    icon: HugeIcons.strokeRoundedShoppingCart01,
+                    backgroundColor: Colors.green,
+                    count: widget.count,
+                    onPressed: () {},
                   ),
                 ),
-                10.width,
-                // const Spacer(),
-                IconButton.filledTonal(
-                  onPressed: _remove,
-
-                  // color: AppColors.primary.withOpacity(0.5),
-                  icon: const Icon(
-                    HugeIcons.strokeRoundedMinusSign,
-                  ),
-                ),
-                10.width,
-                Text('$_count'),
-                10.width,
-                IconButton.filledTonal(
-                  onPressed: _add,
-                  // color: AppColors.primary.withOpacity(0.5),
-                  icon: const Icon(
-                    HugeIcons.strokeRoundedPlusSign,
-                  ),
-                ),
+                // 10.width,
+                // ..._buildCounter,
               ],
             )
           : PrimaryButton(
               text: 'Add to Cart',
-              icon: HugeIcons.strokeRoundedShoppingCart01,
+              icon: HugeIcons.strokeRoundedShoppingCartAdd01,
               onPressed: () {},
             ),
     );
-  }
-
-  void _add() {
-    if (_count == 100) return;
-    setState(() {
-      _count += 1;
-    });
-  }
-
-  void _remove() {
-    if (_count == 0) return;
-    setState(() {
-      _count -= 1;
-    });
   }
 }

@@ -47,7 +47,7 @@ class ProductItem extends StatelessWidget {
     return Stack(
       children: [
         Hero(
-          tag: '$_tag${food.id}${food.images.first}',
+          tag: 'food$_tag${food.id}${food.images.first}',
           child: Container(
             decoration: BoxDecoration(
               color: context.theme.iconTheme.color?.withOpacity(0.1),
@@ -81,21 +81,24 @@ class ProductItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Hero(
-                tag: '$_tag${food.id}${food.name}',
-                child: Text(
-                  food.name,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    height: 0.9,
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                tag: 'food$_tag${food.id}${food.name}',
+                child: Material(
+                  type: MaterialType.transparency,
+                  child: Text(
+                    food.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      height: 0.9,
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
               Hero(
-                tag: '$_tag${food.id}${food.description}',
+                tag: 'food$_tag${food.id}${food.description}',
                 child: Text(
                   food.description,
                   maxLines: 2,
@@ -110,25 +113,39 @@ class ProductItem extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      '${(food.price - (food.price * food.sale)).toStringAsFixed(1)} EGP',
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: AppColors.primary.withOpacity(0.8),
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                    Hero(
+                      tag:
+                          'food$_tag${food.id}${food.price - (food.price * food.sale)}',
+                      child: Material(
+                        type: MaterialType.transparency,
+                        child: Text(
+                          '${(food.price - (food.price * food.sale)).toStringAsFixed(1)} EGP',
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: AppColors.primary.withOpacity(0.8),
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ),
-                    Text(
-                      '${food.price} EGP',
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        height: 0.8,
-                        color: Colors.white.withOpacity(0.5),
-                        fontSize: 14,
-                        decoration: TextDecoration.lineThrough,
-                        decorationColor: Colors.white.withOpacity(0.5),
-                        fontWeight: FontWeight.bold,
+                    Hero(
+                      tag:
+                          '$_tag${food.id}${food.price - (food.price * food.sale)}',
+                      child: Material(
+                        type: MaterialType.transparency,
+                        child: Text(
+                          '${food.price} EGP',
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            height: 0.8,
+                            color: Colors.white.withOpacity(0.5),
+                            fontSize: 14,
+                            decoration: TextDecoration.lineThrough,
+                            decorationColor: Colors.white.withOpacity(0.5),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ),
                   ],

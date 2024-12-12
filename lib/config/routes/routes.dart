@@ -6,10 +6,11 @@ class AppRoutes {
   static const String otp = '/otp';
   static const String home = '/';
   static const String product = '/product';
+  static const String restaurant = '/restaurant';
   static const String themes = '/themes';
   static const String profile = '/profile';
   // static const String home = '/home';
-  // static const String favourites = '/favourites';
+  // static const String favorites = '/favorites';
   // static const String orders = '/orders';
   // static const String settings = '/settings';
 }

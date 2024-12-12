@@ -28,7 +28,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
   @override
   void initState() {
     _controller.addListener(_scrollListener);
-    _load();
+    // _load();
     super.initState();
   }
 
@@ -93,111 +93,123 @@ class _WishlistScreenState extends State<WishlistScreen> {
             appBar: CustomAppBar(
               profileTag: _tag,
             ),
-            body: BlocConsumer<WishlistBloc, WishlistState>(
-              listener: (context, state) {
-                if (!state.addOrRemove) {
-                  if (state.status == RequestStatus.success) {
-                    _page++;
-                  }
-                  return;
-                }
-                if (state.status == RequestStatus.loading) {
-                  AppMessages.showLoadingDialog(context,
-                      message: 'Just a moment...');
-                } else {
-                  Navigator.pop(context);
-                  if (state.status == RequestStatus.success) {
-                    AppMessages.showSuccessMessage(context, 'Item removed');
-                  } else {
-                    AppMessages.showErrorMessage(context, state.error);
-                  }
-                }
-              },
-              builder: (context, state) {
-                if (state.status == RequestStatus.initial) {
-                  return const SizedBox.shrink();
-                }
-                if (state.foods.isEmpty) {
-                  if (state.status == RequestStatus.loading &&
-                      !state.addOrRemove) {
-                    return SkeletonLoadingWidget(
-                      loading: true,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 10.w,
-                              vertical: 10.h,
-                            ),
-                            child: Text(
-                              '${state.foods.length} ${state.foods.length == 1 ? "Item" : "Items"}',
-                              style:
-                                  context.theme.textTheme.titleLarge!.copyWith(
-                                fontWeight: FontWeight.bold,
+            body: BlocProvider.value(
+              value: context.read<WishlistBloc>()
+                ..add(
+                  GetFoodsWishlistEvent(
+                    PaginationOptions(
+                      page: _page,
+                    ),
+                  ),
+                ),
+              child: Builder(builder: (context) {
+                return BlocConsumer<WishlistBloc, WishlistState>(
+                  listener: (context, state) {
+                    if (!state.addOrRemove) {
+                      if (state.status == RequestStatus.success) {
+                        _page++;
+                      }
+                      return;
+                    }
+                    if (state.status == RequestStatus.loading) {
+                      AppMessages.showLoadingDialog(context,
+                          message: 'Just a moment...');
+                    } else {
+                      Navigator.pop(context);
+                      if (state.status == RequestStatus.success) {
+                        AppMessages.showSuccessMessage(context, 'Item removed');
+                      } else {
+                        AppMessages.showErrorMessage(context, state.error);
+                      }
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state.status == RequestStatus.initial) {
+                      return const SizedBox.shrink();
+                    }
+                    if (state.foods.isEmpty) {
+                      if (state.status == RequestStatus.loading &&
+                          !state.addOrRemove) {
+                        return SkeletonLoadingWidget(
+                          loading: true,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 10.w,
+                                  vertical: 10.h,
+                                ),
+                                child: Text(
+                                  '${state.foods.length} ${state.foods.length == 1 ? "Item" : "Items"}',
+                                  style: context.theme.textTheme.titleLarge!
+                                      .copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
+                              const Expanded(
+                                child: WishlistViewWidget(
+                                  foods: [],
+                                  loading: true,
+                                  // error: state.status != RequestStatus.failure
+                                  //     ? ''
+                                  //     : state.error,
+                                  // errorType: state.errorType,
+                                  // loading: state.status == RequestStatus.loading,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+
+                      if (state.status == RequestStatus.failure &&
+                          !state.addOrRemove) {
+                        return CustomErrorWidget(
+                          error: state.error,
+                          type: state.errorType,
+                          onRetry: () => _load(),
+                        );
+                      }
+                      return const EmptyWishlistWidget();
+                    }
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10.w,
+                            vertical: 10.h,
+                          ),
+                          child: Text(
+                            '${state.foods.length} ${state.foods.length == 1 ? "Item" : "Items"}',
+                            style: context.theme.textTheme.titleLarge!.copyWith(
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                          const Expanded(
-                            child: WishlistViewWidget(
-                              foods: [],
-                              loading: true,
-                              // error: state.status != RequestStatus.failure
-                              //     ? ''
-                              //     : state.error,
-                              // errorType: state.errorType,
-                              // loading: state.status == RequestStatus.loading,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }
-
-                  if (state.status == RequestStatus.failure &&
-                      !state.addOrRemove) {
-                    return CustomErrorWidget(
-                      error: state.error,
-                      type: state.errorType,
-                      onRetry: () => _load(),
-                    );
-                  }
-                  return const EmptyWishlistWidget();
-                }
-
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 10.w,
-                        vertical: 10.h,
-                      ),
-                      child: Text(
-                        '${state.foods.length} ${state.foods.length == 1 ? "Item" : "Items"}',
-                        style: context.theme.textTheme.titleLarge!.copyWith(
-                          fontWeight: FontWeight.bold,
                         ),
-                      ),
-                    ),
-                    Expanded(
-                      child: WishlistViewWidget(
-                        onRefresh: () => _refresh(context),
-                        onRetry: () => _load(),
-                        controller: _controller,
-                        foods: state.foods,
-                        error: state.status != RequestStatus.failure &&
-                                !state.addOrRemove
-                            ? ''
-                            : state.error,
-                        errorType: state.errorType,
-                        loading: state.status == RequestStatus.loading &&
-                            !state.addOrRemove,
-                      ),
-                    ),
-                  ],
+                        Expanded(
+                          child: WishlistViewWidget(
+                            onRefresh: () => _refresh(context),
+                            onRetry: () => _load(),
+                            controller: _controller,
+                            foods: state.foods,
+                            error: state.status != RequestStatus.failure &&
+                                    !state.addOrRemove
+                                ? ''
+                                : state.error,
+                            errorType: state.errorType,
+                            loading: state.status == RequestStatus.loading &&
+                                !state.addOrRemove,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                 );
-              },
+              }),
             ),
           ),
         ),

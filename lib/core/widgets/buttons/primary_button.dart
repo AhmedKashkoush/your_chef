@@ -4,25 +4,41 @@ import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 
 class PrimaryButton extends StatelessWidget {
-  final VoidCallback? onPressed;
-  final String text;
-  final bool loading;
-  final IconData? icon;
-
   const PrimaryButton({
     super.key,
     this.onPressed,
     required this.text,
     this.loading = false,
     this.icon,
+    this.backgroundColor,
+    this.textColor,
+    this.count = 0,
   });
+
+  final int count;
+  final IconData? icon;
+  final bool loading;
+  final VoidCallback? onPressed;
+  final String text;
+  final Color? backgroundColor, textColor;
+
+  Widget _buildText() {
+    return Text(
+      text,
+      overflow: TextOverflow.ellipsis,
+      style: TextStyle(
+        color: textColor ?? Colors.white,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.primary,
+        backgroundColor: backgroundColor ?? AppColors.primary,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(14).r,
         ),
@@ -58,20 +74,26 @@ class PrimaryButton extends StatelessWidget {
                     child: _buildText(),
                   )
                 else
-                  _buildText()
+                  _buildText(),
+                if (count > 0) ...[
+                  4.width,
+                  Container(
+                    padding: const EdgeInsets.all(6).r,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.black,
+                    ),
+                    child: Text(
+                      count.toString(),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+                ]
               ],
             ),
-    );
-  }
-
-  Text _buildText() {
-    return Text(
-      text,
-      overflow: TextOverflow.ellipsis,
-      style: const TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.bold,
-      ),
     );
   }
 }

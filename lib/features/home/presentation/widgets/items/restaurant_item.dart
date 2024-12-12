@@ -1,9 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:your_chef/config/routes/routes.dart';
 import 'package:your_chef/core/constants/colors.dart';
+import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
-import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/features/home/domain/entities/restaurant.dart';
 
 class RestaurantItem extends StatelessWidget {
@@ -15,78 +16,102 @@ class RestaurantItem extends StatelessWidget {
   final double size;
   final Restaurant restaurant;
 
+  final String _tag = 'product';
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: size,
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12.r),
-        color: context.theme.iconTheme.color?.withOpacity(0.1),
-        image: DecorationImage(
-          fit: BoxFit.cover,
-          image: CachedNetworkImageProvider(
-            restaurant.profileImage,
-          ),
-        ),
+    return GestureDetector(
+      onTap: () => context.pushNamed(
+        AppRoutes.restaurant,
+        arguments: {
+          'restaurant': restaurant,
+          'tag': _tag,
+        },
       ),
-      child: Stack(
-        children: [
-          Container(
-            width: double.infinity,
-            height: double.infinity,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.transparent,
-                  Colors.black,
-                ],
+      child: Container(
+        width: size,
+        height: size,
+        clipBehavior: Clip.antiAlias,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12.r),
+        ),
+        child: Stack(
+          children: [
+            Hero(
+              tag: "restaurant${restaurant.id}-${restaurant.profileImage}",
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: CachedNetworkImageProvider(
+                      restaurant.profileImage,
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  restaurant.name,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+            Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.transparent,
+                    Colors.black,
+                  ],
                 ),
-                Flexible(
-                  child: 6.height,
-                ),
-                Text.rich(
-                  TextSpan(
-                    text: '${restaurant.rate} ',
-                    children: const [
-                      WidgetSpan(
-                        alignment: PlaceholderAlignment.middle,
-                        child: Icon(
-                          Icons.star_rounded,
-                          color: AppColors.primary,
-                          size: 14,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Hero(
+                    tag: "restaurant${restaurant.id}-${restaurant.name}",
+                    child: Material(
+                      type: MaterialType.transparency,
+                      child: Text(
+                        restaurant.name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ],
+                    ),
                   ),
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.6),
+                  Flexible(
+                    child: 6.height,
                   ),
-                ),
-              ],
-            ),
-          )
-        ],
+                  Text.rich(
+                    TextSpan(
+                      text: '${restaurant.rate} ',
+                      children: const [
+                        WidgetSpan(
+                          alignment: PlaceholderAlignment.middle,
+                          child: Icon(
+                            Icons.star_rounded,
+                            color: AppColors.primary,
+                            size: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.6),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
