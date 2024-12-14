@@ -53,15 +53,16 @@ class RestaurantMenuListSection extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               if (saleFoods.isNotEmpty) ...[
-                ListTile(
-                  title: Text(
-                    'On a sale',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: context.theme.iconTheme.color?.withOpacity(0.5),
+                if (saleFoods.isNotEmpty && normalFoods.isNotEmpty)
+                  ListTile(
+                    title: Text(
+                      'On a sale',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: context.theme.iconTheme.color?.withOpacity(0.5),
+                      ),
                     ),
                   ),
-                ),
                 ListView.separated(
                   itemBuilder: (_, index) => RestaurantMenuItem(
                     food: saleFoods[index],
@@ -72,26 +73,29 @@ class RestaurantMenuListSection extends StatelessWidget {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                 ),
-                ListTile(
-                  title: Text(
-                    'Other',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: context.theme.iconTheme.color?.withOpacity(0.5),
+              ],
+              if (normalFoods.isNotEmpty) ...[
+                if (saleFoods.isNotEmpty && normalFoods.isNotEmpty)
+                  ListTile(
+                    title: Text(
+                      'Other',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: context.theme.iconTheme.color?.withOpacity(0.5),
+                      ),
                     ),
                   ),
+                ListView.separated(
+                  itemBuilder: (_, index) => RestaurantMenuItem(
+                    food: normalFoods[index],
+                    tag: tag,
+                  ),
+                  separatorBuilder: (_, index) => 8.height,
+                  itemCount: normalFoods.length,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
                 ),
-              ],
-              ListView.separated(
-                itemBuilder: (_, index) => RestaurantMenuItem(
-                  food: normalFoods[index],
-                  tag: tag,
-                ),
-                separatorBuilder: (_, index) => 8.height,
-                itemCount: normalFoods.length,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-              )
+              ]
             ],
           );
   }

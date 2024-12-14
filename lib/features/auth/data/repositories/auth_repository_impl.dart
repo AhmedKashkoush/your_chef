@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:your_chef/core/errors/exceptions.dart';
 
@@ -12,9 +14,27 @@ import '../models/user_model.dart';
 import '../sources/remote/auth_remote_data_source.dart';
 
 class AuthRepository implements IAuthRepository {
+  const AuthRepository(this.remoteDataSource);
+
   final IAuthRemoteDataSource remoteDataSource;
 
-  const AuthRepository(this.remoteDataSource);
+  @override
+  Future<Either<Failure, User>> googleSignIn() async {
+    try {
+      final UserModel user = await remoteDataSource.googleSignIn();
+      return Right(user.toEntity());
+    } on AuthException {
+      return const Left(AuthFailure('Invalid credentials'));
+    } on NetworkException {
+      return const Left(NetworkFailure('Check your internet connection'));
+    } on ServerException {
+      return const Left(ServerFailure('Something went wrong'));
+    } catch (e) {
+      log(e.toString());
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
   @override
   Future<Either<Failure, User>> login(LoginOptions options) async {
     try {
@@ -65,10 +85,11 @@ class AuthRepository implements IAuthRepository {
   }
 
   @override
-  Future<Either<Failure, User>> googleSignIn() async {
+  Future<Either<Failure, Unit>> sendOtpCode(
+      ResetPasswordOptions options) async {
     try {
-      final UserModel user = await remoteDataSource.googleSignIn();
-      return Right(user.toEntity());
+      await remoteDataSource.sendOtpCode(options);
+      return const Right(unit);
     } on AuthException {
       return const Left(AuthFailure('Invalid credentials'));
     } on NetworkException {
@@ -85,23 +106,6 @@ class AuthRepository implements IAuthRepository {
       UploadProfileOptions options) async {
     try {
       await remoteDataSource.uploadProfilePhoto(options);
-      return const Right(unit);
-    } on AuthException {
-      return const Left(AuthFailure('Invalid credentials'));
-    } on NetworkException {
-      return const Left(NetworkFailure('Check your internet connection'));
-    } on ServerException {
-      return const Left(ServerFailure('Something went wrong'));
-    } catch (e) {
-      return const Left(ServerFailure('Something went wrong'));
-    }
-  }
-
-  @override
-  Future<Either<Failure, Unit>> sendOtpCode(
-      ResetPasswordOptions options) async {
-    try {
-      await remoteDataSource.sendOtpCode(options);
       return const Right(unit);
     } on AuthException {
       return const Left(AuthFailure('Invalid credentials'));

@@ -57,6 +57,9 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
 
     final UserModel signedUser = UserModel.fromJson(data);
     await UserHelper.signIn(signedUser);
+    await UserHelper.saveUser(
+      password: options.password,
+    );
 
     return signedUser;
   }
@@ -150,11 +153,20 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
           await client.from('users').select('*').eq('id', user.id).single();
       final UserModel signedUser = UserModel.fromJson(newData);
       await UserHelper.signIn(signedUser);
-
+      await UserHelper.saveUser(
+        accessToken: accessToken,
+        idToken: idToken,
+        provider: 'google',
+      );
       return signedUser;
     }
     final UserModel signedUser = UserModel.fromJson(data);
     await UserHelper.signIn(signedUser);
+    await UserHelper.saveUser(
+      accessToken: accessToken,
+      idToken: idToken,
+      provider: 'google',
+    );
 
     return signedUser;
   }

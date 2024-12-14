@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:app_settings/app_settings.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,6 +14,7 @@ import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/utils/messages.dart';
 import 'package:your_chef/core/utils/url_helper.dart';
+import 'package:your_chef/core/utils/user_helper.dart';
 import 'package:your_chef/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:your_chef/features/settings/presentation/widgets/action_tile.dart';
 import 'package:your_chef/features/settings/presentation/widgets/user_tile.dart';
@@ -72,7 +76,42 @@ class SettingsScreen extends StatelessWidget {
                     const Divider(),
                     16.height,
                     ActionTile(
-                      onTap: () {},
+                      onTap: () async {
+                        final List<SavedUser> users =
+                            await UserHelper.getSavedUsers();
+
+                        if (!context.mounted) return;
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          showDragHandle: true,
+                          builder: (context) => Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ListView.separated(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) => ListTile(
+                                  leading: CircleAvatar(
+                                    radius: 24.r,
+                                    backgroundImage: CachedNetworkImageProvider(
+                                        users[index].user.image),
+                                  ),
+                                  title: Text(users[index].user.name),
+                                  subtitle: Text(users[index].user.email),
+                                  onTap: () {
+                                    log(users[index].provider.toString());
+                                    log(users[index].password.toString());
+                                  },
+                                ),
+                                separatorBuilder: (context, index) =>
+                                    const Divider(),
+                                itemCount: users.length,
+                              )
+                            ],
+                          ),
+                        );
+                      },
                       title: 'Switch Accounts',
                       icon: HugeIcons.strokeRoundedUserSwitch,
                     ),
