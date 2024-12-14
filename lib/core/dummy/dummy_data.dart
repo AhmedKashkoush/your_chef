@@ -21,10 +21,10 @@ class AppDummies {
 
   static final List<ProductModel> foods = List.generate(
     20,
-    (_) {
+    (i) {
       final int index = Random().nextInt(_foods.length);
       return ProductModel(
-        id: DateTime.now().millisecondsSinceEpoch,
+        id: i,
         category: categories[Random().nextInt(categories.length)],
         restaurant: restaurants[max(Random().nextInt(restaurants.length),
             1)], // Random().nextInt(1000),
@@ -60,7 +60,7 @@ class AppDummies {
       .map(
         (offer) => OfferModel(
           id: _offers.indexOf(offer),
-          restaurantId: _offers.indexOf(offer),
+          restaurant: restaurants[Random().nextInt(restaurants.length)],
           image: offer,
         ),
       )
@@ -68,11 +68,13 @@ class AppDummies {
 
   static final List<RestaurantModel> restaurants = List.generate(
     20,
-    (_) {
+    (i) {
       final int index = Random().nextInt(_restaurants.length);
 
       return RestaurantModel(
-        id: DateTime.now().millisecondsSinceEpoch,
+        id: i,
+        latitude: 30.033333,
+        longitude: 31.233334,
         name: 'Name of restaurant ' * max(Random().nextInt(2), 1),
         phone: '+20${Random().nextInt(1000000000).toString().padLeft(10, '0')}',
         description: 'some long and meaningful description ' *

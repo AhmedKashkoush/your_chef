@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:dartz/dartz.dart';
@@ -168,7 +167,7 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
       }
     }, (_) {
       List<Product> oldFoods = state.foods;
-      log('after add: ${[...oldFoods, event.food]}');
+
       emit(
         state.copyWith(
           status: RequestStatus.success,
@@ -215,7 +214,7 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
     }, (_) {
       List<Product> newFoods = List.from(state.foods);
       newFoods.remove(event.food);
-      log('after remove: $newFoods');
+
       emit(
         state.copyWith(
           status: RequestStatus.success,

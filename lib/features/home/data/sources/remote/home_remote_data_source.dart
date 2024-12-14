@@ -37,7 +37,10 @@ class SupabaseHomeRemoteDataSource extends IHomeRemoteDataSource {
       throw ex.NetworkException('Check your internet connection');
     }
     await Future.delayed(const Duration(seconds: 4));
-    return AppDummies.foods.where((food) => food.trending).take(6).toList()
+    return AppDummies.foods
+        .where((food) => food.trending && food.sale == 0)
+        .take(6)
+        .toList()
       ..shuffle();
   }
 

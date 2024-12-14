@@ -2,9 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:your_chef/config/routes/routes.dart';
-import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
+import 'package:your_chef/core/widgets/rating/star_rating_widget.dart';
 import 'package:your_chef/features/home/domain/entities/restaurant.dart';
 
 class RestaurantItem extends StatelessWidget {
@@ -38,7 +38,7 @@ class RestaurantItem extends StatelessWidget {
         child: Stack(
           children: [
             Hero(
-              tag: "restaurant${restaurant.id}-${restaurant.profileImage}",
+              tag: "restaurant${restaurant.id}-image",
               child: Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
@@ -71,7 +71,7 @@ class RestaurantItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Hero(
-                    tag: "restaurant${restaurant.id}-${restaurant.name}",
+                    tag: "restaurant${restaurant.id}-name",
                     child: Material(
                       type: MaterialType.transparency,
                       child: Text(
@@ -91,20 +91,20 @@ class RestaurantItem extends StatelessWidget {
                   ),
                   Text.rich(
                     TextSpan(
-                      text: '${restaurant.rate} ',
-                      children: const [
+                      children: [
                         WidgetSpan(
-                          alignment: PlaceholderAlignment.middle,
-                          child: Icon(
-                            Icons.star_rounded,
-                            color: AppColors.primary,
-                            size: 14,
+                          child: StarRatingWidget(
+                            rate: restaurant.rate.toDouble(),
+                            size: 14.sp,
                           ),
                         ),
+                        TextSpan(
+                          text: ' (${restaurant.rate})',
+                        ),
                       ],
-                    ),
-                    style: TextStyle(
-                      color: Colors.white.withOpacity(0.6),
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.6),
+                      ),
                     ),
                   ),
                 ],

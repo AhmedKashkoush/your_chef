@@ -6,6 +6,7 @@ class RestaurantModel extends Equatable {
   final String name, phone, description, address, profileImage;
   final List<String> images;
   final num rate;
+  final double latitude, longitude;
 
   const RestaurantModel({
     required this.id,
@@ -16,6 +17,8 @@ class RestaurantModel extends Equatable {
     required this.profileImage,
     required this.images,
     required this.rate,
+    required this.latitude,
+    required this.longitude,
   });
 
   factory RestaurantModel.fromJson(Map<String, dynamic> json) {
@@ -28,6 +31,8 @@ class RestaurantModel extends Equatable {
       profileImage: json['profile_image'],
       images: List<String>.from(json['images']),
       rate: json['rate'],
+      latitude: json['latitude'],
+      longitude: json['longitude'],
     );
   }
 
@@ -40,6 +45,8 @@ class RestaurantModel extends Equatable {
         'profile_image': profileImage,
         'images': images,
         'rate': rate,
+        'latitude': latitude,
+        'longitude': longitude,
       };
 
   factory RestaurantModel.fromEntity(Restaurant entity) => RestaurantModel(
@@ -51,6 +58,8 @@ class RestaurantModel extends Equatable {
         profileImage: entity.profileImage,
         images: entity.images,
         rate: entity.rate,
+        latitude: entity.latitude,
+        longitude: entity.longitude,
       );
 
   Restaurant toEntity() => Restaurant(
@@ -62,6 +71,8 @@ class RestaurantModel extends Equatable {
         profileImage: profileImage,
         images: images,
         rate: rate,
+        latitude: latitude,
+        longitude: longitude,
       );
 
   @override
@@ -74,5 +85,7 @@ class RestaurantModel extends Equatable {
         profileImage,
         images,
         rate,
+        latitude,
+        longitude,
       ];
 }

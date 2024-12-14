@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dartz/dartz.dart';
 import 'package:your_chef/core/errors/exceptions.dart';
 
@@ -78,7 +76,6 @@ class AuthRepository implements IAuthRepository {
     } on ServerException {
       return const Left(ServerFailure('Something went wrong'));
     } catch (e) {
-      log(e.toString());
       return const Left(ServerFailure('Something went wrong'));
     }
   }
@@ -96,7 +93,6 @@ class AuthRepository implements IAuthRepository {
     } on ServerException {
       return const Left(ServerFailure('Something went wrong'));
     } catch (e) {
-      log(e.toString());
       return const Left(ServerFailure('Something went wrong'));
     }
   }
@@ -114,7 +110,6 @@ class AuthRepository implements IAuthRepository {
     } on ServerException {
       return const Left(ServerFailure('Something went wrong'));
     } catch (e) {
-      log(e.toString());
       return const Left(ServerFailure('Something went wrong'));
     }
   }
@@ -131,7 +126,6 @@ class AuthRepository implements IAuthRepository {
     } on ServerException {
       return const Left(ServerFailure('Something went wrong'));
     } catch (e) {
-      log(e.toString());
       return const Left(ServerFailure('Something went wrong'));
     }
   }

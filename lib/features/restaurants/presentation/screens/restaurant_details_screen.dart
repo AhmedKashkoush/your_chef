@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:your_chef/core/dummy/dummy_data.dart';
 import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
+import 'package:your_chef/core/options/options.dart';
+import 'package:your_chef/core/utils/messages.dart';
+import 'package:your_chef/core/utils/network_helper.dart';
 import 'package:your_chef/core/widgets/buttons/custom_icon_button.dart';
 import 'package:your_chef/core/widgets/separators/card_divider_widget.dart';
 import 'package:your_chef/features/home/domain/entities/restaurant.dart';
+import 'package:your_chef/features/restaurants/presentation/bloc/restaurant_bloc.dart';
 import 'package:your_chef/features/restaurants/presentation/widgets/sections/restaurant_images_list_section.dart';
 import 'package:your_chef/features/restaurants/presentation/widgets/sections/restaurant_info_section.dart';
 import 'package:your_chef/features/restaurants/presentation/widgets/sections/restaurant_menu_list_section.dart';
+import 'package:your_chef/features/restaurants/presentation/widgets/sections/restaurant_offers_section.dart';
 import 'package:your_chef/features/restaurants/presentation/widgets/tiles/restaurant_about_tile.dart';
 import 'package:your_chef/features/restaurants/presentation/widgets/tiles/restaurant_contact_tile.dart';
 import 'package:your_chef/features/restaurants/presentation/widgets/tiles/restaurant_header_tile.dart';
 import 'package:your_chef/features/restaurants/presentation/widgets/tiles/restaurant_location_tile.dart';
 import 'package:your_chef/features/restaurants/presentation/widgets/tiles/restaurant_map_tile.dart';
 import 'package:your_chef/features/restaurants/presentation/widgets/tiles/restaurant_menu_tile.dart';
+import 'package:your_chef/locator.dart';
 
 class RestaurantDetailsScreen extends StatefulWidget {
   const RestaurantDetailsScreen({
@@ -40,6 +47,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
   void dispose() {
     _scrollController.removeListener(_scrollListener);
     _scrollController.dispose();
+
     super.dispose();
   }
 
@@ -64,6 +72,10 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final offers = AppDummies.offers
+        .map((offer) => offer.toEntity())
+        .where((offer) => offer.restaurant.id == widget.restaurant.id)
+        .toList();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: context.theme.scaffoldBackgroundColor,
@@ -88,45 +100,79 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
               );
             }),
       ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 16).r,
-        controller: _scrollController,
-        children: [
-          RestaurantInfoSection(restaurant: widget.restaurant),
-          16.height,
-          const CardDividerWidget(),
-          16.height,
-          RestaurantLocationTile(
-            restaurant: widget.restaurant,
+      body: BlocProvider(
+        create: (context) => locator<RestaurantBloc>()
+          ..add(
+            GetDataEvent(
+              options: RestaurantOptions(
+                restaurant: widget.restaurant,
+              ),
+            ),
           ),
-          16.height,
-          RestaurantMapTile(
-            restaurant: widget.restaurant,
-          ),
-          16.height,
-          const CardDividerWidget(),
-          8.height,
-          RestaurantContactTile(restaurant: widget.restaurant),
-          8.height,
-          const CardDividerWidget(),
-          8.height,
-          RestaurantAboutTile(restaurant: widget.restaurant),
-          8.height,
-          RestaurantImagesListSection(restaurant: widget.restaurant),
-          16.height,
-          const CardDividerWidget(),
-          8.height,
-          //TODO: Add Offers Section
-          const RestaurantMenuTile(),
-          8.height,
-          RestaurantMenuListSection(
-            tag: widget.tag,
-            foods: AppDummies.foods
-                .where((food) => food.restaurant.id == widget.restaurant.id)
-                .map((food) => food.toEntity())
-                .toList(),
-          ),
-        ],
+        child: Builder(builder: (context) {
+          return BlocConsumer<RestaurantBloc, RestaurantState>(
+            listener: (context, state) {
+              if (state.status == RequestStatus.loading) {
+                AppMessages.showLoadingDialog(context,
+                    message: 'Just a moment...');
+              } else {
+                context.pop();
+                if (state.status == RequestStatus.failure) {
+                  AppMessages.showErrorMessage(
+                    context,
+                    state.error,
+                    state.errorType,
+                  );
+                }
+              }
+            },
+            builder: (context, state) => ListView(
+              cacheExtent: 3000,
+              padding: const EdgeInsets.symmetric(vertical: 16).r,
+              controller: _scrollController,
+              children: [
+                RestaurantInfoSection(restaurant: widget.restaurant),
+                16.height,
+                const CardDividerWidget(),
+                16.height,
+                RestaurantLocationTile(
+                  restaurant: widget.restaurant,
+                ),
+                16.height,
+                RestaurantMapTile(
+                  restaurant: widget.restaurant,
+                ),
+                16.height,
+                const CardDividerWidget(),
+                8.height,
+                RestaurantContactTile(restaurant: widget.restaurant),
+                8.height,
+                const CardDividerWidget(),
+                8.height,
+                RestaurantAboutTile(restaurant: widget.restaurant),
+                8.height,
+                RestaurantImagesListSection(restaurant: widget.restaurant),
+                if (state.offers.isNotEmpty) ...[
+                  16.height,
+                  const CardDividerWidget(),
+                  8.height,
+                  RestaurantOffersSection(
+                    offers: offers,
+                  ),
+                ],
+                16.height,
+                const CardDividerWidget(),
+                8.height,
+                const RestaurantMenuTile(),
+                8.height,
+                RestaurantMenuListSection(
+                  tag: widget.tag,
+                  foods: state.foods,
+                ),
+              ],
+            ),
+          );
+        }),
       ),
     );
   }

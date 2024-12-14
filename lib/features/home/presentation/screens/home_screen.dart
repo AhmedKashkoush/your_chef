@@ -14,9 +14,6 @@ import 'package:your_chef/core/utils/user_helper.dart';
 import 'package:your_chef/core/widgets/app_bars/custom_app_bar.dart';
 import 'package:your_chef/core/widgets/errors/custom_error_widget.dart';
 import 'package:your_chef/core/widgets/loading/skeleton_loading_widget.dart';
-import 'package:your_chef/features/home/domain/entities/category.dart';
-import 'package:your_chef/features/home/domain/entities/offer.dart';
-import 'package:your_chef/features/home/domain/entities/restaurant.dart';
 import 'package:your_chef/features/home/presentation/bloc/home_bloc.dart';
 import 'package:your_chef/features/home/presentation/widgets/sections/categories_section.dart';
 import 'package:your_chef/features/home/presentation/widgets/sections/foods_section.dart';
@@ -77,6 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                   child: ListView(
                     primary: false,
+                    cacheExtent: 3000,
                     padding: const EdgeInsets.only(
                       left: 16.0,
                       right: 16.0,
@@ -121,13 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         OffersSection(
                           loading: state.status == RequestStatus.loading,
                           offers: state.status == RequestStatus.loading
-                              ? [
-                                  const Offer(
-                                    id: 0,
-                                    restaurantId: 0,
-                                    image: '',
-                                  ),
-                                ]
+                              ? [AppDummies.offers.first.toEntity()]
                               : state.offers,
                         ),
                       ],
@@ -144,8 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           categories: state.status == RequestStatus.loading
                               ? List.generate(
                                   5,
-                                  (_) => const Category(
-                                      id: 0, name: '', image: ''),
+                                  (_) => AppDummies.categories.first.toEntity(),
                                 )
                               : state.categories,
                         ),
@@ -162,16 +153,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           restaurants: state.status == RequestStatus.loading
                               ? List.generate(
                                   5,
-                                  (_) => const Restaurant(
-                                    id: 0,
-                                    name: '',
-                                    address: '',
-                                    description: '',
-                                    images: [],
-                                    phone: '',
-                                    profileImage: '',
-                                    rate: 0,
-                                  ),
+                                  (_) =>
+                                      AppDummies.restaurants.first.toEntity(),
                                 )
                               : state.restaurants,
                         ),

@@ -13,6 +13,7 @@ import 'package:your_chef/core/utils/messages.dart';
 import 'package:your_chef/core/utils/network_helper.dart';
 import 'package:your_chef/core/widgets/buttons/custom_icon_button.dart';
 import 'package:your_chef/core/widgets/layout/orientation_widget.dart';
+import 'package:your_chef/core/widgets/rating/star_rating_widget.dart';
 import 'package:your_chef/features/home/domain/entities/product.dart';
 import 'package:your_chef/features/products/presentation/widgets/add_to_cart_section.dart';
 import 'package:your_chef/features/products/presentation/widgets/product_tile.dart';
@@ -197,8 +198,7 @@ class _ProductDetailsPortraitState extends State<_ProductDetailsPortrait> {
                     autoPlayInterval: const Duration(seconds: 3),
                   ),
                   itemBuilder: (_, index, __) => Hero(
-                    tag:
-                        'food${widget.tag}${widget.product.id}${widget.product.images[index]}',
+                    tag: 'food${widget.tag}${widget.product.id}image+$index',
                     child: Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
@@ -249,8 +249,7 @@ class _ProductDetailsPortraitState extends State<_ProductDetailsPortrait> {
               ),
               ListTile(
                 title: Hero(
-                  tag:
-                      'food${widget.tag}${widget.product.id}${widget.product.name}',
+                  tag: 'food${widget.tag}${widget.product.id}name',
                   child: Material(
                     type: MaterialType.transparency,
                     child: Text(
@@ -267,29 +266,28 @@ class _ProductDetailsPortraitState extends State<_ProductDetailsPortrait> {
                 ),
                 trailing: Text.rich(
                   TextSpan(
-                    text: '${widget.product.rate} ',
-                    children: const [
+                    children: [
+                      TextSpan(
+                        text: '${widget.product.rate} ',
+                      ),
                       WidgetSpan(
-                        alignment: PlaceholderAlignment.middle,
-                        child: Icon(
-                          Icons.star_rounded,
-                          color: AppColors.primary,
-                          // size: 14,
+                        child: StarRatingWidget(
+                          rate: widget.product.rate.toDouble(),
+                          size: 18.sp,
                         ),
                       ),
                     ],
-                  ),
-                  style: TextStyle(
-                    color: context.theme.iconTheme.color?.withOpacity(0.6),
-                    fontSize: 18,
+                    style: TextStyle(
+                      color: context.theme.iconTheme.color?.withOpacity(0.6),
+                      fontSize: 16.sp,
+                    ),
                   ),
                 ),
               ),
-              const Divider(),
+              // const Divider(),
               ListTile(
                 title: Hero(
-                  tag:
-                      'food${widget.tag}${widget.product.id}${widget.product.price - (widget.product.price * widget.product.sale)}',
+                  tag: 'food${widget.tag}${widget.product.id}price',
                   child: Material(
                     type: MaterialType.transparency,
                     child: Text(
@@ -319,27 +317,32 @@ class _ProductDetailsPortraitState extends State<_ProductDetailsPortrait> {
                       )
                     : null,
                 trailing: widget.product.sale > 0
-                    ? Text.rich(
-                        TextSpan(
-                          text: '${(widget.product.sale * 100).toInt()}% ',
-                          children: [
-                            TextSpan(
-                              text: 'Sale',
-                              style: TextStyle(
-                                color: context.theme.iconTheme.color
-                                    ?.withOpacity(0.6),
+                    ? Chip(
+                        padding: const EdgeInsets.all(4).r,
+                        backgroundColor: AppColors.primary,
+                        side: BorderSide.none,
+                        shape: const StadiumBorder(),
+                        label: Text.rich(
+                          TextSpan(
+                            text: '${(widget.product.sale * 100).toInt()}% ',
+                            children: const [
+                              TextSpan(
+                                text: 'Sale',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        style: const TextStyle(
-                          color: AppColors.primary,
-                          fontSize: 20,
+                            ],
+                          ),
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                          ),
                         ),
                       )
                     : null,
               ),
-              const Divider(),
+              // const Divider(),
               ExpansionTile(
                 maintainState: true,
                 initiallyExpanded: true,
@@ -357,7 +360,7 @@ class _ProductDetailsPortraitState extends State<_ProductDetailsPortrait> {
                 childrenPadding: EdgeInsets.symmetric(horizontal: 16.w),
                 children: [
                   Hero(
-                    tag: '${widget.product.id}${widget.product.description}',
+                    tag: '${widget.product.id}description',
                     child: Text(
                       widget.product.description,
                       maxLines: null,

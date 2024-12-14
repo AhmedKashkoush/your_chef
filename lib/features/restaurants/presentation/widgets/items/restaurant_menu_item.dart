@@ -20,6 +20,21 @@ class RestaurantMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (food.sale > 0) {
+      return ClipRRect(
+        clipBehavior: Clip.antiAlias,
+        child: Banner(
+          message: "${(food.sale * 100).toStringAsFixed(0)}% Sale",
+          location: BannerLocation.topStart,
+          child: _buildTile(context),
+        ),
+      );
+    } else {
+      return _buildTile(context);
+    }
+  }
+
+  ListTile _buildTile(BuildContext context) {
     return ListTile(
       onTap: () => context.pushNamed(
         AppRoutes.product,
@@ -31,7 +46,7 @@ class RestaurantMenuItem extends StatelessWidget {
       leading: ClipRRect(
         borderRadius: BorderRadius.circular(12).r,
         child: Hero(
-          tag: 'food$tag${food.id}${food.images.first}',
+          tag: 'food$tag${food.id}image+0',
           child: CachedNetworkImage(
             imageUrl: food.images.first,
             fit: BoxFit.cover,
@@ -41,7 +56,7 @@ class RestaurantMenuItem extends StatelessWidget {
         ),
       ),
       title: Hero(
-        tag: 'food$tag${food.id}${food.name}',
+        tag: 'food$tag${food.id}name',
         child: Material(
           type: MaterialType.transparency,
           child: Text(
@@ -71,19 +86,35 @@ class RestaurantMenuItem extends StatelessWidget {
           ),
         ),
       ),
-      trailing: Hero(
-        tag: 'food$tag${food.id}${food.price - (food.price * food.sale)}',
-        child: Material(
-          type: MaterialType.transparency,
-          child: Text(
-            '${(food.price - (food.price * food.sale)).toStringAsFixed(1)} EGP',
-            style: TextStyle(
-              fontSize: 16.sp,
-              color: AppColors.primary,
-              fontWeight: FontWeight.bold,
+      trailing: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Hero(
+            tag: 'food$tag${food.id}price',
+            child: Material(
+              type: MaterialType.transparency,
+              child: Text(
+                '${(food.price - (food.price * food.sale)).toStringAsFixed(1)} EGP',
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ),
-        ),
+          if (food.sale > 0)
+            Text(
+              '${food.price.toStringAsFixed(1)} EGP',
+              style: TextStyle(
+                fontSize: 12.sp,
+                height: 0.8.h,
+                color: context.theme.iconTheme.color?.withOpacity(0.6),
+                decoration: TextDecoration.lineThrough,
+              ),
+            ),
+        ],
       ),
     );
   }

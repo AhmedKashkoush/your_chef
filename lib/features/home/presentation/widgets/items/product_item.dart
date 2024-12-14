@@ -6,6 +6,7 @@ import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
+import 'package:your_chef/core/widgets/rating/star_rating_widget.dart';
 import 'package:your_chef/features/home/domain/entities/product.dart';
 
 class ProductItem extends StatelessWidget {
@@ -47,7 +48,7 @@ class ProductItem extends StatelessWidget {
     return Stack(
       children: [
         Hero(
-          tag: 'food$_tag${food.id}${food.images.first}',
+          tag: 'food$_tag${food.id}image+0',
           child: Container(
             decoration: BoxDecoration(
               color: context.theme.iconTheme.color?.withOpacity(0.1),
@@ -81,7 +82,7 @@ class ProductItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Hero(
-                tag: 'food$_tag${food.id}${food.name}',
+                tag: 'food$_tag${food.id}name',
                 child: Material(
                   type: MaterialType.transparency,
                   child: Text(
@@ -98,7 +99,7 @@ class ProductItem extends StatelessWidget {
                 ),
               ),
               Hero(
-                tag: 'food$_tag${food.id}${food.description}',
+                tag: 'food$_tag${food.id}description',
                 child: Text(
                   food.description,
                   maxLines: 2,
@@ -113,9 +114,23 @@ class ProductItem extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    Material(
+                      type: MaterialType.transparency,
+                      child: Text(
+                        '${food.price} EGP',
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          height: 0.8,
+                          color: Colors.white.withOpacity(0.5),
+                          fontSize: 14,
+                          decoration: TextDecoration.lineThrough,
+                          decorationColor: Colors.white.withOpacity(0.5),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                     Hero(
-                      tag:
-                          'food$_tag${food.id}${food.price - (food.price * food.sale)}',
+                      tag: 'food$_tag${food.id}price',
                       child: Material(
                         type: MaterialType.transparency,
                         child: Text(
@@ -129,36 +144,23 @@ class ProductItem extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Hero(
-                      tag:
-                          '$_tag${food.id}${food.price - (food.price * food.sale)}',
-                      child: Material(
-                        type: MaterialType.transparency,
-                        child: Text(
-                          '${food.price} EGP',
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            height: 0.8,
-                            color: Colors.white.withOpacity(0.5),
-                            fontSize: 14,
-                            decoration: TextDecoration.lineThrough,
-                            decorationColor: Colors.white.withOpacity(0.5),
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
                   ],
                 )
               else
-                Text(
-                  '${food.price} EGP',
-                  // maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: AppColors.primary.withOpacity(0.8),
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                Hero(
+                  tag: 'food$_tag${food.id}price',
+                  child: Material(
+                    type: MaterialType.transparency,
+                    child: Text(
+                      '${food.price} EGP',
+                      // maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: AppColors.primary.withOpacity(0.8),
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
               Flexible(
@@ -166,20 +168,20 @@ class ProductItem extends StatelessWidget {
               ),
               Text.rich(
                 TextSpan(
-                  text: '${food.rate} ',
-                  children: const [
+                  children: [
                     WidgetSpan(
-                      alignment: PlaceholderAlignment.middle,
-                      child: Icon(
-                        Icons.star_rounded,
-                        color: AppColors.primary,
-                        size: 14,
+                      child: StarRatingWidget(
+                        rate: food.rate.toDouble(),
+                        size: 14.sp,
                       ),
                     ),
+                    TextSpan(
+                      text: ' (${food.rate})',
+                    ),
                   ],
-                ),
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.6),
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.6),
+                  ),
                 ),
               ),
             ],

@@ -27,7 +27,7 @@ class RestaurantTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(12.r),
         ),
         leading: Hero(
-          tag: "restaurant${restaurant.id}-${restaurant.profileImage}",
+          tag: "restaurant${restaurant.id}-image",
           child: Container(
             width: 50.w,
             height: 50.h,
@@ -61,7 +61,7 @@ class RestaurantTile extends StatelessWidget {
           ),
         ),
         title: Hero(
-          tag: "restaurant${restaurant.id}-${restaurant.name}",
+          tag: "restaurant${restaurant.id}-name",
           child: Material(
             type: MaterialType.transparency,
             child: Text(

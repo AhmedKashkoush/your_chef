@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hugeicons/hugeicons.dart';
+import 'package:your_chef/core/widgets/loading/skeleton_loading_widget.dart';
+
 import 'package:your_chef/features/home/domain/entities/restaurant.dart';
 
-class RestaurantMapTile extends StatelessWidget {
+class RestaurantMapTile extends StatefulWidget {
   final Restaurant restaurant;
   const RestaurantMapTile({
     super.key,
@@ -11,14 +13,60 @@ class RestaurantMapTile extends StatelessWidget {
   });
 
   @override
+  State<RestaurantMapTile> createState() => _RestaurantMapTileState();
+}
+
+class _RestaurantMapTileState extends State<RestaurantMapTile> {
+  late final MapController _mapController;
+
+  @override
+  void initState() {
+    _mapController = MapController(
+      initPosition: GeoPoint(
+        latitude: widget.restaurant.latitude,
+        longitude: widget.restaurant.longitude,
+      ),
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _mapController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 160.h,
-      color: Colors.white,
-      child: const Icon(
-        HugeIcons.strokeRoundedLocation01,
-        color: Colors.red,
+    return IgnorePointer(
+      child: SizedBox(
+        width: double.infinity,
+        height: 200.h,
+        child: OSMFlutter(
+          mapIsLoading: SkeletonLoadingWidget(
+            loading: true,
+            child: Container(
+              color: Colors.red,
+            ),
+          ),
+          onMapIsReady: (ready) {
+            _mapController.addMarker(
+              GeoPoint(
+                latitude: widget.restaurant.latitude,
+                longitude: widget.restaurant.longitude,
+              ),
+            );
+          },
+          osmOption: const OSMOption(
+            zoomOption: ZoomOption(
+              initZoom: 8,
+              minZoomLevel: 3,
+              maxZoomLevel: 19,
+              stepZoom: 1.0,
+            ),
+          ),
+          controller: _mapController,
+        ),
       ),
     );
   }

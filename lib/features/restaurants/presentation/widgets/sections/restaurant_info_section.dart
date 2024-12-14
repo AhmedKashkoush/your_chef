@@ -21,7 +21,7 @@ class RestaurantInfoSection extends StatelessWidget {
       child: Row(
         children: [
           Hero(
-            tag: "restaurant${restaurant.id}-${restaurant.profileImage}",
+            tag: "restaurant${restaurant.id}-image",
             child: Container(
               width: 100.w,
               height: 100.h,
@@ -43,7 +43,7 @@ class RestaurantInfoSection extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Hero(
-                  tag: "restaurant${restaurant.id}-${restaurant.name}",
+                  tag: "restaurant${restaurant.id}-name",
                   child: Material(
                     type: MaterialType.transparency,
                     child: Text(

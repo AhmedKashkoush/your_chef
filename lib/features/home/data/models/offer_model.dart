@@ -1,19 +1,21 @@
 import 'package:equatable/equatable.dart';
+import 'package:your_chef/features/home/data/models/restaurant_model.dart';
 import 'package:your_chef/features/home/domain/entities/offer.dart';
 
 class OfferModel extends Equatable {
-  final int id, restaurantId;
+  final int id;
   final String image;
+  final RestaurantModel restaurant;
 
   const OfferModel({
     required this.id,
-    required this.restaurantId,
+    required this.restaurant,
     required this.image,
   });
 
   factory OfferModel.fromJson(Map<String, dynamic> json) => OfferModel(
         id: json['id'],
-        restaurantId: json['restaurant_id'],
+        restaurant: RestaurantModel.fromJson(json['restaurant']),
         image: json['image'],
       );
 
@@ -24,20 +26,20 @@ class OfferModel extends Equatable {
 
   factory OfferModel.fromEntity(Offer entity) => OfferModel(
         id: entity.id,
-        restaurantId: entity.restaurantId,
+        restaurant: RestaurantModel.fromEntity(entity.restaurant),
         image: entity.image,
       );
 
   Offer toEntity() => Offer(
         id: id,
-        restaurantId: restaurantId,
+        restaurant: restaurant.toEntity(),
         image: image,
       );
 
   @override
   List<Object?> get props => [
         id,
-        restaurantId,
+        restaurant,
         image,
       ];
 }

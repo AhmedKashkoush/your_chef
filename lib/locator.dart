@@ -21,6 +21,12 @@ import 'package:your_chef/features/home/domain/usecases/get_categories_usecase.d
 import 'package:your_chef/features/home/domain/usecases/get_offers_usecase.dart';
 import 'package:your_chef/features/home/domain/usecases/get_popular_products_usecase.dart';
 import 'package:your_chef/features/home/domain/usecases/get_restaurants_usecase.dart';
+import 'package:your_chef/features/restaurants/data/repositories/restaurant_repository_impl.dart';
+import 'package:your_chef/features/restaurants/data/sources/remote/restaurant_remote_data_source.dart';
+import 'package:your_chef/features/restaurants/domain/repositories/restaurant_repository.dart';
+import 'package:your_chef/features/restaurants/domain/usecases/get_restaurant_menu_usecase.dart';
+import 'package:your_chef/features/restaurants/domain/usecases/get_restaurant_offers_usecase.dart';
+import 'package:your_chef/features/restaurants/presentation/bloc/restaurant_bloc.dart';
 import 'package:your_chef/features/settings/data/repositories/settings_repository_impl.dart';
 import 'package:your_chef/features/settings/data/sources/remote/settings_remote_data_source.dart';
 import 'package:your_chef/features/settings/domain/repositories/settings_repository.dart';
@@ -77,6 +83,12 @@ void _initRemoteSources() {
       locator<SupabaseClient>(),
     ),
   );
+  //*Restaurant
+  locator.registerLazySingleton<IRestaurantRemoteDataSource>(
+    () => SupabaseRestaurantRemoteDataSource(
+      locator<SupabaseClient>(),
+    ),
+  );
 
   //*Wishlist
   locator.registerLazySingleton<IWishlistRemoteDataSource>(
@@ -102,6 +114,10 @@ void _initRepositories() {
   //*Home
   locator.registerLazySingleton<IHomeRepository>(
     () => HomeRepository(locator<IHomeRemoteDataSource>()),
+  );
+  //*Restaurant
+  locator.registerLazySingleton<IRestaurantRepository>(
+    () => RestaurantRepository(locator<IRestaurantRemoteDataSource>()),
   );
   //*Wishlist
   locator.registerLazySingleton<IWishlistRepository>(
@@ -154,6 +170,14 @@ void _initUseCases() {
   locator.registerLazySingleton<GetOnSaleProductsUseCase>(
     () => GetOnSaleProductsUseCase(locator<IHomeRepository>()),
   );
+
+  //*Restaurant
+  locator.registerLazySingleton<GetRestaurantMenuUseCase>(
+    () => GetRestaurantMenuUseCase(locator<IRestaurantRepository>()),
+  );
+  locator.registerLazySingleton<GetRestaurantOffersUseCase>(
+    () => GetRestaurantOffersUseCase(locator<IRestaurantRepository>()),
+  );
   //*Wishlist
   locator.registerLazySingleton<GetFoodsWishlistUseCase>(
     () => GetFoodsWishlistUseCase(locator<IWishlistRepository>()),
@@ -196,6 +220,13 @@ void _initBlocs() {
       locator<GetRestaurantsUseCase>(),
       locator<GetPopularProductsUseCase>(),
       locator<GetOnSaleProductsUseCase>(),
+    ),
+  );
+  //*Restaurant
+  locator.registerFactory<RestaurantBloc>(
+    () => RestaurantBloc(
+      locator<GetRestaurantOffersUseCase>(),
+      locator<GetRestaurantMenuUseCase>(),
     ),
   );
   //*Wishlist

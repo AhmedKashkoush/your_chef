@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:your_chef/features/home/domain/entities/restaurant.dart';
+
 abstract class AppOptions {
   const AppOptions();
 }
@@ -70,5 +72,12 @@ class PaginationOptions extends AppOptions {
   const PaginationOptions({
     this.page = 1,
     this.limit = 10,
+  });
+}
+
+class RestaurantOptions extends AppOptions {
+  final Restaurant restaurant;
+  const RestaurantOptions({
+    required this.restaurant,
   });
 }
