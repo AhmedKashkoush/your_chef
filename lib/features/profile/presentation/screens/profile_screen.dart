@@ -26,6 +26,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  bool _canEdit = false;
   late final TextEditingController _nameController,
       _emailController,
       _phoneController,
@@ -120,7 +121,47 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         centerTitle: true,
-        title: const Text('Profile'),
+        title: const Text(AppStrings.profile),
+        actions: [
+          if (_canEdit)
+            IconButton(
+              onPressed: () async {
+                bool showConfirmationMessage = _image != null ||
+                    _nameController.text != UserHelper.user!.name ||
+                    _emailController.text != UserHelper.user!.email ||
+                    _phoneController.text != UserHelper.user!.phone ||
+                    _addressController.text != UserHelper.user!.address;
+                if (showConfirmationMessage) {
+                  final bool? confirmed = await AppMessages.showConfirmDialog(
+                    context,
+                    message: AppStrings.dismissChanges,
+                  );
+                  if (confirmed == null || !confirmed) return;
+                }
+                setState(() {
+                  _canEdit = false;
+                  _nameController.text = UserHelper.user!.name;
+                  _emailController.text = UserHelper.user!.email;
+                  _phoneController.text = UserHelper.user!.phone;
+                  _addressController.text = UserHelper.user!.address;
+                  _image = null;
+                });
+                if (!context.mounted) return;
+                FocusScope.of(context).unfocus();
+              },
+              icon: const Icon(Icons.close),
+            ),
+          IconButton(
+            onPressed: () {
+              setState(() {
+                _canEdit = !_canEdit;
+              });
+              if (!context.mounted) return;
+              FocusScope.of(context).unfocus();
+            },
+            icon: Icon(!_canEdit ? HugeIcons.strokeRoundedEdit02 : Icons.check),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(12).r,
@@ -141,10 +182,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   PositionedDirectional(
                     end: 0,
                     bottom: 0,
-                    child: IconButton.filled(
-                      onPressed: () => _showPhotoSourceSheet(context),
-                      icon: const Icon(
-                        HugeIcons.strokeRoundedEdit02,
+                    child: AnimatedScale(
+                      scale: !_canEdit ? 0 : 1,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                      child: IconButton.filled(
+                        onPressed: () => _showPhotoSourceSheet(context),
+                        icon: const Icon(
+                          HugeIcons.strokeRoundedEdit02,
+                        ),
                       ),
                     ),
                   )
@@ -160,11 +206,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             8.height,
             CustomTextField(
-              readOnly: true,
+              readOnly: !_canEdit,
               hintText: AppStrings.enterYourName,
               prefixIcon: const Icon(HugeIcons.strokeRoundedUser),
               controller: _nameController,
-              enableInteractiveSelection: false,
+              enableInteractiveSelection: _canEdit,
             ),
             16.height,
             const Text(
@@ -175,11 +221,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             8.height,
             CustomTextField(
-              readOnly: true,
+              readOnly: !_canEdit,
               hintText: AppStrings.enterYourEmail,
               prefixIcon: const Icon(HugeIcons.strokeRoundedMail01),
               controller: _emailController,
-              enableInteractiveSelection: false,
+              enableInteractiveSelection: _canEdit,
             ),
             16.height,
             const Text(
@@ -190,11 +236,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             8.height,
             CustomTextField(
-              readOnly: true,
+              readOnly: !_canEdit,
               hintText: AppStrings.enterYourPhone,
               prefixIcon: const Icon(HugeIcons.strokeRoundedCall),
               controller: _phoneController,
-              enableInteractiveSelection: false,
+              enableInteractiveSelection: _canEdit,
             ),
             16.height,
             const Text(
@@ -205,12 +251,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             8.height,
             CustomTextField(
-              readOnly: true,
+              readOnly: !_canEdit,
               hintText: AppStrings.enterYourAddress,
               prefixIcon: const Icon(HugeIcons.strokeRoundedLocation01),
               controller: _addressController,
               maxLines: 3,
-              enableInteractiveSelection: false,
+              enableInteractiveSelection: _canEdit,
             ),
           ],
         ),

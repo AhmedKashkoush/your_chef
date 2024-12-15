@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:your_chef/config/routes/routes.dart';
 import 'package:your_chef/core/constants/colors.dart';
+import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/widgets/rating/star_rating_widget.dart';
@@ -24,7 +25,8 @@ class RestaurantMenuItem extends StatelessWidget {
       return ClipRRect(
         clipBehavior: Clip.antiAlias,
         child: Banner(
-          message: "${(food.sale * 100).toStringAsFixed(0)}% Sale",
+          message:
+              "${(food.sale * 100).toStringAsFixed(0)}% ${AppStrings.sale}",
           location: BannerLocation.topStart,
           child: _buildTile(context),
         ),
@@ -95,7 +97,7 @@ class RestaurantMenuItem extends StatelessWidget {
             child: Material(
               type: MaterialType.transparency,
               child: Text(
-                '${(food.price - (food.price * food.sale)).toStringAsFixed(1)} EGP',
+                '${(food.price - (food.price * food.sale)).toStringAsFixed(1)} ${AppStrings.egp}',
                 style: TextStyle(
                   fontSize: 16.sp,
                   color: AppColors.primary,
@@ -106,7 +108,7 @@ class RestaurantMenuItem extends StatelessWidget {
           ),
           if (food.sale > 0)
             Text(
-              '${food.price.toStringAsFixed(1)} EGP',
+              '${food.price.toStringAsFixed(1)} ${AppStrings.egp}',
               style: TextStyle(
                 fontSize: 12.sp,
                 height: 0.8.h,

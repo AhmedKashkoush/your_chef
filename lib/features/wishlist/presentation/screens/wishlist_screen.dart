@@ -120,7 +120,8 @@ class _WishlistScreenState extends State<WishlistScreen> {
                     } else {
                       Navigator.pop(context);
                       if (state.status == RequestStatus.success) {
-                        AppMessages.showSuccessMessage(context, 'Item removed');
+                        AppMessages.showSuccessMessage(
+                            context, AppStrings.itemRemoved);
                       } else {
                         AppMessages.showErrorMessage(context, state.error);
                       }

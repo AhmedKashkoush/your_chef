@@ -42,7 +42,7 @@ class SettingsScreen extends StatelessWidget {
   void _signOut(BuildContext context) async {
     final bool? confirm = await AppMessages.showConfirmDialog(
       context,
-      message: 'Are you sure you want to sign out?',
+      message: AppStrings.signOutConfirmation,
       confirmIsDanger: true,
     );
 

@@ -143,10 +143,10 @@ class _ProductDetailsPortraitState extends State<_ProductDetailsPortrait> {
                       .toList()
                       .isNotEmpty) {
                     AppMessages.showSuccessMessage(
-                        context, 'Food added to your wishlist');
+                        context, AppStrings.foodAddedToYourWishlist);
                   } else {
                     AppMessages.showSuccessMessage(
-                        context, 'Food removed from your wishlist');
+                        context, AppStrings.foodRemovedFromYourWishlist);
                   }
                 }
                 if (state.status == RequestStatus.failure) {
@@ -294,7 +294,7 @@ class _ProductDetailsPortraitState extends State<_ProductDetailsPortrait> {
                   child: Material(
                     type: MaterialType.transparency,
                     child: Text(
-                      '${(widget.product.price - (widget.product.price * widget.product.sale)).toStringAsFixed(1)} EGP',
+                      '${(widget.product.price - (widget.product.price * widget.product.sale)).toStringAsFixed(1)} ${AppStrings.egp}',
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         color: AppColors.primary,
@@ -306,7 +306,7 @@ class _ProductDetailsPortraitState extends State<_ProductDetailsPortrait> {
                 ),
                 subtitle: widget.product.sale > 0
                     ? Text(
-                        '${widget.product.price} EGP',
+                        '${widget.product.price} ${AppStrings.egp}',
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           color:
@@ -330,7 +330,7 @@ class _ProductDetailsPortraitState extends State<_ProductDetailsPortrait> {
                             text: '${(widget.product.sale * 100).toInt()}% ',
                             children: const [
                               TextSpan(
-                                text: 'Sale',
+                                text: AppStrings.viewAll,
                                 style: TextStyle(
                                   color: Colors.black,
                                 ),
@@ -353,7 +353,7 @@ class _ProductDetailsPortraitState extends State<_ProductDetailsPortrait> {
                   side: BorderSide.none,
                 ),
                 title: const Text(
-                  'About meal',
+                  AppStrings.aboutMeal,
                   style: TextStyle(
                     height: 0.9,
                     fontSize: 20,

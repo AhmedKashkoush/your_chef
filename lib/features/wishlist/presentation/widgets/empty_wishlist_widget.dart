@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/widgets/buttons/primary_button.dart';
@@ -25,7 +26,7 @@ class EmptyWishlistWidget extends StatelessWidget {
               color: context.theme.iconTheme.color?.withOpacity(0.3),
             ),
             Text(
-              'Currently there are no Items in your list',
+              AppStrings.wishlistEmptyMessage,
               textAlign: TextAlign.center,
               style: context.theme.textTheme.titleLarge?.copyWith(
                 color: context.theme.iconTheme.color?.withOpacity(0.3),
@@ -33,7 +34,7 @@ class EmptyWishlistWidget extends StatelessWidget {
             ),
             30.height,
             PrimaryButton(
-              text: 'Explore foods',
+              text: AppStrings.exploreFoods,
               icon: Icons.explore_outlined,
               onPressed: () {},
             ),

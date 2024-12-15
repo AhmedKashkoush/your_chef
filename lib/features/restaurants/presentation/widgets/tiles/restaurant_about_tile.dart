@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/features/home/domain/entities/restaurant.dart';
 
 class RestaurantAboutTile extends StatelessWidget {
@@ -13,7 +14,7 @@ class RestaurantAboutTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: const Text(
-        'About us',
+        AppStrings.aboutUs,
         style: TextStyle(
           fontWeight: FontWeight.bold,
         ),

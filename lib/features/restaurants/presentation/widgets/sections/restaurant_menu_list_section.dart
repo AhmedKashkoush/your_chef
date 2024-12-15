@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:your_chef/core/constants/colors.dart';
+import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/features/home/domain/entities/product.dart';
@@ -56,7 +57,7 @@ class RestaurantMenuListSection extends StatelessWidget {
                 if (saleFoods.isNotEmpty && normalFoods.isNotEmpty)
                   ListTile(
                     title: Text(
-                      'On a sale',
+                      AppStrings.onASale,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: context.theme.iconTheme.color?.withOpacity(0.5),
@@ -78,7 +79,7 @@ class RestaurantMenuListSection extends StatelessWidget {
                 if (saleFoods.isNotEmpty && normalFoods.isNotEmpty)
                   ListTile(
                     title: Text(
-                      'Other',
+                      AppStrings.other,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: context.theme.iconTheme.color?.withOpacity(0.5),

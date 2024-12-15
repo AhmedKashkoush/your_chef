@@ -10,6 +10,7 @@ class AppMessages {
   static Future<bool?> showConfirmDialog(
     BuildContext context, {
     required String message,
+    Widget? content,
     bool confirmIsDanger = false,
     bool cancelIsDanger = false,
   }) {
@@ -40,11 +41,17 @@ class AppMessages {
             ),
           ),
         ],
-        content: Text(
-          message,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              message,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            if (content != null) ...[10.height, content],
+          ],
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/errors/error_types.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
@@ -78,7 +79,7 @@ class _CustomErrorWidgetPortrait extends StatelessWidget {
         20.height,
         OutlinedButton.icon(
           onPressed: onRetry,
-          label: const Text('Retry'),
+          label: const Text(AppStrings.retry),
           icon: const Icon(
             HugeIcons.strokeRoundedRefresh,
           ),
@@ -124,7 +125,7 @@ class _CustomErrorWidgetLandscape extends StatelessWidget {
             20.height,
             OutlinedButton.icon(
               onPressed: onRetry,
-              label: const Text('Retry'),
+              label: const Text(AppStrings.retry),
               icon: const Icon(
                 HugeIcons.strokeRoundedRefresh,
               ),

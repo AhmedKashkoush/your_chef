@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:your_chef/core/constants/colors.dart';
+import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 
 class SectionHeader extends StatelessWidget {
@@ -31,7 +32,7 @@ class SectionHeader extends StatelessWidget {
             TextButton(
               onPressed: () {},
               child: const Text(
-                'View All',
+                AppStrings.viewAll,
                 style: TextStyle(color: AppColors.secondary),
               ),
             ),

@@ -61,16 +61,18 @@ class _AuthScreenState extends State<AuthScreen>
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         centerTitle: true,
-        title: const Text.rich(
-          TextSpan(text: 'Free ', children: [
-            TextSpan(
-              text: 'Palestine',
-              style: TextStyle(
-                color: Colors.green,
-              ),
-            ),
-          ]),
-          style: TextStyle(
+        title: Text.rich(
+          TextSpan(
+              text: '${AppStrings.freePalestine.split(' ').first} ',
+              children: [
+                TextSpan(
+                  text: AppStrings.freePalestine.split(' ')[1],
+                  style: const TextStyle(
+                    color: Colors.green,
+                  ),
+                ),
+              ]),
+          style: const TextStyle(
             color: Colors.red,
             fontStyle: FontStyle.italic,
           ),

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:your_chef/core/constants/colors.dart';
+import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/dummy/dummy_data.dart';
 import 'package:your_chef/core/errors/error_types.dart';
 import 'package:your_chef/core/extensions/media_query_extension.dart';
@@ -83,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ).r,
                     children: [
                       Text(
-                        'Welcome ${UserHelper.user?.name.split(' ').first}! 👋',
+                        '${AppStrings.welcomeUser} ${UserHelper.user?.name.split(' ').first}! 👋',
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -91,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       Text.rich(
                         const TextSpan(
-                          text: "Don't forget to pray for ",
+                          text: "${AppStrings.homeDisclaimer} ",
                           children: [
                             TextSpan(
                               text: 'Palestine 🇵🇸',
@@ -112,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       if (state.offers.isNotEmpty ||
                           state.status == RequestStatus.loading) ...[
                         const SectionHeader(
-                          title: "Today's Offers",
+                          title: AppStrings.todaysOffers,
                           // onPressed: () {},
                         ),
                         10.height,
@@ -128,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           state.status == RequestStatus.loading) ...[
                         const Divider(),
                         SectionHeader(
-                          title: "Available Categories",
+                          title: AppStrings.availableCategories,
                           onPressed: () {},
                         ),
                         10.height,
@@ -146,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           state.status == RequestStatus.loading) ...[
                         const Divider(),
                         SectionHeader(
-                          title: "Restaurants",
+                          title: AppStrings.restaurants,
                           onPressed: () {},
                         ),
                         RestaurantsSection(
@@ -164,7 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           state.status == RequestStatus.loading) ...[
                         const Divider(),
                         SectionHeader(
-                          title: "Popular Foods",
+                          title: AppStrings.popularFoods,
                           onPressed: () {},
                         ),
                         FoodsSection(
@@ -181,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           state.status == RequestStatus.loading) ...[
                         const Divider(),
                         SectionHeader(
-                          title: "On A Sale",
+                          title: AppStrings.onASale,
                           onPressed: () {},
                         ),
                         FoodsSection(

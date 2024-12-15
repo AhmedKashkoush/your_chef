@@ -67,6 +67,17 @@ class UserHelper {
         SharedPrefsKeys.savedUsers, jsonEncode(savedUsers));
     _savedUsers = await _getSavedUsers();
   }
+
+  static Future<void> deleteSavedAccount(SavedUser deletedUser) async {
+    final String? data =
+        await SecureStorageHelper.read(SharedPrefsKeys.savedUsers);
+    final List savedUsers = data == null ? [] : jsonDecode(data);
+    savedUsers.removeWhere((user) => user['user']['id'] == deletedUser.user.id);
+
+    await SecureStorageHelper.write(
+        SharedPrefsKeys.savedUsers, jsonEncode(savedUsers));
+    _savedUsers = await _getSavedUsers();
+  }
 }
 
 class SavedUser {

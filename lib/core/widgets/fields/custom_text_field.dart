@@ -61,6 +61,7 @@ class CustomTextField extends StatelessWidget {
       enableInteractiveSelection: enableInteractiveSelection,
       minLines: minLines,
       maxLines: maxLines,
+      textAlignVertical: TextAlignVertical.center,
       decoration: InputDecoration(
         isDense: true,
         prefixIcon: prefixIcon,

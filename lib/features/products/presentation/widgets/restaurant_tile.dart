@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:your_chef/config/routes/routes.dart';
 import 'package:your_chef/core/constants/colors.dart';
+import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/widgets/rating/star_rating_widget.dart';
 import 'package:your_chef/features/home/domain/entities/restaurant.dart';
@@ -54,7 +55,7 @@ class RestaurantTile extends StatelessWidget {
             backgroundColor: Colors.white,
           ),
           child: const Text(
-            'Visit',
+            AppStrings.visit,
             style: TextStyle(
               color: AppColors.primary,
             ),

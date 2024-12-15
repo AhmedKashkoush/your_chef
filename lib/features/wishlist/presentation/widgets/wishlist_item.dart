@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:your_chef/config/routes/routes.dart';
 import 'package:your_chef/core/constants/colors.dart';
+import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/extensions/media_query_extension.dart';
 import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
@@ -43,7 +44,8 @@ class WishlistItem extends StatelessWidget {
         ),
         child: food.sale > 0
             ? Banner(
-                message: "${(food.sale * 100).toStringAsFixed(0)}% Sale",
+                message:
+                    "${(food.sale * 100).toStringAsFixed(0)}% ${AppStrings.sale}",
                 location: BannerLocation.topEnd,
                 child: _buildItem(context),
               )
@@ -129,7 +131,7 @@ class WishlistItem extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '${(food.price - (food.price * food.sale)).toStringAsFixed(1)} EGP',
+                          '${(food.price - (food.price * food.sale)).toStringAsFixed(1)} ${AppStrings.egp}',
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: AppColors.primary.withOpacity(0.8),
@@ -138,7 +140,7 @@ class WishlistItem extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '${food.price} EGP',
+                          '${food.price} ${AppStrings.egp}',
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             height: 0.8,
@@ -155,7 +157,7 @@ class WishlistItem extends StatelessWidget {
                     )
                   else
                     Text(
-                      '${food.price} EGP',
+                      '${food.price} ${AppStrings.egp}',
                       // maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(

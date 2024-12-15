@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:your_chef/config/routes/routes.dart';
 import 'package:your_chef/core/constants/colors.dart';
+import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
@@ -35,7 +36,8 @@ class ProductItem extends StatelessWidget {
         clipBehavior: Clip.antiAlias,
         child: food.sale > 0
             ? Banner(
-                message: "${(food.sale * 100).toStringAsFixed(0)}% Sale",
+                message:
+                    "${(food.sale * 100).toStringAsFixed(0)}% ${AppStrings.sale}",
                 location: BannerLocation.topEnd,
                 child: _buildItem(context),
               )
@@ -117,7 +119,7 @@ class ProductItem extends StatelessWidget {
                     Material(
                       type: MaterialType.transparency,
                       child: Text(
-                        '${food.price} EGP',
+                        '${food.price} ${AppStrings.egp}',
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           height: 0.8,
@@ -134,7 +136,7 @@ class ProductItem extends StatelessWidget {
                       child: Material(
                         type: MaterialType.transparency,
                         child: Text(
-                          '${(food.price - (food.price * food.sale)).toStringAsFixed(1)} EGP',
+                          '${(food.price - (food.price * food.sale)).toStringAsFixed(1)} ${AppStrings.egp}',
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: AppColors.primary.withOpacity(0.8),
@@ -152,7 +154,7 @@ class ProductItem extends StatelessWidget {
                   child: Material(
                     type: MaterialType.transparency,
                     child: Text(
-                      '${food.price} EGP',
+                      '${food.price} ${AppStrings.egp}',
                       // maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(

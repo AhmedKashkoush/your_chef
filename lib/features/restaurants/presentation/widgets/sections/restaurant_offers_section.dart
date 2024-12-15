@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:your_chef/core/constants/colors.dart';
+import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/features/home/domain/entities/offer.dart';
 import 'package:your_chef/features/restaurants/presentation/widgets/items/restaurant_offer_item.dart';
 
@@ -42,7 +43,7 @@ class RestaurantOffersSection extends StatelessWidget {
             backgroundColor: AppColors.primary,
             shape: const StadiumBorder(),
             label: Text(
-              'Special offers',
+              AppStrings.specialOffers,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.black,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/features/home/domain/entities/restaurant.dart';
 
 class RestaurantContactTile extends StatelessWidget {
@@ -14,7 +15,7 @@ class RestaurantContactTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: const Text(
-        'Contact us',
+        AppStrings.contactUs,
         style: TextStyle(
           fontWeight: FontWeight.bold,
         ),
