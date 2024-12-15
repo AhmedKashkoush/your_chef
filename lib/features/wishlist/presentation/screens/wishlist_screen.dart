@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/extensions/media_query_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/options/options.dart';
@@ -112,8 +113,10 @@ class _WishlistScreenState extends State<WishlistScreen> {
                       return;
                     }
                     if (state.status == RequestStatus.loading) {
-                      AppMessages.showLoadingDialog(context,
-                          message: 'Just a moment...');
+                      AppMessages.showLoadingDialog(
+                        context,
+                        message: AppStrings.justAMoment,
+                      );
                     } else {
                       Navigator.pop(context);
                       if (state.status == RequestStatus.success) {

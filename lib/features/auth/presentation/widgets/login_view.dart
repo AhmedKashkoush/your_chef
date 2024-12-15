@@ -33,7 +33,7 @@ class LoginView extends StatelessWidget {
         if (state is GoogleLoginLoadingState) {
           AppMessages.showLoadingDialog(
             context,
-            message: 'Just a moment...',
+            message: AppStrings.justAMoment,
           );
         } else {
           if (context.canPop()) {

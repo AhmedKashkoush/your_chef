@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/dummy/dummy_data.dart';
 import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
@@ -113,8 +114,10 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
           return BlocConsumer<RestaurantBloc, RestaurantState>(
             listener: (context, state) {
               if (state.status == RequestStatus.loading) {
-                AppMessages.showLoadingDialog(context,
-                    message: 'Just a moment...');
+                AppMessages.showLoadingDialog(
+                  context,
+                  message: AppStrings.justAMoment,
+                );
               } else {
                 context.pop();
                 if (state.status == RequestStatus.failure) {

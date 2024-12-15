@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:your_chef/core/constants/colors.dart';
+import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/dummy/dummy_data.dart';
 import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
@@ -130,8 +131,10 @@ class _ProductDetailsPortraitState extends State<_ProductDetailsPortrait> {
             BlocConsumer<WishlistBloc, WishlistState>(
                 listener: (context, state) {
               if (state.status == RequestStatus.loading) {
-                AppMessages.showLoadingDialog(context,
-                    message: 'Just a moment...');
+                AppMessages.showLoadingDialog(
+                  context,
+                  message: AppStrings.justAMoment,
+                );
               } else {
                 Navigator.pop(context);
                 if (state.status == RequestStatus.success) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/errors/error_types.dart';
 import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
@@ -60,7 +61,9 @@ class AppMessages {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const CircularProgressIndicator.adaptive(),
+              const CircularProgressIndicator(
+                color: AppColors.primary,
+              ),
               10.height,
               Text(
                 message,

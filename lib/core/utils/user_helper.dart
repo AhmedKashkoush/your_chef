@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 import 'package:your_chef/core/constants/keys.dart';
@@ -13,7 +12,10 @@ class UserHelper {
   static User? _user;
   const UserHelper._();
   static User? get user => _user;
+  static List<SavedUser> get savedUsers => _savedUsers;
+  static List<SavedUser> _savedUsers = [];
   static Future<void> checkUser() async {
+    _savedUsers = await _getSavedUsers();
     if (_user != null) return;
     final supabase.User? currentUser =
         locator<supabase.SupabaseClient>().auth.currentUser;
@@ -35,12 +37,13 @@ class UserHelper {
     _user = null;
   }
 
-  static Future<List<SavedUser>> getSavedUsers() async {
+  static Future<List<SavedUser>> _getSavedUsers() async {
     final String? data =
         await SecureStorageHelper.read(SharedPrefsKeys.savedUsers);
     final List savedUsers = data == null ? [] : jsonDecode(data);
-    log(savedUsers.toString());
-    return savedUsers.map((user) => SavedUser.fromJson(user)).toList();
+    final List<SavedUser> users =
+        savedUsers.map((user) => SavedUser.fromJson(user)).toList();
+    return users;
   }
 
   static Future<void> saveUser(
@@ -52,7 +55,7 @@ class UserHelper {
     final String? data =
         await SecureStorageHelper.read(SharedPrefsKeys.savedUsers);
     final List savedUsers = data == null ? [] : jsonDecode(data);
-    if (savedUsers.any((user) => user['user']['id'] == _user!.id)) return;
+    savedUsers.removeWhere((user) => user['user']['id'] == _user!.id);
     savedUsers.add({
       'user': UserModel.fromEntity(_user!).toJson(),
       'provider': provider,
@@ -62,6 +65,7 @@ class UserHelper {
     });
     await SecureStorageHelper.write(
         SharedPrefsKeys.savedUsers, jsonEncode(savedUsers));
+    _savedUsers = await _getSavedUsers();
   }
 }
 

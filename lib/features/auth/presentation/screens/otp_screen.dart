@@ -83,7 +83,7 @@ class _OtpScreenState extends State<OtpScreen> {
               if (state is VerifyLoadingState) {
                 AppMessages.showLoadingDialog(
                   context,
-                  message: 'Just a moment...',
+                  message: AppStrings.justAMoment,
                 );
               } else {
                 if (context.canPop()) {

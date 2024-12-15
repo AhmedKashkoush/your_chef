@@ -31,6 +31,7 @@ import 'package:your_chef/features/settings/data/repositories/settings_repositor
 import 'package:your_chef/features/settings/data/sources/remote/settings_remote_data_source.dart';
 import 'package:your_chef/features/settings/domain/repositories/settings_repository.dart';
 import 'package:your_chef/features/settings/domain/usecases/sign_out_usecase.dart';
+import 'package:your_chef/features/settings/domain/usecases/switch_account_usecase.dart';
 import 'package:your_chef/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:your_chef/features/wishlist/data/repositories/wishlist_repository_impl.dart';
 import 'package:your_chef/features/wishlist/data/sources/remote/wishlist_remote_data_source.dart';
@@ -192,6 +193,9 @@ void _initUseCases() {
   locator.registerLazySingleton<SignOutUseCase>(
     () => SignOutUseCase(locator<ISettingsRepository>()),
   );
+  locator.registerLazySingleton<SwitchAccountUseCase>(
+    () => SwitchAccountUseCase(locator<ISettingsRepository>()),
+  );
 }
 
 //?Blocs
@@ -241,6 +245,7 @@ void _initBlocs() {
   locator.registerFactory<SettingsBloc>(
     () => SettingsBloc(
       locator<SignOutUseCase>(),
+      locator<SwitchAccountUseCase>(),
     ),
   );
 }

@@ -10,3 +10,11 @@ class SignOutEvent extends SettingsEvent {
   @override
   List<Object?> get props => [];
 }
+
+class SwitchAccountEvent extends SettingsEvent {
+  final SavedUser savedUser;
+  const SwitchAccountEvent(this.savedUser);
+
+  @override
+  List<Object?> get props => [savedUser];
+}

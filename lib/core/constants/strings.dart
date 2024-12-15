@@ -51,4 +51,20 @@ class AppStrings {
   static const String camera = "Camera";
   static const String gallery = "Gallery";
   static const String upload = "Upload";
+
+  static const String switchAccounts = "Switch Accounts";
+  static const String privacyAndSecurity = "Privacy & Security";
+  static const String notifications = "Notifications";
+  static const String languages = "Languages";
+  static const String themes = "Themes";
+  static const String privacyPolicy = "Privacy policy";
+  static const String reportAnIssue = "Report An Issue";
+  static const String aboutTheApp = "About The App";
+
+  static const String justAMoment = "Just a moment...";
+  static const String signingOut = "Signing out...";
+  static const String signedOutSuccessfully = "Signed out successfully";
+  static const String switchingAccount = "Switching account...";
+  static const String switchedAccountSuccessfully =
+      "Switched account successfully";
 }
