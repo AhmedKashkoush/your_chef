@@ -6,6 +6,7 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:your_chef/config/routes/routes.dart';
 import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/constants/urls.dart';
+import 'package:your_chef/core/errors/error_types.dart';
 import 'package:your_chef/core/extensions/media_query_extension.dart';
 import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
@@ -134,47 +135,51 @@ class SettingsScreen extends StatelessWidget {
                     16.height,
                     const Divider(),
                     16.height,
-                    if (UserHelper.savedUsers.length > 1) ...[
-                      BlocProvider(
-                        create: (context) => locator<SettingsBloc>(),
-                        child: Builder(builder: (context) {
-                          return BlocListener<SettingsBloc, SettingsState>(
-                            listener: (context, state) {
-                              if (state is SettingsLoadingState) {
-                                AppMessages.showLoadingDialog(
+                    BlocProvider(
+                      create: (context) => locator<SettingsBloc>(),
+                      child: Builder(builder: (context) {
+                        return BlocListener<SettingsBloc, SettingsState>(
+                          listener: (context, state) {
+                            if (state is SettingsLoadingState) {
+                              AppMessages.showLoadingDialog(
+                                context,
+                                message: AppStrings.switchingAccount,
+                              );
+                            } else {
+                              context.pop();
+                              if (state is SettingsErrorState) {
+                                AppMessages.showErrorMessage(
                                   context,
-                                  message: AppStrings.switchingAccount,
+                                  state.message,
+                                  state.type,
                                 );
-                              } else {
-                                context.pop();
-                                if (state is SettingsErrorState) {
-                                  AppMessages.showErrorMessage(
-                                    context,
-                                    state.message,
-                                    state.type,
-                                  );
-                                }
 
-                                if (state is SettingsSuccessState) {
-                                  if (!context.mounted) return;
-                                  AppMessages.showSuccessMessage(
-                                    context,
-                                    AppStrings.switchedAccountSuccessfully,
+                                if (state.type == ErrorType.auth) {
+                                  context.pushNamedAndRemoveUntil(
+                                    AppRoutes.auth,
                                   );
-                                  context.pushReplacementNamed(AppRoutes.home);
                                 }
                               }
-                            },
-                            child: ActionTile(
-                              onTap: () => _openAccountsSheet(context),
-                              title: AppStrings.switchAccounts,
-                              icon: HugeIcons.strokeRoundedUserSwitch,
-                            ),
-                          );
-                        }),
-                      ),
-                      8.height,
-                    ],
+
+                              if (state is SettingsSuccessState) {
+                                if (!context.mounted) return;
+                                AppMessages.showSuccessMessage(
+                                  context,
+                                  AppStrings.switchedAccountSuccessfully,
+                                );
+                                context.pushReplacementNamed(AppRoutes.home);
+                              }
+                            }
+                          },
+                          child: ActionTile(
+                            onTap: () => _openAccountsSheet(context),
+                            title: AppStrings.switchAccounts,
+                            icon: HugeIcons.strokeRoundedUserSwitch,
+                          ),
+                        );
+                      }),
+                    ),
+                    8.height,
                     ActionTile(
                       onTap: () => _goToPrivacyAndSecurity(context),
                       title: AppStrings.privacyAndSecurity,

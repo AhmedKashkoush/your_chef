@@ -60,11 +60,23 @@ class AppStrings {
   static const String privacyPolicy = "Privacy policy";
   static const String reportAnIssue = "Report An Issue";
   static const String aboutTheApp = "About The App";
+  static const String addAccount = "Add Account";
 
+  //? Loading messages
   static const String justAMoment = "Just a moment...";
   static const String signingOut = "Signing out...";
-  static const String signedOutSuccessfully = "Signed out successfully";
   static const String switchingAccount = "Switching account...";
+
+  //*Success messages
+  static const String loggedInSuccessfully = "Logged in successfully";
+  static const String signedOutSuccessfully = "Signed out successfully";
   static const String switchedAccountSuccessfully =
       "Switched account successfully";
+
+  //! Error messages
+  static const String checkYourInternetConnection =
+      "Check your internet connection";
+  static const String invalidCredentials = "Invalid credentials";
+  static const String sessionExpired = "Session expired";
+  static const String somethingWentWrong = "Something went wrong";
 }

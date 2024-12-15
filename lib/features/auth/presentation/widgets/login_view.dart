@@ -44,8 +44,9 @@ class LoginView extends StatelessWidget {
           }
 
           if (state is LoginSuccessState) {
-            AppMessages.showSuccessMessage(context, 'Login successful');
-            context.pushReplacementNamed(AppRoutes.home);
+            AppMessages.showSuccessMessage(
+                context, AppStrings.loggedInSuccessfully);
+            context.pushNamedAndRemoveUntil(AppRoutes.home);
           }
         }
       },

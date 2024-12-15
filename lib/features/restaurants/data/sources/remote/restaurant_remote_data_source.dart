@@ -1,4 +1,5 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/dummy/dummy_data.dart';
 import 'package:your_chef/core/errors/exceptions.dart' as ex;
 import 'package:your_chef/core/options/options.dart';
@@ -21,7 +22,7 @@ class SupabaseRestaurantRemoteDataSource extends IRestaurantRemoteDataSource {
   Future<List<ProductModel>> getMenu(RestaurantOptions options) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw ex.NetworkException('Check your internet connection');
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
     await Future.delayed(const Duration(seconds: 4));
     return AppDummies.foods
@@ -33,7 +34,7 @@ class SupabaseRestaurantRemoteDataSource extends IRestaurantRemoteDataSource {
   Future<List<OfferModel>> getOffers(RestaurantOptions options) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw ex.NetworkException('Check your internet connection');
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
     await Future.delayed(const Duration(seconds: 4));
     return AppDummies.offers

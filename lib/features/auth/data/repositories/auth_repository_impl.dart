@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
+import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/errors/exceptions.dart';
 
 import 'package:your_chef/core/errors/failures.dart';
@@ -23,12 +24,12 @@ class AuthRepository implements IAuthRepository {
     try {
       final UserModel user = await remoteDataSource.googleSignIn();
       return Right(user.toEntity());
-    } on AuthException {
-      return const Left(AuthFailure('Invalid credentials'));
-    } on NetworkException {
-      return const Left(NetworkFailure('Check your internet connection'));
-    } on ServerException {
-      return const Left(ServerFailure('Something went wrong'));
+    } on AuthException catch (e) {
+      return Left(AuthFailure(e.message));
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
     } catch (e) {
       log(e.toString());
       return Left(ServerFailure(e.toString()));
@@ -40,14 +41,14 @@ class AuthRepository implements IAuthRepository {
     try {
       final UserModel user = await remoteDataSource.login(options);
       return Right(user.toEntity());
-    } on AuthException {
-      return const Left(AuthFailure('Invalid credentials'));
-    } on NetworkException {
-      return const Left(NetworkFailure('Check your internet connection'));
-    } on ServerException {
-      return const Left(ServerFailure('Something went wrong'));
+    } on AuthException catch (e) {
+      return Left(AuthFailure(e.message));
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
     } catch (e) {
-      return const Left(ServerFailure('Something went wrong'));
+      return const Left(ServerFailure(AppStrings.somethingWentWrong));
     }
   }
 
@@ -56,14 +57,14 @@ class AuthRepository implements IAuthRepository {
     try {
       final String uid = await remoteDataSource.register(options);
       return Right(uid);
-    } on AuthException {
-      return const Left(AuthFailure('Invalid credentials'));
-    } on NetworkException {
-      return const Left(NetworkFailure('Check your internet connection'));
-    } on ServerException {
-      return const Left(ServerFailure('Something went wrong'));
+    } on AuthException catch (e) {
+      return Left(AuthFailure(e.message));
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
     } catch (e) {
-      return const Left(ServerFailure('Something went wrong'));
+      return const Left(ServerFailure(AppStrings.somethingWentWrong));
     }
   }
 
@@ -73,14 +74,14 @@ class AuthRepository implements IAuthRepository {
     try {
       await remoteDataSource.resetPassword(options);
       return const Right(unit);
-    } on AuthException {
-      return const Left(AuthFailure('Invalid credentials'));
-    } on NetworkException {
-      return const Left(NetworkFailure('Check your internet connection'));
-    } on ServerException {
-      return const Left(ServerFailure('Something went wrong'));
+    } on AuthException catch (e) {
+      return Left(AuthFailure(e.message));
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
     } catch (e) {
-      return const Left(ServerFailure('Something went wrong'));
+      return const Left(ServerFailure(AppStrings.somethingWentWrong));
     }
   }
 
@@ -90,14 +91,14 @@ class AuthRepository implements IAuthRepository {
     try {
       await remoteDataSource.sendOtpCode(options);
       return const Right(unit);
-    } on AuthException {
-      return const Left(AuthFailure('Invalid credentials'));
-    } on NetworkException {
-      return const Left(NetworkFailure('Check your internet connection'));
-    } on ServerException {
-      return const Left(ServerFailure('Something went wrong'));
+    } on AuthException catch (e) {
+      return Left(AuthFailure(e.message));
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
     } catch (e) {
-      return const Left(ServerFailure('Something went wrong'));
+      return const Left(ServerFailure(AppStrings.somethingWentWrong));
     }
   }
 
@@ -107,14 +108,14 @@ class AuthRepository implements IAuthRepository {
     try {
       await remoteDataSource.uploadProfilePhoto(options);
       return const Right(unit);
-    } on AuthException {
-      return const Left(AuthFailure('Invalid credentials'));
-    } on NetworkException {
-      return const Left(NetworkFailure('Check your internet connection'));
-    } on ServerException {
-      return const Left(ServerFailure('Something went wrong'));
+    } on AuthException catch (e) {
+      return Left(AuthFailure(e.message));
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
     } catch (e) {
-      return const Left(ServerFailure('Something went wrong'));
+      return const Left(ServerFailure(AppStrings.somethingWentWrong));
     }
   }
 
@@ -123,14 +124,14 @@ class AuthRepository implements IAuthRepository {
     try {
       await remoteDataSource.verify(options);
       return const Right(unit);
-    } on AuthException {
-      return const Left(AuthFailure('Invalid credentials'));
-    } on NetworkException {
-      return const Left(NetworkFailure('Check your internet connection'));
-    } on ServerException {
-      return const Left(ServerFailure('Something went wrong'));
+    } on AuthException catch (e) {
+      return Left(AuthFailure(e.message));
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
     } catch (e) {
-      return const Left(ServerFailure('Something went wrong'));
+      return const Left(ServerFailure(AppStrings.somethingWentWrong));
     }
   }
 }

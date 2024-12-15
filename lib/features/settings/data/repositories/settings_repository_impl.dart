@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/errors/exceptions.dart';
 import 'package:your_chef/core/errors/failures.dart';
 import 'package:your_chef/core/utils/user_helper.dart';
@@ -14,12 +15,14 @@ class SettingsRepository extends ISettingsRepository {
     try {
       await remoteDataSource.signOut();
       return const Right(unit);
-    } on NetworkException {
-      return const Left(NetworkFailure('Check your internet connection'));
-    } on ServerException {
-      return const Left(ServerFailure('Something went wrong'));
+    } on AuthException catch (e) {
+      return Left(AuthFailure(e.message));
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
     } catch (e) {
-      return const Left(ServerFailure('Something went wrong'));
+      return const Left(ServerFailure(AppStrings.somethingWentWrong));
     }
   }
 
@@ -28,12 +31,12 @@ class SettingsRepository extends ISettingsRepository {
     try {
       await remoteDataSource.switchAccount(savedUser);
       return const Right(unit);
-    } on NetworkException {
-      return const Left(NetworkFailure('Check your internet connection'));
-    } on AuthException {
-      return const Left(AuthFailure('Invalid credentials'));
-    } on ServerException {
-      return const Left(ServerFailure('Something went wrong'));
+    } on AuthException catch (e) {
+      return Left(AuthFailure(e.message));
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }

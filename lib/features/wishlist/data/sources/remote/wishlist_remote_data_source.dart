@@ -1,4 +1,5 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/dummy/dummy_data.dart';
 import 'package:your_chef/core/options/options.dart';
 import 'package:your_chef/core/utils/network_helper.dart';
@@ -25,7 +26,7 @@ class SupabaseWishlistRemoteDataSource implements IWishlistRemoteDataSource {
   Future<void> addProductToWishlist(ProductModel product) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw ex.NetworkException('Check your internet connection');
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
     await Future.delayed(const Duration(seconds: 1));
     AppDummies.foodsWishlist.add(product);
@@ -36,7 +37,7 @@ class SupabaseWishlistRemoteDataSource implements IWishlistRemoteDataSource {
       PaginationOptions options) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw ex.NetworkException('Check your internet connection');
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
     await Future.delayed(const Duration(seconds: 4));
 
@@ -52,7 +53,7 @@ class SupabaseWishlistRemoteDataSource implements IWishlistRemoteDataSource {
   // Future<bool> isProductInWishlist(ProductModel product) async {
   //   final isConnected = await NetworkHelper.isConnected;
   //   if (!isConnected) {
-  //     throw ex.NetworkException('Check your internet connection');
+  //     throw ex.NetworkException(AppStrings.checkYourInternetConnection);
   //   }
   //   await Future.delayed(const Duration(seconds: 4));
   //   return AppDummies.foodsWishlist.contains(product);
@@ -62,7 +63,7 @@ class SupabaseWishlistRemoteDataSource implements IWishlistRemoteDataSource {
   Future<void> removeProductFromWishlist(ProductModel product) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw ex.NetworkException('Check your internet connection');
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
     await Future.delayed(const Duration(seconds: 1));
     AppDummies.foodsWishlist.remove(product);

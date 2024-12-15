@@ -20,10 +20,10 @@ class RestaurantRepository implements IRestaurantRepository {
       final List<ProductModel> products =
           await remoteDataSource.getMenu(options);
       return Right(products.map((product) => product.toEntity()).toList());
-    } on NetworkException {
-      return const Left(NetworkFailure('Check your internet connection'));
-    } on ServerException {
-      return const Left(ServerFailure('Server error'));
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
@@ -35,10 +35,10 @@ class RestaurantRepository implements IRestaurantRepository {
     try {
       final List<OfferModel> offers = await remoteDataSource.getOffers(options);
       return Right(offers.map((offer) => offer.toEntity()).toList());
-    } on NetworkException {
-      return const Left(NetworkFailure('Check your internet connection'));
-    } on ServerException {
-      return const Left(ServerFailure('Server error'));
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }

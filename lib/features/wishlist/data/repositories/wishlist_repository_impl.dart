@@ -18,10 +18,10 @@ class WishlistRepository extends IWishlistRepository {
       await remoteDataSource
           .addProductToWishlist(ProductModel.fromEntity(product));
       return const Right(unit);
-    } on NetworkException {
-      return const Left(NetworkFailure('Check your internet connection'));
-    } on ServerException {
-      return const Left(ServerFailure('Server Failure'));
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
@@ -34,10 +34,10 @@ class WishlistRepository extends IWishlistRepository {
       final List<ProductModel> products =
           await remoteDataSource.getProductsWishList(options);
       return Right(products.map((e) => e.toEntity()).toList());
-    } on NetworkException {
-      return const Left(NetworkFailure('Check your internet connection'));
-    } on ServerException {
-      return const Left(ServerFailure('Server Failure'));
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
@@ -50,10 +50,10 @@ class WishlistRepository extends IWishlistRepository {
       await remoteDataSource
           .removeProductFromWishlist(ProductModel.fromEntity(product));
       return const Right(unit);
-    } on NetworkException {
-      return const Left(NetworkFailure('Check your internet connection'));
-    } on ServerException {
-      return const Left(ServerFailure('Server Failure'));
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }

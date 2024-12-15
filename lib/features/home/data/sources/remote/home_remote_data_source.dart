@@ -1,4 +1,5 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/dummy/dummy_data.dart';
 import 'package:your_chef/core/errors/exceptions.dart' as ex;
 import 'package:your_chef/core/utils/network_helper.dart';
@@ -24,7 +25,7 @@ class SupabaseHomeRemoteDataSource extends IHomeRemoteDataSource {
   Future<List<CategoryModel>> getCategories() async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw ex.NetworkException('Check your internet connection');
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
     await Future.delayed(const Duration(seconds: 4));
     return AppDummies.categories.take(5).toList();
@@ -34,7 +35,7 @@ class SupabaseHomeRemoteDataSource extends IHomeRemoteDataSource {
   Future<List<ProductModel>> getPopularProducts() async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw ex.NetworkException('Check your internet connection');
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
     await Future.delayed(const Duration(seconds: 4));
     return AppDummies.foods
@@ -48,7 +49,7 @@ class SupabaseHomeRemoteDataSource extends IHomeRemoteDataSource {
   Future<List<ProductModel>> getOnSaleProducts() async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw ex.NetworkException('Check your internet connection');
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
     await Future.delayed(const Duration(seconds: 4));
     return AppDummies.foods.where((food) => food.sale > 0).take(6).toList()
@@ -59,7 +60,7 @@ class SupabaseHomeRemoteDataSource extends IHomeRemoteDataSource {
   Future<List<RestaurantModel>> getRestaurants() async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw ex.NetworkException('Check your internet connection');
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
     await Future.delayed(const Duration(seconds: 4));
     return AppDummies.restaurants.take(5).toList()..shuffle();
@@ -69,7 +70,7 @@ class SupabaseHomeRemoteDataSource extends IHomeRemoteDataSource {
   Future<List<OfferModel>> getOffers() async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw ex.NetworkException('Check your internet connection');
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
     await Future.delayed(const Duration(seconds: 4));
     return AppDummies.offers..shuffle();

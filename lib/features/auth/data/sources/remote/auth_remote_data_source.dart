@@ -1,5 +1,6 @@
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/errors/exceptions.dart' as ex;
 import 'package:your_chef/core/options/options.dart';
 import 'package:your_chef/core/utils/network_helper.dart';
@@ -27,7 +28,7 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
   Future<UserModel> login(LoginOptions options) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw ex.NetworkException('Check your internet connection');
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
 
     final AuthResponse response = await client.auth
@@ -37,14 +38,14 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
     )
         .catchError((error) {
       if (error is AuthException) {
-        throw ex.AuthException('Invalid credentials');
+        throw ex.AuthException(AppStrings.invalidCredentials);
       }
-      throw ex.ServerException('Something went wrong');
+      throw ex.ServerException(AppStrings.somethingWentWrong);
     });
     final User? user = response.session?.user;
 
     if (user == null) {
-      throw ex.AuthException('Invalid credentials');
+      throw ex.AuthException(AppStrings.invalidCredentials);
     }
 
     final Map<String, dynamic> data =
@@ -52,7 +53,7 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
 
     if (data.isEmpty) {
       await client.auth.signOut();
-      throw ex.AuthException('Invalid credentials');
+      throw ex.AuthException(AppStrings.invalidCredentials);
     }
 
     final UserModel signedUser = UserModel.fromJson(data);
@@ -68,7 +69,7 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
   Future<String> register(RegisterOptions options) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw ex.NetworkException('Check your internet connection');
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
 
     final AuthResponse response = await client.auth
@@ -77,14 +78,14 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
       'address': options.address,
     }).catchError((error) {
       if (error is AuthException) {
-        throw ex.AuthException('Invalid credentials');
+        throw ex.AuthException(AppStrings.invalidCredentials);
       }
-      throw ex.ServerException('Something went wrong');
+      throw ex.ServerException(AppStrings.somethingWentWrong);
     });
 
     final User? user = response.user;
     if (user == null) {
-      throw ex.AuthException('Invalid credentials');
+      throw ex.AuthException(AppStrings.invalidCredentials);
     }
     final UserModel data = UserModel(
       id: user.id,
@@ -106,12 +107,12 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
   Future<UserModel> googleSignIn() async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw ex.NetworkException('Check your internet connection');
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
     await googleSignInProvider.signOut();
     final GoogleSignInAccount? googleUser = await googleSignInProvider.signIn();
     if (googleUser == null) {
-      throw ex.ServerException('Something went wrong');
+      throw ex.ServerException(AppStrings.somethingWentWrong);
     }
     final GoogleSignInAuthentication authentication =
         await googleUser.authentication;
@@ -121,7 +122,7 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
 
     if (idToken == null || accessToken == null) {
       await googleSignInProvider.signOut();
-      throw ex.AuthException('Invalid credentials');
+      throw ex.AuthException(AppStrings.invalidCredentials);
     }
 
     final AuthResponse response = await client.auth.signInWithIdToken(
@@ -133,7 +134,7 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
     final User? user = response.session?.user;
     if (user == null) {
       await googleSignInProvider.signOut();
-      throw ex.AuthException('Invalid credentials');
+      throw ex.AuthException(AppStrings.invalidCredentials);
     }
 
     final Map<String, dynamic>? data =
@@ -175,7 +176,7 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
   Future<void> uploadProfilePhoto(UploadProfileOptions options) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw ex.NetworkException('Check your internet connection');
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
     final String filename =
         '${options.uid}/${DateTime.now().millisecondsSinceEpoch}';
@@ -189,7 +190,7 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
   Future<void> sendOtpCode(ResetPasswordOptions options) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw ex.NetworkException('Check your internet connection');
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
 
     await client.auth.signInWithOtp(
@@ -204,7 +205,7 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
   Future<void> verify(VerifyOtpOptions options) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw ex.NetworkException('Check your internet connection');
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
     await client.auth.verifyOTP(
       type: options.email != null ? OtpType.magiclink : OtpType.sms,

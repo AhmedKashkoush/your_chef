@@ -23,10 +23,10 @@ class HomeRepository extends IHomeRepository {
       final List<CategoryModel> categories =
           await remoteDataSource.getCategories();
       return Right(categories.map((category) => category.toEntity()).toList());
-    } on NetworkException {
-      return const Left(NetworkFailure('Check your internet connection'));
-    } on ServerException {
-      return const Left(ServerFailure('Server Failure'));
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
@@ -38,10 +38,10 @@ class HomeRepository extends IHomeRepository {
       final List<ProductModel> products =
           await remoteDataSource.getPopularProducts();
       return Right(products.map((product) => product.toEntity()).toList());
-    } on NetworkException {
-      return const Left(NetworkFailure('Check your internet connection'));
-    } on ServerException {
-      return const Left(ServerFailure('Server Failure'));
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
@@ -53,10 +53,10 @@ class HomeRepository extends IHomeRepository {
       final List<ProductModel> products =
           await remoteDataSource.getOnSaleProducts();
       return Right(products.map((product) => product.toEntity()).toList());
-    } on NetworkException {
-      return const Left(NetworkFailure('Check your internet connection'));
-    } on ServerException {
-      return const Left(ServerFailure('Server Failure'));
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
@@ -69,10 +69,10 @@ class HomeRepository extends IHomeRepository {
           await remoteDataSource.getRestaurants();
       return Right(
           restaurants.map((restaurant) => restaurant.toEntity()).toList());
-    } on NetworkException {
-      return const Left(NetworkFailure('Check your internet connection'));
-    } on ServerException {
-      return const Left(ServerFailure('Server Failure'));
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
@@ -83,10 +83,10 @@ class HomeRepository extends IHomeRepository {
     try {
       final List<OfferModel> offers = await remoteDataSource.getOffers();
       return Right(offers.map((offer) => offer.toEntity()).toList());
-    } on NetworkException {
-      return const Left(NetworkFailure('Check your internet connection'));
-    } on ServerException {
-      return const Left(ServerFailure('Server Failure'));
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
