@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:your_chef/core/errors/failures.dart';
 import 'package:your_chef/core/options/options.dart';
-import 'package:your_chef/features/auth/domain/entities/user.dart';
+import 'package:your_chef/features/user/domain/entities/user.dart';
 
 abstract class IAuthRepository {
   Future<Either<Failure, User>> login(LoginOptions options);

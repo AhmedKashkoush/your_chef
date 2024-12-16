@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 import 'package:your_chef/core/constants/keys.dart';
 import 'package:your_chef/core/utils/secure_storage_helper.dart';
-import 'package:your_chef/features/auth/data/models/user_model.dart';
+import 'package:your_chef/features/user/data/models/user_model.dart';
 import 'package:your_chef/locator.dart';
 
-import '../../features/auth/domain/entities/user.dart';
+import '../../features/user/domain/entities/user.dart';
 
 class UserHelper {
   static User? _user;

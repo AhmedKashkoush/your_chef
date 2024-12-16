@@ -8,6 +8,11 @@ class NetworkException implements Exception {
   NetworkException(this.message);
 }
 
+class EmptyCacheException implements Exception {
+  String message;
+  EmptyCacheException(this.message);
+}
+
 class ServerException implements Exception {
   String message;
   ServerException(this.message);

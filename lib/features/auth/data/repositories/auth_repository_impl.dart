@@ -8,10 +8,10 @@ import 'package:your_chef/core/errors/failures.dart';
 
 import 'package:your_chef/core/options/options.dart';
 
-import 'package:your_chef/features/auth/domain/entities/user.dart';
+import 'package:your_chef/features/user/domain/entities/user.dart';
 
 import '../../domain/repositories/auth_repository.dart';
-import '../models/user_model.dart';
+import '../../../user/data/models/user_model.dart';
 import '../sources/remote/auth_remote_data_source.dart';
 
 class AuthRepository implements IAuthRepository {

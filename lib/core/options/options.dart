@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:your_chef/features/restaurants/domain/entities/restaurant.dart';
 
 abstract class AppOptions {
@@ -64,6 +65,15 @@ class UploadProfileOptions extends AppOptions {
   const UploadProfileOptions({
     required this.uid,
     required this.photo,
+  });
+}
+
+class UserOptions extends AppOptions {
+  final User user;
+  final File? photo;
+  const UserOptions({
+    required this.user,
+    this.photo,
   });
 }
 

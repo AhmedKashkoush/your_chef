@@ -6,7 +6,7 @@ import 'package:your_chef/core/options/options.dart';
 import 'package:your_chef/core/utils/network_helper.dart';
 import 'package:your_chef/core/utils/user_helper.dart';
 
-import '../../models/user_model.dart';
+import '../../../../user/data/models/user_model.dart';
 
 abstract class IAuthRemoteDataSource {
   Future<UserModel> login(LoginOptions options);
