@@ -7,6 +7,7 @@ class SavedUser extends Equatable {
   final String? idToken;
   final String? accessToken;
   final String? password;
+  //TODO: Add last login date
   const SavedUser({
     required this.user,
     this.provider,
