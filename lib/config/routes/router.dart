@@ -8,10 +8,10 @@ import 'package:your_chef/features/auth/presentation/bloc/register/register_bloc
 import 'package:your_chef/features/auth/presentation/screens/auth_screen.dart';
 import 'package:your_chef/features/auth/presentation/screens/email_reset_screen.dart';
 import 'package:your_chef/features/auth/presentation/screens/otp_screen.dart';
-import 'package:your_chef/features/home/domain/entities/product.dart';
-import 'package:your_chef/features/home/domain/entities/restaurant.dart';
+import 'package:your_chef/features/foods/domain/entities/food.dart';
+import 'package:your_chef/features/restaurants/domain/entities/restaurant.dart';
 import 'package:your_chef/features/onboarding/screens/onboarding_screen.dart';
-import 'package:your_chef/features/products/presentation/screens/product_details_screen.dart';
+import 'package:your_chef/features/foods/presentation/screens/food_details_screen.dart';
 import 'package:your_chef/features/profile/presentation/screens/profile_screen.dart';
 import 'package:your_chef/features/restaurants/presentation/screens/restaurant_details_screen.dart';
 import 'package:your_chef/features/settings/presentation/screens/themes_screen.dart';
@@ -61,13 +61,13 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const HomeWrapper(),
         );
-      case AppRoutes.product:
+      case AppRoutes.food:
         return MaterialPageRoute(
           builder: (_) {
             final Map<String, dynamic> args =
                 settings.arguments as Map<String, dynamic>;
-            return ProductDetailsScreen(
-              product: args['food'] as Product,
+            return FoodDetailsScreen(
+              food: args['food'] as Food,
               tag: args['tag'] as String,
             );
           },

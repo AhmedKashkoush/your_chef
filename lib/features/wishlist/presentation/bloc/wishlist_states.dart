@@ -1,7 +1,7 @@
 part of 'wishlist_bloc.dart';
 
 class WishlistState extends Equatable {
-  final List<Product> foods;
+  final List<Food> foods;
   final bool foodsHasNext, addOrRemove;
   final String error;
   final RequestStatus status;
@@ -17,7 +17,7 @@ class WishlistState extends Equatable {
   });
 
   WishlistState copyWith({
-    List<Product>? foods,
+    List<Food>? foods,
     bool? foodsHasNext,
     bool? addOrRemove,
     String? error,

@@ -4,8 +4,8 @@ class HomeState extends Equatable {
   final List<Offer> offers;
   final List<Category> categories;
   final List<Restaurant> restaurants;
-  final List<Product> popularProducts;
-  final List<Product> onSaleProducts;
+  final List<Food> popularProducts;
+  final List<Food> onSaleProducts;
   final RequestStatus status;
   final ErrorType errorType;
   final String error;
@@ -25,8 +25,8 @@ class HomeState extends Equatable {
     List<Offer>? offers,
     List<Category>? categories,
     List<Restaurant>? restaurants,
-    List<Product>? popularProducts,
-    List<Product>? onSaleProducts,
+    List<Food>? popularProducts,
+    List<Food>? onSaleProducts,
     RequestStatus? status,
     String? error,
     ErrorType? errorType,

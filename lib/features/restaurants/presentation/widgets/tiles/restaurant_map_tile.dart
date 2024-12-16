@@ -3,7 +3,7 @@ import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:your_chef/core/widgets/loading/skeleton_loading_widget.dart';
 
-import 'package:your_chef/features/home/domain/entities/restaurant.dart';
+import 'package:your_chef/features/restaurants/domain/entities/restaurant.dart';
 
 class RestaurantMapTile extends StatefulWidget {
   final Restaurant restaurant;

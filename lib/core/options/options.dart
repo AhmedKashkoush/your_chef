@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:your_chef/features/home/domain/entities/restaurant.dart';
+import 'package:your_chef/features/restaurants/domain/entities/restaurant.dart';
 
 abstract class AppOptions {
   const AppOptions();

@@ -19,7 +19,7 @@ import 'package:your_chef/features/home/data/sources/remote/home_remote_data_sou
 import 'package:your_chef/features/home/domain/repositories/home_repository.dart';
 import 'package:your_chef/features/home/domain/usecases/get_categories_usecase.dart';
 import 'package:your_chef/features/home/domain/usecases/get_offers_usecase.dart';
-import 'package:your_chef/features/home/domain/usecases/get_popular_products_usecase.dart';
+import 'package:your_chef/features/home/domain/usecases/get_popular_foods_usecase.dart';
 import 'package:your_chef/features/home/domain/usecases/get_restaurants_usecase.dart';
 import 'package:your_chef/features/restaurants/data/repositories/restaurant_repository_impl.dart';
 import 'package:your_chef/features/restaurants/data/sources/remote/restaurant_remote_data_source.dart';
@@ -43,7 +43,7 @@ import 'package:your_chef/features/wishlist/presentation/bloc/wishlist_bloc.dart
 
 import 'features/auth/data/repositories/auth_repository_impl.dart';
 import 'features/auth/domain/usecases/google_sign_in_usecase.dart';
-import 'features/home/domain/usecases/get_on_sale_products_usecase.dart';
+import 'features/home/domain/usecases/get_on_sale_foods_usecase.dart';
 import 'features/home/presentation/bloc/home_bloc.dart';
 
 final GetIt locator = GetIt.instance;
@@ -165,11 +165,11 @@ void _initUseCases() {
   locator.registerLazySingleton<GetRestaurantsUseCase>(
     () => GetRestaurantsUseCase(locator<IHomeRepository>()),
   );
-  locator.registerLazySingleton<GetPopularProductsUseCase>(
-    () => GetPopularProductsUseCase(locator<IHomeRepository>()),
+  locator.registerLazySingleton<GetPopularFoodsUseCase>(
+    () => GetPopularFoodsUseCase(locator<IHomeRepository>()),
   );
-  locator.registerLazySingleton<GetOnSaleProductsUseCase>(
-    () => GetOnSaleProductsUseCase(locator<IHomeRepository>()),
+  locator.registerLazySingleton<GetOnSaleFoodsUseCase>(
+    () => GetOnSaleFoodsUseCase(locator<IHomeRepository>()),
   );
 
   //*Restaurant
@@ -222,8 +222,8 @@ void _initBlocs() {
       locator<GetOffersUseCase>(),
       locator<GetCategoriesUseCase>(),
       locator<GetRestaurantsUseCase>(),
-      locator<GetPopularProductsUseCase>(),
-      locator<GetOnSaleProductsUseCase>(),
+      locator<GetPopularFoodsUseCase>(),
+      locator<GetOnSaleFoodsUseCase>(),
     ),
   );
   //*Restaurant

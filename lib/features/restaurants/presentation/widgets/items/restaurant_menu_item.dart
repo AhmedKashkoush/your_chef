@@ -7,7 +7,7 @@ import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/widgets/rating/star_rating_widget.dart';
-import 'package:your_chef/features/home/domain/entities/product.dart';
+import 'package:your_chef/features/foods/domain/entities/food.dart';
 
 class RestaurantMenuItem extends StatelessWidget {
   const RestaurantMenuItem({
@@ -16,7 +16,7 @@ class RestaurantMenuItem extends StatelessWidget {
     required this.tag,
   });
 
-  final Product food;
+  final Food food;
   final String tag;
 
   @override
@@ -39,7 +39,7 @@ class RestaurantMenuItem extends StatelessWidget {
   ListTile _buildTile(BuildContext context) {
     return ListTile(
       onTap: () => context.pushNamed(
-        AppRoutes.product,
+        AppRoutes.food,
         arguments: {
           'food': food,
           'tag': tag,

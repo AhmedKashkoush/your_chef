@@ -7,7 +7,7 @@ import 'package:your_chef/core/errors/failures.dart';
 import 'package:your_chef/core/options/options.dart';
 import 'package:your_chef/core/utils/network_helper.dart';
 import 'package:your_chef/features/home/domain/entities/offer.dart';
-import 'package:your_chef/features/home/domain/entities/product.dart';
+import 'package:your_chef/features/foods/domain/entities/food.dart';
 import 'package:your_chef/features/restaurants/domain/usecases/get_restaurant_menu_usecase.dart';
 import 'package:your_chef/features/restaurants/domain/usecases/get_restaurant_offers_usecase.dart';
 
@@ -27,7 +27,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
       GetDataEvent event, Emitter<RestaurantState> emit) async {
     emit(state.copyWith(status: RequestStatus.loading));
     final List<Offer> fetchedOffers = [];
-    final List<Product> fetchedFoods = [];
+    final List<Food> fetchedFoods = [];
 
     final List result = await Future.wait(
         [getOffersUseCase(event.options), getMenuUseCase(event.options)]);

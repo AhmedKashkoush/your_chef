@@ -21,7 +21,7 @@ class RefreshFoodsWishlistEvent extends WishlistEvent {
 }
 
 class AddFoodToWishlistWishlistEvent extends WishlistEvent {
-  final Product food;
+  final Food food;
   const AddFoodToWishlistWishlistEvent(this.food);
 
   @override
@@ -29,7 +29,7 @@ class AddFoodToWishlistWishlistEvent extends WishlistEvent {
 }
 
 class RemoveFoodFromWishlistWishlistEvent extends WishlistEvent {
-  final Product food;
+  final Food food;
   const RemoveFoodFromWishlistWishlistEvent(this.food);
 
   @override

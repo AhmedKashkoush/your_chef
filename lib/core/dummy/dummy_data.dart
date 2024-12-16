@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:your_chef/features/home/data/models/category_model.dart';
 import 'package:your_chef/features/home/data/models/offer_model.dart';
-import 'package:your_chef/features/home/data/models/product_model.dart';
-import 'package:your_chef/features/home/data/models/restaurant_model.dart';
+import 'package:your_chef/features/foods/data/models/food_model.dart';
+import 'package:your_chef/features/restaurants/data/models/restaurant_model.dart';
 
 class AppDummies {
   const AppDummies._();
@@ -19,11 +19,11 @@ class AppDummies {
       )
       .toList();
 
-  static final List<ProductModel> foods = List.generate(
+  static final List<FoodModel> foods = List.generate(
     20,
     (i) {
       final int index = Random().nextInt(_foods.length);
-      return ProductModel(
+      return FoodModel(
         id: i,
         category: categories[Random().nextInt(categories.length)],
         restaurant: restaurants[max(Random().nextInt(restaurants.length),
@@ -49,7 +49,7 @@ class AppDummies {
     },
   );
 
-  static List<ProductModel> foodsWishlist = [
+  static List<FoodModel> foodsWishlist = [
     // ...foods,
     // ...foods,
     // ...foods,

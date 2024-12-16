@@ -3,13 +3,13 @@ import 'package:your_chef/core/errors/exceptions.dart';
 import 'package:your_chef/core/errors/failures.dart';
 import 'package:your_chef/features/home/data/models/category_model.dart';
 import 'package:your_chef/features/home/data/models/offer_model.dart';
-import 'package:your_chef/features/home/data/models/product_model.dart';
-import 'package:your_chef/features/home/data/models/restaurant_model.dart';
+import 'package:your_chef/features/foods/data/models/food_model.dart';
+import 'package:your_chef/features/restaurants/data/models/restaurant_model.dart';
 import 'package:your_chef/features/home/data/sources/remote/home_remote_data_source.dart';
 import 'package:your_chef/features/home/domain/entities/category.dart';
 import 'package:your_chef/features/home/domain/entities/offer.dart';
-import 'package:your_chef/features/home/domain/entities/product.dart';
-import 'package:your_chef/features/home/domain/entities/restaurant.dart';
+import 'package:your_chef/features/foods/domain/entities/food.dart';
+import 'package:your_chef/features/restaurants/domain/entities/restaurant.dart';
 import 'package:your_chef/features/home/domain/repositories/home_repository.dart';
 
 class HomeRepository extends IHomeRepository {
@@ -33,11 +33,10 @@ class HomeRepository extends IHomeRepository {
   }
 
   @override
-  Future<Either<Failure, List<Product>>> getPopularProducts() async {
+  Future<Either<Failure, List<Food>>> getPopularFoods() async {
     try {
-      final List<ProductModel> products =
-          await remoteDataSource.getPopularProducts();
-      return Right(products.map((product) => product.toEntity()).toList());
+      final List<FoodModel> foods = await remoteDataSource.getPopularFoods();
+      return Right(foods.map((food) => food.toEntity()).toList());
     } on NetworkException catch (e) {
       return Left(NetworkFailure(e.message));
     } on ServerException catch (e) {
@@ -48,11 +47,10 @@ class HomeRepository extends IHomeRepository {
   }
 
   @override
-  Future<Either<Failure, List<Product>>> getOnSaleProducts() async {
+  Future<Either<Failure, List<Food>>> getOnSaleFoods() async {
     try {
-      final List<ProductModel> products =
-          await remoteDataSource.getOnSaleProducts();
-      return Right(products.map((product) => product.toEntity()).toList());
+      final List<FoodModel> foods = await remoteDataSource.getOnSaleFoods();
+      return Right(foods.map((food) => food.toEntity()).toList());
     } on NetworkException catch (e) {
       return Left(NetworkFailure(e.message));
     } on ServerException catch (e) {

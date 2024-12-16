@@ -2,8 +2,8 @@ import 'package:dartz/dartz.dart';
 import 'package:your_chef/core/errors/exceptions.dart';
 import 'package:your_chef/core/errors/failures.dart';
 import 'package:your_chef/core/options/options.dart';
-import 'package:your_chef/features/home/data/models/product_model.dart';
-import 'package:your_chef/features/home/domain/entities/product.dart';
+import 'package:your_chef/features/foods/data/models/food_model.dart';
+import 'package:your_chef/features/foods/domain/entities/food.dart';
 import 'package:your_chef/features/wishlist/data/sources/remote/wishlist_remote_data_source.dart';
 import 'package:your_chef/features/wishlist/domain/repositories/wishlist_repository.dart';
 
@@ -13,10 +13,9 @@ class WishlistRepository extends IWishlistRepository {
   const WishlistRepository(this.remoteDataSource);
 
   @override
-  Future<Either<Failure, Unit>> addProductToWishlist(Product product) async {
+  Future<Either<Failure, Unit>> addProductToWishlist(Food food) async {
     try {
-      await remoteDataSource
-          .addProductToWishlist(ProductModel.fromEntity(product));
+      await remoteDataSource.addProductToWishlist(FoodModel.fromEntity(food));
       return const Right(unit);
     } on NetworkException catch (e) {
       return Left(NetworkFailure(e.message));
@@ -28,12 +27,12 @@ class WishlistRepository extends IWishlistRepository {
   }
 
   @override
-  Future<Either<Failure, List<Product>>> getProductsWishList(
+  Future<Either<Failure, List<Food>>> getFoodsWishList(
       PaginationOptions options) async {
     try {
-      final List<ProductModel> products =
+      final List<FoodModel> foods =
           await remoteDataSource.getProductsWishList(options);
-      return Right(products.map((e) => e.toEntity()).toList());
+      return Right(foods.map((food) => food.toEntity()).toList());
     } on NetworkException catch (e) {
       return Left(NetworkFailure(e.message));
     } on ServerException catch (e) {
@@ -44,11 +43,10 @@ class WishlistRepository extends IWishlistRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> removeProductFromWishlist(
-      Product product) async {
+  Future<Either<Failure, Unit>> removeProductFromWishlist(Food food) async {
     try {
       await remoteDataSource
-          .removeProductFromWishlist(ProductModel.fromEntity(product));
+          .removeProductFromWishlist(FoodModel.fromEntity(food));
       return const Right(unit);
     } on NetworkException catch (e) {
       return Left(NetworkFailure(e.message));

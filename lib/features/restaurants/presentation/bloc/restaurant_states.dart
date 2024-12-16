@@ -2,14 +2,14 @@ part of 'restaurant_bloc.dart';
 
 class RestaurantState extends Equatable {
   final List<Offer> offers;
-  final List<Product> foods;
+  final List<Food> foods;
   final RequestStatus status;
   final String error;
   final ErrorType errorType;
 
   const RestaurantState({
     this.offers = const <Offer>[],
-    this.foods = const <Product>[],
+    this.foods = const <Food>[],
     this.status = RequestStatus.initial,
     this.error = '',
     this.errorType = ErrorType.normal,
@@ -17,7 +17,7 @@ class RestaurantState extends Equatable {
 
   RestaurantState copyWith({
     List<Offer>? offers,
-    List<Product>? foods,
+    List<Food>? foods,
     RequestStatus? status,
     String? error,
     ErrorType? errorType,

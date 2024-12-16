@@ -3,19 +3,19 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/widgets/buttons/primary_button.dart';
 import 'package:your_chef/core/widgets/buttons/secondary_button.dart';
-import 'package:your_chef/features/home/domain/entities/product.dart';
+import 'package:your_chef/features/foods/domain/entities/food.dart';
 
 class AddToCartSection extends StatefulWidget {
   const AddToCartSection({
     super.key,
     required this.inCart,
     this.count = 0,
-    required this.product,
+    required this.food,
   });
 
   final int count;
   final bool inCart;
-  final Product product;
+  final Food food;
 
   @override
   State<AddToCartSection> createState() => _AddToCartSectionState();

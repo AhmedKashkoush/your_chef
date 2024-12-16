@@ -8,7 +8,7 @@ import 'package:your_chef/core/errors/error_types.dart';
 import 'package:your_chef/core/errors/failures.dart';
 import 'package:your_chef/core/options/options.dart';
 import 'package:your_chef/core/utils/network_helper.dart';
-import 'package:your_chef/features/home/domain/entities/product.dart';
+import 'package:your_chef/features/foods/domain/entities/food.dart';
 import 'package:your_chef/features/wishlist/domain/usecases/add_food_to_wishlist_usecase.dart';
 import 'package:your_chef/features/wishlist/domain/usecases/get_foods_wishlist_usecase.dart';
 import 'package:your_chef/features/wishlist/domain/usecases/remove_food_from_wishlist_usecase.dart';
@@ -48,7 +48,7 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
       ),
     );
 
-    final Either<Failure, List<Product>> result =
+    final Either<Failure, List<Food>> result =
         await getFoodsWishlistUseCase(event.options);
 
     result.fold((failure) {
@@ -73,7 +73,7 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
         );
       }
     }, (foods) {
-      List<Product> oldFoods = state.foods;
+      List<Food> oldFoods = state.foods;
       emit(
         state.copyWith(
           status: RequestStatus.success,
@@ -97,7 +97,7 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
       ),
     );
 
-    final Either<Failure, List<Product>> result =
+    final Either<Failure, List<Food>> result =
         await getFoodsWishlistUseCase(event.options);
 
     result.fold((failure) {
@@ -122,7 +122,7 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
         );
       }
     }, (foods) {
-      List<Product> oldFoods = state.foods;
+      List<Food> oldFoods = state.foods;
       emit(
         state.copyWith(
           status: RequestStatus.success,
@@ -166,7 +166,7 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
         );
       }
     }, (_) {
-      List<Product> oldFoods = state.foods;
+      List<Food> oldFoods = state.foods;
 
       emit(
         state.copyWith(
@@ -212,7 +212,7 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
         );
       }
     }, (_) {
-      List<Product> newFoods = List.from(state.foods);
+      List<Food> newFoods = List.from(state.foods);
       newFoods.remove(event.food);
 
       emit(

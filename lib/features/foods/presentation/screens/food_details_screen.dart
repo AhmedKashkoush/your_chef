@@ -15,59 +15,58 @@ import 'package:your_chef/core/utils/network_helper.dart';
 import 'package:your_chef/core/widgets/buttons/custom_icon_button.dart';
 import 'package:your_chef/core/widgets/layout/orientation_widget.dart';
 import 'package:your_chef/core/widgets/rating/star_rating_widget.dart';
-import 'package:your_chef/features/home/domain/entities/product.dart';
-import 'package:your_chef/features/products/presentation/widgets/add_to_cart_section.dart';
-import 'package:your_chef/features/products/presentation/widgets/product_tile.dart';
-import 'package:your_chef/features/products/presentation/widgets/restaurant_tile.dart';
+import 'package:your_chef/features/foods/domain/entities/food.dart';
+import 'package:your_chef/features/foods/presentation/widgets/add_to_cart_section.dart';
+import 'package:your_chef/features/foods/presentation/widgets/food_tile.dart';
+import 'package:your_chef/features/foods/presentation/widgets/restaurant_tile.dart';
 import 'package:your_chef/features/wishlist/presentation/bloc/wishlist_bloc.dart';
 
-class ProductDetailsScreen extends StatelessWidget {
-  const ProductDetailsScreen({
+class FoodDetailsScreen extends StatelessWidget {
+  const FoodDetailsScreen({
     super.key,
-    required this.product,
+    required this.food,
     required this.tag,
   });
 
-  final Product product;
+  final Food food;
   final String tag;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: OrientationWidget(
-        portrait: _ProductDetailsPortrait(
-          product: product,
+        portrait: _FoodDetailsPortrait(
+          food: food,
           tag: tag,
         ),
-        landscape: _ProductDetailsLandscape(
-          product: product,
+        landscape: _FoodDetailsLandscape(
+          food: food,
           tag: tag,
         ),
       ),
       bottomNavigationBar: AddToCartSection(
         inCart: true,
         count: 4,
-        product: product,
+        food: food,
       ),
     );
   }
 }
 
-class _ProductDetailsPortrait extends StatefulWidget {
-  const _ProductDetailsPortrait({
-    required this.product,
+class _FoodDetailsPortrait extends StatefulWidget {
+  const _FoodDetailsPortrait({
+    required this.food,
     required this.tag,
   });
 
-  final Product product;
+  final Food food;
   final String tag;
 
   @override
-  State<_ProductDetailsPortrait> createState() =>
-      _ProductDetailsPortraitState();
+  State<_FoodDetailsPortrait> createState() => _FoodDetailsPortraitState();
 }
 
-class _ProductDetailsPortraitState extends State<_ProductDetailsPortrait> {
+class _FoodDetailsPortraitState extends State<_FoodDetailsPortrait> {
   final ScrollController _scrollController = ScrollController();
   final ValueNotifier<bool> _visible = ValueNotifier(false);
   final ValueNotifier<int> _currentIndex = ValueNotifier(0);
@@ -93,16 +92,16 @@ class _ProductDetailsPortraitState extends State<_ProductDetailsPortrait> {
 
   void _toggleFavorite(BuildContext context) {
     if (AppDummies.foodsWishlist
-        .where((food) => food.id == widget.product.id)
+        .where((food) => food.id == widget.food.id)
         .toList()
         .isEmpty) {
       context
           .read<WishlistBloc>()
-          .add(AddFoodToWishlistWishlistEvent(widget.product));
+          .add(AddFoodToWishlistWishlistEvent(widget.food));
     } else {
       context
           .read<WishlistBloc>()
-          .add(RemoveFoodFromWishlistWishlistEvent(widget.product));
+          .add(RemoveFoodFromWishlistWishlistEvent(widget.food));
     }
   }
 
@@ -122,8 +121,8 @@ class _ProductDetailsPortraitState extends State<_ProductDetailsPortrait> {
                 return AnimatedOpacity(
                   opacity: visible ? 1 : 0,
                   duration: const Duration(milliseconds: 200),
-                  child: ProductTile(
-                    product: widget.product,
+                  child: FoodTile(
+                    food: widget.food,
                   ),
                 );
               }),
@@ -139,7 +138,7 @@ class _ProductDetailsPortraitState extends State<_ProductDetailsPortrait> {
                 Navigator.pop(context);
                 if (state.status == RequestStatus.success) {
                   if (AppDummies.foodsWishlist
-                      .where((food) => food.id == widget.product.id)
+                      .where((food) => food.id == widget.food.id)
                       .toList()
                       .isNotEmpty) {
                     AppMessages.showSuccessMessage(
@@ -159,7 +158,7 @@ class _ProductDetailsPortraitState extends State<_ProductDetailsPortrait> {
               }
             }, builder: (context, state) {
               bool favorite = AppDummies.foodsWishlist
-                  .where((food) => food.id == widget.product.id)
+                  .where((food) => food.id == widget.food.id)
                   .toList()
                   .isNotEmpty;
               return Padding(
@@ -187,7 +186,7 @@ class _ProductDetailsPortraitState extends State<_ProductDetailsPortrait> {
               alignment: Alignment.bottomCenter,
               children: [
                 CarouselSlider.builder(
-                  itemCount: widget.product.images.length,
+                  itemCount: widget.food.images.length,
                   options: CarouselOptions(
                     onPageChanged: (index, reason) {
                       _currentIndex.value = index;
@@ -195,19 +194,19 @@ class _ProductDetailsPortraitState extends State<_ProductDetailsPortrait> {
                     viewportFraction: 1,
                     padEnds: false,
                     height: double.infinity,
-                    autoPlay: widget.product.images.length > 1,
-                    enableInfiniteScroll: widget.product.images.length > 1,
+                    autoPlay: widget.food.images.length > 1,
+                    enableInfiniteScroll: widget.food.images.length > 1,
                     enlargeCenterPage: true,
                     autoPlayInterval: const Duration(seconds: 3),
                   ),
                   itemBuilder: (_, index, __) => Hero(
-                    tag: 'food${widget.tag}${widget.product.id}image+$index',
+                    tag: 'food${widget.tag}${widget.food.id}image+$index',
                     child: Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           fit: BoxFit.cover,
                           image: CachedNetworkImageProvider(
-                            widget.product.images[index],
+                            widget.food.images[index],
                           ),
                         ),
                       ),
@@ -226,7 +225,7 @@ class _ProductDetailsPortraitState extends State<_ProductDetailsPortrait> {
                             borderRadius: BorderRadius.circular(16).r,
                           ),
                           child: AnimatedSmoothIndicator(
-                            count: widget.product.images.length,
+                            count: widget.food.images.length,
                             activeIndex: index,
                             effect: const ScrollingDotsEffect(
                               dotWidth: 8,
@@ -247,16 +246,16 @@ class _ProductDetailsPortraitState extends State<_ProductDetailsPortrait> {
           sliver: SliverList.list(
             children: [
               RestaurantTile(
-                restaurant: widget.product.restaurant,
+                restaurant: widget.food.restaurant,
                 tag: widget.tag,
               ),
               ListTile(
                 title: Hero(
-                  tag: 'food${widget.tag}${widget.product.id}name',
+                  tag: 'food${widget.tag}${widget.food.id}name',
                   child: Material(
                     type: MaterialType.transparency,
                     child: Text(
-                      widget.product.name,
+                      widget.food.name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -271,11 +270,11 @@ class _ProductDetailsPortraitState extends State<_ProductDetailsPortrait> {
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: '${widget.product.rate} ',
+                        text: '${widget.food.rate} ',
                       ),
                       WidgetSpan(
                         child: StarRatingWidget(
-                          rate: widget.product.rate.toDouble(),
+                          rate: widget.food.rate.toDouble(),
                           size: 18.sp,
                         ),
                       ),
@@ -290,11 +289,11 @@ class _ProductDetailsPortraitState extends State<_ProductDetailsPortrait> {
               // const Divider(),
               ListTile(
                 title: Hero(
-                  tag: 'food${widget.tag}${widget.product.id}price',
+                  tag: 'food${widget.tag}${widget.food.id}price',
                   child: Material(
                     type: MaterialType.transparency,
                     child: Text(
-                      '${(widget.product.price - (widget.product.price * widget.product.sale)).toStringAsFixed(1)} ${AppStrings.egp}',
+                      '${(widget.food.price - (widget.food.price * widget.food.sale)).toStringAsFixed(1)} ${AppStrings.egp}',
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         color: AppColors.primary,
@@ -304,9 +303,9 @@ class _ProductDetailsPortraitState extends State<_ProductDetailsPortrait> {
                     ),
                   ),
                 ),
-                subtitle: widget.product.sale > 0
+                subtitle: widget.food.sale > 0
                     ? Text(
-                        '${widget.product.price} ${AppStrings.egp}',
+                        '${widget.food.price} ${AppStrings.egp}',
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           color:
@@ -319,7 +318,7 @@ class _ProductDetailsPortraitState extends State<_ProductDetailsPortrait> {
                         ),
                       )
                     : null,
-                trailing: widget.product.sale > 0
+                trailing: widget.food.sale > 0
                     ? Chip(
                         padding: const EdgeInsets.all(4).r,
                         backgroundColor: AppColors.primary,
@@ -327,7 +326,7 @@ class _ProductDetailsPortraitState extends State<_ProductDetailsPortrait> {
                         shape: const StadiumBorder(),
                         label: Text.rich(
                           TextSpan(
-                            text: '${(widget.product.sale * 100).toInt()}% ',
+                            text: '${(widget.food.sale * 100).toInt()}% ',
                             children: const [
                               TextSpan(
                                 text: AppStrings.viewAll,
@@ -363,9 +362,9 @@ class _ProductDetailsPortraitState extends State<_ProductDetailsPortrait> {
                 childrenPadding: EdgeInsets.symmetric(horizontal: 16.w),
                 children: [
                   Hero(
-                    tag: '${widget.product.id}description',
+                    tag: '${widget.food.id}description',
                     child: Text(
-                      widget.product.description,
+                      widget.food.description,
                       maxLines: null,
                       style: TextStyle(
                         color: context.theme.iconTheme.color?.withOpacity(0.8),
@@ -383,13 +382,13 @@ class _ProductDetailsPortraitState extends State<_ProductDetailsPortrait> {
   }
 }
 
-class _ProductDetailsLandscape extends StatelessWidget {
-  const _ProductDetailsLandscape({
-    required this.product,
+class _FoodDetailsLandscape extends StatelessWidget {
+  const _FoodDetailsLandscape({
+    required this.food,
     required this.tag,
   });
 
-  final Product product;
+  final Food food;
   final String tag;
 
   @override

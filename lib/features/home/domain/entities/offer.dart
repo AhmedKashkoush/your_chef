@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:your_chef/features/home/domain/entities/restaurant.dart';
+import 'package:your_chef/features/restaurants/domain/entities/restaurant.dart';
 
 class Offer extends Equatable {
   final int id;

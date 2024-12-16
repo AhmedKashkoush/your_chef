@@ -5,7 +5,7 @@ import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
-import 'package:your_chef/features/home/domain/entities/product.dart';
+import 'package:your_chef/features/foods/domain/entities/food.dart';
 import 'package:your_chef/features/restaurants/presentation/widgets/items/restaurant_menu_item.dart';
 
 class RestaurantMenuListSection extends StatelessWidget {
@@ -15,7 +15,7 @@ class RestaurantMenuListSection extends StatelessWidget {
     required this.tag,
   });
 
-  final List<Product> foods;
+  final List<Food> foods;
   final String tag;
 
   Widget _buildEmptyMenu(BuildContext context) {
@@ -44,10 +44,9 @@ class RestaurantMenuListSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Product> normalFoods =
+    final List<Food> normalFoods =
         foods.where((food) => food.sale == 0).toList();
-    final List<Product> saleFoods =
-        foods.where((food) => food.sale > 0).toList();
+    final List<Food> saleFoods = foods.where((food) => food.sale > 0).toList();
     return foods.isEmpty
         ? _buildEmptyMenu(context)
         : Column(

@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:your_chef/features/home/domain/entities/category.dart';
-import 'package:your_chef/features/home/domain/entities/restaurant.dart';
+import 'package:your_chef/features/restaurants/domain/entities/restaurant.dart';
 
-class Product extends Equatable {
+class Food extends Equatable {
   final int id;
   final Category category;
   final Restaurant restaurant;
@@ -11,7 +11,7 @@ class Product extends Equatable {
   final num price, rate, sale;
   final bool trending;
 
-  const Product({
+  const Food({
     required this.id,
     required this.category,
     required this.restaurant,

@@ -3,9 +3,9 @@ import 'package:your_chef/core/errors/exceptions.dart';
 import 'package:your_chef/core/errors/failures.dart';
 import 'package:your_chef/core/options/options.dart';
 import 'package:your_chef/features/home/data/models/offer_model.dart';
-import 'package:your_chef/features/home/data/models/product_model.dart';
+import 'package:your_chef/features/foods/data/models/food_model.dart';
 import 'package:your_chef/features/home/domain/entities/offer.dart';
-import 'package:your_chef/features/home/domain/entities/product.dart';
+import 'package:your_chef/features/foods/domain/entities/food.dart';
 import 'package:your_chef/features/restaurants/data/sources/remote/restaurant_remote_data_source.dart';
 import 'package:your_chef/features/restaurants/domain/repositories/restaurant_repository.dart';
 
@@ -14,12 +14,10 @@ class RestaurantRepository implements IRestaurantRepository {
 
   const RestaurantRepository(this.remoteDataSource);
   @override
-  Future<Either<Failure, List<Product>>> getMenu(
-      RestaurantOptions options) async {
+  Future<Either<Failure, List<Food>>> getMenu(RestaurantOptions options) async {
     try {
-      final List<ProductModel> products =
-          await remoteDataSource.getMenu(options);
-      return Right(products.map((product) => product.toEntity()).toList());
+      final List<FoodModel> foods = await remoteDataSource.getMenu(options);
+      return Right(foods.map((food) => food.toEntity()).toList());
     } on NetworkException catch (e) {
       return Left(NetworkFailure(e.message));
     } on ServerException catch (e) {

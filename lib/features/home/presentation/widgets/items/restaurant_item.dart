@@ -5,7 +5,7 @@ import 'package:your_chef/config/routes/routes.dart';
 import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/widgets/rating/star_rating_widget.dart';
-import 'package:your_chef/features/home/domain/entities/restaurant.dart';
+import 'package:your_chef/features/restaurants/domain/entities/restaurant.dart';
 
 class RestaurantItem extends StatelessWidget {
   const RestaurantItem({
@@ -16,7 +16,7 @@ class RestaurantItem extends StatelessWidget {
   final double size;
   final Restaurant restaurant;
 
-  final String _tag = 'product';
+  final String _tag = 'food';
 
   @override
   Widget build(BuildContext context) {

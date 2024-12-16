@@ -5,16 +5,16 @@ import 'package:your_chef/core/errors/exceptions.dart' as ex;
 import 'package:your_chef/core/utils/network_helper.dart';
 import 'package:your_chef/features/home/data/models/category_model.dart';
 import 'package:your_chef/features/home/data/models/offer_model.dart';
-import 'package:your_chef/features/home/data/models/product_model.dart';
-import 'package:your_chef/features/home/data/models/restaurant_model.dart';
+import 'package:your_chef/features/foods/data/models/food_model.dart';
+import 'package:your_chef/features/restaurants/data/models/restaurant_model.dart';
 
 abstract class IHomeRemoteDataSource {
   const IHomeRemoteDataSource();
   Future<List<OfferModel>> getOffers();
   Future<List<CategoryModel>> getCategories();
   Future<List<RestaurantModel>> getRestaurants();
-  Future<List<ProductModel>> getPopularProducts();
-  Future<List<ProductModel>> getOnSaleProducts();
+  Future<List<FoodModel>> getPopularFoods();
+  Future<List<FoodModel>> getOnSaleFoods();
 }
 
 class SupabaseHomeRemoteDataSource extends IHomeRemoteDataSource {
@@ -32,7 +32,7 @@ class SupabaseHomeRemoteDataSource extends IHomeRemoteDataSource {
   }
 
   @override
-  Future<List<ProductModel>> getPopularProducts() async {
+  Future<List<FoodModel>> getPopularFoods() async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
       throw ex.NetworkException(AppStrings.checkYourInternetConnection);
@@ -46,7 +46,7 @@ class SupabaseHomeRemoteDataSource extends IHomeRemoteDataSource {
   }
 
   @override
-  Future<List<ProductModel>> getOnSaleProducts() async {
+  Future<List<FoodModel>> getOnSaleFoods() async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
       throw ex.NetworkException(AppStrings.checkYourInternetConnection);

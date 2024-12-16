@@ -5,11 +5,11 @@ import 'package:your_chef/core/errors/error_types.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/widgets/errors/custom_error_widget.dart';
 import 'package:your_chef/core/widgets/loading/skeleton_loading_widget.dart';
-import 'package:your_chef/features/home/domain/entities/product.dart';
-import 'package:your_chef/features/wishlist/presentation/widgets/wishlist_item.dart';
+import 'package:your_chef/features/foods/domain/entities/food.dart';
+import 'package:your_chef/features/wishlist/presentation/widgets/wishlist_item_card.dart';
 
 class WishlistViewWidget extends StatelessWidget {
-  final List<Product> foods;
+  final List<Food> foods;
   final bool loading;
   final String error;
   final ErrorType errorType;
@@ -58,7 +58,7 @@ class WishlistViewWidget extends StatelessWidget {
 
             return const SizedBox.shrink();
           }
-          return WishlistItem(
+          return WishlistItemCard(
             food: foods[index],
           );
         },

@@ -4,15 +4,15 @@ import 'package:your_chef/core/dummy/dummy_data.dart';
 import 'package:your_chef/core/options/options.dart';
 import 'package:your_chef/core/utils/network_helper.dart';
 import 'package:your_chef/core/errors/exceptions.dart' as ex;
-import 'package:your_chef/features/home/data/models/product_model.dart';
+import 'package:your_chef/features/foods/data/models/food_model.dart';
 
 abstract class IWishlistRemoteDataSource {
   const IWishlistRemoteDataSource();
-  Future<void> addProductToWishlist(ProductModel product);
-  Future<void> removeProductFromWishlist(ProductModel product);
+  Future<void> addProductToWishlist(FoodModel food);
+  Future<void> removeProductFromWishlist(FoodModel food);
   // Future<bool> isProductInWishlist(ProductModel product);
 
-  Future<List<ProductModel>> getProductsWishList(
+  Future<List<FoodModel>> getProductsWishList(
     PaginationOptions options,
   );
 }
@@ -23,18 +23,17 @@ class SupabaseWishlistRemoteDataSource implements IWishlistRemoteDataSource {
   const SupabaseWishlistRemoteDataSource(this.client);
 
   @override
-  Future<void> addProductToWishlist(ProductModel product) async {
+  Future<void> addProductToWishlist(FoodModel food) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
       throw ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
     await Future.delayed(const Duration(seconds: 1));
-    AppDummies.foodsWishlist.add(product);
+    AppDummies.foodsWishlist.add(food);
   }
 
   @override
-  Future<List<ProductModel>> getProductsWishList(
-      PaginationOptions options) async {
+  Future<List<FoodModel>> getProductsWishList(PaginationOptions options) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
       throw ex.NetworkException(AppStrings.checkYourInternetConnection);
@@ -60,12 +59,12 @@ class SupabaseWishlistRemoteDataSource implements IWishlistRemoteDataSource {
   // }
 
   @override
-  Future<void> removeProductFromWishlist(ProductModel product) async {
+  Future<void> removeProductFromWishlist(FoodModel food) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
       throw ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
     await Future.delayed(const Duration(seconds: 1));
-    AppDummies.foodsWishlist.remove(product);
+    AppDummies.foodsWishlist.remove(food);
   }
 }

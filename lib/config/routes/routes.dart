@@ -5,7 +5,7 @@ class AppRoutes {
   static const String resetEmail = '/resetEmail';
   static const String otp = '/otp';
   static const String home = '/';
-  static const String product = '/product';
+  static const String food = '/food';
   static const String restaurant = '/restaurant';
   static const String themes = '/themes';
   static const String profile = '/profile';

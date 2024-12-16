@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
-import 'package:your_chef/features/home/domain/entities/product.dart';
+import 'package:your_chef/features/foods/domain/entities/food.dart';
 
-class ProductTile extends StatelessWidget {
-  const ProductTile({
+class FoodTile extends StatelessWidget {
+  const FoodTile({
     super.key,
-    required this.product,
+    required this.food,
   });
 
-  final Product product;
+  final Food food;
 
   @override
   Widget build(BuildContext context) {
@@ -23,14 +23,14 @@ class ProductTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(8.r),
           image: DecorationImage(
             image: CachedNetworkImageProvider(
-              product.images.first,
+              food.images.first,
             ),
             fit: BoxFit.cover,
           ),
         ),
       ),
       title: Text(
-        product.name,
+        food.name,
         overflow: TextOverflow.ellipsis,
         style: const TextStyle(
           // color: context.theme.iconTheme.color?.withOpacity(0.6),
@@ -40,7 +40,7 @@ class ProductTile extends StatelessWidget {
       ),
       subtitle: Text.rich(
         TextSpan(
-          text: '${product.rate} ',
+          text: '${food.rate} ',
           children: const [
             WidgetSpan(
               alignment: PlaceholderAlignment.middle,

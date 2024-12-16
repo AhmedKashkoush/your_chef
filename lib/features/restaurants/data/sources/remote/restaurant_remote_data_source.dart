@@ -5,11 +5,11 @@ import 'package:your_chef/core/errors/exceptions.dart' as ex;
 import 'package:your_chef/core/options/options.dart';
 import 'package:your_chef/core/utils/network_helper.dart';
 import 'package:your_chef/features/home/data/models/offer_model.dart';
-import 'package:your_chef/features/home/data/models/product_model.dart';
+import 'package:your_chef/features/foods/data/models/food_model.dart';
 
 abstract class IRestaurantRemoteDataSource {
   const IRestaurantRemoteDataSource();
-  Future<List<ProductModel>> getMenu(RestaurantOptions options);
+  Future<List<FoodModel>> getMenu(RestaurantOptions options);
   Future<List<OfferModel>> getOffers(RestaurantOptions options);
 }
 
@@ -19,7 +19,7 @@ class SupabaseRestaurantRemoteDataSource extends IRestaurantRemoteDataSource {
   const SupabaseRestaurantRemoteDataSource(this.client);
 
   @override
-  Future<List<ProductModel>> getMenu(RestaurantOptions options) async {
+  Future<List<FoodModel>> getMenu(RestaurantOptions options) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
       throw ex.NetworkException(AppStrings.checkYourInternetConnection);

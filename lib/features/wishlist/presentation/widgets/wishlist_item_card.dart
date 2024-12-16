@@ -12,12 +12,12 @@ import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/widgets/buttons/primary_button.dart';
 import 'package:your_chef/core/widgets/buttons/secondary_button.dart';
-import 'package:your_chef/features/home/domain/entities/product.dart';
+import 'package:your_chef/features/foods/domain/entities/food.dart';
 import 'package:your_chef/features/wishlist/presentation/bloc/wishlist_bloc.dart';
 
-class WishlistItem extends StatelessWidget {
-  final Product food;
-  const WishlistItem({
+class WishlistItemCard extends StatelessWidget {
+  final Food food;
+  const WishlistItemCard({
     super.key,
     required this.food,
   });
@@ -29,7 +29,7 @@ class WishlistItem extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         context.pushNamed(
-          AppRoutes.product,
+          AppRoutes.food,
           arguments: {
             'food': food,
             'tag': _tag,

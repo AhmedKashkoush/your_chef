@@ -11,7 +11,7 @@ import 'package:your_chef/core/utils/messages.dart';
 import 'package:your_chef/core/utils/network_helper.dart';
 import 'package:your_chef/core/widgets/buttons/custom_icon_button.dart';
 import 'package:your_chef/core/widgets/separators/card_divider_widget.dart';
-import 'package:your_chef/features/home/domain/entities/restaurant.dart';
+import 'package:your_chef/features/restaurants/domain/entities/restaurant.dart';
 import 'package:your_chef/features/restaurants/presentation/bloc/restaurant_bloc.dart';
 import 'package:your_chef/features/restaurants/presentation/widgets/sections/restaurant_images_list_section.dart';
 import 'package:your_chef/features/restaurants/presentation/widgets/sections/restaurant_info_section.dart';

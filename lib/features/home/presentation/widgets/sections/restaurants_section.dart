@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
-import 'package:your_chef/features/home/domain/entities/restaurant.dart';
+import 'package:your_chef/features/restaurants/domain/entities/restaurant.dart';
 import 'package:your_chef/features/home/presentation/widgets/items/restaurant_item.dart';
 
 class RestaurantsSection extends StatelessWidget {

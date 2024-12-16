@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:your_chef/features/home/data/models/category_model.dart';
-import 'package:your_chef/features/home/data/models/restaurant_model.dart';
-import 'package:your_chef/features/home/domain/entities/product.dart';
+import 'package:your_chef/features/restaurants/data/models/restaurant_model.dart';
+import 'package:your_chef/features/foods/domain/entities/food.dart';
 
-class ProductModel extends Equatable {
+class FoodModel extends Equatable {
   final int id;
   final String name, description;
   final CategoryModel category;
@@ -12,7 +12,7 @@ class ProductModel extends Equatable {
   final num price, rate, sale;
   final bool trending;
 
-  const ProductModel({
+  const FoodModel({
     required this.id,
     required this.category,
     required this.restaurant,
@@ -25,8 +25,8 @@ class ProductModel extends Equatable {
     required this.trending,
   });
 
-  factory ProductModel.fromJson(Map<String, dynamic> json) {
-    return ProductModel(
+  factory FoodModel.fromJson(Map<String, dynamic> json) {
+    return FoodModel(
       id: json['id'],
       category: CategoryModel.fromJson(json['category']),
       restaurant: RestaurantModel.fromJson(json['restaurant']),
@@ -53,20 +53,20 @@ class ProductModel extends Equatable {
         'trending': trending,
       };
 
-  factory ProductModel.fromEntity(Product product) => ProductModel(
-        id: product.id,
-        category: CategoryModel.fromEntity(product.category),
-        restaurant: RestaurantModel.fromEntity(product.restaurant),
-        name: product.name,
-        description: product.description,
-        images: product.images,
-        price: product.price,
-        rate: product.rate,
-        sale: product.sale,
-        trending: product.trending,
+  factory FoodModel.fromEntity(Food food) => FoodModel(
+        id: food.id,
+        category: CategoryModel.fromEntity(food.category),
+        restaurant: RestaurantModel.fromEntity(food.restaurant),
+        name: food.name,
+        description: food.description,
+        images: food.images,
+        price: food.price,
+        rate: food.rate,
+        sale: food.sale,
+        trending: food.trending,
       );
 
-  Product toEntity() => Product(
+  Food toEntity() => Food(
         id: id,
         category: category.toEntity(),
         restaurant: restaurant.toEntity(),

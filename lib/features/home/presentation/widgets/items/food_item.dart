@@ -8,23 +8,23 @@ import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/widgets/rating/star_rating_widget.dart';
-import 'package:your_chef/features/home/domain/entities/product.dart';
+import 'package:your_chef/features/foods/domain/entities/food.dart';
 
-class ProductItem extends StatelessWidget {
-  final Product food;
-  const ProductItem({
+class FoodItem extends StatelessWidget {
+  final Food food;
+  const FoodItem({
     super.key,
     required this.food,
   });
 
-  final String _tag = 'product';
+  final String _tag = 'food';
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         context.pushNamed(
-          AppRoutes.product,
+          AppRoutes.food,
           arguments: {
             'food': food,
             'tag': _tag,
