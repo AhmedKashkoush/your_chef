@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:your_chef/features/home/domain/entities/offer.dart';
+import 'package:your_chef/features/offers/domain/entities/offer.dart';
 
 class RestaurantOfferItem extends StatelessWidget {
   const RestaurantOfferItem({

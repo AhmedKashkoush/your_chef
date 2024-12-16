@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:your_chef/core/extensions/media_query_extension.dart';
-import 'package:your_chef/features/home/domain/entities/offer.dart';
+import 'package:your_chef/features/offers/domain/entities/offer.dart';
 import 'package:your_chef/features/home/presentation/widgets/items/offer_item.dart';
 
 class OffersSection extends StatelessWidget {

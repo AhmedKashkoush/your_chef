@@ -4,7 +4,7 @@ import 'package:your_chef/core/dummy/dummy_data.dart';
 import 'package:your_chef/core/errors/exceptions.dart' as ex;
 import 'package:your_chef/core/utils/network_helper.dart';
 import 'package:your_chef/features/categories/data/models/category_model.dart';
-import 'package:your_chef/features/home/data/models/offer_model.dart';
+import 'package:your_chef/features/offers/data/models/offer_model.dart';
 import 'package:your_chef/features/foods/data/models/food_model.dart';
 import 'package:your_chef/features/restaurants/data/models/restaurant_model.dart';
 

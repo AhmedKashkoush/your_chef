@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/constants/strings.dart';
-import 'package:your_chef/features/home/domain/entities/offer.dart';
+import 'package:your_chef/features/offers/domain/entities/offer.dart';
 import 'package:your_chef/features/restaurants/presentation/widgets/items/restaurant_offer_item.dart';
 
 class RestaurantOffersSection extends StatelessWidget {

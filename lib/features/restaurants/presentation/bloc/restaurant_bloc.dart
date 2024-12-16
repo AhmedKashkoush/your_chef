@@ -6,7 +6,7 @@ import 'package:your_chef/core/errors/error_types.dart';
 import 'package:your_chef/core/errors/failures.dart';
 import 'package:your_chef/core/options/options.dart';
 import 'package:your_chef/core/utils/network_helper.dart';
-import 'package:your_chef/features/home/domain/entities/offer.dart';
+import 'package:your_chef/features/offers/domain/entities/offer.dart';
 import 'package:your_chef/features/foods/domain/entities/food.dart';
 import 'package:your_chef/features/restaurants/domain/usecases/get_restaurant_menu_usecase.dart';
 import 'package:your_chef/features/restaurants/domain/usecases/get_restaurant_offers_usecase.dart';

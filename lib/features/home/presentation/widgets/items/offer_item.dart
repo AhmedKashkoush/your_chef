@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:your_chef/core/extensions/media_query_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
-import 'package:your_chef/features/home/domain/entities/offer.dart';
+import 'package:your_chef/features/offers/domain/entities/offer.dart';
 
 class OfferItem extends StatelessWidget {
   const OfferItem({
