@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:your_chef/features/restaurants/domain/entities/restaurant.dart';
+import 'package:your_chef/features/user/domain/entities/user.dart';
 
 abstract class AppOptions {
   const AppOptions();

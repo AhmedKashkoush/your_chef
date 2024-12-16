@@ -26,7 +26,7 @@ class SupabaseWishlistRemoteDataSource implements IWishlistRemoteDataSource {
   Future<void> addProductToWishlist(FoodModel food) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw ex.NetworkException(AppStrings.checkYourInternetConnection);
+      throw const ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
     await Future.delayed(const Duration(seconds: 1));
     AppDummies.foodsWishlist.add(food);
@@ -36,7 +36,7 @@ class SupabaseWishlistRemoteDataSource implements IWishlistRemoteDataSource {
   Future<List<FoodModel>> getProductsWishList(PaginationOptions options) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw ex.NetworkException(AppStrings.checkYourInternetConnection);
+      throw const ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
     await Future.delayed(const Duration(seconds: 4));
 
@@ -62,7 +62,7 @@ class SupabaseWishlistRemoteDataSource implements IWishlistRemoteDataSource {
   Future<void> removeProductFromWishlist(FoodModel food) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw ex.NetworkException(AppStrings.checkYourInternetConnection);
+      throw const ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
     await Future.delayed(const Duration(seconds: 1));
     AppDummies.foodsWishlist.remove(food);

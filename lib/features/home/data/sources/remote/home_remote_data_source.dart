@@ -25,7 +25,7 @@ class SupabaseHomeRemoteDataSource extends IHomeRemoteDataSource {
   Future<List<CategoryModel>> getCategories() async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw ex.NetworkException(AppStrings.checkYourInternetConnection);
+      throw const ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
     await Future.delayed(const Duration(seconds: 4));
     return AppDummies.categories.take(5).toList();
@@ -35,7 +35,7 @@ class SupabaseHomeRemoteDataSource extends IHomeRemoteDataSource {
   Future<List<FoodModel>> getPopularFoods() async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw ex.NetworkException(AppStrings.checkYourInternetConnection);
+      throw const ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
     await Future.delayed(const Duration(seconds: 4));
     return AppDummies.foods
@@ -49,7 +49,7 @@ class SupabaseHomeRemoteDataSource extends IHomeRemoteDataSource {
   Future<List<FoodModel>> getOnSaleFoods() async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw ex.NetworkException(AppStrings.checkYourInternetConnection);
+      throw const ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
     await Future.delayed(const Duration(seconds: 4));
     return AppDummies.foods.where((food) => food.sale > 0).take(6).toList()
@@ -60,7 +60,7 @@ class SupabaseHomeRemoteDataSource extends IHomeRemoteDataSource {
   Future<List<RestaurantModel>> getRestaurants() async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw ex.NetworkException(AppStrings.checkYourInternetConnection);
+      throw const ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
     await Future.delayed(const Duration(seconds: 4));
     return AppDummies.restaurants.take(5).toList()..shuffle();
@@ -70,7 +70,7 @@ class SupabaseHomeRemoteDataSource extends IHomeRemoteDataSource {
   Future<List<OfferModel>> getOffers() async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw ex.NetworkException(AppStrings.checkYourInternetConnection);
+      throw const ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
     await Future.delayed(const Duration(seconds: 4));
     return AppDummies.offers..shuffle();

@@ -33,6 +33,18 @@ import 'package:your_chef/features/settings/domain/repositories/settings_reposit
 import 'package:your_chef/features/settings/domain/usecases/sign_out_usecase.dart';
 import 'package:your_chef/features/settings/domain/usecases/switch_account_usecase.dart';
 import 'package:your_chef/features/settings/presentation/bloc/settings_bloc.dart';
+import 'package:your_chef/features/user/data/repositories/user_repository_impl.dart';
+import 'package:your_chef/features/user/data/sources/local/user_local_data_source.dart';
+import 'package:your_chef/features/user/data/sources/remote/user_remote_data_source.dart';
+import 'package:your_chef/features/user/domain/repositories/user_repository.dart';
+import 'package:your_chef/features/user/domain/usecases/delete_saved_user_usecase.dart';
+import 'package:your_chef/features/user/domain/usecases/delete_user_usecase.dart';
+import 'package:your_chef/features/user/domain/usecases/get_saved_users_usecase.dart';
+import 'package:your_chef/features/user/domain/usecases/get_user_usecase.dart';
+import 'package:your_chef/features/user/domain/usecases/save_user_usecase.dart';
+import 'package:your_chef/features/user/domain/usecases/switch_user_usecase.dart';
+import 'package:your_chef/features/user/domain/usecases/update_user_usecase.dart';
+import 'package:your_chef/features/user/presentation/bloc/user_bloc.dart';
 import 'package:your_chef/features/wishlist/data/repositories/wishlist_repository_impl.dart';
 import 'package:your_chef/features/wishlist/data/sources/remote/wishlist_remote_data_source.dart';
 import 'package:your_chef/features/wishlist/domain/repositories/wishlist_repository.dart';
@@ -51,6 +63,7 @@ final GetIt locator = GetIt.instance;
 void setupLocator() {
   _initExternal();
   _initRemoteSources();
+  _initLocalSources();
   _initRepositories();
   _initUseCases();
   _initBlocs();
@@ -75,6 +88,12 @@ void _initRemoteSources() {
     () => SupabaseAuthRemoteDataSource(
       locator<SupabaseClient>(),
       locator<GoogleSignIn>(),
+    ),
+  );
+  //*User
+  locator.registerLazySingleton<IUserRemoteDataSource>(
+    () => SupabaseUserRemoteDataSource(
+      locator<SupabaseClient>(),
     ),
   );
 
@@ -106,11 +125,26 @@ void _initRemoteSources() {
   );
 }
 
+//? Local Sources
+void _initLocalSources() {
+  //*User
+  locator.registerLazySingleton<IUserLocalDataSource>(
+    () => const SecureStorageUserLocalDataSource(),
+  );
+}
+
 //? Repositories
 void _initRepositories() {
   //*Auth
   locator.registerLazySingleton<IAuthRepository>(
     () => AuthRepository(locator<IAuthRemoteDataSource>()),
+  );
+  //*User
+  locator.registerLazySingleton<IUserRepository>(
+    () => UserRepository(
+      remoteDataSource: locator<IUserRemoteDataSource>(),
+      localDataSource: locator<IUserLocalDataSource>(),
+    ),
   );
   //*Home
   locator.registerLazySingleton<IHomeRepository>(
@@ -153,6 +187,29 @@ void _initUseCases() {
   );
   locator.registerLazySingleton<VerifyOtpUseCase>(
     () => VerifyOtpUseCase(locator<IAuthRepository>()),
+  );
+
+  //*User
+  locator.registerLazySingleton<GetUserUseCase>(
+    () => GetUserUseCase(locator<IUserRepository>()),
+  );
+  locator.registerLazySingleton<GetSavedUsersUseCase>(
+    () => GetSavedUsersUseCase(locator<IUserRepository>()),
+  );
+  locator.registerLazySingleton<UpdateUserUseCase>(
+    () => UpdateUserUseCase(locator<IUserRepository>()),
+  );
+  locator.registerLazySingleton<DeleteUserUseCase>(
+    () => DeleteUserUseCase(locator<IUserRepository>()),
+  );
+  locator.registerLazySingleton<DeleteSavedUserUseCase>(
+    () => DeleteSavedUserUseCase(locator<IUserRepository>()),
+  );
+  locator.registerLazySingleton<SaveUserUseCase>(
+    () => SaveUserUseCase(locator<IUserRepository>()),
+  );
+  locator.registerLazySingleton<SwitchUserUseCase>(
+    () => SwitchUserUseCase(locator<IUserRepository>()),
   );
 
   //*Home
@@ -214,6 +271,19 @@ void _initBlocs() {
     () => VerifyBloc(
       locator<SendOtpUseCase>(),
       locator<VerifyOtpUseCase>(),
+    ),
+  );
+
+  //*User
+  locator.registerFactory<UserBloc>(
+    () => UserBloc(
+      deleteSavedUserUseCase: locator<DeleteSavedUserUseCase>(),
+      getUserUseCase: locator<GetUserUseCase>(),
+      getSavedUsersUseCase: locator<GetSavedUsersUseCase>(),
+      saveUserUseCase: locator<SaveUserUseCase>(),
+      switchUserUseCase: locator<SwitchUserUseCase>(),
+      updateUserUseCase: locator<UpdateUserUseCase>(),
+      deleteUserUseCase: locator<DeleteUserUseCase>(),
     ),
   );
   //*Home

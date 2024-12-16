@@ -23,7 +23,7 @@ class GoogleLoginLoadingState extends LoginState {
 }
 
 class LoginSuccessState extends LoginState {
-  final User user;
+  final SavedUser user;
 
   const LoginSuccessState(this.user);
   @override

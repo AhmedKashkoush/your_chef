@@ -15,6 +15,7 @@ import 'package:your_chef/core/widgets/buttons/auth_button.dart';
 import 'package:your_chef/core/widgets/buttons/primary_button.dart';
 import 'package:your_chef/core/widgets/fields/custom_text_field.dart';
 import 'package:your_chef/features/auth/presentation/bloc/login/login_bloc.dart';
+import 'package:your_chef/features/user/presentation/bloc/user_bloc.dart';
 
 class LoginView extends StatelessWidget {
   final TextEditingController emailController, passwordController;
@@ -46,7 +47,11 @@ class LoginView extends StatelessWidget {
           if (state is LoginSuccessState) {
             AppMessages.showSuccessMessage(
                 context, AppStrings.loggedInSuccessfully);
-            context.pushNamedAndRemoveUntil(AppRoutes.home);
+            context.read<UserBloc>().add(SetUserEvent(state.user.user));
+            context.pushNamedAndRemoveUntil(
+              AppRoutes.home,
+              arguments: state.user,
+            );
           }
         }
       },

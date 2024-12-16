@@ -1,19 +1,20 @@
-class AuthException implements Exception {
-  String message;
-  AuthException(this.message);
+class CommonException implements Exception {
+  final String message;
+  const CommonException(this.message);
 }
 
-class NetworkException implements Exception {
-  String message;
-  NetworkException(this.message);
+class AuthException extends CommonException {
+  const AuthException(super.message);
 }
 
-class EmptyCacheException implements Exception {
-  String message;
-  EmptyCacheException(this.message);
+class NetworkException extends CommonException {
+  const NetworkException(super.message);
 }
 
-class ServerException implements Exception {
-  String message;
-  ServerException(this.message);
+class EmptyCacheException extends CommonException {
+  const EmptyCacheException(super.message);
+}
+
+class ServerException extends CommonException {
+  const ServerException(super.message);
 }

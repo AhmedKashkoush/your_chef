@@ -1,9 +1,9 @@
-import 'dart:developer';
-
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:your_chef/core/constants/keys.dart';
 import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/errors/exceptions.dart' as ex;
 import 'package:your_chef/core/utils/network_helper.dart';
+import 'package:your_chef/core/utils/secure_storage_helper.dart';
 import 'package:your_chef/core/utils/user_helper.dart';
 import 'package:your_chef/features/user/data/models/user_model.dart';
 
@@ -22,19 +22,20 @@ class SupabaseSettingsRemoteDataSource extends ISettingsRemoteDataSource {
   Future<void> signOut() async {
     final bool isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw ex.NetworkException(AppStrings.checkYourInternetConnection);
+      throw const ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
     await client.auth.signOut().catchError(
-          (error) => throw ex.ServerException(AppStrings.somethingWentWrong),
+          (error) =>
+              throw const ex.ServerException(AppStrings.somethingWentWrong),
         );
-    await UserHelper.signOut();
+    await SecureStorageHelper.delete(SharedPrefsKeys.user);
   }
 
   @override
   Future<void> switchAccount(SavedUser savedUser) async {
     final bool isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw ex.NetworkException(AppStrings.checkYourInternetConnection);
+      throw const ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
     // await client.auth.signOut().catchError(
     //       (error) => throw ex.ServerException(AppStrings.somethingWentWrong),
@@ -48,10 +49,9 @@ class SupabaseSettingsRemoteDataSource extends ISettingsRemoteDataSource {
         password: savedUser.password!,
       )
           .catchError((error) async {
-        log('normal auth error: $error');
         await client.auth.signOut();
         await UserHelper.signOut();
-        throw ex.AuthException(AppStrings.sessionExpired);
+        throw const ex.AuthException(AppStrings.sessionExpired);
       });
     }
 
@@ -63,17 +63,16 @@ class SupabaseSettingsRemoteDataSource extends ISettingsRemoteDataSource {
         accessToken: savedUser.accessToken,
       )
           .catchError((error) async {
-        log('provider auth error: $error');
         await client.auth.signOut();
         await UserHelper.signOut();
-        throw ex.AuthException(AppStrings.sessionExpired);
+        throw const ex.AuthException(AppStrings.sessionExpired);
       });
     }
     final User? user = response.session?.user;
     if (user == null) {
       await client.auth.signOut();
       await UserHelper.signOut();
-      throw ex.AuthException(AppStrings.sessionExpired);
+      throw const ex.AuthException(AppStrings.sessionExpired);
     }
     final Map<String, dynamic> data =
         await client.from('users').select('*').eq('id', user.id).single();
@@ -81,7 +80,7 @@ class SupabaseSettingsRemoteDataSource extends ISettingsRemoteDataSource {
     if (data.isEmpty) {
       await client.auth.signOut();
       await UserHelper.signOut();
-      throw ex.AuthException(AppStrings.invalidCredentials);
+      throw const ex.AuthException(AppStrings.invalidCredentials);
     }
     await UserHelper.signOut();
     final UserModel signedUser = UserModel.fromJson(data);

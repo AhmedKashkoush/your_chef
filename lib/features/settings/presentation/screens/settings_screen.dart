@@ -12,20 +12,22 @@ import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/utils/messages.dart';
+import 'package:your_chef/core/utils/network_helper.dart';
 import 'package:your_chef/core/utils/url_helper.dart';
-import 'package:your_chef/core/utils/user_helper.dart';
+// import 'package:your_chef/core/utils/user_helper.dart';
 import 'package:your_chef/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:your_chef/features/settings/presentation/widgets/accounts_bottom_sheet.dart';
 import 'package:your_chef/features/settings/presentation/widgets/action_tile.dart';
 import 'package:your_chef/features/settings/presentation/widgets/user_tile.dart';
-import 'package:your_chef/locator.dart';
+import 'package:your_chef/features/user/domain/entities/saved_user.dart';
+import 'package:your_chef/features/user/presentation/bloc/user_bloc.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
   void _switchAccount(BuildContext context, SavedUser savedUser) {
-    context.read<SettingsBloc>().add(
-          SwitchAccountEvent(
+    context.read<UserBloc>().add(
+          SwitchUserEvent(
             savedUser,
           ),
         );
@@ -61,8 +63,14 @@ class SettingsScreen extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       showDragHandle: true,
-      builder: (context) => AccountsBottomSheet(
-        savedUsers: UserHelper.savedUsers,
+      builder: (context) => BlocBuilder<UserBloc, UserState>(
+        builder: (context, state) {
+          return AccountsBottomSheet(
+            savedUsers: state.savedUsers
+                .where((user) => user.user.id != state.user!.id)
+                .toList(),
+          );
+        },
       ),
     );
 
@@ -117,6 +125,11 @@ class SettingsScreen extends StatelessWidget {
                       context,
                       AppStrings.signedOutSuccessfully,
                     );
+                    context.read<UserBloc>().add(const LogoutEvent());
+                    if (context.read<UserBloc>().state.savedUsers.isNotEmpty) {
+                      context.pushReplacementNamed(AppRoutes.accounts);
+                      return;
+                    }
                     context.pushReplacementNamed(AppRoutes.auth);
                   }
                 }
@@ -135,49 +148,46 @@ class SettingsScreen extends StatelessWidget {
                     16.height,
                     const Divider(),
                     16.height,
-                    BlocProvider(
-                      create: (context) => locator<SettingsBloc>(),
-                      child: Builder(builder: (context) {
-                        return BlocListener<SettingsBloc, SettingsState>(
-                          listener: (context, state) {
-                            if (state is SettingsLoadingState) {
-                              AppMessages.showLoadingDialog(
-                                context,
-                                message: AppStrings.switchingAccount,
+                    BlocListener<UserBloc, UserState>(
+                      listenWhen: (previous, state) =>
+                          state.switchUser && previous.status != state.status,
+                      listener: (context, state) {
+                        if (state.status == RequestStatus.loading) {
+                          AppMessages.showLoadingDialog(
+                            context,
+                            message: AppStrings.switchingAccount,
+                          );
+                        } else {
+                          context.pop();
+                          if (state.status == RequestStatus.failure) {
+                            AppMessages.showErrorMessage(
+                              context,
+                              state.error,
+                              state.errorType,
+                            );
+
+                            if (state.errorType == ErrorType.auth) {
+                              context.pushNamedAndRemoveUntil(
+                                AppRoutes.auth,
                               );
-                            } else {
-                              context.pop();
-                              if (state is SettingsErrorState) {
-                                AppMessages.showErrorMessage(
-                                  context,
-                                  state.message,
-                                  state.type,
-                                );
-
-                                if (state.type == ErrorType.auth) {
-                                  context.pushNamedAndRemoveUntil(
-                                    AppRoutes.auth,
-                                  );
-                                }
-                              }
-
-                              if (state is SettingsSuccessState) {
-                                if (!context.mounted) return;
-                                AppMessages.showSuccessMessage(
-                                  context,
-                                  AppStrings.switchedAccountSuccessfully,
-                                );
-                                context.pushReplacementNamed(AppRoutes.home);
-                              }
                             }
-                          },
-                          child: ActionTile(
-                            onTap: () => _openAccountsSheet(context),
-                            title: AppStrings.switchAccounts,
-                            icon: HugeIcons.strokeRoundedUserSwitch,
-                          ),
-                        );
-                      }),
+                          }
+
+                          if (state.status == RequestStatus.success) {
+                            if (!context.mounted) return;
+                            AppMessages.showSuccessMessage(
+                              context,
+                              AppStrings.switchedAccountSuccessfully,
+                            );
+                            context.pushReplacementNamed(AppRoutes.home);
+                          }
+                        }
+                      },
+                      child: ActionTile(
+                        onTap: () => _openAccountsSheet(context),
+                        title: AppStrings.switchAccounts,
+                        icon: HugeIcons.strokeRoundedUserSwitch,
+                      ),
                     ),
                     8.height,
                     ActionTile(

@@ -54,6 +54,14 @@ class AppStrings {
   static const String gallery = "Gallery";
   static const String upload = "Upload";
 
+  static const String chooseAccountToLogin = "Choose account to log in";
+  static const String loginWithAnotherAccount = "Login with another account";
+
+  static const String saveAccountMessage =
+      "Would you like to save this account?";
+  static const String save = "Save";
+  static const String accountSaved = "Account saved";
+
   static const String welcomeUser = "Welcome";
   static const String homeDisclaimer = "Don't forget to pray for";
   static const String palestine = "Palestine";

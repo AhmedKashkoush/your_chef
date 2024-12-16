@@ -5,16 +5,20 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/extensions/media_query_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
+import 'package:your_chef/core/widgets/bottom_sheets/account_save_bottom_sheet.dart';
 import 'package:your_chef/core/widgets/views/persistent_view.dart';
 import 'package:your_chef/features/home/presentation/bloc/home_bloc.dart';
 import 'package:your_chef/features/home/presentation/screens/home_screen.dart';
 import 'package:your_chef/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:your_chef/features/settings/presentation/screens/settings_screen.dart';
+import 'package:your_chef/features/user/domain/entities/saved_user.dart';
+import 'package:your_chef/features/user/presentation/bloc/user_bloc.dart';
 import 'package:your_chef/features/wishlist/presentation/screens/wishlist_screen.dart';
 import 'package:your_chef/locator.dart';
 
 class HomeWrapper extends StatefulWidget {
-  const HomeWrapper({super.key});
+  final SavedUser? savedUser;
+  const HomeWrapper({super.key, this.savedUser});
 
   @override
   State<HomeWrapper> createState() => _HomeWrapperState();
@@ -47,6 +51,31 @@ class _HomeWrapperState extends State<HomeWrapper> {
     HugeIcons.strokeRoundedWorkHistory,
     HugeIcons.strokeRoundedSetting07,
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => _showAccountSaveSheet(context),
+    );
+  }
+
+  void _showAccountSaveSheet(BuildContext context) {
+    final UserState state = context.read<UserBloc>().state;
+    if (widget.savedUser == null) return;
+    if (state.savedUsers
+        .any((user) => user.user.id == widget.savedUser?.user.id)) {
+      return;
+    }
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: false,
+      builder: (context) => AccountSaveBottomSheet(
+        savedUser: widget.savedUser!,
+      ),
+    );
+  }
 
   @override
   void dispose() {

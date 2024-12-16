@@ -5,6 +5,7 @@ import 'package:your_chef/core/options/options.dart';
 import 'package:your_chef/core/widgets/home_wrapper/home_wrapper.dart';
 import 'package:your_chef/features/auth/presentation/bloc/login/login_bloc.dart';
 import 'package:your_chef/features/auth/presentation/bloc/register/register_bloc.dart';
+import 'package:your_chef/features/auth/presentation/screens/accounts_screen.dart';
 import 'package:your_chef/features/auth/presentation/screens/auth_screen.dart';
 import 'package:your_chef/features/auth/presentation/screens/email_reset_screen.dart';
 import 'package:your_chef/features/auth/presentation/screens/otp_screen.dart';
@@ -16,6 +17,7 @@ import 'package:your_chef/features/profile/presentation/screens/profile_screen.d
 import 'package:your_chef/features/restaurants/presentation/screens/restaurant_details_screen.dart';
 import 'package:your_chef/features/settings/presentation/screens/themes_screen.dart';
 import 'package:your_chef/features/splash/splash_screen.dart';
+import 'package:your_chef/features/user/domain/entities/saved_user.dart';
 import 'package:your_chef/locator.dart';
 
 class AppRouter {
@@ -44,6 +46,10 @@ class AppRouter {
             child: const AuthScreen(),
           ),
         );
+      case AppRoutes.accounts:
+        return MaterialPageRoute(
+          builder: (_) => const AccountsScreen(),
+        );
       case AppRoutes.resetEmail:
         return _slideTransition(
           const EmailResetScreen(),
@@ -59,7 +65,9 @@ class AppRouter {
         );
       case AppRoutes.home:
         return MaterialPageRoute(
-          builder: (context) => const HomeWrapper(),
+          builder: (context) => HomeWrapper(
+            savedUser: settings.arguments as SavedUser?,
+          ),
         );
       case AppRoutes.food:
         return MaterialPageRoute(

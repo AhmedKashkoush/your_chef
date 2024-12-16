@@ -22,7 +22,7 @@ class SupabaseRestaurantRemoteDataSource extends IRestaurantRemoteDataSource {
   Future<List<FoodModel>> getMenu(RestaurantOptions options) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw ex.NetworkException(AppStrings.checkYourInternetConnection);
+      throw const ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
     await Future.delayed(const Duration(seconds: 4));
     return AppDummies.foods
@@ -34,7 +34,7 @@ class SupabaseRestaurantRemoteDataSource extends IRestaurantRemoteDataSource {
   Future<List<OfferModel>> getOffers(RestaurantOptions options) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw ex.NetworkException(AppStrings.checkYourInternetConnection);
+      throw const ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
     await Future.delayed(const Duration(seconds: 4));
     return AppDummies.offers

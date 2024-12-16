@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:your_chef/core/errors/error_types.dart';
 import 'package:your_chef/core/options/options.dart';
-import 'package:your_chef/features/user/domain/entities/user.dart';
+import 'package:your_chef/features/user/domain/entities/saved_user.dart';
 import 'package:your_chef/features/auth/domain/usecases/google_sign_in_usecase.dart';
 import 'package:your_chef/features/auth/domain/usecases/login_usecase.dart';
 
@@ -26,7 +26,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   FutureOr<void> _login(
       LoginSubmitEvent event, Emitter<LoginState> emit) async {
     emit(const LoginLoadingState());
-    final Either<Failure, User> result = await loginUseCase(event.options);
+    final Either<Failure, SavedUser> result = await loginUseCase(event.options);
 
     result.fold((failure) {
       if (failure is AuthFailure) {
@@ -46,7 +46,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   FutureOr<void> _googleSign(
       GoogleSignInEvent event, Emitter<LoginState> emit) async {
     emit(const GoogleLoginLoadingState());
-    final Either<Failure, User> result = await googleSignUseCase();
+    final Either<Failure, SavedUser> result = await googleSignUseCase();
 
     result.fold((failure) {
       if (failure is AuthFailure) {

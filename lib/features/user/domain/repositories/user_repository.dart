@@ -8,8 +8,10 @@ import 'package:your_chef/features/user/domain/entities/user.dart';
 abstract class IUserRepository {
   const IUserRepository();
   Future<Either<Failure, User>> getUser();
+  Future<Either<Failure, List<SavedUser>>> getSavedUsers();
   Future<Either<Failure, Unit>> updateUser(UserOptions options);
   Future<Either<Failure, Unit>> deleteUser();
-  Future<Either<Failure, Unit>> deleteSavedUser(SavedUser user);
-  Future<Either<Failure, User>> switchUser(SavedUser user);
+  Future<Either<Failure, Unit>> deleteSavedUser(SavedUser savedUser);
+  Future<Either<Failure, User>> switchUser(SavedUser savedUser);
+  Future<Either<Failure, Unit>> saveUser(SavedUser savedUser);
 }

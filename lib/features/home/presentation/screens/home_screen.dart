@@ -11,7 +11,6 @@ import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/utils/messages.dart';
 import 'package:your_chef/core/utils/network_helper.dart';
-import 'package:your_chef/core/utils/user_helper.dart';
 import 'package:your_chef/core/widgets/app_bars/custom_app_bar.dart';
 import 'package:your_chef/core/widgets/errors/custom_error_widget.dart';
 import 'package:your_chef/core/widgets/loading/skeleton_loading_widget.dart';
@@ -21,6 +20,7 @@ import 'package:your_chef/features/home/presentation/widgets/sections/foods_sect
 import 'package:your_chef/features/home/presentation/widgets/sections/offers_section.dart';
 import 'package:your_chef/features/home/presentation/widgets/sections/restaurants_section.dart';
 import 'package:your_chef/features/home/presentation/widgets/sections/section_header.dart';
+import 'package:your_chef/features/user/presentation/bloc/user_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -83,12 +83,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       bottom: 88.0,
                     ).r,
                     children: [
-                      Text(
-                        '${AppStrings.welcomeUser} ${UserHelper.user?.name.split(' ').first}! 👋',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      BlocBuilder<UserBloc, UserState>(
+                        builder: (context, state) {
+                          return Text(
+                            '${AppStrings.welcomeUser} ${state.user?.name.split(' ').first}! 👋',
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          );
+                        },
                       ),
                       Text.rich(
                         const TextSpan(

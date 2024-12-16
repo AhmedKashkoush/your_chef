@@ -7,11 +7,10 @@ import 'package:your_chef/core/errors/exceptions.dart';
 import 'package:your_chef/core/errors/failures.dart';
 
 import 'package:your_chef/core/options/options.dart';
-
-import 'package:your_chef/features/user/domain/entities/user.dart';
+import 'package:your_chef/features/user/data/models/saved_user_model.dart';
+import 'package:your_chef/features/user/domain/entities/saved_user.dart';
 
 import '../../domain/repositories/auth_repository.dart';
-import '../../../user/data/models/user_model.dart';
 import '../sources/remote/auth_remote_data_source.dart';
 
 class AuthRepository implements IAuthRepository {
@@ -20,9 +19,9 @@ class AuthRepository implements IAuthRepository {
   final IAuthRemoteDataSource remoteDataSource;
 
   @override
-  Future<Either<Failure, User>> googleSignIn() async {
+  Future<Either<Failure, SavedUser>> googleSignIn() async {
     try {
-      final UserModel user = await remoteDataSource.googleSignIn();
+      final SavedUserModel user = await remoteDataSource.googleSignIn();
       return Right(user.toEntity());
     } on AuthException catch (e) {
       return Left(AuthFailure(e.message));
@@ -37,9 +36,9 @@ class AuthRepository implements IAuthRepository {
   }
 
   @override
-  Future<Either<Failure, User>> login(LoginOptions options) async {
+  Future<Either<Failure, SavedUser>> login(LoginOptions options) async {
     try {
-      final UserModel user = await remoteDataSource.login(options);
+      final SavedUserModel user = await remoteDataSource.login(options);
       return Right(user.toEntity());
     } on AuthException catch (e) {
       return Left(AuthFailure(e.message));

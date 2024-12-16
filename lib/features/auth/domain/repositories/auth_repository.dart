@@ -1,11 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:your_chef/core/errors/failures.dart';
 import 'package:your_chef/core/options/options.dart';
-import 'package:your_chef/features/user/domain/entities/user.dart';
+import 'package:your_chef/features/user/domain/entities/saved_user.dart';
 
 abstract class IAuthRepository {
-  Future<Either<Failure, User>> login(LoginOptions options);
-  Future<Either<Failure, User>> googleSignIn();
+  Future<Either<Failure, SavedUser>> login(LoginOptions options);
+  Future<Either<Failure, SavedUser>> googleSignIn();
   Future<Either<Failure, Unit>> sendOtpCode(ResetPasswordOptions options);
   Future<Either<Failure, Unit>> verify(VerifyOtpOptions options);
   Future<Either<Failure, String>> register(RegisterOptions options);
