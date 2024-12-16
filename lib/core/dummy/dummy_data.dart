@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:your_chef/features/home/data/models/category_model.dart';
+import 'package:your_chef/features/categories/data/models/category_model.dart';
 import 'package:your_chef/features/home/data/models/offer_model.dart';
 import 'package:your_chef/features/foods/data/models/food_model.dart';
 import 'package:your_chef/features/restaurants/data/models/restaurant_model.dart';

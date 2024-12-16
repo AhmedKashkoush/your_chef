@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
-import 'package:your_chef/features/home/domain/entities/category.dart';
+import 'package:your_chef/features/categories/domain/entities/category.dart';
 import 'package:your_chef/features/home/presentation/widgets/items/category_item.dart';
 
 class CategoriesSection extends StatelessWidget {

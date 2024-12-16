@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:your_chef/features/home/domain/entities/category.dart';
+import 'package:your_chef/features/categories/domain/entities/category.dart';
 import 'package:your_chef/features/restaurants/domain/entities/restaurant.dart';
 
 class Food extends Equatable {
