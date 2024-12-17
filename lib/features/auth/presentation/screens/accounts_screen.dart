@@ -8,6 +8,8 @@ import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/utils/messages.dart';
 import 'package:your_chef/core/widgets/avatars/user_avatar.dart';
 import 'package:your_chef/core/widgets/buttons/secondary_button.dart';
+import 'package:your_chef/core/widgets/icons/app_logo.dart';
+import 'package:your_chef/core/widgets/layout/orientation_widget.dart';
 import 'package:your_chef/features/user/domain/entities/saved_user.dart';
 import 'package:your_chef/features/user/presentation/bloc/user_bloc.dart';
 
@@ -44,81 +46,187 @@ class AccountsScreen extends StatelessWidget {
           return Center(
             child: Padding(
               padding: const EdgeInsets.all(12.0).r,
-              child: Column(
-                children: [
-                  const Spacer(
-                    flex: 4,
-                  ),
-                  Text(
-                    AppStrings.chooseAccountToLogin,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20.sp,
-                    ),
-                  ),
-                  const Spacer(),
-                  Expanded(
-                    flex: 4,
-                    child: ListView.separated(
-                      itemBuilder: (context, index) {
-                        final SavedUser savedUser = state.savedUsers[index];
-                        return ListTile(
-                          leading: UserAvatar(
-                            url: savedUser.user.image,
-                          ),
-                          title: Text(savedUser.user.name),
-                          subtitle: Text(savedUser.user.email),
-                          onTap: () {
-                            context.read<UserBloc>().add(
-                                  SwitchUserEvent(savedUser),
-                                );
-                          },
-                        );
-                      },
-                      separatorBuilder: (context, index) => const Divider(),
-                      itemCount: state.savedUsers.length,
-                    ),
-                  ),
-                  Flexible(child: 24.height),
-                  // const Spacer(),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Divider(
-                          endIndent: 10.w,
-                          color: Colors.grey.withOpacity(0.5),
-                          thickness: 1,
-                        ),
-                      ),
-                      const Text(
-                        AppStrings.or,
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                      Expanded(
-                        child: Divider(
-                          indent: 10.w,
-                          color: Colors.grey.withOpacity(0.5),
-                          thickness: 1,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                  SecondaryButton(
-                    text: AppStrings.loginWithAnotherAccount,
-                    onPressed: () {
-                      context.pushReplacementNamed(AppRoutes.auth);
-                    },
-                  ),
-                  const Spacer(
-                    flex: 4,
-                  ),
-                ],
+              child: OrientationWidget(
+                portrait: _AccountsScreenPortrait(
+                  savedUsers: state.savedUsers,
+                ),
+                landscape: _AccountsScreenLandscape(
+                  savedUsers: state.savedUsers,
+                ),
               ),
             ),
           );
         },
       ),
+    );
+  }
+}
+
+class _AccountsScreenPortrait extends StatelessWidget {
+  final List<SavedUser> savedUsers;
+  const _AccountsScreenPortrait({
+    required this.savedUsers,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        // const Spacer(),
+        const AppLogo(),
+        Flexible(child: 14.height),
+        Text(
+          AppStrings.chooseAccountToLogin,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20.sp,
+          ),
+        ),
+        Flexible(child: 24.height),
+        Expanded(
+          flex: 6,
+          child: ListView.separated(
+            itemBuilder: (context, index) {
+              final SavedUser savedUser = savedUsers[index];
+              return ListTile(
+                leading: UserAvatar(
+                  url: savedUser.user.image,
+                ),
+                title: Text(savedUser.user.name),
+                subtitle: Text(savedUser.user.email),
+                onTap: () {
+                  context.read<UserBloc>().add(
+                        SwitchUserEvent(savedUser),
+                      );
+                },
+              );
+            },
+            separatorBuilder: (context, index) => const Divider(),
+            itemCount: savedUsers.length,
+          ),
+        ),
+        Flexible(child: 24.height),
+        // const Spacer(),
+        Row(
+          children: [
+            Expanded(
+              child: Divider(
+                endIndent: 10.w,
+                color: Colors.grey.withOpacity(0.5),
+                thickness: 1,
+              ),
+            ),
+            const Text(
+              AppStrings.or,
+              style: TextStyle(color: Colors.grey),
+            ),
+            Expanded(
+              child: Divider(
+                indent: 10.w,
+                color: Colors.grey.withOpacity(0.5),
+                thickness: 1,
+              ),
+            ),
+          ],
+        ),
+        const Spacer(),
+        SecondaryButton(
+          text: AppStrings.loginWithAnotherAccount,
+          onPressed: () {
+            context.pushReplacementNamed(AppRoutes.auth);
+          },
+        ),
+        // const Spacer(),
+      ],
+    );
+  }
+}
+
+class _AccountsScreenLandscape extends StatelessWidget {
+  final List<SavedUser> savedUsers;
+  const _AccountsScreenLandscape({
+    required this.savedUsers,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        const Spacer(),
+        const AppLogo(),
+        Flexible(child: 12.width),
+        Expanded(
+          flex: 6,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                AppStrings.chooseAccountToLogin,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.sp,
+                ),
+              ),
+              Flexible(child: 24.height),
+              Expanded(
+                flex: 6,
+                child: ListView.separated(
+                  itemBuilder: (context, index) {
+                    final SavedUser savedUser = savedUsers[index];
+                    return ListTile(
+                      leading: UserAvatar(
+                        url: savedUser.user.image,
+                      ),
+                      title: Text(savedUser.user.name),
+                      subtitle: Text(savedUser.user.email),
+                      onTap: () {
+                        context.read<UserBloc>().add(
+                              SwitchUserEvent(savedUser),
+                            );
+                      },
+                    );
+                  },
+                  separatorBuilder: (context, index) => const Divider(),
+                  itemCount: savedUsers.length,
+                ),
+              ),
+              Flexible(child: 24.height),
+              // const Spacer(),
+              Row(
+                children: [
+                  Expanded(
+                    child: Divider(
+                      endIndent: 10.w,
+                      color: Colors.grey.withOpacity(0.5),
+                      thickness: 1,
+                    ),
+                  ),
+                  const Text(
+                    AppStrings.or,
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                  Expanded(
+                    child: Divider(
+                      indent: 10.w,
+                      color: Colors.grey.withOpacity(0.5),
+                      thickness: 1,
+                    ),
+                  ),
+                ],
+              ),
+              const Spacer(),
+              SecondaryButton(
+                text: AppStrings.loginWithAnotherAccount,
+                onPressed: () {
+                  context.pushReplacementNamed(AppRoutes.auth);
+                },
+              ),
+            ],
+          ),
+        ),
+        const Spacer(),
+      ],
     );
   }
 }

@@ -329,7 +329,7 @@ class _FoodDetailsPortraitState extends State<_FoodDetailsPortrait> {
                             text: '${(widget.food.sale * 100).toInt()}% ',
                             children: const [
                               TextSpan(
-                                text: AppStrings.viewAll,
+                                text: AppStrings.sale,
                                 style: TextStyle(
                                   color: Colors.black,
                                 ),

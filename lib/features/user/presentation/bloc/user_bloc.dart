@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
@@ -58,13 +57,36 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     final Either<Failure, User> result = await getUserUseCase();
 
     result.fold((failure) {
-      emit(
-        state.copyWith(
-          status: RequestStatus.failure,
-          error: failure.message,
-          switchUser: false,
-        ),
-      );
+      if (failure is NetworkFailure) {
+        emit(
+          state.copyWith(
+            status: RequestStatus.failure,
+            error: failure.message,
+            switchUser: false,
+            errorType: ErrorType.network,
+          ),
+        );
+      }
+      if (failure is AuthFailure) {
+        emit(
+          state.copyWith(
+            status: RequestStatus.failure,
+            error: failure.message,
+            switchUser: false,
+            errorType: ErrorType.auth,
+          ),
+        );
+      }
+      if (failure is ServerFailure) {
+        emit(
+          state.copyWith(
+            status: RequestStatus.failure,
+            error: failure.message,
+            switchUser: false,
+            errorType: ErrorType.normal,
+          ),
+        );
+      }
     }, (user) {
       emit(
         state.copyWith(
@@ -137,12 +159,36 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     final Either<Failure, User> result =
         await switchUserUseCase(event.savedUser);
     result.fold((failure) {
-      emit(
-        state.copyWith(
+      if (failure is NetworkFailure) {
+        emit(
+          state.copyWith(
             status: RequestStatus.failure,
             error: failure.message,
-            switchUser: true),
-      );
+            switchUser: true,
+            errorType: ErrorType.network,
+          ),
+        );
+      }
+      if (failure is AuthFailure) {
+        emit(
+          state.copyWith(
+            status: RequestStatus.failure,
+            error: failure.message,
+            switchUser: true,
+            errorType: ErrorType.auth,
+          ),
+        );
+      }
+      if (failure is ServerFailure) {
+        emit(
+          state.copyWith(
+            status: RequestStatus.failure,
+            error: failure.message,
+            switchUser: true,
+            errorType: ErrorType.normal,
+          ),
+        );
+      }
     }, (user) {
       emit(
         state.copyWith(
@@ -163,13 +209,36 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     final Either<Failure, Unit> result = await deleteUserUseCase();
     result.fold(
       (failure) {
-        emit(
-          state.copyWith(
-            status: RequestStatus.failure,
-            error: failure.message,
-            switchUser: false,
-          ),
-        );
+        if (failure is NetworkFailure) {
+          emit(
+            state.copyWith(
+              status: RequestStatus.failure,
+              error: failure.message,
+              switchUser: false,
+              errorType: ErrorType.network,
+            ),
+          );
+        }
+        if (failure is AuthFailure) {
+          emit(
+            state.copyWith(
+              status: RequestStatus.failure,
+              error: failure.message,
+              switchUser: false,
+              errorType: ErrorType.auth,
+            ),
+          );
+        }
+        if (failure is ServerFailure) {
+          emit(
+            state.copyWith(
+              status: RequestStatus.failure,
+              error: failure.message,
+              switchUser: false,
+              errorType: ErrorType.normal,
+            ),
+          );
+        }
       },
       (_) {
         emit(
@@ -201,7 +270,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         );
       },
       (_) {
-        log('Deleted');
         emit(
           state.copyWith(
             status: RequestStatus.success,
@@ -219,13 +287,36 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     final Either<Failure, Unit> result = await updateUserUseCase(event.options);
     result.fold(
       (failure) {
-        emit(
-          state.copyWith(
-            status: RequestStatus.failure,
-            error: failure.message,
-            switchUser: false,
-          ),
-        );
+        if (failure is NetworkFailure) {
+          emit(
+            state.copyWith(
+              status: RequestStatus.failure,
+              error: failure.message,
+              switchUser: false,
+              errorType: ErrorType.network,
+            ),
+          );
+        }
+        if (failure is AuthFailure) {
+          emit(
+            state.copyWith(
+              status: RequestStatus.failure,
+              error: failure.message,
+              switchUser: false,
+              errorType: ErrorType.auth,
+            ),
+          );
+        }
+        if (failure is ServerFailure) {
+          emit(
+            state.copyWith(
+              status: RequestStatus.failure,
+              error: failure.message,
+              switchUser: false,
+              errorType: ErrorType.normal,
+            ),
+          );
+        }
       },
       (_) {
         emit(

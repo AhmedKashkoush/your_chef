@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -62,8 +61,11 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
     }
 
     final UserModel signedUser = UserModel.fromJson(data);
-    final SavedUserModel savedUser =
-        SavedUserModel(user: signedUser, password: options.password);
+    final SavedUserModel savedUser = SavedUserModel(
+      user: signedUser,
+      password: options.password,
+      lastLogin: DateTime.now(),
+    );
     await _checkIfUserSaved(savedUser);
 
     return savedUser;
@@ -162,6 +164,7 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
         accessToken: accessToken,
         idToken: idToken,
         provider: 'google',
+        lastLogin: DateTime.now(),
       );
       await _checkIfUserSaved(savedUser);
       return savedUser;
@@ -172,6 +175,7 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
       accessToken: accessToken,
       idToken: idToken,
       provider: 'google',
+      lastLogin: DateTime.now(),
     );
     await _checkIfUserSaved(savedUser);
     return savedUser;
@@ -224,20 +228,24 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
     //TODO: Fix saved user refreshing issue
     final String? savedUsersData =
         await SecureStorageHelper.read(SharedPrefsKeys.savedUsers);
+
     final List<SavedUserModel> savedUsers = savedUsersData == null
         ? []
         : List<Map<String, dynamic>>.from(jsonDecode(savedUsersData) as List)
             .map(
-              (user) => SavedUserModel.fromJson(user),
-            )
-            .toList();
+            (user) {
+              return SavedUserModel.fromJson(user);
+            },
+          ).toList();
+
     if (savedUsers.where((user) => user.user.id == savedUser.user.id).isEmpty) {
       return;
     }
-    log('ssssssssss');
 
     savedUsers.removeWhere((user) => user.user.id == savedUser.user.id);
+
     savedUsers.add(savedUser);
+
     await SecureStorageHelper.write(
         SharedPrefsKeys.savedUsers, jsonEncode(savedUsers));
   }

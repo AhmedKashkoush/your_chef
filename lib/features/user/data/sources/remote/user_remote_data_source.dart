@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:your_chef/core/constants/keys.dart';
 import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/errors/exceptions.dart' as ex;
 import 'package:your_chef/core/options/options.dart';
 import 'package:your_chef/core/utils/network_helper.dart';
+import 'package:your_chef/core/utils/secure_storage_helper.dart';
 import 'package:your_chef/features/user/data/models/saved_user_model.dart';
 import 'package:your_chef/features/user/data/models/user_model.dart';
 
@@ -89,6 +93,33 @@ class SupabaseUserRemoteDataSource extends IUserRemoteDataSource {
     }
     final UserModel signedUser = UserModel.fromJson(data);
 
+    final String? savedUsersData =
+        await SecureStorageHelper.read(SharedPrefsKeys.user);
+
+    if (savedUsersData != null) {
+      final List<SavedUserModel> savedUsers =
+          List<Map<String, dynamic>>.from(jsonDecode(savedUsersData) as List)
+              .map((user) => SavedUserModel.fromJson(user))
+              .toList();
+      savedUsers.removeWhere((user) => user.user.id == savedUser.user.id);
+      savedUsers.add(
+        SavedUserModel.fromJson(
+          {
+            'user': signedUser.toJson(),
+            'provider': savedUser.provider,
+            'idToken': savedUser.idToken,
+            'accessToken': savedUser.accessToken,
+            'password': savedUser.password,
+            'lastLogin': DateTime.now(),
+          },
+        ),
+      );
+
+      await SecureStorageHelper.write(
+        SharedPrefsKeys.savedUsers,
+        jsonEncode(savedUsers.map((user) => user.toJson()).toList()),
+      );
+    }
     return signedUser;
   }
 

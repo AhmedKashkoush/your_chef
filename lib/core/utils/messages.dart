@@ -100,10 +100,12 @@ class AppMessages {
               color: Colors.white,
             ),
             10.width,
-            Text(
-              message,
-              style: context.theme.textTheme.bodyLarge?.copyWith(
-                color: Colors.white,
+            Expanded(
+              child: Text(
+                message,
+                style: context.theme.textTheme.bodyLarge?.copyWith(
+                  color: Colors.white,
+                ),
               ),
             ),
           ],
@@ -140,10 +142,12 @@ class AppMessages {
                 color: Colors.white,
               ),
             10.width,
-            Text(
-              message,
-              style: context.theme.textTheme.bodyLarge?.copyWith(
-                color: Colors.white,
+            Expanded(
+              child: Text(
+                message,
+                style: context.theme.textTheme.bodyLarge?.copyWith(
+                  color: Colors.white,
+                ),
               ),
             ),
           ],

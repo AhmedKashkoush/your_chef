@@ -65,8 +65,13 @@ class SettingsScreen extends StatelessWidget {
       showDragHandle: true,
       builder: (context) => BlocBuilder<UserBloc, UserState>(
         builder: (context, state) {
+          // final List<SavedUser> sortedList =
+          //     List<SavedUser>.from(state.savedUsers)
+          //         .where((user) => user.user.id != state.user!.id)
+          //         .toList()
+          //       ..sort((a, b) => b.lastLogin.compareTo(a.lastLogin));
           return AccountsBottomSheet(
-            savedUsers: state.savedUsers
+            savedUsers: List<SavedUser>.from(state.savedUsers)
                 .where((user) => user.user.id != state.user!.id)
                 .toList(),
           );

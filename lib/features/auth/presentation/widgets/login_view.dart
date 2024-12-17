@@ -29,6 +29,7 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isGoogleLoading = false;
     return BlocConsumer<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state is GoogleLoginLoadingState) {
@@ -36,8 +37,10 @@ class LoginView extends StatelessWidget {
             context,
             message: AppStrings.justAMoment,
           );
+          isGoogleLoading = true;
         } else {
-          if (context.canPop()) {
+          if (context.canPop() && isGoogleLoading) {
+            isGoogleLoading = false;
             context.pop();
           }
           if (state is LoginErrorState) {
