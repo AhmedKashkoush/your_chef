@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.your_chef"
+    namespace = "com.ahmedkashkoush.your_chef"
     compileSdk = 34
     ndkVersion = "27.0.12077973"
 
