@@ -5,7 +5,7 @@ import 'package:your_chef/core/errors/exceptions.dart' as ex;
 import 'package:your_chef/core/utils/network_helper.dart';
 import 'package:your_chef/core/utils/secure_storage_helper.dart';
 import 'package:your_chef/core/utils/user_helper.dart';
-import 'package:your_chef/features/user/data/models/user_model.dart';
+import 'package:your_chef/features/auth/data/models/user_model.dart';
 
 abstract class ISettingsRemoteDataSource {
   const ISettingsRemoteDataSource();

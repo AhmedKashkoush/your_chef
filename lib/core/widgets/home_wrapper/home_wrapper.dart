@@ -5,15 +5,20 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/extensions/media_query_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
+import 'package:your_chef/core/options/options.dart';
 import 'package:your_chef/core/widgets/bottom_sheets/account_save_bottom_sheet.dart';
 import 'package:your_chef/core/widgets/views/persistent_view.dart';
-import 'package:your_chef/features/home/presentation/bloc/home_bloc.dart';
+import 'package:your_chef/features/home/presentation/bloc/categories/get_home_categories_bloc.dart';
+import 'package:your_chef/features/home/presentation/bloc/offers/get_home_offers_bloc.dart';
+import 'package:your_chef/features/home/presentation/bloc/on_a_sale/get_home_on_sale_foods_bloc.dart';
+import 'package:your_chef/features/home/presentation/bloc/popular_foods/get_home_popular_foods_bloc.dart';
+import 'package:your_chef/features/home/presentation/bloc/restaurants/get_home_restaurants_bloc.dart';
 import 'package:your_chef/features/home/presentation/screens/home_screen.dart';
 import 'package:your_chef/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:your_chef/features/settings/presentation/screens/settings_screen.dart';
-import 'package:your_chef/features/user/domain/entities/saved_user.dart';
-import 'package:your_chef/features/user/presentation/bloc/user_bloc.dart';
-import 'package:your_chef/features/wishlist/presentation/screens/wishlist_screen.dart';
+import 'package:your_chef/features/auth/domain/entities/saved_user.dart';
+import 'package:your_chef/common/blocs/user/user_bloc.dart';
+import 'package:your_chef/features/foods/presentation/screens/wishlist_screen.dart';
 import 'package:your_chef/locator.dart';
 
 class HomeWrapper extends StatefulWidget {
@@ -28,11 +33,41 @@ class _HomeWrapperState extends State<HomeWrapper> {
   int _currentIndex = 0;
   final PageController _controller = PageController();
   final List<Widget> _screens = [
-    BlocProvider(
-      create: (context) => locator<HomeBloc>()
-        ..add(
-          const GetHomeDataEvent(),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => locator<GetHomeOffersBloc>()
+            ..add(
+              const GetHomeOffersEventStarted(),
+            ),
         ),
+        BlocProvider(
+          create: (context) => locator<GetHomeCategoriesBloc>()
+            ..add(
+              const GetHomeCategoriesEventStarted(
+                GetCategoriesOptions(),
+              ),
+            ),
+        ),
+        BlocProvider(
+          create: (context) => locator<GetHomeRestaurantsBloc>()
+            ..add(
+              const GetHomeRestaurantsEventStarted(),
+            ),
+        ),
+        BlocProvider(
+          create: (context) => locator<GetHomePopularFoodsBloc>()
+            ..add(
+              const GetHomePopularFoodsEventStarted(),
+            ),
+        ),
+        BlocProvider(
+          create: (context) => locator<GetHomeOnSaleFoodsBloc>()
+            ..add(
+              const GetHomeOnSaleFoodsEventStarted(),
+            ),
+        ),
+      ],
       child: const HomeScreen(),
     ),
     const WishlistScreen(),
@@ -98,16 +133,27 @@ class _HomeWrapperState extends State<HomeWrapper> {
           bottom: false,
           child: Stack(
             children: [
-              PageView(
-                controller: _controller,
-                physics: const NeverScrollableScrollPhysics(),
-                children: _screens
-                    .map(
-                      (screen) => PersistentView(
-                        child: screen,
-                      ),
-                    )
-                    .toList(),
+              Row(
+                children: [
+                  if (context.isLandscape)
+                    Container(
+                      width: 36.w,
+                      color: context.theme.colorScheme.surface,
+                    ),
+                  Expanded(
+                    child: PageView(
+                      controller: _controller,
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: _screens
+                          .map(
+                            (screen) => PersistentView(
+                              child: screen,
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ),
+                ],
               ),
               if (context.isLandscape)
                 _BottomBarLandscape(

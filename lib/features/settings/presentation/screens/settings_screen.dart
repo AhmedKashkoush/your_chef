@@ -7,7 +7,6 @@ import 'package:your_chef/config/routes/routes.dart';
 import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/constants/urls.dart';
 import 'package:your_chef/core/errors/error_types.dart';
-import 'package:your_chef/core/extensions/media_query_extension.dart';
 import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
@@ -19,8 +18,8 @@ import 'package:your_chef/features/settings/presentation/bloc/settings_bloc.dart
 import 'package:your_chef/features/settings/presentation/widgets/accounts_bottom_sheet.dart';
 import 'package:your_chef/features/settings/presentation/widgets/action_tile.dart';
 import 'package:your_chef/features/settings/presentation/widgets/user_tile.dart';
-import 'package:your_chef/features/user/domain/entities/saved_user.dart';
-import 'package:your_chef/features/user/presentation/bloc/user_bloc.dart';
+import 'package:your_chef/features/auth/domain/entities/saved_user.dart';
+import 'package:your_chef/common/blocs/user/user_bloc.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -98,155 +97,144 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool darkMode = context.theme.brightness == Brightness.dark;
-    return Row(
-      children: [
-        if (context.isLandscape)
-          Container(
-            width: 36.w,
-            color: context.theme.colorScheme.surface,
-          ),
-        Expanded(
-          child: Scaffold(
-            backgroundColor: context.theme.colorScheme.surface,
-            body: BlocListener<SettingsBloc, SettingsState>(
-              listener: (context, state) {
-                if (state is SettingsLoadingState) {
-                  AppMessages.showLoadingDialog(
-                    context,
-                    message: AppStrings.signingOut,
-                  );
-                } else {
-                  context.pop();
-                  if (state is SettingsErrorState) {
-                    AppMessages.showErrorMessage(
+    return Scaffold(
+      backgroundColor: context.theme.colorScheme.surface,
+      body: BlocListener<SettingsBloc, SettingsState>(
+        listener: (context, state) {
+          if (state is SettingsLoadingState) {
+            AppMessages.showLoadingDialog(
+              context,
+              message: AppStrings.signingOut,
+            );
+          } else {
+            context.pop();
+            if (state is SettingsErrorState) {
+              AppMessages.showErrorMessage(
+                context,
+                state.message,
+                state.type,
+              );
+            }
+            if (state is SettingsSuccessState) {
+              if (!context.mounted) return;
+              AppMessages.showSuccessMessage(
+                context,
+                AppStrings.signedOutSuccessfully,
+              );
+              context.read<UserBloc>().add(const LogoutEvent());
+              if (context.read<UserBloc>().state.savedUsers.isNotEmpty) {
+                context.pushReplacementNamed(AppRoutes.accounts);
+                return;
+              }
+              context.pushReplacementNamed(AppRoutes.auth);
+            }
+          }
+        },
+        child: SafeArea(
+          child: ListView(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 12.0,
+              vertical: 24,
+            ).r,
+            children: [
+              UserTile(
+                onTap: () => _goToProfile(context),
+                onSignOut: () => _signOut(context),
+              ),
+              16.height,
+              const Divider(),
+              16.height,
+              BlocListener<UserBloc, UserState>(
+                listenWhen: (previous, state) =>
+                    state.switchUser && previous.status != state.status,
+                listener: (context, state) {
+                  if (state.status == RequestStatus.loading) {
+                    AppMessages.showLoadingDialog(
                       context,
-                      state.message,
-                      state.type,
+                      message: AppStrings.switchingAccount,
                     );
-                  }
-                  if (state is SettingsSuccessState) {
-                    if (!context.mounted) return;
-                    AppMessages.showSuccessMessage(
-                      context,
-                      AppStrings.signedOutSuccessfully,
-                    );
-                    context.read<UserBloc>().add(const LogoutEvent());
-                    if (context.read<UserBloc>().state.savedUsers.isNotEmpty) {
-                      context.pushReplacementNamed(AppRoutes.accounts);
-                      return;
+                  } else {
+                    context.pop();
+                    if (state.status == RequestStatus.failure) {
+                      AppMessages.showErrorMessage(
+                        context,
+                        state.error,
+                        state.errorType,
+                      );
+
+                      if (state.errorType == ErrorType.auth) {
+                        context.pushNamedAndRemoveUntil(
+                          AppRoutes.auth,
+                        );
+                      }
                     }
-                    context.pushReplacementNamed(AppRoutes.auth);
+
+                    if (state.status == RequestStatus.success) {
+                      if (!context.mounted) return;
+                      AppMessages.showSuccessMessage(
+                        context,
+                        AppStrings.switchedAccountSuccessfully,
+                      );
+                      context.pushReplacementNamed(AppRoutes.home);
+                    }
                   }
-                }
-              },
-              child: SafeArea(
-                child: ListView(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12.0,
-                    vertical: 24,
-                  ).r,
-                  children: [
-                    UserTile(
-                      onTap: () => _goToProfile(context),
-                      onSignOut: () => _signOut(context),
-                    ),
-                    16.height,
-                    const Divider(),
-                    16.height,
-                    BlocListener<UserBloc, UserState>(
-                      listenWhen: (previous, state) =>
-                          state.switchUser && previous.status != state.status,
-                      listener: (context, state) {
-                        if (state.status == RequestStatus.loading) {
-                          AppMessages.showLoadingDialog(
-                            context,
-                            message: AppStrings.switchingAccount,
-                          );
-                        } else {
-                          context.pop();
-                          if (state.status == RequestStatus.failure) {
-                            AppMessages.showErrorMessage(
-                              context,
-                              state.error,
-                              state.errorType,
-                            );
-
-                            if (state.errorType == ErrorType.auth) {
-                              context.pushNamedAndRemoveUntil(
-                                AppRoutes.auth,
-                              );
-                            }
-                          }
-
-                          if (state.status == RequestStatus.success) {
-                            if (!context.mounted) return;
-                            AppMessages.showSuccessMessage(
-                              context,
-                              AppStrings.switchedAccountSuccessfully,
-                            );
-                            context.pushReplacementNamed(AppRoutes.home);
-                          }
-                        }
-                      },
-                      child: ActionTile(
-                        onTap: () => _openAccountsSheet(context),
-                        title: AppStrings.switchAccounts,
-                        icon: HugeIcons.strokeRoundedUserSwitch,
-                      ),
-                    ),
-                    8.height,
-                    ActionTile(
-                      onTap: () => _goToPrivacyAndSecurity(context),
-                      title: AppStrings.privacyAndSecurity,
-                      icon: HugeIcons.strokeRoundedLockKey,
-                    ),
-                    8.height,
-                    ActionTile(
-                      onTap: _openNotifications,
-                      title: AppStrings.notifications,
-                      icon: HugeIcons.strokeRoundedNotification03,
-                    ),
-                    8.height,
-                    ActionTile(
-                      onTap: () => _goToLanguages(context),
-                      title: AppStrings.languages,
-                      icon: HugeIcons.strokeRoundedLanguageSquare,
-                    ),
-                    8.height,
-                    ActionTile(
-                      onTap: () => _goToThemes(context),
-                      title: AppStrings.themes,
-                      icon: darkMode
-                          ? Icons.dark_mode_outlined
-                          : Icons.light_mode_outlined,
-                    ),
-                    8.height,
-                    const Divider(),
-                    8.height,
-                    ActionTile(
-                      onTap: _openPrivacyPolicy,
-                      title: AppStrings.privacyPolicy,
-                      icon: HugeIcons.strokeRoundedSecurity,
-                    ),
-                    8.height,
-                    ActionTile(
-                      onTap: _reportAnIssue,
-                      title: AppStrings.reportAnIssue,
-                      icon: HugeIcons.strokeRoundedAlert02,
-                    ),
-                    8.height,
-                    ActionTile(
-                      onTap: () => _goToAboutApp(context),
-                      title: AppStrings.aboutTheApp,
-                      icon: HugeIcons.strokeRoundedInformationCircle,
-                    ),
-                  ],
+                },
+                child: ActionTile(
+                  onTap: () => _openAccountsSheet(context),
+                  title: AppStrings.switchAccounts,
+                  icon: HugeIcons.strokeRoundedUserSwitch,
                 ),
               ),
-            ),
+              8.height,
+              ActionTile(
+                onTap: () => _goToPrivacyAndSecurity(context),
+                title: AppStrings.privacyAndSecurity,
+                icon: HugeIcons.strokeRoundedLockKey,
+              ),
+              8.height,
+              ActionTile(
+                onTap: _openNotifications,
+                title: AppStrings.notifications,
+                icon: HugeIcons.strokeRoundedNotification03,
+              ),
+              8.height,
+              ActionTile(
+                onTap: () => _goToLanguages(context),
+                title: AppStrings.languages,
+                icon: HugeIcons.strokeRoundedLanguageSquare,
+              ),
+              8.height,
+              ActionTile(
+                onTap: () => _goToThemes(context),
+                title: AppStrings.themes,
+                icon: darkMode
+                    ? Icons.dark_mode_outlined
+                    : Icons.light_mode_outlined,
+              ),
+              8.height,
+              const Divider(),
+              8.height,
+              ActionTile(
+                onTap: _openPrivacyPolicy,
+                title: AppStrings.privacyPolicy,
+                icon: HugeIcons.strokeRoundedSecurity,
+              ),
+              8.height,
+              ActionTile(
+                onTap: _reportAnIssue,
+                title: AppStrings.reportAnIssue,
+                icon: HugeIcons.strokeRoundedAlert02,
+              ),
+              8.height,
+              ActionTile(
+                onTap: () => _goToAboutApp(context),
+                title: AppStrings.aboutTheApp,
+                icon: HugeIcons.strokeRoundedInformationCircle,
+              ),
+            ],
           ),
         ),
-      ],
+      ),
     );
   }
 }

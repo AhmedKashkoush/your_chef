@@ -6,8 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:your_chef/core/errors/error_types.dart';
 import 'package:your_chef/core/errors/failures.dart';
 import 'package:your_chef/core/options/options.dart';
-import 'package:your_chef/features/auth/domain/usecases/send_otp_usecase.dart';
-import 'package:your_chef/features/auth/domain/usecases/verify_otp_usecase.dart';
+import 'package:your_chef/features/auth/domain/usecases/auth/send_otp_usecase.dart';
+import 'package:your_chef/features/auth/domain/usecases/auth/verify_otp_usecase.dart';
 
 part 'verify_events.dart';
 part 'verify_states.dart';

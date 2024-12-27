@@ -9,8 +9,8 @@ import 'package:your_chef/core/utils/network_helper.dart';
 import 'package:your_chef/core/widgets/avatars/user_avatar.dart';
 import 'package:your_chef/core/widgets/buttons/custom_icon_button.dart';
 import 'package:your_chef/core/widgets/buttons/primary_button.dart';
-import 'package:your_chef/features/user/domain/entities/saved_user.dart';
-import 'package:your_chef/features/user/presentation/bloc/user_bloc.dart';
+import 'package:your_chef/features/auth/domain/entities/saved_user.dart';
+import 'package:your_chef/common/blocs/user/user_bloc.dart';
 
 class AccountSaveBottomSheet extends StatelessWidget {
   final SavedUser savedUser;

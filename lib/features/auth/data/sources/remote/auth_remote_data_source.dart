@@ -8,9 +8,9 @@ import 'package:your_chef/core/errors/exceptions.dart' as ex;
 import 'package:your_chef/core/options/options.dart';
 import 'package:your_chef/core/utils/network_helper.dart';
 import 'package:your_chef/core/utils/secure_storage_helper.dart';
-import 'package:your_chef/features/user/data/models/saved_user_model.dart';
+import 'package:your_chef/features/auth/data/models/saved_user_model.dart';
 
-import '../../../../user/data/models/user_model.dart';
+import '../../models/user_model.dart';
 
 abstract class IAuthRemoteDataSource {
   Future<SavedUserModel> login(LoginOptions options);

@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:your_chef/features/restaurants/domain/entities/restaurant.dart';
-import 'package:your_chef/features/user/domain/entities/user.dart';
+import 'package:your_chef/features/auth/domain/entities/user.dart';
 
 abstract class AppOptions {
   const AppOptions();
@@ -89,5 +89,12 @@ class RestaurantOptions extends AppOptions {
   final Restaurant restaurant;
   const RestaurantOptions({
     required this.restaurant,
+  });
+}
+
+class GetCategoriesOptions extends AppOptions {
+  final int limit;
+  const GetCategoriesOptions({
+    this.limit = 5,
   });
 }

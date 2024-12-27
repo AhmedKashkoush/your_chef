@@ -5,9 +5,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:your_chef/core/errors/error_types.dart';
 import 'package:your_chef/core/options/options.dart';
-import 'package:your_chef/features/user/domain/entities/saved_user.dart';
-import 'package:your_chef/features/auth/domain/usecases/google_sign_in_usecase.dart';
-import 'package:your_chef/features/auth/domain/usecases/login_usecase.dart';
+import 'package:your_chef/features/auth/domain/entities/saved_user.dart';
+import 'package:your_chef/features/auth/domain/usecases/auth/google_sign_in_usecase.dart';
+import 'package:your_chef/features/auth/domain/usecases/auth/login_usecase.dart';
 
 import '../../../../../core/errors/failures.dart';
 

@@ -10,8 +10,8 @@ import 'package:your_chef/core/widgets/avatars/user_avatar.dart';
 import 'package:your_chef/core/widgets/buttons/secondary_button.dart';
 import 'package:your_chef/core/widgets/icons/app_logo.dart';
 import 'package:your_chef/core/widgets/layout/orientation_widget.dart';
-import 'package:your_chef/features/user/domain/entities/saved_user.dart';
-import 'package:your_chef/features/user/presentation/bloc/user_bloc.dart';
+import 'package:your_chef/features/auth/domain/entities/saved_user.dart';
+import 'package:your_chef/common/blocs/user/user_bloc.dart';
 
 import '../../../../core/utils/network_helper.dart';
 

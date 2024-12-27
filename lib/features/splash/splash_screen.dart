@@ -9,7 +9,7 @@ import 'package:your_chef/core/utils/network_helper.dart';
 import 'package:your_chef/core/utils/shared_preferences_helper.dart';
 import 'package:your_chef/core/widgets/icons/app_logo.dart';
 import 'package:your_chef/core/widgets/texts/logo_text.dart';
-import 'package:your_chef/features/user/presentation/bloc/user_bloc.dart';
+import 'package:your_chef/common/blocs/user/user_bloc.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

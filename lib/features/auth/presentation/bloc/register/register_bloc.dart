@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:your_chef/core/errors/error_types.dart';
 import 'package:your_chef/core/errors/failures.dart';
 import 'package:your_chef/core/options/options.dart';
-import 'package:your_chef/features/auth/domain/usecases/register_usecase.dart';
+import 'package:your_chef/features/auth/domain/usecases/auth/register_usecase.dart';
 
 part 'register_events.dart';
 part 'register_states.dart';

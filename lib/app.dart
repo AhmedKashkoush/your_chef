@@ -5,8 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:your_chef/config/routes/router.dart';
 import 'package:your_chef/config/themes/theme_cubit.dart';
 import 'package:your_chef/config/themes/themes.dart';
-import 'package:your_chef/features/user/presentation/bloc/user_bloc.dart';
-import 'package:your_chef/features/wishlist/presentation/bloc/wishlist_bloc.dart';
+import 'package:your_chef/common/blocs/user/user_bloc.dart';
+import 'package:your_chef/common/blocs/wishlist/wishlist_bloc.dart';
 import 'package:your_chef/locator.dart';
 
 class YourChefApp extends StatelessWidget {

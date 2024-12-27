@@ -16,10 +16,10 @@ import 'package:your_chef/core/widgets/buttons/custom_icon_button.dart';
 import 'package:your_chef/core/widgets/layout/orientation_widget.dart';
 import 'package:your_chef/core/widgets/rating/star_rating_widget.dart';
 import 'package:your_chef/features/foods/domain/entities/food.dart';
-import 'package:your_chef/features/foods/presentation/widgets/add_to_cart_section.dart';
-import 'package:your_chef/features/foods/presentation/widgets/food_tile.dart';
-import 'package:your_chef/features/foods/presentation/widgets/restaurant_tile.dart';
-import 'package:your_chef/features/wishlist/presentation/bloc/wishlist_bloc.dart';
+import 'package:your_chef/features/foods/presentation/widgets/food_details/add_to_cart_section.dart';
+import 'package:your_chef/features/foods/presentation/widgets/food_details/food_tile.dart';
+import 'package:your_chef/features/foods/presentation/widgets/food_details/restaurant_tile.dart';
+import 'package:your_chef/common/blocs/wishlist/wishlist_bloc.dart';
 
 class FoodDetailsScreen extends StatelessWidget {
   const FoodDetailsScreen({

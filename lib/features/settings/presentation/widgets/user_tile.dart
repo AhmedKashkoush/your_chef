@@ -5,7 +5,7 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/widgets/avatars/user_avatar.dart';
 import 'package:your_chef/core/widgets/tiles/custom_list_tile.dart';
-import 'package:your_chef/features/user/presentation/bloc/user_bloc.dart';
+import 'package:your_chef/common/blocs/user/user_bloc.dart';
 
 class UserTile extends StatelessWidget {
   final void Function() onTap, onSignOut;

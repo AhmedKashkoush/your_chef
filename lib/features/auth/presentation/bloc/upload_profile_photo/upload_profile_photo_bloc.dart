@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:your_chef/core/errors/error_types.dart';
 import 'package:your_chef/core/errors/failures.dart';
 import 'package:your_chef/core/options/options.dart';
-import 'package:your_chef/features/auth/domain/usecases/upload_profile_photo_usecase.dart';
+import 'package:your_chef/features/auth/domain/usecases/auth/upload_profile_photo_usecase.dart';
 
 part 'upload_profile_photo_events.dart';
 part 'upload_profile_photo_states.dart';

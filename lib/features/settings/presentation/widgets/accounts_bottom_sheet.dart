@@ -9,8 +9,8 @@ import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/utils/messages.dart';
 
 import 'package:your_chef/core/widgets/avatars/user_avatar.dart';
-import 'package:your_chef/features/user/domain/entities/saved_user.dart';
-import 'package:your_chef/features/user/presentation/bloc/user_bloc.dart';
+import 'package:your_chef/features/auth/domain/entities/saved_user.dart';
+import 'package:your_chef/common/blocs/user/user_bloc.dart';
 
 class AccountsBottomSheet extends StatelessWidget {
   const AccountsBottomSheet({

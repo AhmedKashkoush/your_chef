@@ -4,28 +4,39 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:your_chef/features/auth/data/sources/remote/auth_remote_data_source.dart';
 import 'package:your_chef/features/auth/domain/repositories/auth_repository.dart';
-import 'package:your_chef/features/auth/domain/usecases/login_usecase.dart';
-import 'package:your_chef/features/auth/domain/usecases/register_usecase.dart';
-import 'package:your_chef/features/auth/domain/usecases/reset_password_usecase.dart';
-import 'package:your_chef/features/auth/domain/usecases/send_otp_usecase.dart';
-import 'package:your_chef/features/auth/domain/usecases/upload_profile_photo_usecase.dart';
-import 'package:your_chef/features/auth/domain/usecases/verify_otp_usecase.dart';
+import 'package:your_chef/features/auth/domain/usecases/auth/login_usecase.dart';
+import 'package:your_chef/features/auth/domain/usecases/auth/register_usecase.dart';
+import 'package:your_chef/features/auth/domain/usecases/auth/reset_password_usecase.dart';
+import 'package:your_chef/features/auth/domain/usecases/auth/send_otp_usecase.dart';
+import 'package:your_chef/features/auth/domain/usecases/auth/upload_profile_photo_usecase.dart';
+import 'package:your_chef/features/auth/domain/usecases/auth/verify_otp_usecase.dart';
 import 'package:your_chef/features/auth/presentation/bloc/login/login_bloc.dart';
 import 'package:your_chef/features/auth/presentation/bloc/register/register_bloc.dart';
 import 'package:your_chef/features/auth/presentation/bloc/upload_profile_photo/upload_profile_photo_bloc.dart';
 import 'package:your_chef/features/auth/presentation/bloc/verify/verify_bloc.dart';
-import 'package:your_chef/features/home/data/repositories/home_repository_impl.dart';
-import 'package:your_chef/features/home/data/sources/remote/home_remote_data_source.dart';
-import 'package:your_chef/features/home/domain/repositories/home_repository.dart';
-import 'package:your_chef/features/home/domain/usecases/get_categories_usecase.dart';
-import 'package:your_chef/features/home/domain/usecases/get_offers_usecase.dart';
-import 'package:your_chef/features/home/domain/usecases/get_popular_foods_usecase.dart';
-import 'package:your_chef/features/home/domain/usecases/get_restaurants_usecase.dart';
+import 'package:your_chef/features/categories/data/repositories/category_repository_impl.dart';
+import 'package:your_chef/features/categories/data/sources/remote/category_remote_data_source.dart';
+import 'package:your_chef/features/categories/domain/repositories/category_repository.dart';
+import 'package:your_chef/features/foods/data/repositories/food_repository_impl.dart';
+import 'package:your_chef/features/foods/data/sources/remote/food_remote_data_source.dart';
+import 'package:your_chef/features/foods/domain/repositories/food_repository.dart';
+import 'package:your_chef/features/categories/domain/usecases/get_categories_usecase.dart';
+import 'package:your_chef/features/home/presentation/bloc/categories/get_home_categories_bloc.dart';
+import 'package:your_chef/features/home/presentation/bloc/offers/get_home_offers_bloc.dart';
+import 'package:your_chef/features/home/presentation/bloc/on_a_sale/get_home_on_sale_foods_bloc.dart';
+import 'package:your_chef/features/home/presentation/bloc/popular_foods/get_home_popular_foods_bloc.dart';
+import 'package:your_chef/features/home/presentation/bloc/restaurants/get_home_restaurants_bloc.dart';
+import 'package:your_chef/features/offers/data/repositories/offer_repository_impl.dart';
+import 'package:your_chef/features/offers/data/sources/remote/offer_remote_data_source.dart';
+import 'package:your_chef/features/offers/domain/repositories/offer_repository.dart';
+import 'package:your_chef/features/offers/domain/usecases/get_offers_usecase.dart';
+import 'package:your_chef/features/foods/domain/usecases/foods/get_popular_foods_usecase.dart';
+import 'package:your_chef/features/restaurants/domain/usecases/get_popular_restaurants_usecase.dart';
 import 'package:your_chef/features/restaurants/data/repositories/restaurant_repository_impl.dart';
 import 'package:your_chef/features/restaurants/data/sources/remote/restaurant_remote_data_source.dart';
 import 'package:your_chef/features/restaurants/domain/repositories/restaurant_repository.dart';
-import 'package:your_chef/features/restaurants/domain/usecases/get_restaurant_menu_usecase.dart';
-import 'package:your_chef/features/restaurants/domain/usecases/get_restaurant_offers_usecase.dart';
+import 'package:your_chef/features/foods/domain/usecases/foods/get_restaurant_foods_usecase.dart';
+import 'package:your_chef/features/offers/domain/usecases/get_restaurant_offers_usecase.dart';
 import 'package:your_chef/features/restaurants/presentation/bloc/restaurant_bloc.dart';
 import 'package:your_chef/features/settings/data/repositories/settings_repository_impl.dart';
 import 'package:your_chef/features/settings/data/sources/remote/settings_remote_data_source.dart';
@@ -33,30 +44,29 @@ import 'package:your_chef/features/settings/domain/repositories/settings_reposit
 import 'package:your_chef/features/settings/domain/usecases/sign_out_usecase.dart';
 import 'package:your_chef/features/settings/domain/usecases/switch_account_usecase.dart';
 import 'package:your_chef/features/settings/presentation/bloc/settings_bloc.dart';
-import 'package:your_chef/features/user/data/repositories/user_repository_impl.dart';
-import 'package:your_chef/features/user/data/sources/local/user_local_data_source.dart';
-import 'package:your_chef/features/user/data/sources/remote/user_remote_data_source.dart';
-import 'package:your_chef/features/user/domain/repositories/user_repository.dart';
-import 'package:your_chef/features/user/domain/usecases/delete_saved_user_usecase.dart';
-import 'package:your_chef/features/user/domain/usecases/delete_user_usecase.dart';
-import 'package:your_chef/features/user/domain/usecases/get_saved_users_usecase.dart';
-import 'package:your_chef/features/user/domain/usecases/get_user_usecase.dart';
-import 'package:your_chef/features/user/domain/usecases/save_user_usecase.dart';
-import 'package:your_chef/features/user/domain/usecases/switch_user_usecase.dart';
-import 'package:your_chef/features/user/domain/usecases/update_user_usecase.dart';
-import 'package:your_chef/features/user/presentation/bloc/user_bloc.dart';
-import 'package:your_chef/features/wishlist/data/repositories/wishlist_repository_impl.dart';
-import 'package:your_chef/features/wishlist/data/sources/remote/wishlist_remote_data_source.dart';
-import 'package:your_chef/features/wishlist/domain/repositories/wishlist_repository.dart';
-import 'package:your_chef/features/wishlist/domain/usecases/add_food_to_wishlist_usecase.dart';
-import 'package:your_chef/features/wishlist/domain/usecases/get_foods_wishlist_usecase.dart';
-import 'package:your_chef/features/wishlist/domain/usecases/remove_food_from_wishlist_usecase.dart';
-import 'package:your_chef/features/wishlist/presentation/bloc/wishlist_bloc.dart';
+import 'package:your_chef/features/auth/data/repositories/user_repository_impl.dart';
+import 'package:your_chef/features/auth/data/sources/local/user_local_data_source.dart';
+import 'package:your_chef/features/auth/data/sources/remote/user_remote_data_source.dart';
+import 'package:your_chef/features/auth/domain/repositories/user_repository.dart';
+import 'package:your_chef/features/auth/domain/usecases/user/delete_saved_user_usecase.dart';
+import 'package:your_chef/features/auth/domain/usecases/user/delete_user_usecase.dart';
+import 'package:your_chef/features/auth/domain/usecases/user/get_saved_users_usecase.dart';
+import 'package:your_chef/features/auth/domain/usecases/user/get_user_usecase.dart';
+import 'package:your_chef/features/auth/domain/usecases/user/save_user_usecase.dart';
+import 'package:your_chef/features/auth/domain/usecases/user/switch_user_usecase.dart';
+import 'package:your_chef/features/auth/domain/usecases/user/update_user_usecase.dart';
+import 'package:your_chef/common/blocs/user/user_bloc.dart';
+import 'package:your_chef/features/foods/data/repositories/wishlist_repository_impl.dart';
+import 'package:your_chef/features/foods/data/sources/remote/wishlist_remote_data_source.dart';
+import 'package:your_chef/features/foods/domain/repositories/wishlist_repository.dart';
+import 'package:your_chef/features/foods/domain/usecases/wishlist/add_food_to_wishlist_usecase.dart';
+import 'package:your_chef/features/foods/domain/usecases/wishlist/get_foods_wishlist_usecase.dart';
+import 'package:your_chef/features/foods/domain/usecases/wishlist/remove_food_from_wishlist_usecase.dart';
+import 'package:your_chef/common/blocs/wishlist/wishlist_bloc.dart';
 
 import 'features/auth/data/repositories/auth_repository_impl.dart';
-import 'features/auth/domain/usecases/google_sign_in_usecase.dart';
-import 'features/home/domain/usecases/get_on_sale_foods_usecase.dart';
-import 'features/home/presentation/bloc/home_bloc.dart';
+import 'features/auth/domain/usecases/auth/google_sign_in_usecase.dart';
+import 'features/foods/domain/usecases/foods/get_on_sale_foods_usecase.dart';
 
 final GetIt locator = GetIt.instance;
 
@@ -97,15 +107,30 @@ void _initRemoteSources() {
     ),
   );
 
-  //*Home
-  locator.registerLazySingleton<IHomeRemoteDataSource>(
-    () => SupabaseHomeRemoteDataSource(
+  //*Offers
+  locator.registerLazySingleton<IOfferRemoteDataSource>(
+    () => SupabaseOfferRemoteDataSource(
       locator<SupabaseClient>(),
     ),
   );
-  //*Restaurant
+
+  //*Categories
+  locator.registerLazySingleton<ICategoryRemoteDataSource>(
+    () => SupabaseCategoryRemoteDataSource(
+      locator<SupabaseClient>(),
+    ),
+  );
+
+  //*Restaurants
   locator.registerLazySingleton<IRestaurantRemoteDataSource>(
     () => SupabaseRestaurantRemoteDataSource(
+      locator<SupabaseClient>(),
+    ),
+  );
+
+  //*Foods
+  locator.registerLazySingleton<IFoodRemoteDataSource>(
+    () => SupabaseFoodRemoteDataSource(
       locator<SupabaseClient>(),
     ),
   );
@@ -146,13 +171,23 @@ void _initRepositories() {
       localDataSource: locator<IUserLocalDataSource>(),
     ),
   );
-  //*Home
-  locator.registerLazySingleton<IHomeRepository>(
-    () => HomeRepository(locator<IHomeRemoteDataSource>()),
+
+  //*Offers
+  locator.registerLazySingleton<IOfferRepository>(
+    () => OfferRepository(locator<IOfferRemoteDataSource>()),
   );
-  //*Restaurant
+
+  //*Categories
+  locator.registerLazySingleton<ICategoryRepository>(
+    () => CategoryRepository(locator<ICategoryRemoteDataSource>()),
+  );
+  //*Restaurants
   locator.registerLazySingleton<IRestaurantRepository>(
     () => RestaurantRepository(locator<IRestaurantRemoteDataSource>()),
+  );
+  //*Foods
+  locator.registerLazySingleton<IFoodRepository>(
+    () => FoodRepository(locator<IFoodRemoteDataSource>()),
   );
   //*Wishlist
   locator.registerLazySingleton<IWishlistRepository>(
@@ -212,29 +247,33 @@ void _initUseCases() {
     () => SwitchUserUseCase(locator<IUserRepository>()),
   );
 
-  //*Home
+  //*Offers
   locator.registerLazySingleton<GetOffersUseCase>(
-    () => GetOffersUseCase(locator<IHomeRepository>()),
-  );
-  locator.registerLazySingleton<GetCategoriesUseCase>(
-    () => GetCategoriesUseCase(locator<IHomeRepository>()),
-  );
-  locator.registerLazySingleton<GetRestaurantsUseCase>(
-    () => GetRestaurantsUseCase(locator<IHomeRepository>()),
-  );
-  locator.registerLazySingleton<GetPopularFoodsUseCase>(
-    () => GetPopularFoodsUseCase(locator<IHomeRepository>()),
-  );
-  locator.registerLazySingleton<GetOnSaleFoodsUseCase>(
-    () => GetOnSaleFoodsUseCase(locator<IHomeRepository>()),
+    () => GetOffersUseCase(locator<IOfferRepository>()),
   );
 
-  //*Restaurant
-  locator.registerLazySingleton<GetRestaurantMenuUseCase>(
-    () => GetRestaurantMenuUseCase(locator<IRestaurantRepository>()),
+  //*Categories
+  locator.registerLazySingleton<GetCategoriesUseCase>(
+    () => GetCategoriesUseCase(locator<ICategoryRepository>()),
+  );
+
+  //*Restaurants
+  locator.registerLazySingleton<GetPopularRestaurantsUseCase>(
+    () => GetPopularRestaurantsUseCase(locator<IRestaurantRepository>()),
+  );
+
+  //*Foods
+  locator.registerLazySingleton<GetPopularFoodsUseCase>(
+    () => GetPopularFoodsUseCase(locator<IFoodRepository>()),
+  );
+  locator.registerLazySingleton<GetOnSaleFoodsUseCase>(
+    () => GetOnSaleFoodsUseCase(locator<IFoodRepository>()),
+  );
+  locator.registerLazySingleton<GetRestaurantFoodsUseCase>(
+    () => GetRestaurantFoodsUseCase(locator<IFoodRepository>()),
   );
   locator.registerLazySingleton<GetRestaurantOffersUseCase>(
-    () => GetRestaurantOffersUseCase(locator<IRestaurantRepository>()),
+    () => GetRestaurantOffersUseCase(locator<IOfferRepository>()),
   );
   //*Wishlist
   locator.registerLazySingleton<GetFoodsWishlistUseCase>(
@@ -287,20 +326,27 @@ void _initBlocs() {
     ),
   );
   //*Home
-  locator.registerFactory<HomeBloc>(
-    () => HomeBloc(
-      locator<GetOffersUseCase>(),
-      locator<GetCategoriesUseCase>(),
-      locator<GetRestaurantsUseCase>(),
-      locator<GetPopularFoodsUseCase>(),
-      locator<GetOnSaleFoodsUseCase>(),
-    ),
+  locator.registerFactory<GetHomeOffersBloc>(
+    () => GetHomeOffersBloc(locator<GetOffersUseCase>()),
   );
+  locator.registerFactory<GetHomeCategoriesBloc>(
+    () => GetHomeCategoriesBloc(locator<GetCategoriesUseCase>()),
+  );
+  locator.registerFactory<GetHomeRestaurantsBloc>(
+    () => GetHomeRestaurantsBloc(locator<GetPopularRestaurantsUseCase>()),
+  );
+  locator.registerFactory<GetHomePopularFoodsBloc>(
+    () => GetHomePopularFoodsBloc(locator<GetPopularFoodsUseCase>()),
+  );
+  locator.registerFactory<GetHomeOnSaleFoodsBloc>(
+    () => GetHomeOnSaleFoodsBloc(locator<GetOnSaleFoodsUseCase>()),
+  );
+
   //*Restaurant
   locator.registerFactory<RestaurantBloc>(
     () => RestaurantBloc(
       locator<GetRestaurantOffersUseCase>(),
-      locator<GetRestaurantMenuUseCase>(),
+      locator<GetRestaurantFoodsUseCase>(),
     ),
   );
   //*Wishlist

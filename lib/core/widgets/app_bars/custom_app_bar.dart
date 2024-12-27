@@ -7,7 +7,7 @@ import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/widgets/avatars/user_avatar.dart';
 import 'package:your_chef/core/widgets/fields/search_field.dart';
-import 'package:your_chef/features/user/presentation/bloc/user_bloc.dart';
+import 'package:your_chef/common/blocs/user/user_bloc.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String profileTag;

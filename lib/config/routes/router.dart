@@ -13,11 +13,11 @@ import 'package:your_chef/features/foods/domain/entities/food.dart';
 import 'package:your_chef/features/restaurants/domain/entities/restaurant.dart';
 import 'package:your_chef/features/onboarding/screens/onboarding_screen.dart';
 import 'package:your_chef/features/foods/presentation/screens/food_details_screen.dart';
-import 'package:your_chef/features/profile/presentation/screens/profile_screen.dart';
+import 'package:your_chef/features/settings/presentation/screens/profile_screen.dart';
 import 'package:your_chef/features/restaurants/presentation/screens/restaurant_details_screen.dart';
 import 'package:your_chef/features/settings/presentation/screens/themes_screen.dart';
 import 'package:your_chef/features/splash/splash_screen.dart';
-import 'package:your_chef/features/user/domain/entities/saved_user.dart';
+import 'package:your_chef/features/auth/domain/entities/saved_user.dart';
 import 'package:your_chef/locator.dart';
 
 class AppRouter {

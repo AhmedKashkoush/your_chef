@@ -8,15 +8,15 @@ import 'package:your_chef/core/options/options.dart';
 import 'package:your_chef/core/utils/network_helper.dart';
 import 'package:your_chef/features/offers/domain/entities/offer.dart';
 import 'package:your_chef/features/foods/domain/entities/food.dart';
-import 'package:your_chef/features/restaurants/domain/usecases/get_restaurant_menu_usecase.dart';
-import 'package:your_chef/features/restaurants/domain/usecases/get_restaurant_offers_usecase.dart';
+import 'package:your_chef/features/foods/domain/usecases/foods/get_restaurant_foods_usecase.dart';
+import 'package:your_chef/features/offers/domain/usecases/get_restaurant_offers_usecase.dart';
 
 part 'restaurant_states.dart';
 part 'restaurant_events.dart';
 
 class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
   final GetRestaurantOffersUseCase getOffersUseCase;
-  final GetRestaurantMenuUseCase getMenuUseCase;
+  final GetRestaurantFoodsUseCase getMenuUseCase;
 
   RestaurantBloc(this.getOffersUseCase, this.getMenuUseCase)
       : super(const RestaurantState()) {

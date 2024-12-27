@@ -7,8 +7,8 @@ import 'package:your_chef/core/errors/exceptions.dart';
 import 'package:your_chef/core/errors/failures.dart';
 
 import 'package:your_chef/core/options/options.dart';
-import 'package:your_chef/features/user/data/models/saved_user_model.dart';
-import 'package:your_chef/features/user/domain/entities/saved_user.dart';
+import 'package:your_chef/features/auth/data/models/saved_user_model.dart';
+import 'package:your_chef/features/auth/domain/entities/saved_user.dart';
 
 import '../../domain/repositories/auth_repository.dart';
 import '../sources/remote/auth_remote_data_source.dart';
