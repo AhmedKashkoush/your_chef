@@ -129,32 +129,24 @@ class _FoodDetailsPortraitState extends State<_FoodDetailsPortrait> {
           actions: [
             BlocConsumer<WishlistBloc, WishlistState>(
                 listener: (context, state) {
-              if (state.status == RequestStatus.loading) {
-                AppMessages.showLoadingDialog(
+              if (state.status == RequestStatus.success) {
+                if (AppDummies.foodsWishlist
+                    .where((food) => food.id == widget.food.id)
+                    .toList()
+                    .isNotEmpty) {
+                  AppMessages.showSuccessMessage(
+                      context, AppStrings.foodAddedToYourWishlist);
+                } else {
+                  AppMessages.showSuccessMessage(
+                      context, AppStrings.foodRemovedFromYourWishlist);
+                }
+              }
+              if (state.status == RequestStatus.failure) {
+                AppMessages.showErrorMessage(
                   context,
-                  message: AppStrings.justAMoment,
+                  state.error,
+                  state.errorType,
                 );
-              } else {
-                Navigator.pop(context);
-                if (state.status == RequestStatus.success) {
-                  if (AppDummies.foodsWishlist
-                      .where((food) => food.id == widget.food.id)
-                      .toList()
-                      .isNotEmpty) {
-                    AppMessages.showSuccessMessage(
-                        context, AppStrings.foodAddedToYourWishlist);
-                  } else {
-                    AppMessages.showSuccessMessage(
-                        context, AppStrings.foodRemovedFromYourWishlist);
-                  }
-                }
-                if (state.status == RequestStatus.failure) {
-                  AppMessages.showErrorMessage(
-                    context,
-                    state.error,
-                    state.errorType,
-                  );
-                }
               }
             }, builder: (context, state) {
               bool favorite = AppDummies.foodsWishlist

@@ -33,13 +33,15 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
       transformer: droppable(),
     );
     on<RefreshFoodsWishlistEvent>(_refreshFoodsWishlist);
-    on<AddFoodToWishlistWishlistEvent>(_addFoodToWishlist);
-    on<RemoveFoodFromWishlistWishlistEvent>(_removeFoodFromWishlist);
+    on<AddFoodToWishlistWishlistEvent>(_addFoodToWishlist,
+        transformer: droppable());
+    on<RemoveFoodFromWishlistWishlistEvent>(_removeFoodFromWishlist,
+        transformer: droppable());
   }
 
   FutureOr<void> _getFoodsWishlist(
       GetFoodsWishlistEvent event, Emitter<WishlistState> emit) async {
-    if (!state.foodsHasNext) return;
+    if (!state.foodsHasNext && event.options.page > 1) return;
     emit(
       state.copyWith(
         status: RequestStatus.loading,

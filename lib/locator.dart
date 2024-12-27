@@ -37,7 +37,8 @@ import 'package:your_chef/features/restaurants/data/sources/remote/restaurant_re
 import 'package:your_chef/features/restaurants/domain/repositories/restaurant_repository.dart';
 import 'package:your_chef/features/foods/domain/usecases/foods/get_restaurant_foods_usecase.dart';
 import 'package:your_chef/features/offers/domain/usecases/get_restaurant_offers_usecase.dart';
-import 'package:your_chef/features/restaurants/presentation/bloc/restaurant_bloc.dart';
+import 'package:your_chef/features/restaurants/presentation/bloc/menu/get_restaurant_menu_bloc.dart';
+import 'package:your_chef/features/restaurants/presentation/bloc/offers/get_restaurant_offers_bloc.dart';
 import 'package:your_chef/features/settings/data/repositories/settings_repository_impl.dart';
 import 'package:your_chef/features/settings/data/sources/remote/settings_remote_data_source.dart';
 import 'package:your_chef/features/settings/domain/repositories/settings_repository.dart';
@@ -343,9 +344,13 @@ void _initBlocs() {
   );
 
   //*Restaurant
-  locator.registerFactory<RestaurantBloc>(
-    () => RestaurantBloc(
+  locator.registerFactory<GetRestaurantOffersBloc>(
+    () => GetRestaurantOffersBloc(
       locator<GetRestaurantOffersUseCase>(),
+    ),
+  );
+  locator.registerFactory<GetRestaurantMenuBloc>(
+    () => GetRestaurantMenuBloc(
       locator<GetRestaurantFoodsUseCase>(),
     ),
   );

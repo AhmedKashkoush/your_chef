@@ -63,6 +63,7 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: context.theme.colorScheme.surface,
       appBar: CustomAppBar(
         profileTag: _tag,
+        isLogoHero: true,
       ),
       body: SafeArea(
         bottom: false,
