@@ -8,6 +8,7 @@ import 'package:your_chef/features/auth/domain/entities/user.dart';
 abstract class IUserRepository {
   const IUserRepository();
   Future<Either<Failure, User>> getUser();
+  Future<Either<Failure, Unit>> signOut();
   Future<Either<Failure, List<SavedUser>>> getSavedUsers();
   Future<Either<Failure, Unit>> updateUser(UserOptions options);
   Future<Either<Failure, Unit>> deleteUser();

@@ -80,17 +80,22 @@ class RestaurantTile extends StatelessWidget {
         subtitle: Text.rich(
           TextSpan(
             children: [
-              WidgetSpan(
-                alignment: PlaceholderAlignment.middle,
-                child: StarRatingWidget(
-                  rate: restaurant.rate.toDouble(),
-                  rateColor: Colors.white,
-                  color: Colors.white,
+              if (restaurant.rate > 0) ...[
+                WidgetSpan(
+                  alignment: PlaceholderAlignment.middle,
+                  child: StarRatingWidget(
+                    rate: restaurant.rate.toDouble(),
+                    rateColor: Colors.white,
+                    color: Colors.white,
+                  ),
                 ),
-              ),
-              TextSpan(
-                text: ' (${restaurant.rate})',
-              ),
+                TextSpan(
+                  text: ' (${restaurant.rate})',
+                ),
+              ] else
+                const TextSpan(
+                  text: AppStrings.noRatings,
+                )
             ],
           ),
           style: const TextStyle(

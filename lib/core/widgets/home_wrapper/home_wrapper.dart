@@ -14,7 +14,6 @@ import 'package:your_chef/features/home/presentation/bloc/on_a_sale/get_home_on_
 import 'package:your_chef/features/home/presentation/bloc/popular_foods/get_home_popular_foods_bloc.dart';
 import 'package:your_chef/features/home/presentation/bloc/restaurants/get_home_restaurants_bloc.dart';
 import 'package:your_chef/features/home/presentation/screens/home_screen.dart';
-import 'package:your_chef/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:your_chef/features/settings/presentation/screens/settings_screen.dart';
 import 'package:your_chef/features/auth/domain/entities/saved_user.dart';
 import 'package:your_chef/common/blocs/user/user_bloc.dart';
@@ -73,10 +72,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
     const WishlistScreen(),
     const SizedBox(),
     const SizedBox(),
-    BlocProvider(
-      create: (context) => locator<SettingsBloc>(),
-      child: const SettingsScreen(),
-    ),
+    const SettingsScreen(),
   ];
 
   final List<IconData> _icons = [

@@ -37,7 +37,7 @@ class AppDummies {
         ),
         trending: Random().nextBool(),
         rate: double.parse(
-          max(Random().nextDouble() * 5, 0.1).toStringAsFixed(1),
+          max(Random().nextDouble() * 5, 0).toStringAsFixed(1),
         ),
         price: double.parse(
           (Random().nextDouble() * 150).toStringAsFixed(1),
@@ -85,7 +85,7 @@ class AppDummies {
         images: List.generate(
             max(Random().nextInt(6), 1), (_) => _restaurants[index]),
         rate: double.parse(
-          (max(Random().nextDouble() * 5, 0.1)).toStringAsFixed(1),
+          (max(Random().nextDouble() * 5, 0)).toStringAsFixed(1),
         ),
       );
     },

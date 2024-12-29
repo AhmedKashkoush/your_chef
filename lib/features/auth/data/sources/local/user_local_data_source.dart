@@ -14,6 +14,7 @@ abstract class IUserLocalDataSource {
 
   Future<void> deleteSavedUser(SavedUserModel savedUser);
   Future<void> saveUser(SavedUserModel savedUser);
+  Future<void> signOut();
 }
 
 class SecureStorageUserLocalDataSource extends IUserLocalDataSource {
@@ -75,5 +76,10 @@ class SecureStorageUserLocalDataSource extends IUserLocalDataSource {
     }).toList()
       ..sort((user1, user2) => user1.lastLogin.compareTo(user2.lastLogin));
     return sortedSavedUsers;
+  }
+
+  @override
+  Future<void> signOut() async {
+    await SecureStorageHelper.delete(SharedPrefsKeys.user);
   }
 }

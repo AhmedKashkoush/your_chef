@@ -24,14 +24,15 @@ class StarRatingWidget extends StatelessWidget {
       children: List.generate(
         5,
         (index) {
-          if (rate - 1 >= index) {
+          if (rate >= 1 && (rate - 1).floor().abs() >= index) {
             return Icon(
               Icons.star_rounded,
               color: rateColor ?? _rateColor,
               size: size,
             );
           }
-          double remaining = (rate - 1 / rate.floor() - 1).abs();
+          double remaining =
+              rate > 0 ? ((rate - 1).floor() / rate.floor() - 1).abs() : 0;
           if (remaining > 0 && index == (rate.ceil() - 1).abs()) {
             return Icon(
               Icons.star_half_rounded,

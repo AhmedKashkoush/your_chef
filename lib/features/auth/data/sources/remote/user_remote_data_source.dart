@@ -16,6 +16,7 @@ abstract class IUserRemoteDataSource {
   Future<void> updateUser(UserOptions options);
   Future<void> deleteUser();
   Future<UserModel> switchUser(SavedUserModel savedUser);
+  Future<void> signOut();
 }
 
 class SupabaseUserRemoteDataSource extends IUserRemoteDataSource {
@@ -149,5 +150,10 @@ class SupabaseUserRemoteDataSource extends IUserRemoteDataSource {
       'image': url,
     };
     await client.from('users').update(data).eq('id', options.user.id);
+  }
+
+  @override
+  Future<void> signOut() async {
+    await client.auth.signOut();
   }
 }

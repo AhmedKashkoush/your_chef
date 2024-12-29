@@ -14,12 +14,13 @@ import 'package:your_chef/core/utils/messages.dart';
 import 'package:your_chef/core/utils/network_helper.dart';
 import 'package:your_chef/core/utils/url_helper.dart';
 // import 'package:your_chef/core/utils/user_helper.dart';
-import 'package:your_chef/features/settings/presentation/bloc/settings_bloc.dart';
+import 'package:your_chef/features/settings/presentation/bloc/signout/signout_bloc.dart';
 import 'package:your_chef/features/settings/presentation/widgets/accounts_bottom_sheet.dart';
 import 'package:your_chef/features/settings/presentation/widgets/action_tile.dart';
 import 'package:your_chef/features/settings/presentation/widgets/user_tile.dart';
 import 'package:your_chef/features/auth/domain/entities/saved_user.dart';
 import 'package:your_chef/common/blocs/user/user_bloc.dart';
+import 'package:your_chef/locator.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -39,22 +40,6 @@ class SettingsScreen extends StatelessWidget {
   }
 
   void _goToThemes(BuildContext context) => context.pushNamed(AppRoutes.themes);
-
-  void _signOut(BuildContext context) async {
-    final bool? confirm = await AppMessages.showConfirmDialog(
-      context,
-      message: AppStrings.signOutConfirmation,
-      confirmIsDanger: true,
-    );
-
-    if (confirm == null || !confirm) return;
-    if (!context.mounted) return;
-
-    context.read<SettingsBloc>().add(const SignOutEvent());
-  }
-
-  void _goToProfile(BuildContext context) =>
-      context.pushNamed(AppRoutes.profile, arguments: 'user-image-settings');
 
   void _openAccountsSheet(context) async {
     if (!context.mounted) return;
@@ -99,140 +84,108 @@ class SettingsScreen extends StatelessWidget {
     final bool darkMode = context.theme.brightness == Brightness.dark;
     return Scaffold(
       backgroundColor: context.theme.colorScheme.surface,
-      body: BlocListener<SettingsBloc, SettingsState>(
-        listener: (context, state) {
-          if (state is SettingsLoadingState) {
-            AppMessages.showLoadingDialog(
-              context,
-              message: AppStrings.signingOut,
-            );
-          } else {
-            context.pop();
-            if (state is SettingsErrorState) {
-              AppMessages.showErrorMessage(
-                context,
-                state.message,
-                state.type,
-              );
-            }
-            if (state is SettingsSuccessState) {
-              if (!context.mounted) return;
-              AppMessages.showSuccessMessage(
-                context,
-                AppStrings.signedOutSuccessfully,
-              );
-              context.read<UserBloc>().add(const LogoutEvent());
-              if (context.read<UserBloc>().state.savedUsers.isNotEmpty) {
-                context.pushReplacementNamed(AppRoutes.accounts);
-                return;
-              }
-              context.pushReplacementNamed(AppRoutes.auth);
-            }
-          }
-        },
-        child: SafeArea(
-          child: ListView(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 12.0,
-              vertical: 24,
-            ).r,
-            children: [
-              UserTile(
-                onTap: () => _goToProfile(context),
-                onSignOut: () => _signOut(context),
-              ),
-              16.height,
-              const Divider(),
-              16.height,
-              BlocListener<UserBloc, UserState>(
-                listenWhen: (previous, state) =>
-                    state.switchUser && previous.status != state.status,
-                listener: (context, state) {
-                  if (state.status == RequestStatus.loading) {
-                    AppMessages.showLoadingDialog(
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 12.0,
+            vertical: 24,
+          ).r,
+          children: [
+            BlocProvider(
+              create: (context) => locator<SignOutBloc>(),
+              child: const UserTile(),
+            ),
+            16.height,
+            const Divider(),
+            16.height,
+            BlocListener<UserBloc, UserState>(
+              listenWhen: (previous, state) =>
+                  state.switchUser && previous.status != state.status,
+              listener: (context, state) {
+                if (state.status == RequestStatus.loading) {
+                  AppMessages.showLoadingDialog(
+                    context,
+                    message: AppStrings.switchingAccount,
+                  );
+                } else {
+                  context.pop();
+                  if (state.status == RequestStatus.failure) {
+                    AppMessages.showErrorMessage(
                       context,
-                      message: AppStrings.switchingAccount,
+                      state.error,
+                      state.errorType,
                     );
-                  } else {
-                    context.pop();
-                    if (state.status == RequestStatus.failure) {
-                      AppMessages.showErrorMessage(
-                        context,
-                        state.error,
-                        state.errorType,
-                      );
 
-                      if (state.errorType == ErrorType.auth) {
-                        context.pushNamedAndRemoveUntil(
-                          AppRoutes.auth,
-                        );
-                      }
-                    }
-
-                    if (state.status == RequestStatus.success) {
-                      if (!context.mounted) return;
-                      AppMessages.showSuccessMessage(
-                        context,
-                        AppStrings.switchedAccountSuccessfully,
+                    if (state.errorType == ErrorType.auth) {
+                      context.pushNamedAndRemoveUntil(
+                        AppRoutes.auth,
                       );
-                      context.pushReplacementNamed(AppRoutes.home);
                     }
                   }
-                },
-                child: ActionTile(
-                  onTap: () => _openAccountsSheet(context),
-                  title: AppStrings.switchAccounts,
-                  icon: HugeIcons.strokeRoundedUserSwitch,
-                ),
+
+                  if (state.status == RequestStatus.success) {
+                    if (!context.mounted) return;
+                    AppMessages.showSuccessMessage(
+                      context,
+                      AppStrings.switchedAccountSuccessfully,
+                    );
+                    context.pushReplacementNamed(AppRoutes.home);
+                  }
+                }
+              },
+              child: ActionTile(
+                onTap: () => _openAccountsSheet(context),
+                title: AppStrings.switchAccounts,
+                icon: HugeIcons.strokeRoundedUserSwitch,
               ),
-              8.height,
-              ActionTile(
-                onTap: () => _goToPrivacyAndSecurity(context),
-                title: AppStrings.privacyAndSecurity,
-                icon: HugeIcons.strokeRoundedLockKey,
-              ),
-              8.height,
-              ActionTile(
-                onTap: _openNotifications,
-                title: AppStrings.notifications,
-                icon: HugeIcons.strokeRoundedNotification03,
-              ),
-              8.height,
-              ActionTile(
-                onTap: () => _goToLanguages(context),
-                title: AppStrings.languages,
-                icon: HugeIcons.strokeRoundedLanguageSquare,
-              ),
-              8.height,
-              ActionTile(
-                onTap: () => _goToThemes(context),
-                title: AppStrings.themes,
-                icon: darkMode
-                    ? Icons.dark_mode_outlined
-                    : Icons.light_mode_outlined,
-              ),
-              8.height,
-              const Divider(),
-              8.height,
-              ActionTile(
-                onTap: _openPrivacyPolicy,
-                title: AppStrings.privacyPolicy,
-                icon: HugeIcons.strokeRoundedSecurity,
-              ),
-              8.height,
-              ActionTile(
-                onTap: _reportAnIssue,
-                title: AppStrings.reportAnIssue,
-                icon: HugeIcons.strokeRoundedAlert02,
-              ),
-              8.height,
-              ActionTile(
-                onTap: () => _goToAboutApp(context),
-                title: AppStrings.aboutTheApp,
-                icon: HugeIcons.strokeRoundedInformationCircle,
-              ),
-            ],
-          ),
+            ),
+            8.height,
+            ActionTile(
+              onTap: () => _goToPrivacyAndSecurity(context),
+              title: AppStrings.privacyAndSecurity,
+              icon: HugeIcons.strokeRoundedLockKey,
+            ),
+            8.height,
+            ActionTile(
+              onTap: _openNotifications,
+              title: AppStrings.notifications,
+              icon: HugeIcons.strokeRoundedNotification03,
+            ),
+            8.height,
+            ActionTile(
+              onTap: () => _goToLanguages(context),
+              title: AppStrings.languages,
+              icon: HugeIcons.strokeRoundedLanguageSquare,
+            ),
+            8.height,
+            ActionTile(
+              onTap: () => _goToThemes(context),
+              title: AppStrings.themes,
+              icon: darkMode
+                  ? Icons.dark_mode_outlined
+                  : Icons.light_mode_outlined,
+            ),
+            8.height,
+            const Divider(),
+            8.height,
+            ActionTile(
+              onTap: _openPrivacyPolicy,
+              title: AppStrings.privacyPolicy,
+              icon: HugeIcons.strokeRoundedSecurity,
+            ),
+            8.height,
+            ActionTile(
+              onTap: _reportAnIssue,
+              title: AppStrings.reportAnIssue,
+              icon: HugeIcons.strokeRoundedAlert02,
+            ),
+            8.height,
+            ActionTile(
+              onTap: () => _goToAboutApp(context),
+              title: AppStrings.aboutTheApp,
+              icon: HugeIcons.strokeRoundedInformationCircle,
+            ),
+          ],
         ),
       ),
     );

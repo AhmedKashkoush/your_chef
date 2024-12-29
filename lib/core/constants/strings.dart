@@ -102,6 +102,10 @@ class AppStrings {
 
   static const String retry = "Retry";
 
+  static const String noRatings = "No ratings";
+  static const String addReview = "Add review";
+  static const String otherReviews = "Other reviews";
+
   //Confirmations
   static const String signOutConfirmation =
       "Are you sure you want to sign out?";

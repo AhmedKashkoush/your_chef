@@ -66,7 +66,7 @@ class RestaurantMenuListSection extends StatelessWidget {
             if (state is GetRestaurantMenuLoadingState) {
               return SkeletonLoadingWidget(
                 loading: true,
-                child: _buildList(foods: _loadingList),
+                child: _buildList(foods: _loadingList, loading: true),
               );
             }
 
@@ -97,7 +97,7 @@ class RestaurantMenuListSection extends StatelessWidget {
                   if (saleFoods.isNotEmpty) ...[
                     if (saleFoods.isNotEmpty && normalFoods.isNotEmpty)
                       _buildTitleTile(context, title: AppStrings.onASale),
-                    _buildList(foods: saleFoods),
+                    _buildList(foods: saleFoods, loading: false),
                   ],
                   if (normalFoods.isNotEmpty) ...[
                     if (saleFoods.isNotEmpty && normalFoods.isNotEmpty)
@@ -105,7 +105,7 @@ class RestaurantMenuListSection extends StatelessWidget {
                         context,
                         title: AppStrings.other,
                       ),
-                    _buildList(foods: normalFoods),
+                    _buildList(foods: normalFoods, loading: false),
                   ]
                 ],
               );
@@ -132,11 +132,11 @@ class RestaurantMenuListSection extends StatelessWidget {
     );
   }
 
-  Widget _buildList({required List<Food> foods}) {
+  Widget _buildList({required List<Food> foods, required bool loading}) {
     return ListView.separated(
       itemBuilder: (_, index) => RestaurantMenuItem(
         food: foods[index],
-        tag: tag,
+        tag: loading ? tag + index.toString() : tag,
       ),
       separatorBuilder: (_, index) => 8.height,
       itemCount: foods.length,

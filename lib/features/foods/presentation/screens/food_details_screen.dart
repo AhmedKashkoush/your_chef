@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -9,12 +11,15 @@ import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/dummy/dummy_data.dart';
 import 'package:your_chef/core/extensions/navigation_extension.dart';
+import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/utils/messages.dart';
 import 'package:your_chef/core/utils/network_helper.dart';
 import 'package:your_chef/core/widgets/buttons/custom_icon_button.dart';
+import 'package:your_chef/core/widgets/buttons/secondary_button.dart';
 import 'package:your_chef/core/widgets/layout/orientation_widget.dart';
 import 'package:your_chef/core/widgets/rating/star_rating_widget.dart';
+import 'package:your_chef/core/widgets/tiles/review_tile.dart';
 import 'package:your_chef/features/foods/domain/entities/food.dart';
 import 'package:your_chef/features/foods/presentation/widgets/food_details/add_to_cart_section.dart';
 import 'package:your_chef/features/foods/presentation/widgets/food_details/food_tile.dart';
@@ -261,15 +266,18 @@ class _FoodDetailsPortraitState extends State<_FoodDetailsPortrait> {
                 trailing: Text.rich(
                   TextSpan(
                     children: [
-                      TextSpan(
-                        text: '${widget.food.rate} ',
-                      ),
-                      WidgetSpan(
-                        child: StarRatingWidget(
-                          rate: widget.food.rate.toDouble(),
-                          size: 18.sp,
+                      if (widget.food.rate > 0) ...[
+                        TextSpan(
+                          text: '${widget.food.rate} ',
                         ),
-                      ),
+                        WidgetSpan(
+                          child: StarRatingWidget(
+                            rate: widget.food.rate.toDouble(),
+                            size: 18.sp,
+                          ),
+                        ),
+                      ] else
+                        const TextSpan(text: AppStrings.noRatings),
                     ],
                     style: TextStyle(
                       color: context.theme.iconTheme.color?.withOpacity(0.6),
@@ -337,34 +345,78 @@ class _FoodDetailsPortraitState extends State<_FoodDetailsPortrait> {
                     : null,
               ),
               // const Divider(),
-              ExpansionTile(
-                maintainState: true,
-                initiallyExpanded: true,
-                shape: const RoundedRectangleBorder(
-                  side: BorderSide.none,
+              // ExpansionTile(
+              //   maintainState: true,
+              //   initiallyExpanded: true,
+              //   shape: const RoundedRectangleBorder(
+              //     side: BorderSide.none,
+              //   ),
+              //   title: const Text(
+              //     AppStrings.aboutMeal,
+              //     style: TextStyle(
+              //       height: 0.9,
+              //       fontSize: 20,
+              //       fontWeight: FontWeight.bold,
+              //     ),
+              //   ),
+              //   childrenPadding: EdgeInsets.symmetric(horizontal: 16.w),
+              //   children: [
+              //     Hero(
+              //       tag: '${widget.food.id}description',
+              //       child: Text(
+              //         widget.food.description,
+              //         maxLines: null,
+              //         style: TextStyle(
+              //           color: context.theme.iconTheme.color?.withOpacity(0.8),
+              //           fontSize: 18,
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+
+              ListTile(
+                title: Hero(
+                  tag: '${widget.food.id}description',
+                  child: Text(
+                    widget.food.description,
+                    maxLines: null,
+                    style: TextStyle(
+                      color: context.theme.iconTheme.color?.withOpacity(0.8),
+                      fontSize: 18,
+                    ),
+                  ),
                 ),
-                title: const Text(
-                  AppStrings.aboutMeal,
+              ),
+              const Divider(),
+              ListTile(
+                trailing: SecondaryButton(
+                  icon: HugeIcons.strokeRoundedStar,
+                  onPressed: () {},
+                  text: AppStrings.addReview,
+                ),
+              ),
+              const Divider(),
+              const ListTile(
+                title: Text(
+                  AppStrings.otherReviews,
                   style: TextStyle(
                     height: 0.9,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                childrenPadding: EdgeInsets.symmetric(horizontal: 16.w),
-                children: [
-                  Hero(
-                    tag: '${widget.food.id}description',
-                    child: Text(
-                      widget.food.description,
-                      maxLines: null,
-                      style: TextStyle(
-                        color: context.theme.iconTheme.color?.withOpacity(0.8),
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
-                ],
+              ),
+              ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (_, index) {
+                  final double rate = double.parse(
+                      (Random().nextDouble() * 5).toStringAsFixed(1));
+                  return ReviewTile(rate: rate);
+                },
+                separatorBuilder: (_, index) => 8.height,
+                itemCount: 5,
               ),
             ],
           ),

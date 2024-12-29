@@ -171,15 +171,20 @@ class FoodItem extends StatelessWidget {
               Text.rich(
                 TextSpan(
                   children: [
-                    WidgetSpan(
-                      child: StarRatingWidget(
-                        rate: food.rate.toDouble(),
-                        size: 14,
+                    if (food.rate > 0) ...[
+                      WidgetSpan(
+                        child: StarRatingWidget(
+                          rate: food.rate.toDouble(),
+                          size: 14,
+                        ),
                       ),
-                    ),
-                    TextSpan(
-                      text: ' (${food.rate})',
-                    ),
+                      TextSpan(
+                        text: ' (${food.rate})',
+                      ),
+                    ] else
+                      const TextSpan(
+                        text: AppStrings.noRatings,
+                      )
                   ],
                   style: TextStyle(
                     color: Colors.white.withOpacity(0.6),

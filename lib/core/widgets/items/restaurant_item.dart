@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:your_chef/config/routes/routes.dart';
+import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/widgets/rating/star_rating_widget.dart';
@@ -92,15 +93,20 @@ class RestaurantItem extends StatelessWidget {
                   Text.rich(
                     TextSpan(
                       children: [
-                        WidgetSpan(
-                          child: StarRatingWidget(
-                            rate: restaurant.rate.toDouble(),
-                            size: 14,
+                        if (restaurant.rate > 0) ...[
+                          WidgetSpan(
+                            child: StarRatingWidget(
+                              rate: restaurant.rate.toDouble(),
+                              size: 14,
+                            ),
                           ),
-                        ),
-                        TextSpan(
-                          text: ' (${restaurant.rate})',
-                        ),
+                          TextSpan(
+                            text: ' (${restaurant.rate})',
+                          ),
+                        ] else
+                          const TextSpan(
+                            text: AppStrings.noRatings,
+                          )
                       ],
                       style: TextStyle(
                         color: Colors.white.withOpacity(0.6),

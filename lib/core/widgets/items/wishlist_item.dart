@@ -169,17 +169,21 @@ class WishlistItem extends StatelessWidget {
                   2.height,
                   Text.rich(
                     TextSpan(
-                      text: '${food.rate} ',
-                      children: const [
-                        WidgetSpan(
-                          alignment: PlaceholderAlignment.middle,
-                          child: Icon(
-                            Icons.star_rounded,
-                            color: AppColors.primary,
-                            size: 14,
-                          ),
-                        ),
-                      ],
+                      text: food.rate > 0
+                          ? '${food.rate} '
+                          : AppStrings.noRatings,
+                      children: food.rate > 0
+                          ? const [
+                              WidgetSpan(
+                                alignment: PlaceholderAlignment.middle,
+                                child: Icon(
+                                  Icons.star_rounded,
+                                  color: AppColors.primary,
+                                  size: 14,
+                                ),
+                              ),
+                            ]
+                          : [],
                     ),
                     style: TextStyle(
                       color: context.theme.iconTheme.color?.withOpacity(0.6),

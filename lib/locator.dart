@@ -10,6 +10,7 @@ import 'package:your_chef/features/auth/domain/usecases/auth/reset_password_usec
 import 'package:your_chef/features/auth/domain/usecases/auth/send_otp_usecase.dart';
 import 'package:your_chef/features/auth/domain/usecases/auth/upload_profile_photo_usecase.dart';
 import 'package:your_chef/features/auth/domain/usecases/auth/verify_otp_usecase.dart';
+import 'package:your_chef/features/auth/domain/usecases/user/signout_usecase.dart';
 import 'package:your_chef/features/auth/presentation/bloc/login/login_bloc.dart';
 import 'package:your_chef/features/auth/presentation/bloc/register/register_bloc.dart';
 import 'package:your_chef/features/auth/presentation/bloc/upload_profile_photo/upload_profile_photo_bloc.dart';
@@ -39,12 +40,6 @@ import 'package:your_chef/features/foods/domain/usecases/foods/get_restaurant_fo
 import 'package:your_chef/features/offers/domain/usecases/get_restaurant_offers_usecase.dart';
 import 'package:your_chef/features/restaurants/presentation/bloc/menu/get_restaurant_menu_bloc.dart';
 import 'package:your_chef/features/restaurants/presentation/bloc/offers/get_restaurant_offers_bloc.dart';
-import 'package:your_chef/features/settings/data/repositories/settings_repository_impl.dart';
-import 'package:your_chef/features/settings/data/sources/remote/settings_remote_data_source.dart';
-import 'package:your_chef/features/settings/domain/repositories/settings_repository.dart';
-import 'package:your_chef/features/settings/domain/usecases/sign_out_usecase.dart';
-import 'package:your_chef/features/settings/domain/usecases/switch_account_usecase.dart';
-import 'package:your_chef/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:your_chef/features/auth/data/repositories/user_repository_impl.dart';
 import 'package:your_chef/features/auth/data/sources/local/user_local_data_source.dart';
 import 'package:your_chef/features/auth/data/sources/remote/user_remote_data_source.dart';
@@ -64,6 +59,8 @@ import 'package:your_chef/features/foods/domain/usecases/wishlist/add_food_to_wi
 import 'package:your_chef/features/foods/domain/usecases/wishlist/get_foods_wishlist_usecase.dart';
 import 'package:your_chef/features/foods/domain/usecases/wishlist/remove_food_from_wishlist_usecase.dart';
 import 'package:your_chef/common/blocs/wishlist/wishlist_bloc.dart';
+import 'package:your_chef/features/settings/presentation/bloc/signout/signout_bloc.dart';
+import 'package:your_chef/features/settings/presentation/bloc/switch_account/switch_account_bloc.dart';
 
 import 'features/auth/data/repositories/auth_repository_impl.dart';
 import 'features/auth/domain/usecases/auth/google_sign_in_usecase.dart';
@@ -142,13 +139,6 @@ void _initRemoteSources() {
       locator<SupabaseClient>(),
     ),
   );
-
-  //*Settings
-  locator.registerLazySingleton<ISettingsRemoteDataSource>(
-    () => SupabaseSettingsRemoteDataSource(
-      locator<SupabaseClient>(),
-    ),
-  );
 }
 
 //? Local Sources
@@ -193,10 +183,6 @@ void _initRepositories() {
   //*Wishlist
   locator.registerLazySingleton<IWishlistRepository>(
     () => WishlistRepository(locator<IWishlistRemoteDataSource>()),
-  );
-  //*Settings
-  locator.registerLazySingleton<ISettingsRepository>(
-    () => SettingsRepository(locator<ISettingsRemoteDataSource>()),
   );
 }
 
@@ -247,6 +233,9 @@ void _initUseCases() {
   locator.registerLazySingleton<SwitchUserUseCase>(
     () => SwitchUserUseCase(locator<IUserRepository>()),
   );
+  locator.registerLazySingleton<SignOutUseCase>(
+    () => SignOutUseCase(locator<IUserRepository>()),
+  );
 
   //*Offers
   locator.registerLazySingleton<GetOffersUseCase>(
@@ -285,13 +274,6 @@ void _initUseCases() {
   );
   locator.registerLazySingleton<RemoveFoodFromWishlistUseCase>(
     () => RemoveFoodFromWishlistUseCase(locator<IWishlistRepository>()),
-  );
-  //*Settings
-  locator.registerLazySingleton<SignOutUseCase>(
-    () => SignOutUseCase(locator<ISettingsRepository>()),
-  );
-  locator.registerLazySingleton<SwitchAccountUseCase>(
-    () => SwitchAccountUseCase(locator<ISettingsRepository>()),
   );
 }
 
@@ -363,10 +345,14 @@ void _initBlocs() {
     ),
   );
   //*Settings
-  locator.registerFactory<SettingsBloc>(
-    () => SettingsBloc(
+  locator.registerFactory<SignOutBloc>(
+    () => SignOutBloc(
       locator<SignOutUseCase>(),
-      locator<SwitchAccountUseCase>(),
+    ),
+  );
+  locator.registerFactory<SwitchAccountBloc>(
+    () => SwitchAccountBloc(
+      locator<SwitchUserUseCase>(),
     ),
   );
 }

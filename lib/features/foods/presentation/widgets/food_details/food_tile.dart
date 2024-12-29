@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:your_chef/core/constants/colors.dart';
+import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/features/foods/domain/entities/food.dart';
 
@@ -40,17 +41,19 @@ class FoodTile extends StatelessWidget {
       ),
       subtitle: Text.rich(
         TextSpan(
-          text: '${food.rate} ',
-          children: const [
-            WidgetSpan(
-              alignment: PlaceholderAlignment.middle,
-              child: Icon(
-                Icons.star_rounded,
-                color: AppColors.primary,
-                size: 16,
-              ),
-            ),
-          ],
+          text: food.rate > 0 ? '${food.rate} ' : AppStrings.noRatings,
+          children: food.rate > 0
+              ? const [
+                  WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
+                    child: Icon(
+                      Icons.star_rounded,
+                      color: AppColors.primary,
+                      size: 16,
+                    ),
+                  ),
+                ]
+              : [],
         ),
         style: TextStyle(
           color: context.theme.iconTheme.color?.withOpacity(0.6),

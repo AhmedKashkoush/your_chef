@@ -72,15 +72,20 @@ class RestaurantMenuItem extends StatelessWidget {
       subtitle: Text.rich(
         TextSpan(
           children: [
-            WidgetSpan(
-              child: StarRatingWidget(
-                rate: food.rate.toDouble(),
-                size: 16.sp,
+            if (food.rate > 0) ...[
+              WidgetSpan(
+                child: StarRatingWidget(
+                  rate: food.rate.toDouble(),
+                  size: 16.sp,
+                ),
               ),
-            ),
-            TextSpan(
-              text: ' (${food.rate})',
-            ),
+              TextSpan(
+                text: ' (${food.rate})',
+              ),
+            ] else
+              const TextSpan(
+                text: AppStrings.noRatings,
+              )
           ],
           style: TextStyle(
             color: context.theme.iconTheme.color?.withOpacity(0.6),
