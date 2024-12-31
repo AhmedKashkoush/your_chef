@@ -76,6 +76,8 @@ class _FoodDetailsPortraitState extends State<_FoodDetailsPortrait> {
   final ValueNotifier<bool> _visible = ValueNotifier(false);
   final ValueNotifier<int> _currentIndex = ValueNotifier(0);
 
+  String get _baseTag => 'food${widget.tag}${widget.food.id}';
+
   @override
   void initState() {
     _scrollController.addListener(_scrollListener);
@@ -197,7 +199,7 @@ class _FoodDetailsPortraitState extends State<_FoodDetailsPortrait> {
                     autoPlayInterval: const Duration(seconds: 3),
                   ),
                   itemBuilder: (_, index, __) => Hero(
-                    tag: 'food${widget.tag}${widget.food.id}image+$index',
+                    tag: '${_baseTag}image+$index',
                     child: Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
@@ -248,7 +250,7 @@ class _FoodDetailsPortraitState extends State<_FoodDetailsPortrait> {
               ),
               ListTile(
                 title: Hero(
-                  tag: 'food${widget.tag}${widget.food.id}name',
+                  tag: '${_baseTag}name',
                   child: Material(
                     type: MaterialType.transparency,
                     child: Text(
@@ -289,7 +291,7 @@ class _FoodDetailsPortraitState extends State<_FoodDetailsPortrait> {
               // const Divider(),
               ListTile(
                 title: Hero(
-                  tag: 'food${widget.tag}${widget.food.id}price',
+                  tag: '${_baseTag}price',
                   child: Material(
                     type: MaterialType.transparency,
                     child: Text(
@@ -377,7 +379,7 @@ class _FoodDetailsPortraitState extends State<_FoodDetailsPortrait> {
 
               ListTile(
                 title: Hero(
-                  tag: '${widget.food.id}description',
+                  tag: '${_baseTag}description',
                   child: Text(
                     widget.food.description,
                     maxLines: null,
@@ -413,7 +415,12 @@ class _FoodDetailsPortraitState extends State<_FoodDetailsPortrait> {
                 itemBuilder: (_, index) {
                   final double rate = double.parse(
                       (Random().nextDouble() * 5).toStringAsFixed(1));
-                  return ReviewTile(rate: rate);
+                  return ReviewTile(
+                    image: 'https://picsum.photos/200/300',
+                    username: 'User name',
+                    review: 'user review' * 70,
+                    rate: rate,
+                  );
                 },
                 separatorBuilder: (_, index) => 8.height,
                 itemCount: 5,

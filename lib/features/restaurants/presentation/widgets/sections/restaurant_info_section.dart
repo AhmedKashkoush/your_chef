@@ -15,6 +15,8 @@ class RestaurantInfoSection extends StatelessWidget {
 
   final Restaurant restaurant;
 
+  String get _baseTag => 'restaurant${restaurant.id}';
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -22,7 +24,7 @@ class RestaurantInfoSection extends StatelessWidget {
       child: Row(
         children: [
           Hero(
-            tag: "restaurant${restaurant.id}-image",
+            tag: "$_baseTag-image",
             child: Container(
               width: 100.w,
               height: 100.h,
@@ -44,7 +46,7 @@ class RestaurantInfoSection extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Hero(
-                  tag: "restaurant${restaurant.id}-name",
+                  tag: "$_baseTag-name",
                   child: Material(
                     type: MaterialType.transparency,
                     child: Text(

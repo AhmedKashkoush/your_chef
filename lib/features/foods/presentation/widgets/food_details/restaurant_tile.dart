@@ -18,6 +18,8 @@ class RestaurantTile extends StatelessWidget {
   final Restaurant restaurant;
   final String tag;
 
+  String get _baseTag => 'restaurant${restaurant.id}';
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -28,7 +30,7 @@ class RestaurantTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(12.r),
         ),
         leading: Hero(
-          tag: "restaurant${restaurant.id}-image",
+          tag: "$_baseTag-image",
           child: Container(
             width: 50.w,
             height: 50.h,
@@ -62,7 +64,7 @@ class RestaurantTile extends StatelessWidget {
           ),
         ),
         title: Hero(
-          tag: "restaurant${restaurant.id}-name",
+          tag: "$_baseTag-name",
           child: Material(
             type: MaterialType.transparency,
             child: Text(

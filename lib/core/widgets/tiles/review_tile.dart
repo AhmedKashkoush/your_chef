@@ -1,26 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
+import 'package:your_chef/core/widgets/avatars/user_avatar.dart';
 import 'package:your_chef/core/widgets/rating/star_rating_widget.dart';
 
 class ReviewTile extends StatelessWidget {
+  final String username, image, review;
+  final double rate;
   const ReviewTile({
     super.key,
+    required this.username,
+    required this.image,
+    required this.review,
     required this.rate,
   });
-
-  final double rate;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: const CircleAvatar(),
+      leading: UserAvatar(
+        url: image,
+      ),
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text(
-            'User name',
-            style: TextStyle(
+          Text(
+            username,
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
             ),
@@ -33,13 +39,15 @@ class ReviewTile extends StatelessWidget {
         ],
       ),
       isThreeLine: true,
-      subtitle: Text(
-        'user review' * 70,
-        style: TextStyle(
-          color: context.theme.iconTheme.color?.withOpacity(0.8),
-          fontSize: 14,
-        ),
-      ),
+      subtitle: review.isNotEmpty
+          ? Text(
+              review,
+              style: TextStyle(
+                color: context.theme.iconTheme.color?.withOpacity(0.8),
+                fontSize: 14,
+              ),
+            )
+          : null,
     );
   }
 }

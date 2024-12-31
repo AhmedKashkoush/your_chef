@@ -7,6 +7,7 @@ import 'package:your_chef/core/extensions/media_query_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/options/options.dart';
 import 'package:your_chef/core/widgets/bottom_sheets/account_save_bottom_sheet.dart';
+import 'package:your_chef/core/widgets/buttons/cart_button.dart';
 import 'package:your_chef/core/widgets/views/persistent_view.dart';
 import 'package:your_chef/features/home/presentation/bloc/categories/get_home_categories_bloc.dart';
 import 'package:your_chef/features/home/presentation/bloc/offers/get_home_offers_bloc.dart';
@@ -204,10 +205,8 @@ class _BottomBarPortrait extends StatelessWidget {
           if (index == 2) {
             return Transform.translate(
               offset: const Offset(0, -16),
-              child: FloatingActionButton(
-                onPressed: () {},
-                backgroundColor: AppColors.primary,
-                child: Icon(icon, color: Colors.white),
+              child: CartButton(
+                icon: icon,
               ),
             );
           }
@@ -254,10 +253,8 @@ class _BottomBarLandscape extends StatelessWidget {
             if (index == 2) {
               return Transform.translate(
                 offset: const Offset(16, 0),
-                child: FloatingActionButton(
-                  onPressed: () {},
-                  backgroundColor: AppColors.primary,
-                  child: Icon(icon, color: Colors.white),
+                child: CartButton(
+                  icon: icon,
                 ),
               );
             }

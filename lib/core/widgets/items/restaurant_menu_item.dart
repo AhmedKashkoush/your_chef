@@ -19,6 +19,8 @@ class RestaurantMenuItem extends StatelessWidget {
   final Food food;
   final String tag;
 
+  String get _baseTag => 'food$tag${food.id}';
+
   @override
   Widget build(BuildContext context) {
     if (food.sale > 0) {
@@ -48,7 +50,7 @@ class RestaurantMenuItem extends StatelessWidget {
       leading: ClipRRect(
         borderRadius: BorderRadius.circular(12).r,
         child: Hero(
-          tag: 'food$tag${food.id}image+0',
+          tag: '${_baseTag}image+0',
           child: CachedNetworkImage(
             imageUrl: food.images.first,
             fit: BoxFit.cover,
@@ -58,7 +60,7 @@ class RestaurantMenuItem extends StatelessWidget {
         ),
       ),
       title: Hero(
-        tag: 'food$tag${food.id}name',
+        tag: '${_baseTag}name',
         child: Material(
           type: MaterialType.transparency,
           child: Text(
@@ -98,7 +100,7 @@ class RestaurantMenuItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Hero(
-            tag: 'food$tag${food.id}price',
+            tag: '${_baseTag}price',
             child: Material(
               type: MaterialType.transparency,
               child: Text(

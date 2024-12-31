@@ -19,6 +19,8 @@ class RestaurantItem extends StatelessWidget {
 
   final String _tag = 'food';
 
+  String get _baseTag => 'restaurant${restaurant.id}';
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -39,7 +41,7 @@ class RestaurantItem extends StatelessWidget {
         child: Stack(
           children: [
             Hero(
-              tag: "restaurant${restaurant.id}-image",
+              tag: "$_baseTag-image",
               child: Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
@@ -72,7 +74,7 @@ class RestaurantItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Hero(
-                    tag: "restaurant${restaurant.id}-name",
+                    tag: "$_baseTag-name",
                     child: Material(
                       type: MaterialType.transparency,
                       child: Text(

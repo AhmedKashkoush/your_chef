@@ -18,6 +18,7 @@ class FoodItem extends StatelessWidget {
   });
 
   final String _tag = 'food';
+  String get _baseTag => 'food$_tag${food.id}';
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +51,7 @@ class FoodItem extends StatelessWidget {
     return Stack(
       children: [
         Hero(
-          tag: 'food$_tag${food.id}image+0',
+          tag: '${_baseTag}image+0',
           child: Container(
             decoration: BoxDecoration(
               color: context.theme.iconTheme.color?.withOpacity(0.1),
@@ -84,7 +85,7 @@ class FoodItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Hero(
-                tag: 'food$_tag${food.id}name',
+                tag: '${_baseTag}name',
                 child: Material(
                   type: MaterialType.transparency,
                   child: Text(
@@ -101,14 +102,17 @@ class FoodItem extends StatelessWidget {
                 ),
               ),
               Hero(
-                tag: 'food$_tag${food.id}description',
-                child: Text(
-                  food.description,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.8),
-                    fontSize: 14,
+                tag: '${_baseTag}description',
+                child: Material(
+                  type: MaterialType.transparency,
+                  child: Text(
+                    food.description,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.8),
+                      fontSize: 14,
+                    ),
                   ),
                 ),
               ),
@@ -132,7 +136,7 @@ class FoodItem extends StatelessWidget {
                       ),
                     ),
                     Hero(
-                      tag: 'food$_tag${food.id}price',
+                      tag: '${_baseTag}price',
                       child: Material(
                         type: MaterialType.transparency,
                         child: Text(
@@ -150,7 +154,7 @@ class FoodItem extends StatelessWidget {
                 )
               else
                 Hero(
-                  tag: 'food$_tag${food.id}price',
+                  tag: '${_baseTag}price',
                   child: Material(
                     type: MaterialType.transparency,
                     child: Text(
