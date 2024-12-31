@@ -380,12 +380,15 @@ class _FoodDetailsPortraitState extends State<_FoodDetailsPortrait> {
               ListTile(
                 title: Hero(
                   tag: '${_baseTag}description',
-                  child: Text(
-                    widget.food.description,
-                    maxLines: null,
-                    style: TextStyle(
-                      color: context.theme.iconTheme.color?.withOpacity(0.8),
-                      fontSize: 18,
+                  child: Material(
+                    type: MaterialType.transparency,
+                    child: Text(
+                      widget.food.description,
+                      maxLines: null,
+                      style: TextStyle(
+                        color: context.theme.iconTheme.color?.withOpacity(0.8),
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                 ),
