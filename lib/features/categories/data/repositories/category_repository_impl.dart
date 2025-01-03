@@ -27,4 +27,19 @@ class CategoryRepository extends ICategoryRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, List<Category>>> getAllCategories() async {
+    try {
+      final List<CategoryModel> categories =
+          await remoteDataSource.getAllCategories();
+      return Right(categories.map((category) => category.toEntity()).toList());
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
 }

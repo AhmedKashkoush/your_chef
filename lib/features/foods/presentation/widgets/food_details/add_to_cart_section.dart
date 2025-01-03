@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/widgets/buttons/primary_button.dart';
 import 'package:your_chef/core/widgets/buttons/secondary_button.dart';
@@ -67,7 +68,7 @@ class _AddToCartSectionState extends State<AddToCartSection> {
               children: [
                 Expanded(
                   child: SecondaryButton(
-                    text: 'Remove from cart',
+                    text: AppStrings.removeFromCart,
                     icon: HugeIcons.strokeRoundedShoppingCartRemove01,
                     onPressed: () {},
                   ),
@@ -75,7 +76,7 @@ class _AddToCartSectionState extends State<AddToCartSection> {
                 10.width,
                 Expanded(
                   child: PrimaryButton(
-                    text: 'View in cart',
+                    text: AppStrings.viewInCart,
                     icon: HugeIcons.strokeRoundedShoppingCart01,
                     backgroundColor: Colors.green,
                     count: widget.count,
@@ -87,7 +88,7 @@ class _AddToCartSectionState extends State<AddToCartSection> {
               ],
             )
           : PrimaryButton(
-              text: 'Add to Cart',
+              text: AppStrings.addToCart,
               icon: HugeIcons.strokeRoundedShoppingCartAdd01,
               onPressed: () {},
             ),

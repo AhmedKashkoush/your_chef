@@ -18,6 +18,7 @@ import 'package:your_chef/features/auth/presentation/bloc/verify/verify_bloc.dar
 import 'package:your_chef/features/categories/data/repositories/category_repository_impl.dart';
 import 'package:your_chef/features/categories/data/sources/remote/category_remote_data_source.dart';
 import 'package:your_chef/features/categories/domain/repositories/category_repository.dart';
+import 'package:your_chef/features/categories/domain/usecases/get_all_categories_usecase.dart';
 import 'package:your_chef/features/foods/data/repositories/food_repository_impl.dart';
 import 'package:your_chef/features/foods/data/sources/remote/food_remote_data_source.dart';
 import 'package:your_chef/features/foods/domain/repositories/food_repository.dart';
@@ -64,6 +65,7 @@ import 'package:your_chef/features/settings/presentation/bloc/switch_account/swi
 
 import 'features/auth/data/repositories/auth_repository_impl.dart';
 import 'features/auth/domain/usecases/auth/google_sign_in_usecase.dart';
+import 'features/categories/presentation/bloc/get_all_categories_bloc.dart';
 import 'features/foods/domain/usecases/foods/get_on_sale_foods_usecase.dart';
 
 final GetIt locator = GetIt.instance;
@@ -246,6 +248,9 @@ void _initUseCases() {
   locator.registerLazySingleton<GetCategoriesUseCase>(
     () => GetCategoriesUseCase(locator<ICategoryRepository>()),
   );
+  locator.registerLazySingleton<GetAllCategoriesUseCase>(
+    () => GetAllCategoriesUseCase(locator<ICategoryRepository>()),
+  );
 
   //*Restaurants
   locator.registerLazySingleton<GetPopularRestaurantsUseCase>(
@@ -323,6 +328,13 @@ void _initBlocs() {
   );
   locator.registerFactory<GetHomeOnSaleFoodsBloc>(
     () => GetHomeOnSaleFoodsBloc(locator<GetOnSaleFoodsUseCase>()),
+  );
+
+  //*Categories
+  locator.registerFactory<GetAllCategoriesBloc>(
+    () => GetAllCategoriesBloc(
+      locator<GetAllCategoriesUseCase>(),
+    ),
   );
 
   //*Restaurant

@@ -9,6 +9,7 @@ import 'package:your_chef/features/auth/presentation/screens/accounts_screen.dar
 import 'package:your_chef/features/auth/presentation/screens/auth_screen.dart';
 import 'package:your_chef/features/auth/presentation/screens/email_reset_screen.dart';
 import 'package:your_chef/features/auth/presentation/screens/otp_screen.dart';
+import 'package:your_chef/features/categories/presentation/screens/categories_screen.dart';
 import 'package:your_chef/features/foods/domain/entities/food.dart';
 import 'package:your_chef/features/restaurants/domain/entities/restaurant.dart';
 import 'package:your_chef/features/onboarding/screens/onboarding_screen.dart';
@@ -69,6 +70,8 @@ class AppRouter {
             savedUser: settings.arguments as SavedUser?,
           ),
         );
+      case AppRoutes.categories:
+        return _slideTransition(const CategoriesScreen());
       case AppRoutes.food:
         return MaterialPageRoute(
           builder: (_) {

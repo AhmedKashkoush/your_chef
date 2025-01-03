@@ -24,6 +24,29 @@ class RestaurantsSection extends StatelessWidget {
         if (state is GetHomeRestaurantsInitialState ||
             (state is GetHomeRestaurantsSuccessState &&
                 state.restaurants.isEmpty)) return const SizedBox.shrink();
+        if (state is GetHomeRestaurantsErrorState) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Divider(),
+              SectionHeader(
+                title: AppStrings.restaurants,
+                onPressed: () {
+                  // context.pushNamed(
+                  //   AppRoutes.categories,
+                  // );
+                },
+              ),
+              CustomErrorWidget(
+                error: state.error,
+                type: state.errorType,
+                onRetry: () => context.read<GetHomeRestaurantsBloc>().add(
+                      const GetHomeRestaurantsEventStarted(),
+                    ),
+              )
+            ],
+          );
+        }
         return SkeletonLoadingWidget(
           loading: state is GetHomeRestaurantsLoadingState,
           child: Column(
@@ -34,24 +57,16 @@ class RestaurantsSection extends StatelessWidget {
                 title: AppStrings.restaurants,
                 onPressed: () {},
               ),
-              state is GetHomeRestaurantsErrorState
-                  ? CustomErrorWidget(
-                      error: state.error,
-                      type: state.errorType,
-                      onRetry: () => context.read<GetHomeRestaurantsBloc>().add(
-                            const GetHomeRestaurantsEventStarted(),
-                          ),
-                    )
-                  : SizedBox(
-                      height: _size,
-                      child: _buildRestaurants(
-                        restaurants: state is GetHomeRestaurantsLoadingState
-                            ? _loadingRestaurants
-                            : state is GetHomeRestaurantsSuccessState
-                                ? state.restaurants
-                                : [],
-                      ),
-                    ),
+              SizedBox(
+                height: _size,
+                child: _buildRestaurants(
+                  restaurants: state is GetHomeRestaurantsLoadingState
+                      ? _loadingRestaurants
+                      : state is GetHomeRestaurantsSuccessState
+                          ? state.restaurants
+                          : [],
+                ),
+              ),
             ],
           ),
         );

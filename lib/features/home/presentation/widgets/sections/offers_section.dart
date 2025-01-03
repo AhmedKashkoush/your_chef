@@ -26,25 +26,26 @@ class OffersSection extends StatelessWidget {
             (state is GetHomeOffersSuccessState && state.offers.isEmpty)) {
           return const SizedBox.shrink();
         }
+        if (state is GetHomeOffersErrorState) {
+          return CustomErrorWidget(
+            error: state.error,
+            type: state.errorType,
+            onRetry: () => context.read<GetHomeOffersBloc>().add(
+                  const GetHomeOffersEventStarted(),
+                ),
+          );
+        }
         return SkeletonLoadingWidget(
           loading: loading,
-          child: state is GetHomeOffersErrorState
-              ? CustomErrorWidget(
-                  error: state.error,
-                  type: state.errorType,
-                  onRetry: () => context.read<GetHomeOffersBloc>().add(
-                        const GetHomeOffersEventStarted(),
-                      ),
-                )
-              : _buildOffers(
-                  context,
-                  offers: state is GetHomeOffersLoadingState
-                      ? _loadingOffers
-                      : state is GetHomeOffersSuccessState
-                          ? state.offers
-                          : [],
-                  loading: loading,
-                ),
+          child: _buildOffers(
+            context,
+            offers: state is GetHomeOffersLoadingState
+                ? _loadingOffers
+                : state is GetHomeOffersSuccessState
+                    ? state.offers
+                    : [],
+            loading: loading,
+          ),
         );
       },
     );

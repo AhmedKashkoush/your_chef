@@ -2,6 +2,13 @@ class AppStrings {
   const AppStrings._();
   static const String appName = "Your Chef";
 
+  //Global
+  static const String system = "System";
+  static const String light = "Light";
+  static const String dark = "Dark";
+  static const String retry = "Retry";
+
+  //Onboarding
   static const String onboardingTitle1 = "Orders";
   static const String onboardingTitle2 = "Payment";
   static const String onboardingTitle3 = "Restaurants";
@@ -16,6 +23,7 @@ class AppStrings {
   static const String onboardingBody3 =
       "You can know the nearest restaurants from your home or around your area or country (Also you can optionally order from a certain restaurant)";
 
+  //Auth
   static const String welcome = "Welcome to";
   static const String freePalestine = "Free Palestine";
   static const String login = "Login";
@@ -62,6 +70,7 @@ class AppStrings {
   static const String save = "Save";
   static const String accountSaved = "Account saved";
 
+  //Home
   static const String welcomeUser = "Welcome";
   static const String homeDisclaimer = "Don't forget to pray for";
   static const String palestine = "Palestine";
@@ -74,13 +83,19 @@ class AppStrings {
   static const String egp = "EGP";
   static const String sale = "Sale";
 
+  //Category
+  static const String exploreByCategories = "Explore by categories";
+
+  //Wishlist
   static const String wishlistEmptyMessage =
       "Currently there are no items in your list";
   static const String exploreFoods = "Explore foods";
 
+  //Food
   static const String visit = "Visit";
   static const String aboutMeal = "About meal";
 
+  //Restaurant
   static const String location = "Location";
   static const String contactUs = "Contact us";
   static const String aboutUs = "About us";
@@ -88,6 +103,7 @@ class AppStrings {
   static const String ourMenu = "Our menu";
   static const String other = "Other";
 
+  //Settings
   static const String switchAccounts = "Switch Accounts";
   static const String privacyAndSecurity = "Privacy & Security";
   static const String notifications = "Notifications";
@@ -98,13 +114,18 @@ class AppStrings {
   static const String aboutTheApp = "About The App";
   static const String addAccount = "Add Account";
 
+  //Profile
   static const String profile = "Profile";
 
-  static const String retry = "Retry";
-
+  //Ratings
   static const String noRatings = "No ratings";
   static const String addReview = "Add review";
   static const String otherReviews = "Other reviews";
+
+  //Cart
+  static const String addToCart = "Add to cart";
+  static const String removeFromCart = "Remove from cart";
+  static const String viewInCart = "View in cart";
 
   //Confirmations
   static const String signOutConfirmation =

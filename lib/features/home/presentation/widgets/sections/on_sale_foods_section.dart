@@ -22,6 +22,29 @@ class OnSaleFoodsSection extends StatelessWidget {
             (state is GetHomeOnSaleFoodsSuccessState && state.foods.isEmpty)) {
           return const SizedBox.shrink();
         }
+        if (state is GetHomeOnSaleFoodsErrorState) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Divider(),
+              SectionHeader(
+                title: AppStrings.onASale,
+                onPressed: () {
+                  // context.pushNamed(
+                  //   AppRoutes.categories,
+                  // );
+                },
+              ),
+              CustomErrorWidget(
+                error: state.error,
+                type: state.errorType,
+                onRetry: () => context.read<GetHomeOnSaleFoodsBloc>().add(
+                      const GetHomeOnSaleFoodsEventStarted(),
+                    ),
+              )
+            ],
+          );
+        }
         return SkeletonLoadingWidget(
           loading: state is GetHomeOnSaleFoodsLoadingState,
           child: Column(
@@ -32,21 +55,13 @@ class OnSaleFoodsSection extends StatelessWidget {
                 title: AppStrings.onASale,
                 onPressed: () {},
               ),
-              state is GetHomeOnSaleFoodsErrorState
-                  ? CustomErrorWidget(
-                      error: state.error,
-                      type: state.errorType,
-                      onRetry: () => context.read<GetHomeOnSaleFoodsBloc>().add(
-                            const GetHomeOnSaleFoodsEventStarted(),
-                          ),
-                    )
-                  : FoodsList(
-                      foods: state is GetHomeOnSaleFoodsLoadingState
-                          ? _loadingOnSaleFoods
-                          : state is GetHomeOnSaleFoodsSuccessState
-                              ? state.foods
-                              : [],
-                    ),
+              FoodsList(
+                foods: state is GetHomeOnSaleFoodsLoadingState
+                    ? _loadingOnSaleFoods
+                    : state is GetHomeOnSaleFoodsSuccessState
+                        ? state.foods
+                        : [],
+              ),
             ],
           ),
         );

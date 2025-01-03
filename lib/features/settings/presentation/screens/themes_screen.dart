@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:your_chef/config/themes/theme_cubit.dart';
+import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/widgets/tiles/custom_list_tile.dart';
@@ -27,7 +28,7 @@ class ThemesScreen extends StatelessWidget {
                       ? Icons.dark_mode_outlined
                       : Icons.light_mode_outlined,
                 ),
-                title: const Text('System'),
+                title: const Text(AppStrings.system),
                 trailing:
                     theme == ThemeMode.system ? const Icon(Icons.check) : null,
                 onTap: () =>
@@ -38,7 +39,7 @@ class ThemesScreen extends StatelessWidget {
                 leading: const Icon(
                   Icons.light_mode_outlined,
                 ),
-                title: const Text('Light'),
+                title: const Text(AppStrings.light),
                 trailing:
                     theme == ThemeMode.light ? const Icon(Icons.check) : null,
                 onTap: () =>
@@ -49,7 +50,7 @@ class ThemesScreen extends StatelessWidget {
                 leading: const Icon(
                   Icons.dark_mode_outlined,
                 ),
-                title: const Text('Dark'),
+                title: const Text(AppStrings.dark),
                 trailing:
                     theme == ThemeMode.dark ? const Icon(Icons.check) : null,
                 onTap: () =>

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:your_chef/config/routes/routes.dart';
 import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/dummy/dummy_data.dart';
+import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/options/options.dart';
 import 'package:your_chef/core/widgets/errors/custom_error_widget.dart';
@@ -26,34 +28,54 @@ class CategoriesSection extends StatelessWidget {
             (state is GetHomeCategoriesSuccessState &&
                 state.categories.isEmpty)) return const SizedBox.shrink();
 
+        if (state is GetHomeCategoriesErrorState) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Divider(),
+              SectionHeader(
+                title: AppStrings.availableCategories,
+                onPressed: () {
+                  context.pushNamed(
+                    AppRoutes.categories,
+                  );
+                },
+              ),
+              10.height,
+              CustomErrorWidget(
+                error: state.error,
+                type: state.errorType,
+                onRetry: () => context.read<GetHomeCategoriesBloc>().add(
+                      const GetHomeCategoriesEventStarted(
+                        GetCategoriesOptions(),
+                      ),
+                    ),
+              )
+            ],
+          );
+        }
         return SkeletonLoadingWidget(
           loading: state is GetHomeCategoriesLoadingState,
           child: Column(mainAxisSize: MainAxisSize.min, children: [
             const Divider(),
             SectionHeader(
               title: AppStrings.availableCategories,
-              onPressed: () {},
+              onPressed: () {
+                context.pushNamed(
+                  AppRoutes.categories,
+                );
+              },
             ),
             10.height,
-            state is GetHomeCategoriesErrorState
-                ? CustomErrorWidget(
-                    error: state.error,
-                    type: state.errorType,
-                    onRetry: () => context.read<GetHomeCategoriesBloc>().add(
-                          const GetHomeCategoriesEventStarted(
-                            GetCategoriesOptions(),
-                          ),
-                        ),
-                  )
-                : SizedBox(
-                    height: _size,
-                    child: _buildList(
-                        categories: state is GetHomeCategoriesLoadingState
-                            ? _loadingList
-                            : state is GetHomeCategoriesSuccessState
-                                ? state.categories
-                                : []),
-                  ),
+            SizedBox(
+              height: _size,
+              child: _buildList(
+                  categories: state is GetHomeCategoriesLoadingState
+                      ? _loadingList
+                      : state is GetHomeCategoriesSuccessState
+                          ? state.categories
+                          : []),
+            ),
           ]),
         );
       },

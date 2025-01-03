@@ -9,6 +9,7 @@ import 'package:your_chef/features/categories/data/models/category_model.dart';
 abstract class ICategoryRemoteDataSource {
   const ICategoryRemoteDataSource();
   Future<List<CategoryModel>> getCategories(GetCategoriesOptions options);
+  Future<List<CategoryModel>> getAllCategories();
 }
 
 class SupabaseCategoryRemoteDataSource extends ICategoryRemoteDataSource {
@@ -24,5 +25,15 @@ class SupabaseCategoryRemoteDataSource extends ICategoryRemoteDataSource {
     }
     await Future.delayed(const Duration(seconds: 4));
     return AppDummies.categories.take(options.limit).toList();
+  }
+
+  @override
+  Future<List<CategoryModel>> getAllCategories() async {
+    final isConnected = await NetworkHelper.isConnected;
+    if (!isConnected) {
+      throw const NetworkException(AppStrings.checkYourInternetConnection);
+    }
+    await Future.delayed(const Duration(seconds: 4));
+    return AppDummies.categories;
   }
 }

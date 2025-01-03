@@ -9,5 +9,5 @@ abstract class ICategoryRepository {
   Future<Either<Failure, List<Category>>> getCategories(
     GetCategoriesOptions options,
   );
-  // Future<Either<Failure, List<Category>>> getAllCategories();
+  Future<Either<Failure, List<Category>>> getAllCategories();
 }

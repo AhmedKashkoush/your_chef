@@ -30,7 +30,7 @@ class SectionHeader extends StatelessWidget {
           ),
           if (onPressed != null)
             TextButton(
-              onPressed: () {},
+              onPressed: onPressed,
               child: const Text(
                 AppStrings.viewAll,
                 style: TextStyle(color: AppColors.secondary),

@@ -22,6 +22,29 @@ class PopularFoodsSection extends StatelessWidget {
             (state is GetHomePopularFoodsSuccessState && state.foods.isEmpty)) {
           return const SizedBox.shrink();
         }
+        if (state is GetHomePopularFoodsErrorState) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Divider(),
+              SectionHeader(
+                title: AppStrings.popularFoods,
+                onPressed: () {
+                  // context.pushNamed(
+                  //   AppRoutes.categories,
+                  // );
+                },
+              ),
+              CustomErrorWidget(
+                error: state.error,
+                type: state.errorType,
+                onRetry: () => context.read<GetHomePopularFoodsBloc>().add(
+                      const GetHomePopularFoodsEventStarted(),
+                    ),
+              )
+            ],
+          );
+        }
         return SkeletonLoadingWidget(
           loading: state is GetHomePopularFoodsLoadingState,
           child: Column(
@@ -32,22 +55,13 @@ class PopularFoodsSection extends StatelessWidget {
                 title: AppStrings.popularFoods,
                 onPressed: () {},
               ),
-              state is GetHomePopularFoodsErrorState
-                  ? CustomErrorWidget(
-                      error: state.error,
-                      type: state.errorType,
-                      onRetry: () =>
-                          context.read<GetHomePopularFoodsBloc>().add(
-                                const GetHomePopularFoodsEventStarted(),
-                              ),
-                    )
-                  : FoodsList(
-                      foods: state is GetHomePopularFoodsLoadingState
-                          ? _loadingPopularFoods
-                          : state is GetHomePopularFoodsSuccessState
-                              ? state.foods
-                              : [],
-                    ),
+              FoodsList(
+                foods: state is GetHomePopularFoodsLoadingState
+                    ? _loadingPopularFoods
+                    : state is GetHomePopularFoodsSuccessState
+                        ? state.foods
+                        : [],
+              ),
             ],
           ),
         );
