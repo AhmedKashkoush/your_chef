@@ -1,13 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hugeicons/hugeicons.dart';
+import 'package:your_chef/common/blocs/user/user_bloc.dart';
+import 'package:your_chef/config/routes/routes.dart';
 import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/constants/strings.dart';
+import 'package:your_chef/core/errors/error_types.dart';
 import 'package:your_chef/core/extensions/media_query_extension.dart';
+import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
+import 'package:your_chef/core/options/options.dart';
+import 'package:your_chef/core/utils/messages.dart';
+import 'package:your_chef/core/widgets/buttons/auth_button.dart';
+import 'package:your_chef/core/widgets/buttons/primary_button.dart';
+import 'package:your_chef/core/widgets/fields/custom_text_field.dart';
 import 'package:your_chef/core/widgets/icons/app_logo.dart';
+import 'package:your_chef/core/widgets/inherited/auth/auth_inherited_widget.dart';
 import 'package:your_chef/core/widgets/layout/orientation_widget.dart';
 import 'package:your_chef/core/widgets/texts/logo_text.dart';
-import 'package:your_chef/features/auth/presentation/widgets/login_view.dart';
-import 'package:your_chef/features/auth/presentation/widgets/register_view.dart';
+import 'package:your_chef/features/auth/presentation/bloc/google_sign_in/google_sign_in_bloc.dart';
+import 'package:your_chef/features/auth/presentation/bloc/login/login_bloc.dart';
+import 'package:your_chef/features/auth/presentation/bloc/register/register_bloc.dart';
+import 'package:your_chef/features/auth/presentation/screens/upload_profile_photo_screen.dart';
+
+part '../widgets/auth_tab_bar_view_widget.dart';
+part '../widgets/auth_tab_bar_widget.dart';
+part '../widgets/login_view.dart';
+part '../widgets/register_view.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -78,39 +99,30 @@ class _AuthScreenState extends State<AuthScreen>
           ),
         ),
       ),
-      body: OrientationWidget(
-        portrait: _AuthScreenPortrait(
-          tabController: _tabController,
-          loginEmailController: _loginEmailController,
-          loginPasswordController: _loginPasswordController,
-          loginPasswordVisibility: _loginPasswordVisibility,
-          registerFormKey: _registerFormKey,
-          registerFNameController: _registerFNameController,
-          registerLNameController: _registerLNameController,
-          registerEmailController: _registerEmailController,
-          registerPasswordController: _registerPasswordController,
-          registerPhoneController: _registerPhoneController,
-          registerAddressController: _registerAddressController,
-          registerConfirmController: _registerConfirmController,
-          registerPasswordVisibility: _registerPasswordVisibility,
-          registerConfirmVisibility: _registerConfirmVisibility,
+      body: AuthInheritedWidget(
+        tabController: _tabController,
+        loginConfig: LoginConfig(
+          emailController: _loginEmailController,
+          passwordController: _loginPasswordController,
+          passwordVisibility: _loginPasswordVisibility,
         ),
-        landscape: _AuthScreenLandscape(
-          keyboardShown: context.keyboardShown,
-          tabController: _tabController,
-          loginEmailController: _loginEmailController,
-          loginPasswordController: _loginPasswordController,
-          loginPasswordVisibility: _loginPasswordVisibility,
-          registerFormKey: _registerFormKey,
-          registerFNameController: _registerFNameController,
-          registerLNameController: _registerLNameController,
-          registerEmailController: _registerEmailController,
-          registerPasswordController: _registerPasswordController,
-          registerPhoneController: _registerPhoneController,
-          registerAddressController: _registerAddressController,
-          registerConfirmController: _registerConfirmController,
-          registerPasswordVisibility: _registerPasswordVisibility,
-          registerConfirmVisibility: _registerConfirmVisibility,
+        registerConfig: RegisterConfig(
+          formKey: _registerFormKey,
+          fNameController: _registerFNameController,
+          lNameController: _registerLNameController,
+          emailController: _registerEmailController,
+          passwordController: _registerPasswordController,
+          phoneController: _registerPhoneController,
+          addressController: _registerAddressController,
+          passwordVisibility: _registerPasswordVisibility,
+          confirmController: _registerConfirmController,
+          confirmVisibility: _registerConfirmVisibility,
+        ),
+        child: OrientationWidget(
+          portrait: _AuthScreenPortrait(),
+          landscape: _AuthScreenLandscape(
+            keyboardShown: context.keyboardShown,
+          ),
         ),
       ),
     );
@@ -118,37 +130,6 @@ class _AuthScreenState extends State<AuthScreen>
 }
 
 class _AuthScreenPortrait extends StatelessWidget {
-  final TabController tabController;
-  final GlobalKey<FormState> registerFormKey;
-  final TextEditingController loginEmailController,
-      loginPasswordController,
-      registerFNameController,
-      registerLNameController,
-      registerEmailController,
-      registerPasswordController,
-      registerPhoneController,
-      registerAddressController,
-      registerConfirmController;
-  final ValueNotifier<bool> loginPasswordVisibility,
-      registerPasswordVisibility,
-      registerConfirmVisibility;
-  const _AuthScreenPortrait({
-    required this.tabController,
-    required this.loginEmailController,
-    required this.loginPasswordController,
-    required this.loginPasswordVisibility,
-    required this.registerFormKey,
-    required this.registerFNameController,
-    required this.registerLNameController,
-    required this.registerEmailController,
-    required this.registerPasswordController,
-    required this.registerPhoneController,
-    required this.registerAddressController,
-    required this.registerConfirmController,
-    required this.registerPasswordVisibility,
-    required this.registerConfirmVisibility,
-  });
-
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -162,24 +143,9 @@ class _AuthScreenPortrait extends StatelessWidget {
           ),
           const LogoText(),
           10.height,
-          _TabBarWidget(tabController: tabController),
-          Expanded(
-            child: _TabBarViewWidget(
-              tabController: tabController,
-              loginEmailController: loginEmailController,
-              loginPasswordController: loginPasswordController,
-              loginPasswordVisibility: loginPasswordVisibility,
-              registerFormKey: registerFormKey,
-              registerFNameController: registerFNameController,
-              registerLNameController: registerLNameController,
-              registerEmailController: registerEmailController,
-              registerPasswordController: registerPasswordController,
-              registerPhoneController: registerPhoneController,
-              registerAddressController: registerAddressController,
-              registerConfirmController: registerConfirmController,
-              registerPasswordVisibility: registerPasswordVisibility,
-              registerConfirmVisibility: registerConfirmVisibility,
-            ),
+          const AuthTabBarWidget(),
+          const Expanded(
+            child: AuthTabBarViewWidget(),
           ),
         ],
       ),
@@ -189,35 +155,8 @@ class _AuthScreenPortrait extends StatelessWidget {
 
 class _AuthScreenLandscape extends StatelessWidget {
   final bool keyboardShown;
-  final TabController tabController;
-  final GlobalKey<FormState> registerFormKey;
-  final TextEditingController loginEmailController,
-      loginPasswordController,
-      registerFNameController,
-      registerLNameController,
-      registerEmailController,
-      registerPasswordController,
-      registerPhoneController,
-      registerAddressController,
-      registerConfirmController;
-  final ValueNotifier<bool> loginPasswordVisibility,
-      registerPasswordVisibility,
-      registerConfirmVisibility;
+
   const _AuthScreenLandscape({
-    required this.tabController,
-    required this.loginEmailController,
-    required this.loginPasswordController,
-    required this.loginPasswordVisibility,
-    required this.registerFormKey,
-    required this.registerFNameController,
-    required this.registerLNameController,
-    required this.registerEmailController,
-    required this.registerPasswordController,
-    required this.registerPhoneController,
-    required this.registerAddressController,
-    required this.registerConfirmController,
-    required this.registerPasswordVisibility,
-    required this.registerConfirmVisibility,
     required this.keyboardShown,
   });
 
@@ -229,8 +168,9 @@ class _AuthScreenLandscape extends StatelessWidget {
         children: [
           Expanded(
             child: keyboardShown
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                ? Wrap(
+                    alignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
                       const FittedBox(child: AppLogo()),
                       4.width,
@@ -259,121 +199,19 @@ class _AuthScreenLandscape extends StatelessWidget {
                     ],
                   ),
           ),
-          Expanded(
+          const Expanded(
             flex: 2,
             child: Column(
               children: [
-                _TabBarWidget(tabController: tabController),
+                AuthTabBarWidget(),
                 Expanded(
-                  child: _TabBarViewWidget(
-                    tabController: tabController,
-                    registerFormKey: registerFormKey,
-                    loginEmailController: loginEmailController,
-                    loginPasswordController: loginPasswordController,
-                    loginPasswordVisibility: loginPasswordVisibility,
-                    registerFNameController: registerFNameController,
-                    registerLNameController: registerLNameController,
-                    registerEmailController: registerEmailController,
-                    registerPasswordController: registerPasswordController,
-                    registerPhoneController: registerPhoneController,
-                    registerAddressController: registerAddressController,
-                    registerConfirmController: registerConfirmController,
-                    registerPasswordVisibility: registerPasswordVisibility,
-                    registerConfirmVisibility: registerConfirmVisibility,
-                  ),
+                  child: AuthTabBarViewWidget(),
                 ),
               ],
             ),
           ),
         ],
       ),
-    );
-  }
-}
-
-class _TabBarViewWidget extends StatelessWidget {
-  final TabController tabController;
-  final GlobalKey<FormState> registerFormKey;
-  final TextEditingController loginEmailController,
-      loginPasswordController,
-      registerFNameController,
-      registerLNameController,
-      registerEmailController,
-      registerPasswordController,
-      registerPhoneController,
-      registerAddressController,
-      registerConfirmController;
-  final ValueNotifier<bool> loginPasswordVisibility,
-      registerPasswordVisibility,
-      registerConfirmVisibility;
-  const _TabBarViewWidget({
-    required this.tabController,
-    required this.loginEmailController,
-    required this.loginPasswordController,
-    required this.loginPasswordVisibility,
-    required this.registerFNameController,
-    required this.registerLNameController,
-    required this.registerEmailController,
-    required this.registerPasswordController,
-    required this.registerPhoneController,
-    required this.registerAddressController,
-    required this.registerConfirmController,
-    required this.registerPasswordVisibility,
-    required this.registerConfirmVisibility,
-    required this.registerFormKey,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return TabBarView(
-      controller: tabController,
-      children: [
-        LoginView(
-          emailController: loginEmailController,
-          passwordController: loginPasswordController,
-          passwordVisibility: loginPasswordVisibility,
-        ),
-        RegisterView(
-          tabController: tabController,
-          formKey: registerFormKey,
-          fNameController: registerFNameController,
-          lNameController: registerLNameController,
-          emailController: registerEmailController,
-          passwordController: registerPasswordController,
-          phoneController: registerPhoneController,
-          addressController: registerAddressController,
-          confirmController: registerConfirmController,
-          passwordVisibility: registerPasswordVisibility,
-          confirmVisibility: registerConfirmVisibility,
-        ),
-      ],
-    );
-  }
-}
-
-class _TabBarWidget extends StatelessWidget {
-  const _TabBarWidget({
-    required this.tabController,
-  });
-
-  final TabController tabController;
-
-  @override
-  Widget build(BuildContext context) {
-    return TabBar(
-      dividerColor: Colors.transparent,
-      indicatorSize: TabBarIndicatorSize.label,
-      controller: tabController,
-      indicatorColor: AppColors.primary,
-      labelColor: AppColors.primary,
-      tabs: const [
-        Tab(
-          text: AppStrings.login,
-        ),
-        Tab(
-          text: AppStrings.register,
-        ),
-      ],
     );
   }
 }

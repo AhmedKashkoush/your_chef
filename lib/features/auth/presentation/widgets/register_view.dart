@@ -1,58 +1,28 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hugeicons/hugeicons.dart';
-import 'package:your_chef/core/extensions/space_extension.dart';
-import 'package:your_chef/core/options/options.dart';
-import 'package:your_chef/core/utils/messages.dart';
-import 'package:your_chef/core/widgets/buttons/primary_button.dart';
-import 'package:your_chef/features/auth/presentation/bloc/register/register_bloc.dart';
-import 'package:your_chef/features/auth/presentation/screens/upload_profile_photo_screen.dart';
-
-import '../../../../core/constants/strings.dart';
-import '../../../../core/widgets/fields/custom_text_field.dart';
+part of '../screens/auth_screen.dart';
 
 class RegisterView extends StatelessWidget {
-  final GlobalKey<FormState> formKey;
-  final TextEditingController fNameController,
-      lNameController,
-      phoneController,
-      addressController,
-      emailController,
-      passwordController,
-      confirmController;
-  final ValueNotifier<bool> passwordVisibility, confirmVisibility;
-  final TabController tabController;
   const RegisterView({
     super.key,
-    required this.fNameController,
-    required this.lNameController,
-    required this.phoneController,
-    required this.addressController,
-    required this.emailController,
-    required this.passwordController,
-    required this.confirmController,
-    required this.passwordVisibility,
-    required this.confirmVisibility,
-    required this.tabController,
-    required this.formKey,
   });
 
-  void _clearControllers() {
-    fNameController.clear();
-    lNameController.clear();
-    phoneController.clear();
-    addressController.clear();
-    emailController.clear();
-    passwordController.clear();
-    confirmController.clear();
+  void _clearControllers(BuildContext context) {
+    final RegisterConfig register =
+        AuthInheritedWidget.of(context).registerConfig;
+    register.fNameController.clear();
+    register.lNameController.clear();
+    register.phoneController.clear();
+    register.addressController.clear();
+    register.emailController.clear();
+    register.passwordController.clear();
+    register.confirmController.clear();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<RegisterBloc, RegisterState>(
       listener: (context, state) async {
+        final TabController tabController =
+            AuthInheritedWidget.of(context).tabController;
         if (state is RegisterErrorState) {
           AppMessages.showErrorMessage(context, state.message, state.type);
         }
@@ -61,13 +31,15 @@ class RegisterView extends StatelessWidget {
           await _showProfileUploadScreen(context, state.uid);
           if (!context.mounted) return;
           tabController.animateTo(0);
-          _clearControllers();
+          _clearControllers(context);
           AppMessages.showSuccessMessage(context, 'Account Created');
         }
       },
       builder: (context, state) {
+        final RegisterConfig register =
+            AuthInheritedWidget.of(context).registerConfig;
         return Form(
-          key: formKey,
+          key: register.formKey,
           child: ListView(
             padding:
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 40).r,
@@ -77,7 +49,7 @@ class RegisterView extends StatelessWidget {
                   Expanded(
                     child: CustomTextField(
                       keyboardType: TextInputType.name,
-                      controller: fNameController,
+                      controller: register.fNameController,
                       validator: _validateName,
                       enabled: state is! RegisterLoadingState,
                       hintText: AppStrings.fName,
@@ -88,7 +60,7 @@ class RegisterView extends StatelessWidget {
                   Expanded(
                     child: CustomTextField(
                       keyboardType: TextInputType.name,
-                      controller: lNameController,
+                      controller: register.lNameController,
                       validator: _validateName,
                       enabled: state is! RegisterLoadingState,
                       hintText: AppStrings.lName,
@@ -100,7 +72,7 @@ class RegisterView extends StatelessWidget {
               10.height,
               CustomTextField(
                 keyboardType: TextInputType.phone,
-                controller: phoneController,
+                controller: register.phoneController,
                 validator: _validatePhone,
                 enabled: state is! RegisterLoadingState,
                 inputFormatters: [
@@ -113,7 +85,7 @@ class RegisterView extends StatelessWidget {
               10.height,
               CustomTextField(
                 keyboardType: TextInputType.streetAddress,
-                controller: addressController,
+                controller: register.addressController,
                 validator: _validateAddress,
                 enabled: state is! RegisterLoadingState,
                 hintText: AppStrings.address,
@@ -122,7 +94,7 @@ class RegisterView extends StatelessWidget {
               10.height,
               CustomTextField(
                 keyboardType: TextInputType.emailAddress,
-                controller: emailController,
+                controller: register.emailController,
                 validator: _validateEmail,
                 enabled: state is! RegisterLoadingState,
                 hintText: AppStrings.email,
@@ -133,19 +105,19 @@ class RegisterView extends StatelessWidget {
               ),
               10.height,
               ValueListenableBuilder(
-                  valueListenable: passwordVisibility,
+                  valueListenable: register.passwordVisibility,
                   builder: (_, visible, __) {
                     return CustomTextField(
                       hintText: AppStrings.password,
                       enabled: state is! RegisterLoadingState,
-                      controller: passwordController,
+                      controller: register.passwordController,
                       validator: _validatePassword,
                       obscureText: !visible,
                       obscuringCharacter: '*',
                       prefixIcon:
                           const Icon(HugeIcons.strokeRoundedLockPassword),
                       suffixIcon: IconButton(
-                        onPressed: _toggleVisibility,
+                        onPressed: () => _toggleVisibility(context),
                         icon: visible
                             ? const Icon(HugeIcons.strokeRoundedViewOff)
                             : const Icon(HugeIcons.strokeRoundedEye),
@@ -154,19 +126,19 @@ class RegisterView extends StatelessWidget {
                   }),
               10.height,
               ValueListenableBuilder(
-                  valueListenable: confirmVisibility,
+                  valueListenable: register.confirmVisibility,
                   builder: (_, visible, __) {
                     return CustomTextField(
                       hintText: AppStrings.confirmPassword,
                       enabled: state is! RegisterLoadingState,
-                      controller: confirmController,
-                      validator: _validateConfirm,
+                      controller: register.confirmController,
+                      validator: (value) => _validateConfirm(context, value),
                       obscureText: !visible,
                       obscuringCharacter: '*',
                       prefixIcon:
                           const Icon(HugeIcons.strokeRoundedLockPassword),
                       suffixIcon: IconButton(
-                        onPressed: _toggleConfirmVisibility,
+                        onPressed: () => _toggleConfirmVisibility(context),
                         icon: visible
                             ? const Icon(HugeIcons.strokeRoundedViewOff)
                             : const Icon(HugeIcons.strokeRoundedEye),
@@ -219,7 +191,7 @@ class RegisterView extends StatelessWidget {
     return null;
   }
 
-  String? _validateName(name) {
+  String? _validateName(String? name) {
     if (name == null || name.isEmpty) return 'Name is required';
     if (name.length < 2) {
       return 'Name must be at least 2 characters';
@@ -227,17 +199,19 @@ class RegisterView extends StatelessWidget {
     return null;
   }
 
-  String? _validateConfirm(password) {
+  String? _validateConfirm(BuildContext context, String? password) {
+    final RegisterConfig register =
+        AuthInheritedWidget.of(context).registerConfig;
     if (password == null || password.isEmpty) {
       return 'Confirm your password';
     }
-    if (password != passwordController.text) {
+    if (password != register.passwordController.text) {
       return 'Passwords do not match';
     }
     return null;
   }
 
-  String? _validatePassword(password) {
+  String? _validatePassword(String? password) {
     if (password == null || password.isEmpty) {
       return 'Enter password';
     }
@@ -263,7 +237,7 @@ class RegisterView extends StatelessWidget {
     return null;
   }
 
-  String? _validateEmail(email) {
+  String? _validateEmail(String? email) {
     if (email == null || email.isEmpty) {
       return 'Enter your email';
     }
@@ -274,15 +248,17 @@ class RegisterView extends StatelessWidget {
   }
 
   void _register(BuildContext context) {
-    if (!formKey.currentState!.validate()) return;
+    final RegisterConfig register =
+        AuthInheritedWidget.of(context).registerConfig;
+    if (!register.formKey.currentState!.validate()) return;
     final String fullName =
-        '${fNameController.text.trim()} ${lNameController.text.trim()}';
+        '${register.fNameController.text.trim()} ${register.lNameController.text.trim()}';
     final RegisterOptions options = RegisterOptions(
       name: fullName,
-      phone: phoneController.text.trim(),
-      address: addressController.text.trim(),
-      email: emailController.text.trim(),
-      password: passwordController.text.trim(),
+      phone: register.phoneController.text.trim(),
+      address: register.addressController.text.trim(),
+      email: register.emailController.text.trim(),
+      password: register.passwordController.text.trim(),
     );
     context.read<RegisterBloc>().add(
           RegisterSubmitEvent(
@@ -291,11 +267,15 @@ class RegisterView extends StatelessWidget {
         );
   }
 
-  void _toggleVisibility() {
-    passwordVisibility.value = !passwordVisibility.value;
+  void _toggleVisibility(BuildContext context) {
+    final RegisterConfig register =
+        AuthInheritedWidget.of(context).registerConfig;
+    register.passwordVisibility.value = !register.passwordVisibility.value;
   }
 
-  void _toggleConfirmVisibility() {
-    confirmVisibility.value = !confirmVisibility.value;
+  void _toggleConfirmVisibility(BuildContext context) {
+    final RegisterConfig register =
+        AuthInheritedWidget.of(context).registerConfig;
+    register.confirmVisibility.value = !register.confirmVisibility.value;
   }
 }

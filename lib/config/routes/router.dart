@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:your_chef/config/routes/routes.dart';
 import 'package:your_chef/core/options/options.dart';
 import 'package:your_chef/core/widgets/home_wrapper/home_wrapper.dart';
+import 'package:your_chef/features/auth/presentation/bloc/google_sign_in/google_sign_in_bloc.dart';
 import 'package:your_chef/features/auth/presentation/bloc/login/login_bloc.dart';
 import 'package:your_chef/features/auth/presentation/bloc/register/register_bloc.dart';
 import 'package:your_chef/features/auth/presentation/screens/accounts_screen.dart';
@@ -39,6 +40,9 @@ class AppRouter {
             providers: [
               BlocProvider(
                 create: (_) => locator<LoginBloc>(),
+              ),
+              BlocProvider(
+                create: (_) => locator<GoogleSignInBloc>(),
               ),
               BlocProvider(
                 create: (_) => locator<RegisterBloc>(),

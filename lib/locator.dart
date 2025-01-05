@@ -65,6 +65,7 @@ import 'package:your_chef/features/settings/presentation/bloc/switch_account/swi
 
 import 'features/auth/data/repositories/auth_repository_impl.dart';
 import 'features/auth/domain/usecases/auth/google_sign_in_usecase.dart';
+import 'features/auth/presentation/bloc/google_sign_in/google_sign_in_bloc.dart';
 import 'features/categories/presentation/bloc/get_all_categories_bloc.dart';
 import 'features/foods/domain/usecases/foods/get_on_sale_foods_usecase.dart';
 
@@ -286,7 +287,10 @@ void _initUseCases() {
 void _initBlocs() {
   //*Auth
   locator.registerFactory<LoginBloc>(
-    () => LoginBloc(locator<LoginUseCase>(), locator<GoogleSignUseCase>()),
+    () => LoginBloc(locator<LoginUseCase>()),
+  );
+  locator.registerFactory<GoogleSignInBloc>(
+    () => GoogleSignInBloc(locator<GoogleSignUseCase>()),
   );
   locator.registerFactory<RegisterBloc>(
     () => RegisterBloc(locator<RegisterUseCase>()),
