@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:your_chef/core/errors/error_types.dart';
 import 'package:your_chef/core/errors/failures.dart';
+import 'package:your_chef/core/options/options.dart';
 import 'package:your_chef/features/foods/domain/entities/food.dart';
 import 'package:your_chef/features/foods/domain/usecases/foods/get_popular_foods_usecase.dart';
 
@@ -24,7 +25,7 @@ class GetHomePopularFoodsBloc
       Emitter<GetHomePopularFoodsState> emit) async {
     emit(const GetHomePopularFoodsLoadingState());
     final Either<Failure, List<Food>> result =
-        await getPopularProductsUseCase();
+        await getPopularProductsUseCase(event.options);
     result.fold((failure) {
       if (failure is NetworkFailure) {
         emit(

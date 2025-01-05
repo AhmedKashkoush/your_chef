@@ -39,19 +39,25 @@ class HomeScreen extends StatelessWidget {
 
   Future<void> _loadRestaurants(BuildContext context) async {
     context.read<GetHomeRestaurantsBloc>().add(
-          const GetHomeRestaurantsEventStarted(),
+          const GetHomeRestaurantsEventStarted(
+            PaginationOptions(limit: 5),
+          ),
         );
   }
 
   Future<void> _loadPopularFoods(BuildContext context) async {
     context.read<GetHomePopularFoodsBloc>().add(
-          const GetHomePopularFoodsEventStarted(),
+          const GetHomePopularFoodsEventStarted(
+            PaginationOptions(limit: 6),
+          ),
         );
   }
 
   Future<void> _loadOnSaleFoods(BuildContext context) async {
     context.read<GetHomeOnSaleFoodsBloc>().add(
-          const GetHomeOnSaleFoodsEventStarted(),
+          const GetHomeOnSaleFoodsEventStarted(
+            PaginationOptions(limit: 6),
+          ),
         );
   }
 

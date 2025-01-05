@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:your_chef/config/routes/routes.dart';
 import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/dummy/dummy_data.dart';
+import 'package:your_chef/core/extensions/navigation_extension.dart';
+import 'package:your_chef/core/options/options.dart';
 import 'package:your_chef/core/widgets/errors/custom_error_widget.dart';
 import 'package:your_chef/core/widgets/loading/skeleton_loading_widget.dart';
 import 'package:your_chef/features/foods/domain/entities/food.dart';
@@ -27,19 +30,16 @@ class PopularFoodsSection extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               const Divider(),
-              SectionHeader(
+              const SectionHeader(
                 title: AppStrings.popularFoods,
-                onPressed: () {
-                  // context.pushNamed(
-                  //   AppRoutes.categories,
-                  // );
-                },
               ),
               CustomErrorWidget(
                 error: state.error,
                 type: state.errorType,
                 onRetry: () => context.read<GetHomePopularFoodsBloc>().add(
-                      const GetHomePopularFoodsEventStarted(),
+                      const GetHomePopularFoodsEventStarted(
+                        PaginationOptions(limit: 6),
+                      ),
                     ),
               )
             ],
@@ -53,7 +53,10 @@ class PopularFoodsSection extends StatelessWidget {
               const Divider(),
               SectionHeader(
                 title: AppStrings.popularFoods,
-                onPressed: () {},
+                onPressed: () => context.pushNamed(
+                  AppRoutes.foods,
+                  arguments: AppStrings.popularFoods,
+                ),
               ),
               FoodsList(
                 foods: state is GetHomePopularFoodsLoadingState

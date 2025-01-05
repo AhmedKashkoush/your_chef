@@ -52,19 +52,25 @@ class _HomeWrapperState extends State<HomeWrapper> {
         BlocProvider(
           create: (context) => locator<GetHomeRestaurantsBloc>()
             ..add(
-              const GetHomeRestaurantsEventStarted(),
+              const GetHomeRestaurantsEventStarted(
+                PaginationOptions(limit: 5),
+              ),
             ),
         ),
         BlocProvider(
           create: (context) => locator<GetHomePopularFoodsBloc>()
             ..add(
-              const GetHomePopularFoodsEventStarted(),
+              const GetHomePopularFoodsEventStarted(
+                PaginationOptions(limit: 6),
+              ),
             ),
         ),
         BlocProvider(
           create: (context) => locator<GetHomeOnSaleFoodsBloc>()
             ..add(
-              const GetHomeOnSaleFoodsEventStarted(),
+              const GetHomeOnSaleFoodsEventStarted(
+                PaginationOptions(limit: 6),
+              ),
             ),
         ),
       ],

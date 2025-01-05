@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:your_chef/config/routes/routes.dart';
+import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/options/options.dart';
 import 'package:your_chef/core/widgets/home_wrapper/home_wrapper.dart';
 import 'package:your_chef/features/auth/presentation/bloc/google_sign_in/google_sign_in_bloc.dart';
@@ -12,6 +13,7 @@ import 'package:your_chef/features/auth/presentation/screens/email_reset_screen.
 import 'package:your_chef/features/auth/presentation/screens/otp_screen.dart';
 import 'package:your_chef/features/categories/presentation/screens/categories_screen.dart';
 import 'package:your_chef/features/foods/domain/entities/food.dart';
+import 'package:your_chef/features/foods/presentation/screens/explore_foods_screen.dart';
 import 'package:your_chef/features/restaurants/domain/entities/restaurant.dart';
 import 'package:your_chef/features/onboarding/screens/onboarding_screen.dart';
 import 'package:your_chef/features/foods/presentation/screens/food_details_screen.dart';
@@ -76,6 +78,13 @@ class AppRouter {
         );
       case AppRoutes.categories:
         return _slideTransition(const CategoriesScreen());
+      case AppRoutes.foods:
+        final String? selected = settings.arguments as String?;
+        return _slideTransition(
+          ExploreFoodsScreen(
+            selected: selected ?? AppStrings.popularFoods,
+          ),
+        );
       case AppRoutes.food:
         return MaterialPageRoute(
           builder: (_) {

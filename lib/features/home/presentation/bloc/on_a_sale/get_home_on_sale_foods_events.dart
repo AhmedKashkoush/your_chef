@@ -8,5 +8,6 @@ sealed class GetHomeOnSaleFoodsEvent extends Equatable {
 }
 
 class GetHomeOnSaleFoodsEventStarted extends GetHomeOnSaleFoodsEvent {
-  const GetHomeOnSaleFoodsEventStarted();
+  final PaginationOptions options;
+  const GetHomeOnSaleFoodsEventStarted(this.options);
 }

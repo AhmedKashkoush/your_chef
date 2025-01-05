@@ -8,5 +8,6 @@ sealed class GetHomePopularFoodsEvent extends Equatable {
 }
 
 class GetHomePopularFoodsEventStarted extends GetHomePopularFoodsEvent {
-  const GetHomePopularFoodsEventStarted();
+  final PaginationOptions options;
+  const GetHomePopularFoodsEventStarted(this.options);
 }

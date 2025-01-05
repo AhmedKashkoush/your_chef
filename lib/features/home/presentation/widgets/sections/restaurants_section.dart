@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/dummy/dummy_data.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
+import 'package:your_chef/core/options/options.dart';
 import 'package:your_chef/core/widgets/errors/custom_error_widget.dart';
 import 'package:your_chef/core/widgets/loading/skeleton_loading_widget.dart';
 import 'package:your_chef/features/home/presentation/bloc/restaurants/get_home_restaurants_bloc.dart';
@@ -41,7 +42,9 @@ class RestaurantsSection extends StatelessWidget {
                 error: state.error,
                 type: state.errorType,
                 onRetry: () => context.read<GetHomeRestaurantsBloc>().add(
-                      const GetHomeRestaurantsEventStarted(),
+                      const GetHomeRestaurantsEventStarted(
+                        PaginationOptions(limit: 5),
+                      ),
                     ),
               )
             ],

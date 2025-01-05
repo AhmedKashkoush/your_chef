@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:your_chef/config/routes/routes.dart';
 import 'package:your_chef/core/constants/strings.dart';
+import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/widgets/buttons/primary_button.dart';
@@ -36,7 +38,9 @@ class EmptyWishlistWidget extends StatelessWidget {
             PrimaryButton(
               text: AppStrings.exploreFoods,
               icon: Icons.explore_outlined,
-              onPressed: () {},
+              onPressed: () {
+                context.pushNamed(AppRoutes.foods);
+              },
             ),
           ],
         ),

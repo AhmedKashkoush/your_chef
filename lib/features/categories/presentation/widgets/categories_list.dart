@@ -61,7 +61,7 @@ class CategoriesList extends StatelessWidget {
   }
 
   List<Category> get _loadingCategories => List.generate(
-        6,
+        18,
         (_) => AppDummies.categories.first.toEntity(),
       );
 }

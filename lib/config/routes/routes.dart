@@ -11,6 +11,8 @@ class AppRoutes {
   static const String themes = '/themes';
   static const String profile = '/profile';
   static const String categories = '/categories';
+  static const String foods = '/foods';
+  static const String restaurants = '/restaurants';
   // static const String home = '/home';
   // static const String favorites = '/favorites';
   // static const String orders = '/orders';
