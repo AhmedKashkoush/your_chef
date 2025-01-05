@@ -26,6 +26,7 @@ class _ExploreFoodsScreenState extends State<ExploreFoodsScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: const Text(AppStrings.exploreFoods),
+        //TODO: Add search bar in the bottom property
       ),
       body: Column(
         children: [
