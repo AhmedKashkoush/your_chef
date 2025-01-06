@@ -13,9 +13,11 @@ class RestaurantItem extends StatelessWidget {
     super.key,
     required this.restaurant,
     required this.size,
+    this.enableHero = true,
   });
   final double size;
   final Restaurant restaurant;
+  final bool enableHero;
 
   final String _tag = 'food';
 
@@ -40,14 +42,17 @@ class RestaurantItem extends StatelessWidget {
         ),
         child: Stack(
           children: [
-            Hero(
-              tag: "$_baseTag-image",
-              child: Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: CachedNetworkImageProvider(
-                      restaurant.profileImage,
+            HeroMode(
+              enabled: enableHero,
+              child: Hero(
+                tag: "$_baseTag-image",
+                child: Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: CachedNetworkImageProvider(
+                        restaurant.profileImage,
+                      ),
                     ),
                   ),
                 ),
@@ -73,18 +78,21 @@ class RestaurantItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Hero(
-                    tag: "$_baseTag-name",
-                    child: Material(
-                      type: MaterialType.transparency,
-                      child: Text(
-                        restaurant.name,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                  HeroMode(
+                    enabled: enableHero,
+                    child: Hero(
+                      tag: "$_baseTag-name",
+                      child: Material(
+                        type: MaterialType.transparency,
+                        child: Text(
+                          restaurant.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),

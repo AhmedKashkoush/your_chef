@@ -14,10 +14,12 @@ class RestaurantMenuItem extends StatelessWidget {
     super.key,
     required this.food,
     required this.tag,
+    this.enableHero = true,
   });
 
   final Food food;
   final String tag;
+  final bool enableHero;
 
   String get _baseTag => 'food$tag${food.id}';
 
@@ -49,24 +51,30 @@ class RestaurantMenuItem extends StatelessWidget {
       ),
       leading: ClipRRect(
         borderRadius: BorderRadius.circular(12).r,
-        child: Hero(
-          tag: '${_baseTag}image+0',
-          child: CachedNetworkImage(
-            imageUrl: food.images.first,
-            fit: BoxFit.cover,
-            width: 80.w,
-            height: 80.h,
+        child: HeroMode(
+          enabled: enableHero,
+          child: Hero(
+            tag: '${_baseTag}image+0',
+            child: CachedNetworkImage(
+              imageUrl: food.images.first,
+              fit: BoxFit.cover,
+              width: 80.w,
+              height: 80.h,
+            ),
           ),
         ),
       ),
-      title: Hero(
-        tag: '${_baseTag}name',
-        child: Material(
-          type: MaterialType.transparency,
-          child: Text(
-            food.name,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
+      title: HeroMode(
+        enabled: enableHero,
+        child: Hero(
+          tag: '${_baseTag}name',
+          child: Material(
+            type: MaterialType.transparency,
+            child: Text(
+              food.name,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
@@ -99,16 +107,19 @@ class RestaurantMenuItem extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Hero(
-            tag: '${_baseTag}price',
-            child: Material(
-              type: MaterialType.transparency,
-              child: Text(
-                '${(food.price - (food.price * food.sale)).toStringAsFixed(1)} ${AppStrings.egp}',
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  color: AppColors.primary,
-                  fontWeight: FontWeight.bold,
+          HeroMode(
+            enabled: enableHero,
+            child: Hero(
+              tag: '${_baseTag}price',
+              child: Material(
+                type: MaterialType.transparency,
+                child: Text(
+                  '${(food.price - (food.price * food.sale)).toStringAsFixed(1)} ${AppStrings.egp}',
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),

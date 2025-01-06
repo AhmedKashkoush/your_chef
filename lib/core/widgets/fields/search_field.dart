@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/widgets/fields/custom_text_field.dart';
 
@@ -8,12 +9,14 @@ class SearchField extends StatefulWidget {
   final void Function(String)? onSearch;
   final TextEditingController? controller;
   final bool readOnly;
+  final String hint;
   const SearchField({
     super.key,
     this.onTap,
     this.readOnly = false,
     this.controller,
     this.onSearch,
+    this.hint = AppStrings.search,
   });
 
   @override
@@ -52,7 +55,7 @@ class _SearchFieldState extends State<SearchField> {
       textInputAction: TextInputAction.search,
       controller: widget.controller,
       readOnly: widget.readOnly,
-      hintText: 'Search',
+      hintText: widget.hint,
       hintStyle: TextStyle(
         color: context.theme.iconTheme.color?.withOpacity(0.5),
       ),

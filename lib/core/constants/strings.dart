@@ -127,6 +127,10 @@ class AppStrings {
   static const String removeFromCart = "Remove from cart";
   static const String viewInCart = "View in cart";
 
+  //Search
+  static const String search = "Search";
+  static const String searchForFoods = "Search for foods";
+
   //Confirmations
   static const String signOutConfirmation =
       "Are you sure you want to sign out?";

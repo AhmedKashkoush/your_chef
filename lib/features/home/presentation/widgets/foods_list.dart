@@ -6,9 +6,11 @@ import 'package:your_chef/core/widgets/items/food_item.dart';
 
 class FoodsList extends StatelessWidget {
   final List<Food> foods;
+  final bool loading;
   const FoodsList({
     super.key,
     required this.foods,
+    required this.loading,
   });
 
   @override
@@ -25,6 +27,7 @@ class FoodsList extends StatelessWidget {
       itemCount: foods.length,
       itemBuilder: (_, index) => FoodItem(
         food: foods[index],
+        enableHero: !loading,
       ),
     );
   }

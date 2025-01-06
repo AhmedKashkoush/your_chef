@@ -63,6 +63,7 @@ class RestaurantsSection extends StatelessWidget {
               SizedBox(
                 height: _size,
                 child: _buildRestaurants(
+                  loading: state is GetHomeRestaurantsLoadingState,
                   restaurants: state is GetHomeRestaurantsLoadingState
                       ? _loadingRestaurants
                       : state is GetHomeRestaurantsSuccessState
@@ -82,12 +83,14 @@ class RestaurantsSection extends StatelessWidget {
         (_) => AppDummies.restaurants.first.toEntity(),
       );
 
-  Widget _buildRestaurants({required List<Restaurant> restaurants}) {
+  Widget _buildRestaurants(
+      {required List<Restaurant> restaurants, required bool loading}) {
     return ListView.separated(
       scrollDirection: Axis.horizontal,
       itemCount: restaurants.length,
       separatorBuilder: (_, __) => 10.width,
       itemBuilder: (_, index) => RestaurantItem(
+        enableHero: !loading,
         restaurant: restaurants[index],
         size: _size,
       ),

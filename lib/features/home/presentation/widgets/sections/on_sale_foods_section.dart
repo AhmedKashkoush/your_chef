@@ -57,6 +57,7 @@ class OnSaleFoodsSection extends StatelessWidget {
                     arguments: AppStrings.onASale),
               ),
               FoodsList(
+                loading: state is GetHomeOnSaleFoodsLoadingState,
                 foods: state is GetHomeOnSaleFoodsLoadingState
                     ? _loadingOnSaleFoods
                     : state is GetHomeOnSaleFoodsSuccessState

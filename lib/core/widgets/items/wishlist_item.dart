@@ -17,9 +17,11 @@ import 'package:your_chef/common/blocs/wishlist/wishlist_bloc.dart';
 
 class WishlistItem extends StatelessWidget {
   final Food food;
+  final bool enableHero;
   const WishlistItem({
     super.key,
     required this.food,
+    this.enableHero = true,
   });
 
   final String _tag = 'wishlist';
@@ -64,18 +66,21 @@ class WishlistItem extends StatelessWidget {
             flex: 2,
             child: Stack(
               children: [
-                Hero(
-                  tag: '${_baseTag}image+0',
-                  child: Container(
-                    // width: 120.w,
-                    // height: 160.h,
-                    decoration: BoxDecoration(
-                      color: context.theme.iconTheme.color?.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(12.r),
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: CachedNetworkImageProvider(
-                          food.images.first,
+                HeroMode(
+                  enabled: enableHero,
+                  child: Hero(
+                    tag: '${_baseTag}image+0',
+                    child: Container(
+                      // width: 120.w,
+                      // height: 160.h,
+                      decoration: BoxDecoration(
+                        color: context.theme.iconTheme.color?.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(12.r),
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: CachedNetworkImageProvider(
+                            food.images.first,
+                          ),
                         ),
                       ),
                     ),
@@ -114,34 +119,40 @@ class WishlistItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Hero(
-                    tag: '${_baseTag}name',
-                    child: Material(
-                      type: MaterialType.transparency,
-                      child: Text(
-                        food.name,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          height: 0.9,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                  HeroMode(
+                    enabled: enableHero,
+                    child: Hero(
+                      tag: '${_baseTag}name',
+                      child: Material(
+                        type: MaterialType.transparency,
+                        child: Text(
+                          food.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            height: 0.9,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                  Hero(
-                    tag: '${_baseTag}description',
-                    child: Material(
-                      type: MaterialType.transparency,
-                      child: Text(
-                        food.description,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color:
-                              context.theme.iconTheme.color?.withOpacity(0.8),
-                          fontSize: 14,
+                  HeroMode(
+                    enabled: enableHero,
+                    child: Hero(
+                      tag: '${_baseTag}description',
+                      child: Material(
+                        type: MaterialType.transparency,
+                        child: Text(
+                          food.description,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color:
+                                context.theme.iconTheme.color?.withOpacity(0.8),
+                            fontSize: 14,
+                          ),
                         ),
                       ),
                     ),
@@ -150,17 +161,20 @@ class WishlistItem extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Hero(
-                          tag: '${_baseTag}price',
-                          child: Material(
-                            type: MaterialType.transparency,
-                            child: Text(
-                              '${(food.price - (food.price * food.sale)).toStringAsFixed(1)} ${AppStrings.egp}',
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: AppColors.primary.withOpacity(0.8),
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
+                        HeroMode(
+                          enabled: enableHero,
+                          child: Hero(
+                            tag: '${_baseTag}price',
+                            child: Material(
+                              type: MaterialType.transparency,
+                              child: Text(
+                                '${(food.price - (food.price * food.sale)).toStringAsFixed(1)} ${AppStrings.egp}',
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: AppColors.primary.withOpacity(0.8),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
@@ -182,18 +196,21 @@ class WishlistItem extends StatelessWidget {
                       ],
                     )
                   else
-                    Hero(
-                      tag: '${_baseTag}price',
-                      child: Material(
-                        type: MaterialType.transparency,
-                        child: Text(
-                          '${food.price} ${AppStrings.egp}',
-                          // maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: AppColors.primary.withOpacity(0.8),
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                    HeroMode(
+                      enabled: enableHero,
+                      child: Hero(
+                        tag: '${_baseTag}price',
+                        child: Material(
+                          type: MaterialType.transparency,
+                          child: Text(
+                            '${food.price} ${AppStrings.egp}',
+                            // maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: AppColors.primary.withOpacity(0.8),
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),

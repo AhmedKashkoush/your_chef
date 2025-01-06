@@ -59,6 +59,7 @@ class PopularFoodsSection extends StatelessWidget {
                 ),
               ),
               FoodsList(
+                loading: state is GetHomePopularFoodsLoadingState,
                 foods: state is GetHomePopularFoodsLoadingState
                     ? _loadingPopularFoods
                     : state is GetHomePopularFoodsSuccessState
