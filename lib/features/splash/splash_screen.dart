@@ -6,6 +6,7 @@ import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/utils/network_helper.dart';
 import 'package:your_chef/core/widgets/icons/app_logo.dart';
+import 'package:your_chef/core/widgets/loading/pizza_loading.dart';
 import 'package:your_chef/core/widgets/texts/logo_text.dart';
 import 'package:your_chef/common/blocs/user/user_bloc.dart';
 import 'package:your_chef/features/splash/cubit/splash_cubit.dart';
@@ -64,8 +65,10 @@ class SplashScreen extends StatelessWidget {
                     builder: (context, state) {
                       return state is SplashLoadingState
                           ? const Center(
-                              child: CircularProgressIndicator(
-                                  color: AppColors.primary),
+                              child: PizzaLoading(
+                                color: AppColors.primary,
+                                size: 80,
+                              ),
                             )
                           : const SizedBox.shrink();
                     },

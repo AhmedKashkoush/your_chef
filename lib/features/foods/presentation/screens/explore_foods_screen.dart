@@ -9,7 +9,9 @@ import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/widgets/fields/search_field.dart';
 import 'package:your_chef/core/widgets/items/food_item.dart';
+import 'package:your_chef/core/widgets/loading/pizza_loading.dart';
 import 'package:your_chef/core/widgets/loading/skeleton_loading_widget.dart';
+import 'package:your_chef/features/categories/domain/entities/category.dart';
 
 class ExploreFoodsScreen extends StatefulWidget {
   final String selected;
@@ -23,10 +25,10 @@ class ExploreFoodsScreen extends StatefulWidget {
 class _ExploreFoodsScreenState extends State<ExploreFoodsScreen>
     with SingleTickerProviderStateMixin {
   late final TabController _controller;
-  List<String> get _categories => [
-        AppStrings.popularFoods,
-        AppStrings.onASale,
-        ...AppDummies.categories.map((e) => e.name)
+  List<Category> get _categories => [
+        const Category(id: 0, name: AppStrings.popularFoods, image: ''),
+        const Category(id: 0, name: AppStrings.onASale, image: ''),
+        ...AppDummies.categories.map((e) => e.toEntity())
       ];
   bool loading = true;
   @override
@@ -38,7 +40,8 @@ class _ExploreFoodsScreenState extends State<ExploreFoodsScreen>
               _controller = TabController(
                   vsync: this,
                   length: _categories.length,
-                  initialIndex: _categories.indexOf(widget.selected));
+                  initialIndex: _categories.indexOf(_categories.firstWhere(
+                      (element) => element.name == widget.selected)));
             }));
     super.initState();
   }
@@ -75,22 +78,15 @@ class _ExploreFoodsScreenState extends State<ExploreFoodsScreen>
                       ? ListView.separated(
                           padding: const EdgeInsets.symmetric(horizontal: 12).r,
                           scrollDirection: Axis.horizontal,
-                          itemCount:
-                              [..._categories, ...AppDummies.categories].length,
+                          itemCount: 10,
                           separatorBuilder: (context, index) => 10.width,
                           itemBuilder: (context, index) => ChoiceChip(
-                            label: Text([
-                              ..._categories,
-                              ...AppDummies.categories.map((e) => e.name)
-                            ][index]),
+                            label: Text(
+                              'cat' * max(1, Random().nextInt(4)),
+                            ),
                             selectedColor: AppColors.primary,
                             showCheckmark: false,
-                            selected: [
-                              ..._categories,
-                              ...AppDummies.categories.map((e) => e.name)
-                            ][index]
-                                .toLowerCase()
-                                .contains(widget.selected.toLowerCase()),
+                            selected: false,
                             labelStyle: TextStyle(
                               color: Colors.white,
                               fontSize: 14.sp,
@@ -114,9 +110,24 @@ class _ExploreFoodsScreenState extends State<ExploreFoodsScreen>
                           isScrollable: true,
                           controller: _controller,
                           tabs: _categories
-                              .map((category) => Padding(
-                                    padding: const EdgeInsets.all(8.0).r,
-                                    child: Text(category),
+                              .map((category) => Tab(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                              horizontal: 8.0)
+                                          .r,
+                                      child: Row(
+                                        children: [
+                                          if (category.image.isNotEmpty) ...[
+                                            Image.asset(
+                                              category.image,
+                                              width: 20.w,
+                                            ),
+                                            10.width,
+                                          ],
+                                          Text(category.name),
+                                        ],
+                                      ),
+                                    ),
                                   ))
                               .toList()),
                 ),
@@ -127,7 +138,11 @@ class _ExploreFoodsScreenState extends State<ExploreFoodsScreen>
       ),
       backgroundColor: context.theme.colorScheme.surface,
       body: loading
-          ? const SizedBox.shrink()
+          ? const Center(
+              child: PizzaLoading(
+                color: AppColors.primary,
+              ),
+            )
           : TabBarView(
               controller: _controller,
               children: _categories

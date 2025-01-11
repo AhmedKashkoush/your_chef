@@ -4,6 +4,7 @@ import 'package:your_chef/core/errors/error_types.dart';
 import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
+import 'package:your_chef/core/widgets/loading/pizza_loading.dart';
 
 class AppMessages {
   const AppMessages._();
@@ -57,8 +58,11 @@ class AppMessages {
     );
   }
 
-  static void showLoadingDialog(BuildContext context,
-      {required String message}) {
+  static void showLoadingDialog(
+    BuildContext context, {
+    required String message,
+    bool usePizza = true,
+  }) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -68,9 +72,11 @@ class AppMessages {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const CircularProgressIndicator(
-                color: AppColors.primary,
-              ),
+              usePizza
+                  ? const PizzaLoading()
+                  : const CircularProgressIndicator(
+                      color: AppColors.primary,
+                    ),
               10.height,
               Text(
                 message,

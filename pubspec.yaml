@@ -24,6 +24,7 @@ dependencies:
   flutter_osm_plugin: ^1.3.6
   flutter_screenutil: ^5.9.3
   flutter_secure_storage: ^9.2.2
+  flutter_svg: ^2.0.17
   get_it: ^8.0.2
   google_sign_in: ^6.2.2
   hugeicons: ^0.0.7
@@ -70,6 +71,7 @@ flutter:
   uses-material-design: true
   assets:
     - .env
+    - assets/icons/
     - assets/images/
     - assets/images/onboarding/
     - assets/images/auth/
