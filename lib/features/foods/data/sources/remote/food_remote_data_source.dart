@@ -12,7 +12,7 @@ abstract class IFoodRemoteDataSource {
   Future<List<FoodModel>> getPopularFoods(PaginationOptions options);
   Future<List<FoodModel>> getOnSaleFoods(PaginationOptions options);
   Future<List<FoodModel>> getFoodsByCategory(
-      PaginationOptions options, CategoryModel category);
+      PaginationOptions<CategoryModel> options);
   Future<List<FoodModel>> getRestaurantFoods(RestaurantOptions options);
 }
 
@@ -29,6 +29,7 @@ class SupabaseFoodRemoteDataSource extends IFoodRemoteDataSource {
     await Future.delayed(const Duration(seconds: 4));
     return AppDummies.foods
         .where((food) => food.trending && food.sale == 0)
+        .skip((options.page - 1) * options.limit)
         .take(options.limit)
         .toList()
       ..shuffle();
@@ -43,6 +44,7 @@ class SupabaseFoodRemoteDataSource extends IFoodRemoteDataSource {
     await Future.delayed(const Duration(seconds: 4));
     return AppDummies.foods
         .where((food) => food.sale > 0)
+        .skip((options.page - 1) * options.limit)
         .take(options.limit)
         .toList()
       ..shuffle();
@@ -55,21 +57,21 @@ class SupabaseFoodRemoteDataSource extends IFoodRemoteDataSource {
       throw const ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
     await Future.delayed(const Duration(seconds: 4));
+
     return AppDummies.foods
         .where((food) => food.restaurant.id == options.restaurant.id)
         .toList();
   }
 
   @override
-  Future<List<FoodModel>> getFoodsByCategory(
-      PaginationOptions options, CategoryModel category) async {
+  Future<List<FoodModel>> getFoodsByCategory(PaginationOptions options) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
       throw const ex.NetworkException(AppStrings.checkYourInternetConnection);
     }
     await Future.delayed(const Duration(seconds: 4));
     return AppDummies.foods
-        .where((food) => food.category.id == category.id)
+        .where((food) => food.category.id == options.model!.id)
         .skip((options.page - 1) * options.limit)
         .take(options.limit)
         .toList();

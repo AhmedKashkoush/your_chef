@@ -62,10 +62,15 @@ class FoodRepository extends IFoodRepository {
 
   @override
   Future<Either<Failure, List<Food>>> getFoodsByCategory(
-      PaginationOptions options, Category category) async {
+      PaginationOptions<Category> options) async {
     try {
       final List<FoodModel> foods = await remoteDataSource.getFoodsByCategory(
-          options, CategoryModel.fromEntity(category));
+        PaginationOptions(
+          model: CategoryModel.fromEntity(options.model!),
+          page: options.page,
+          limit: options.limit,
+        ),
+      );
       return Right(foods.map((food) => food.toEntity()).toList());
     } on NetworkException catch (e) {
       return Left(NetworkFailure(e.message));

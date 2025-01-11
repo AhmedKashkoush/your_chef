@@ -20,7 +20,7 @@ class AppDummies {
       .toList();
 
   static final List<FoodModel> foods = List.generate(
-    20,
+    100,
     (i) {
       final int index = Random().nextInt(_foods.length);
       return FoodModel(

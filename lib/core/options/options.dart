@@ -77,11 +77,13 @@ class UserOptions extends AppOptions {
   });
 }
 
-class PaginationOptions extends AppOptions {
+class PaginationOptions<T> extends AppOptions {
   final int page, limit;
+  final T? model;
   const PaginationOptions({
     this.page = 1,
     this.limit = 10,
+    this.model,
   });
 }
 

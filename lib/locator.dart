@@ -23,6 +23,9 @@ import 'package:your_chef/features/foods/data/repositories/food_repository_impl.
 import 'package:your_chef/features/foods/data/sources/remote/food_remote_data_source.dart';
 import 'package:your_chef/features/foods/domain/repositories/food_repository.dart';
 import 'package:your_chef/features/categories/domain/usecases/get_categories_usecase.dart';
+import 'package:your_chef/features/foods/domain/usecases/foods/get_foods_by_category_usecase.dart';
+import 'package:your_chef/features/foods/presentation/blocs/explore/categories/get_explore_categories_bloc.dart';
+import 'package:your_chef/features/foods/presentation/blocs/explore/foods/get_explore_foods_bloc.dart';
 import 'package:your_chef/features/home/presentation/bloc/categories/get_home_categories_bloc.dart';
 import 'package:your_chef/features/home/presentation/bloc/offers/get_home_offers_bloc.dart';
 import 'package:your_chef/features/home/presentation/bloc/on_a_sale/get_home_on_sale_foods_bloc.dart';
@@ -265,6 +268,9 @@ void _initUseCases() {
   locator.registerLazySingleton<GetOnSaleFoodsUseCase>(
     () => GetOnSaleFoodsUseCase(locator<IFoodRepository>()),
   );
+  locator.registerLazySingleton<GetFoodsByCategoryUseCase>(
+    () => GetFoodsByCategoryUseCase(locator<IFoodRepository>()),
+  );
   locator.registerLazySingleton<GetRestaurantFoodsUseCase>(
     () => GetRestaurantFoodsUseCase(locator<IFoodRepository>()),
   );
@@ -332,6 +338,19 @@ void _initBlocs() {
   );
   locator.registerFactory<GetHomeOnSaleFoodsBloc>(
     () => GetHomeOnSaleFoodsBloc(locator<GetOnSaleFoodsUseCase>()),
+  );
+  //*Explore Foods
+  locator.registerFactory<GetExploreFoodsBloc>(
+    () => GetExploreFoodsBloc(
+      locator<GetPopularFoodsUseCase>(),
+      locator<GetOnSaleFoodsUseCase>(),
+      locator<GetFoodsByCategoryUseCase>(),
+    ),
+  );
+  locator.registerFactory<GetExploreCategoriesBloc>(
+    () => GetExploreCategoriesBloc(
+      locator<GetAllCategoriesUseCase>(),
+    ),
   );
 
   //*Categories

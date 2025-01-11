@@ -10,7 +10,7 @@ abstract class IFoodRepository {
       PaginationOptions options);
   Future<Either<Failure, List<Food>>> getOnSaleFoods(PaginationOptions options);
   Future<Either<Failure, List<Food>>> getFoodsByCategory(
-      PaginationOptions options, Category category);
+      PaginationOptions<Category> options);
   Future<Either<Failure, List<Food>>> getRestaurantFoods(
       RestaurantOptions options);
 }
