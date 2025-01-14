@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -142,10 +143,10 @@ class _FoodDetailsPortraitState extends State<_FoodDetailsPortrait> {
                     .toList()
                     .isNotEmpty) {
                   AppMessages.showSuccessMessage(
-                      context, AppStrings.foodAddedToYourWishlist);
+                      context, AppStrings.foodAddedToYourWishlist.tr());
                 } else {
                   AppMessages.showSuccessMessage(
-                      context, AppStrings.foodRemovedFromYourWishlist);
+                      context, AppStrings.foodRemovedFromYourWishlist.tr());
                 }
               }
               if (state.status == RequestStatus.failure) {
@@ -279,7 +280,7 @@ class _FoodDetailsPortraitState extends State<_FoodDetailsPortrait> {
                           ),
                         ),
                       ] else
-                        const TextSpan(text: AppStrings.noRatings),
+                        TextSpan(text: AppStrings.noRatings.tr()),
                     ],
                     style: TextStyle(
                       color: context.theme.iconTheme.color?.withOpacity(0.6),
@@ -295,7 +296,7 @@ class _FoodDetailsPortraitState extends State<_FoodDetailsPortrait> {
                   child: Material(
                     type: MaterialType.transparency,
                     child: Text(
-                      '${(widget.food.price - (widget.food.price * widget.food.sale)).toStringAsFixed(1)} ${AppStrings.egp}',
+                      '${(widget.food.price - (widget.food.price * widget.food.sale)).toStringAsFixed(1)} ${AppStrings.egp.tr()}',
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         color: AppColors.primary,
@@ -307,7 +308,7 @@ class _FoodDetailsPortraitState extends State<_FoodDetailsPortrait> {
                 ),
                 subtitle: widget.food.sale > 0
                     ? Text(
-                        '${widget.food.price} ${AppStrings.egp}',
+                        '${widget.food.price} ${AppStrings.egp.tr()}',
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           color:
@@ -329,10 +330,10 @@ class _FoodDetailsPortraitState extends State<_FoodDetailsPortrait> {
                         label: Text.rich(
                           TextSpan(
                             text: '${(widget.food.sale * 100).toInt()}% ',
-                            children: const [
+                            children: [
                               TextSpan(
-                                text: AppStrings.sale,
-                                style: TextStyle(
+                                text: AppStrings.sale.tr(),
+                                style: const TextStyle(
                                   color: Colors.black,
                                 ),
                               ),
@@ -398,14 +399,14 @@ class _FoodDetailsPortraitState extends State<_FoodDetailsPortrait> {
                 trailing: SecondaryButton(
                   icon: HugeIcons.strokeRoundedStar,
                   onPressed: () {},
-                  text: AppStrings.addReview,
+                  text: AppStrings.addReview.tr(),
                 ),
               ),
               const Divider(),
-              const ListTile(
+              ListTile(
                 title: Text(
-                  AppStrings.otherReviews,
-                  style: TextStyle(
+                  AppStrings.otherReviews.tr(),
+                  style: const TextStyle(
                     height: 0.9,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -175,16 +176,16 @@ class _UploadProfilePhotoPortrait extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            const Text(
-              AppStrings.uploadProfileTitle,
+            Text(
+              AppStrings.uploadProfileTitle.tr(),
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
             Text(
-              AppStrings.uploadProfileBody,
+              AppStrings.uploadProfileBody.tr(),
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
@@ -203,7 +204,8 @@ class _UploadProfilePhotoPortrait extends StatelessWidget {
               onPressed: onSubmit,
               loading: loading,
               icon: image == null ? null : HugeIcons.strokeRoundedUpload02,
-              text: image == null ? AppStrings.skip : AppStrings.upload,
+              text:
+                  image == null ? AppStrings.skip.tr() : AppStrings.upload.tr(),
             ),
             const Spacer(
               flex: 2,
@@ -259,16 +261,16 @@ class _UploadProfilePhotoLandscape extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          const Text(
-                            AppStrings.uploadProfileTitle,
+                          Text(
+                            AppStrings.uploadProfileTitle.tr(),
                             textAlign: TextAlign.center,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           Text(
-                            AppStrings.uploadProfileBody,
+                            AppStrings.uploadProfileBody.tr(),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 16,
@@ -287,8 +289,8 @@ class _UploadProfilePhotoLandscape extends StatelessWidget {
                                 ? null
                                 : HugeIcons.strokeRoundedUpload02,
                             text: image == null
-                                ? AppStrings.skip
-                                : AppStrings.upload,
+                                ? AppStrings.skip.tr()
+                                : AppStrings.upload.tr(),
                           ),
                           const Spacer(),
                         ],

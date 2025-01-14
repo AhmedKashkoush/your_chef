@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:your_chef/core/constants/strings.dart';
@@ -18,9 +19,9 @@ class RestaurantLocationTile extends StatelessWidget {
         HugeIcons.strokeRoundedLocation01,
         color: Colors.red,
       ),
-      title: const Text(
-        AppStrings.location,
-        style: TextStyle(
+      title: Text(
+        AppStrings.location.tr(),
+        style: const TextStyle(
           fontWeight: FontWeight.bold,
         ),
       ),

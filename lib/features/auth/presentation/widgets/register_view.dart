@@ -52,7 +52,7 @@ class RegisterView extends StatelessWidget {
                       controller: register.fNameController,
                       validator: _validateName,
                       enabled: state is! RegisterLoadingState,
-                      hintText: AppStrings.fName,
+                      hintText: AppStrings.fName.tr(),
                       prefixIcon: const Icon(HugeIcons.strokeRoundedUser),
                     ),
                   ),
@@ -63,7 +63,7 @@ class RegisterView extends StatelessWidget {
                       controller: register.lNameController,
                       validator: _validateName,
                       enabled: state is! RegisterLoadingState,
-                      hintText: AppStrings.lName,
+                      hintText: AppStrings.lName.tr(),
                       prefixIcon: const Icon(HugeIcons.strokeRoundedUser),
                     ),
                   ),
@@ -79,7 +79,7 @@ class RegisterView extends StatelessWidget {
                   LengthLimitingTextInputFormatter(11),
                   FilteringTextInputFormatter.digitsOnly,
                 ],
-                hintText: AppStrings.phone,
+                hintText: AppStrings.phone.tr(),
                 prefixIcon: const Icon(HugeIcons.strokeRoundedCall),
               ),
               10.height,
@@ -88,7 +88,7 @@ class RegisterView extends StatelessWidget {
                 controller: register.addressController,
                 validator: _validateAddress,
                 enabled: state is! RegisterLoadingState,
-                hintText: AppStrings.address,
+                hintText: AppStrings.address.tr(),
                 prefixIcon: const Icon(HugeIcons.strokeRoundedLocation01),
               ),
               10.height,
@@ -97,7 +97,7 @@ class RegisterView extends StatelessWidget {
                 controller: register.emailController,
                 validator: _validateEmail,
                 enabled: state is! RegisterLoadingState,
-                hintText: AppStrings.email,
+                hintText: AppStrings.email.tr(),
                 inputFormatters: [
                   FilteringTextInputFormatter.deny(RegExp(r'\s')),
                 ],
@@ -108,7 +108,7 @@ class RegisterView extends StatelessWidget {
                   valueListenable: register.passwordVisibility,
                   builder: (_, visible, __) {
                     return CustomTextField(
-                      hintText: AppStrings.password,
+                      hintText: AppStrings.password.tr(),
                       enabled: state is! RegisterLoadingState,
                       controller: register.passwordController,
                       validator: _validatePassword,
@@ -129,7 +129,7 @@ class RegisterView extends StatelessWidget {
                   valueListenable: register.confirmVisibility,
                   builder: (_, visible, __) {
                     return CustomTextField(
-                      hintText: AppStrings.confirmPassword,
+                      hintText: AppStrings.confirmPassword.tr(),
                       enabled: state is! RegisterLoadingState,
                       controller: register.confirmController,
                       validator: (value) => _validateConfirm(context, value),
@@ -149,7 +149,7 @@ class RegisterView extends StatelessWidget {
               PrimaryButton(
                 onPressed: () => _register(context),
                 loading: state is RegisterLoadingState,
-                text: AppStrings.register,
+                text: AppStrings.register.tr(),
               ),
             ],
           ),

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:your_chef/core/constants/keys.dart';
@@ -32,7 +33,7 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
   Future<SavedUserModel> login(LoginOptions options) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw const ex.NetworkException(AppStrings.checkYourInternetConnection);
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection.tr());
     }
 
     final AuthResponse response = await client.auth
@@ -42,14 +43,14 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
     )
         .catchError((error) {
       if (error is AuthException) {
-        throw const ex.AuthException(AppStrings.invalidCredentials);
+        throw ex.AuthException(AppStrings.invalidCredentials.tr());
       }
-      throw const ex.ServerException(AppStrings.somethingWentWrong);
+      throw ex.ServerException(AppStrings.somethingWentWrong.tr());
     });
     final User? user = response.session?.user;
 
     if (user == null) {
-      throw const ex.AuthException(AppStrings.invalidCredentials);
+      throw ex.AuthException(AppStrings.invalidCredentials.tr());
     }
 
     final Map<String, dynamic> data =
@@ -57,7 +58,7 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
 
     if (data.isEmpty) {
       await client.auth.signOut();
-      throw const ex.AuthException(AppStrings.invalidCredentials);
+      throw ex.AuthException(AppStrings.invalidCredentials.tr());
     }
 
     final UserModel signedUser = UserModel.fromJson(data);
@@ -75,7 +76,7 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
   Future<String> register(RegisterOptions options) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw const ex.NetworkException(AppStrings.checkYourInternetConnection);
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection.tr());
     }
 
     final AuthResponse response = await client.auth
@@ -84,14 +85,14 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
       'address': options.address,
     }).catchError((error) {
       if (error is AuthException) {
-        throw const ex.AuthException(AppStrings.invalidCredentials);
+        throw ex.AuthException(AppStrings.invalidCredentials.tr());
       }
-      throw const ex.ServerException(AppStrings.somethingWentWrong);
+      throw ex.ServerException(AppStrings.somethingWentWrong.tr());
     });
 
     final User? user = response.user;
     if (user == null) {
-      throw const ex.AuthException(AppStrings.invalidCredentials);
+      throw ex.AuthException(AppStrings.invalidCredentials.tr());
     }
     final UserModel data = UserModel(
       id: user.id,
@@ -113,12 +114,12 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
   Future<SavedUserModel> googleSignIn() async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw const ex.NetworkException(AppStrings.checkYourInternetConnection);
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection.tr());
     }
     await googleSignInProvider.signOut();
     final GoogleSignInAccount? googleUser = await googleSignInProvider.signIn();
     if (googleUser == null) {
-      throw const ex.ServerException(AppStrings.somethingWentWrong);
+      throw ex.ServerException(AppStrings.somethingWentWrong.tr());
     }
     final GoogleSignInAuthentication authentication =
         await googleUser.authentication;
@@ -128,7 +129,7 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
 
     if (idToken == null || accessToken == null) {
       await googleSignInProvider.signOut();
-      throw const ex.AuthException(AppStrings.invalidCredentials);
+      throw ex.AuthException(AppStrings.invalidCredentials.tr());
     }
 
     final AuthResponse response = await client.auth.signInWithIdToken(
@@ -140,7 +141,7 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
     final User? user = response.session?.user;
     if (user == null) {
       await googleSignInProvider.signOut();
-      throw const ex.AuthException(AppStrings.invalidCredentials);
+      throw ex.AuthException(AppStrings.invalidCredentials.tr());
     }
 
     final Map<String, dynamic>? data =
@@ -185,7 +186,7 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
   Future<void> uploadProfilePhoto(UploadProfileOptions options) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw const ex.NetworkException(AppStrings.checkYourInternetConnection);
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection.tr());
     }
     final String filename =
         '${options.uid}/${DateTime.now().millisecondsSinceEpoch}';
@@ -199,7 +200,7 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
   Future<void> sendOtpCode(ResetPasswordOptions options) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw const ex.NetworkException(AppStrings.checkYourInternetConnection);
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection.tr());
     }
 
     await client.auth.signInWithOtp(
@@ -214,7 +215,7 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
   Future<void> verify(VerifyOtpOptions options) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw const ex.NetworkException(AppStrings.checkYourInternetConnection);
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection.tr());
     }
     await client.auth.verifyOTP(
       type: options.email != null ? OtpType.magiclink : OtpType.sms,

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -106,13 +107,15 @@ class _WishlistScreenState extends State<WishlistScreen> {
               if (state.status == RequestStatus.loading) {
                 AppMessages.showLoadingDialog(
                   context,
-                  message: AppStrings.justAMoment,
+                  message: AppStrings.justAMoment.tr(),
                 );
               } else {
                 Navigator.pop(context);
                 if (state.status == RequestStatus.success) {
                   AppMessages.showSuccessMessage(
-                      context, AppStrings.itemRemoved);
+                    context,
+                    AppStrings.itemRemoved.tr(),
+                  );
                 } else {
                   AppMessages.showErrorMessage(context, state.error);
                 }

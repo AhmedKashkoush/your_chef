@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:your_chef/core/constants/strings.dart';
@@ -73,8 +74,8 @@ class RestaurantInfoSection extends StatelessWidget {
                           text: ' (${restaurant.rate})',
                         ),
                       ] else
-                        const TextSpan(
-                          text: AppStrings.noRatings,
+                        TextSpan(
+                          text: AppStrings.noRatings.tr(),
                         )
                     ],
                     style: TextStyle(

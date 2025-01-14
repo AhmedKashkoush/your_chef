@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:your_chef/core/constants/strings.dart';
@@ -57,8 +58,8 @@ class OffersSection extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const SectionHeader(
-          title: AppStrings.todaysOffers,
+        SectionHeader(
+          title: AppStrings.todaysOffers.tr(),
           // onPressed: () {},
         ),
         10.height,

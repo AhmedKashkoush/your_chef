@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:your_chef/core/constants/strings.dart';
 
@@ -8,10 +9,10 @@ class RestaurantMenuTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ListTile(
+    return ListTile(
       title: Text(
-        AppStrings.ourMenu,
-        style: TextStyle(
+        AppStrings.ourMenu.tr(),
+        style: const TextStyle(
           fontWeight: FontWeight.bold,
         ),
       ),

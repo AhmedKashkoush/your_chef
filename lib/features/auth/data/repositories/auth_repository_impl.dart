@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/errors/exceptions.dart';
 
@@ -47,7 +48,7 @@ class AuthRepository implements IAuthRepository {
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } catch (e) {
-      return const Left(ServerFailure(AppStrings.somethingWentWrong));
+      return Left(ServerFailure(AppStrings.somethingWentWrong.tr()));
     }
   }
 
@@ -63,7 +64,7 @@ class AuthRepository implements IAuthRepository {
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } catch (e) {
-      return const Left(ServerFailure(AppStrings.somethingWentWrong));
+      return Left(ServerFailure(AppStrings.somethingWentWrong.tr()));
     }
   }
 
@@ -80,7 +81,7 @@ class AuthRepository implements IAuthRepository {
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } catch (e) {
-      return const Left(ServerFailure(AppStrings.somethingWentWrong));
+      return Left(ServerFailure(AppStrings.somethingWentWrong.tr()));
     }
   }
 
@@ -97,7 +98,7 @@ class AuthRepository implements IAuthRepository {
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } catch (e) {
-      return const Left(ServerFailure(AppStrings.somethingWentWrong));
+      return Left(ServerFailure(AppStrings.somethingWentWrong.tr()));
     }
   }
 
@@ -114,7 +115,7 @@ class AuthRepository implements IAuthRepository {
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } catch (e) {
-      return const Left(ServerFailure(AppStrings.somethingWentWrong));
+      return Left(ServerFailure(AppStrings.somethingWentWrong.tr()));
     }
   }
 
@@ -130,7 +131,7 @@ class AuthRepository implements IAuthRepository {
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } catch (e) {
-      return const Left(ServerFailure(AppStrings.somethingWentWrong));
+      return Left(ServerFailure(AppStrings.somethingWentWrong.tr()));
     }
   }
 }

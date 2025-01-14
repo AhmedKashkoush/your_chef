@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -49,7 +50,7 @@ class _EmailResetScreenState extends State<EmailResetScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                AppStrings.resetYourEmail,
+                AppStrings.resetYourEmail.tr(),
                 style: TextStyle(
                   fontSize: 20.sp,
                   fontWeight: FontWeight.bold,
@@ -58,7 +59,7 @@ class _EmailResetScreenState extends State<EmailResetScreen> {
               Flexible(child: 16.height),
               CustomTextField(
                 keyboardType: TextInputType.emailAddress,
-                hintText: AppStrings.email,
+                hintText: AppStrings.email.tr(),
                 prefixIcon: const Icon(HugeIcons.strokeRoundedMail01),
                 controller: _emailController,
                 inputFormatters: [
@@ -78,7 +79,7 @@ class _EmailResetScreenState extends State<EmailResetScreen> {
                                 },
                               )
                           : null,
-                      text: AppStrings.sendCode,
+                      text: AppStrings.sendCode.tr(),
                     );
                   }),
             ],

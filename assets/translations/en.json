@@ -1,0 +1,135 @@
+{
+  "appName": "Your Chef",
+
+  "system": "System",
+  "light": "Light",
+  "dark": "Dark",
+  "retry": "Retry",
+  "yes": "Yes",
+  "no": "No",
+
+  "onboardingTitle1": "Orders",
+  "onboardingTitle2": "Payment",
+  "onboardingTitle3": "Restaurants",
+
+  "skip": "Skip",
+  "getStarted": "Get Started",
+
+  "onboardingBody1": "You can order whatever you want from home easily",
+  "onboardingBody2": "Pay with your own visa card by only entering card number then follow the required steps",
+  "onboardingBody3": "You can know the nearest restaurants from your home or around your area or country (Also you can optionally order from a certain restaurant)",
+
+  "welcome": "Welcome to",
+  "freePalestine": "Free Palestine",
+  "login": "Login",
+  "register": "Register",
+
+  "email": "Email",
+  "password": "Password",
+  "forgotPassword": "Forgot password?",
+  "confirmPassword": "Confirm Password",
+  "name": "Name",
+  "fName": "First name",
+  "lName": "Last name",
+  "phone": "Phone",
+  "address": "Address",
+
+  "resetYourEmail": "Reset your email",
+  "sendCode": "Send code",
+
+  "otpTitle": "Enter the code sent to",
+  "codeNotSent": "Code not sent?",
+  "tryAgainAfter": "Try again after",
+  "resend": "Resend",
+  "verify": "Verify",
+
+  "enterYourName": "Enter your name",
+  "enterYourEmail": "Enter your email",
+  "enterYourPhone": "Enter your phone",
+  "enterYourAddress": "Enter your address",
+
+  "or": "Or",
+  "signInWithGoogle": "Sign In With Google",
+  "uploadProfileTitle": "Upload a photo for your profile?",
+  "uploadProfileBody": "You can complete your profile registration by uploading a new photo or skip this step it is optional",
+  "camera": "Camera",
+  "gallery": "Gallery",
+  "upload": "Upload",
+
+  "chooseAccountToLogin": "Choose account to log in",
+  "loginWithAnotherAccount": "Login with another account",
+
+  "saveAccountMessage": "Would you like to save this account?",
+  "save": "Save",
+  "accountSaved": "Account saved",
+
+  "welcomeUser": "Welcome",
+  "homeDisclaimer": "Don't forget to pray for",
+  "palestine": "Palestine",
+  "todaysOffers": "Today's Offers",
+  "availableCategories": "Available Categories",
+  "restaurants": "Restaurants",
+  "popularFoods": "Popular Foods",
+  "onASale": "On a Sale",
+  "viewAll": "View All",
+  "egp": "EGP",
+  "sale": "Sale",
+
+  "exploreByCategories": "Explore by categories",
+
+  "wishlistEmptyMessage": "Currently there are no items in your list",
+  "exploreFoods": "Explore foods",
+
+  "visit": "Visit",
+  "aboutMeal": "About meal",
+
+  "location": "Location",
+  "contactUs": "Contact us",
+  "aboutUs": "About us",
+  "specialOffers": "Special offers",
+  "ourMenu": "Our menu",
+  "other": "Other",
+
+  "switchAccounts": "Switch Accounts",
+  "privacyAndSecurity": "Privacy & Security",
+  "notifications": "Notifications",
+  "languages": "Languages",
+  "themes": "Themes",
+  "privacyPolicy": "Privacy policy",
+  "reportAnIssue": "Report An Issue",
+  "aboutTheApp": "About The App",
+  "addAccount": "Add Account",
+
+  "profile": "Profile",
+
+  "noRatings": "No ratings",
+  "addReview": "Add review",
+  "otherReviews": "Other reviews",
+
+  "addToCart": "Add to cart",
+  "removeFromCart": "Remove from cart",
+  "viewInCart": "View in cart",
+
+  "search": "Search",
+  "searchForFoods": "Search for foods",
+
+  "signOutConfirmation": "Are you sure you want to sign out?",
+  "removeAccountConfirmation": "Are you sure you want to remove this account?",
+  "dismissChanges": "Dismiss changes?",
+
+  "justAMoment": "Just a moment...",
+  "signingOut": "Signing out...",
+  "switchingAccount": "Switching account...",
+
+  "loggedInSuccessfully": "Logged in successfully",
+  "signedOutSuccessfully": "Signed out successfully",
+  "switchedAccountSuccessfully": "Switched account successfully",
+  "foodAddedToYourWishlist": "Food added to your wishlist",
+  "foodRemovedFromYourWishlist": "Food removed from your wishlist",
+  "itemRemoved": "Item removed",
+
+  "checkYourInternetConnection": "Check your internet connection",
+  "invalidCredentials": "Invalid credentials",
+  "sessionExpired": "Session expired",
+  "somethingWentWrong": "Something went wrong"
+}

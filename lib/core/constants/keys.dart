@@ -4,4 +4,5 @@ class SharedPrefsKeys {
   static const String onboarding = 'onboarding';
   static const String user = 'user';
   static const String savedUsers = 'savedUsers';
+  static const String language = 'language';
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -83,7 +84,7 @@ class _OtpScreenState extends State<OtpScreen> {
               if (state is VerifyLoadingState) {
                 AppMessages.showLoadingDialog(
                   context,
-                  message: AppStrings.justAMoment,
+                  message: AppStrings.justAMoment.tr(),
                 );
               } else {
                 if (context.canPop()) {
@@ -112,7 +113,7 @@ class _OtpScreenState extends State<OtpScreen> {
                   children: [
                     const Spacer(),
                     Text(
-                      AppStrings.otpTitle,
+                      AppStrings.otpTitle.tr(),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 24.sp,
@@ -165,25 +166,27 @@ class _OtpScreenState extends State<OtpScreen> {
                     ValueListenableBuilder(
                       valueListenable: _duration!,
                       builder: (_, time, __) => Text.rich(
-                        TextSpan(text: '${AppStrings.codeNotSent} ', children: [
-                          if (_timer != null && _timer!.isActive)
-                            TextSpan(
-                                text:
-                                    '${AppStrings.tryAgainAfter}: (${(time.inMinutes % 60).toString().padLeft(2, '0')}:${(time.inSeconds % 60).toString().padLeft(2, '0')})')
-                          else
-                            WidgetSpan(
-                              child: GestureDetector(
-                                onTap: () => _resend(context),
-                                child: const Text(
-                                  AppStrings.resend,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.primary,
+                        TextSpan(
+                            text: '${AppStrings.codeNotSent.tr()} ',
+                            children: [
+                              if (_timer != null && _timer!.isActive)
+                                TextSpan(
+                                    text:
+                                        '${AppStrings.tryAgainAfter.tr()}: (${(time.inMinutes % 60).toString().padLeft(2, '0')}:${(time.inSeconds % 60).toString().padLeft(2, '0')})')
+                              else
+                                WidgetSpan(
+                                  child: GestureDetector(
+                                    onTap: () => _resend(context),
+                                    child: Text(
+                                      AppStrings.resend.tr(),
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.primary,
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                        ]),
+                            ]),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 16.sp,
@@ -199,7 +202,7 @@ class _OtpScreenState extends State<OtpScreen> {
                         builder: (_, valid, __) {
                           return PrimaryButton(
                             onPressed: valid ? () => _verify(context) : null,
-                            text: AppStrings.verify,
+                            text: AppStrings.verify.tr(),
                           );
                         }),
                     const Spacer(

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -28,7 +29,7 @@ class EmptyWishlistWidget extends StatelessWidget {
               color: context.theme.iconTheme.color?.withOpacity(0.3),
             ),
             Text(
-              AppStrings.wishlistEmptyMessage,
+              AppStrings.wishlistEmptyMessage.tr(),
               textAlign: TextAlign.center,
               style: context.theme.textTheme.titleLarge?.copyWith(
                 color: context.theme.iconTheme.color?.withOpacity(0.3),
@@ -36,7 +37,7 @@ class EmptyWishlistWidget extends StatelessWidget {
             ),
             30.height,
             PrimaryButton(
-              text: AppStrings.exploreFoods,
+              text: AppStrings.exploreFoods.tr(),
               icon: Icons.explore_outlined,
               onPressed: () {
                 context.pushNamed(AppRoutes.foods);

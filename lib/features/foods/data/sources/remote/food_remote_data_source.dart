@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/dummy/dummy_data.dart';
@@ -24,7 +25,7 @@ class SupabaseFoodRemoteDataSource extends IFoodRemoteDataSource {
   Future<List<FoodModel>> getPopularFoods(PaginationOptions options) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw const ex.NetworkException(AppStrings.checkYourInternetConnection);
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection.tr());
     }
     await Future.delayed(const Duration(seconds: 4));
     return AppDummies.foods
@@ -39,7 +40,7 @@ class SupabaseFoodRemoteDataSource extends IFoodRemoteDataSource {
   Future<List<FoodModel>> getOnSaleFoods(PaginationOptions options) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw const ex.NetworkException(AppStrings.checkYourInternetConnection);
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection.tr());
     }
     await Future.delayed(const Duration(seconds: 4));
     return AppDummies.foods
@@ -54,7 +55,7 @@ class SupabaseFoodRemoteDataSource extends IFoodRemoteDataSource {
   Future<List<FoodModel>> getRestaurantFoods(RestaurantOptions options) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw const ex.NetworkException(AppStrings.checkYourInternetConnection);
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection.tr());
     }
     await Future.delayed(const Duration(seconds: 4));
 
@@ -67,7 +68,7 @@ class SupabaseFoodRemoteDataSource extends IFoodRemoteDataSource {
   Future<List<FoodModel>> getFoodsByCategory(PaginationOptions options) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw const ex.NetworkException(AppStrings.checkYourInternetConnection);
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection.tr());
     }
     await Future.delayed(const Duration(seconds: 4));
     return AppDummies.foods

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -24,21 +25,21 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _controller = PageController();
-  final List<Widget> _views = const [
+  final List<Widget> _views = [
     OnboardingView(
       image: AppImages.onboarding1,
-      title: AppStrings.onboardingTitle1,
-      body: AppStrings.onboardingBody1,
+      title: AppStrings.onboardingTitle1.tr(),
+      body: AppStrings.onboardingBody1.tr(),
     ),
     OnboardingView(
       image: AppImages.onboarding2,
-      title: AppStrings.onboardingTitle2,
-      body: AppStrings.onboardingBody2,
+      title: AppStrings.onboardingTitle2.tr(),
+      body: AppStrings.onboardingBody2.tr(),
     ),
     OnboardingView(
       image: AppImages.onboarding3,
-      title: AppStrings.onboardingTitle3,
-      body: AppStrings.onboardingBody3,
+      title: AppStrings.onboardingTitle3.tr(),
+      body: AppStrings.onboardingBody3.tr(),
     ),
   ];
   bool _hasEnded = false;
@@ -125,7 +126,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 )
               else
                 PrimaryButton(
-                  text: AppStrings.getStarted,
+                  text: AppStrings.getStarted.tr(),
                   onPressed: _getStarted,
                 )
             ],

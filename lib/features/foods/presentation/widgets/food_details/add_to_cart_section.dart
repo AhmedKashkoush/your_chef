@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:your_chef/core/constants/strings.dart';
@@ -68,7 +69,7 @@ class _AddToCartSectionState extends State<AddToCartSection> {
               children: [
                 Expanded(
                   child: SecondaryButton(
-                    text: AppStrings.removeFromCart,
+                    text: AppStrings.removeFromCart.tr(),
                     icon: HugeIcons.strokeRoundedShoppingCartRemove01,
                     onPressed: () {},
                   ),
@@ -76,7 +77,7 @@ class _AddToCartSectionState extends State<AddToCartSection> {
                 10.width,
                 Expanded(
                   child: PrimaryButton(
-                    text: AppStrings.viewInCart,
+                    text: AppStrings.viewInCart.tr(),
                     icon: HugeIcons.strokeRoundedShoppingCart01,
                     backgroundColor: Colors.green,
                     count: widget.count,
@@ -88,7 +89,7 @@ class _AddToCartSectionState extends State<AddToCartSection> {
               ],
             )
           : PrimaryButton(
-              text: AppStrings.addToCart,
+              text: AppStrings.addToCart.tr(),
               icon: HugeIcons.strokeRoundedShoppingCartAdd01,
               onPressed: () {},
             ),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/constants/strings.dart';
@@ -31,9 +32,9 @@ class SectionHeader extends StatelessWidget {
           if (onPressed != null)
             TextButton(
               onPressed: onPressed,
-              child: const Text(
-                AppStrings.viewAll,
-                style: TextStyle(color: AppColors.secondary),
+              child: Text(
+                AppStrings.viewAll.tr(),
+                style: const TextStyle(color: AppColors.secondary),
               ),
             ),
         ],

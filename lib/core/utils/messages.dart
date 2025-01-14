@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:your_chef/core/constants/colors.dart';
+import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/errors/error_types.dart';
 import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
@@ -24,7 +26,7 @@ class AppMessages {
               context.pop(true);
             },
             child: Text(
-              'Yes',
+              AppStrings.yes.tr(),
               style: TextStyle(
                 color: confirmIsDanger ? Colors.red : null,
               ),
@@ -35,7 +37,7 @@ class AppMessages {
               context.pop(false);
             },
             child: Text(
-              'No',
+              AppStrings.no.tr(),
               style: TextStyle(
                 color: cancelIsDanger ? Colors.red : null,
               ),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -84,10 +85,10 @@ class _AuthScreenState extends State<AuthScreen>
         centerTitle: true,
         title: Text.rich(
           TextSpan(
-              text: '${AppStrings.freePalestine.split(' ').first} ',
+              text: '${AppStrings.freePalestine.tr().split(' ').first} ',
               children: [
                 TextSpan(
-                  text: AppStrings.freePalestine.split(' ')[1],
+                  text: AppStrings.freePalestine.tr().split(' ')[1],
                   style: const TextStyle(
                     color: Colors.green,
                   ),
@@ -137,9 +138,9 @@ class _AuthScreenPortrait extends StatelessWidget {
         children: [
           const AppLogo(),
           10.height,
-          const Text(
-            AppStrings.welcome,
-            style: TextStyle(fontSize: 18),
+          Text(
+            AppStrings.welcome.tr(),
+            style: const TextStyle(fontSize: 18),
           ),
           const LogoText(),
           10.height,
@@ -174,14 +175,14 @@ class _AuthScreenLandscape extends StatelessWidget {
                     children: [
                       const FittedBox(child: AppLogo()),
                       4.width,
-                      const Column(
+                      Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            AppStrings.welcome,
-                            style: TextStyle(fontSize: 18),
+                            AppStrings.welcome.tr(),
+                            style: const TextStyle(fontSize: 18),
                           ),
-                          LogoText(),
+                          const LogoText(),
                         ],
                       ),
                     ],
@@ -191,9 +192,9 @@ class _AuthScreenLandscape extends StatelessWidget {
                     children: [
                       const FittedBox(child: AppLogo()),
                       10.height,
-                      const Text(
-                        AppStrings.welcome,
-                        style: TextStyle(fontSize: 18),
+                      Text(
+                        AppStrings.welcome.tr(),
+                        style: const TextStyle(fontSize: 18),
                       ),
                       const LogoText(),
                     ],

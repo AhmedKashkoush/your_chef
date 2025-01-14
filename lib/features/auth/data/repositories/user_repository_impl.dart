@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/errors/exceptions.dart';
 import 'package:your_chef/core/errors/failures.dart';
@@ -71,8 +72,8 @@ class UserRepository extends IUserRepository {
           AuthFailure(e.message),
         );
       } catch (e) {
-        return const Left(
-          NetworkFailure(AppStrings.checkYourInternetConnection),
+        return Left(
+          NetworkFailure(AppStrings.checkYourInternetConnection.tr()),
         );
       }
     } on AuthException {
@@ -84,8 +85,8 @@ class UserRepository extends IUserRepository {
           AuthFailure(e.message),
         );
       } catch (e) {
-        return const Left(
-          AuthFailure(AppStrings.sessionExpired),
+        return Left(
+          AuthFailure(AppStrings.sessionExpired.tr()),
         );
       }
     } on ServerException {
@@ -97,8 +98,8 @@ class UserRepository extends IUserRepository {
           AuthFailure(e.message),
         );
       } catch (e) {
-        return const Left(
-          ServerFailure(AppStrings.somethingWentWrong),
+        return Left(
+          ServerFailure(AppStrings.somethingWentWrong.tr()),
         );
       }
     } catch (e) {
@@ -110,8 +111,8 @@ class UserRepository extends IUserRepository {
           AuthFailure(e.message),
         );
       } catch (e) {
-        return const Left(
-          EmptyCacheFailure(AppStrings.somethingWentWrong),
+        return Left(
+          EmptyCacheFailure(AppStrings.somethingWentWrong.tr()),
         );
       }
     }
@@ -137,8 +138,8 @@ class UserRepository extends IUserRepository {
       );
     } catch (e) {
       log(e.toString());
-      return const Left(
-        EmptyCacheFailure(AppStrings.somethingWentWrong),
+      return Left(
+        EmptyCacheFailure(AppStrings.somethingWentWrong.tr()),
       );
     }
   }
@@ -161,8 +162,8 @@ class UserRepository extends IUserRepository {
         ServerFailure(e.message),
       );
     } catch (e) {
-      return const Left(
-        ServerFailure(AppStrings.somethingWentWrong),
+      return Left(
+        ServerFailure(AppStrings.somethingWentWrong.tr()),
       );
     }
   }
@@ -174,7 +175,7 @@ class UserRepository extends IUserRepository {
           await localDataSource.getSavedUsers();
       return Right(savedUsers.map((e) => e.toEntity()).toList());
     } catch (e) {
-      return const Left(EmptyCacheFailure(AppStrings.somethingWentWrong));
+      return Left(EmptyCacheFailure(AppStrings.somethingWentWrong.tr()));
     }
   }
 
@@ -184,7 +185,7 @@ class UserRepository extends IUserRepository {
       await localDataSource.saveUser(SavedUserModel.fromEntity(savedUser));
       return const Right(unit);
     } catch (e) {
-      return const Left(EmptyCacheFailure(AppStrings.somethingWentWrong));
+      return Left(EmptyCacheFailure(AppStrings.somethingWentWrong.tr()));
     }
   }
 
@@ -201,7 +202,7 @@ class UserRepository extends IUserRepository {
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } catch (e) {
-      return const Left(ServerFailure(AppStrings.somethingWentWrong));
+      return Left(ServerFailure(AppStrings.somethingWentWrong.tr()));
     }
   }
 }

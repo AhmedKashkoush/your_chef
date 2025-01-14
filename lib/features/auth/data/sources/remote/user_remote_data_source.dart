@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:your_chef/core/constants/keys.dart';
 import 'package:your_chef/core/constants/strings.dart';
@@ -27,7 +28,7 @@ class SupabaseUserRemoteDataSource extends IUserRemoteDataSource {
   Future<void> deleteUser() async {
     final bool isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw const ex.NetworkException(AppStrings.checkYourInternetConnection);
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection.tr());
     }
     // await client.auth.signOut();
   }
@@ -36,10 +37,10 @@ class SupabaseUserRemoteDataSource extends IUserRemoteDataSource {
   Future<UserModel> getUser() async {
     final bool isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw const ex.NetworkException(AppStrings.checkYourInternetConnection);
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection.tr());
     }
     final User? user = client.auth.currentUser;
-    if (user == null) throw const ex.AuthException(AppStrings.sessionExpired);
+    if (user == null) throw ex.AuthException(AppStrings.sessionExpired.tr());
     final Map<String, dynamic> data =
         await client.from('users').select('*').eq('id', user.id).single();
     return UserModel.fromJson(data);
@@ -49,7 +50,7 @@ class SupabaseUserRemoteDataSource extends IUserRemoteDataSource {
   Future<UserModel> switchUser(SavedUserModel savedUser) async {
     final bool isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw const ex.NetworkException(AppStrings.checkYourInternetConnection);
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection.tr());
     }
 
     late final AuthResponse response;
@@ -61,7 +62,7 @@ class SupabaseUserRemoteDataSource extends IUserRemoteDataSource {
       )
           .catchError((error) async {
         await client.auth.signOut();
-        throw const ex.AuthException(AppStrings.sessionExpired);
+        throw ex.AuthException(AppStrings.sessionExpired.tr());
       });
     }
 
@@ -75,14 +76,14 @@ class SupabaseUserRemoteDataSource extends IUserRemoteDataSource {
           .catchError((error) async {
         await client.auth.signOut();
 
-        throw const ex.AuthException(AppStrings.sessionExpired);
+        throw ex.AuthException(AppStrings.sessionExpired.tr());
       });
     }
     final User? user = response.session?.user;
     if (user == null) {
       await client.auth.signOut();
 
-      throw const ex.AuthException(AppStrings.sessionExpired);
+      throw ex.AuthException(AppStrings.sessionExpired.tr());
     }
     final Map<String, dynamic> data =
         await client.from('users').select('*').eq('id', user.id).single();
@@ -90,7 +91,7 @@ class SupabaseUserRemoteDataSource extends IUserRemoteDataSource {
     if (data.isEmpty) {
       await client.auth.signOut();
 
-      throw const ex.AuthException(AppStrings.invalidCredentials);
+      throw ex.AuthException(AppStrings.invalidCredentials.tr());
     }
     final UserModel signedUser = UserModel.fromJson(data);
 
@@ -128,7 +129,7 @@ class SupabaseUserRemoteDataSource extends IUserRemoteDataSource {
   Future<void> updateUser(UserOptions options) async {
     final bool isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw const ex.NetworkException(AppStrings.checkYourInternetConnection);
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection.tr());
     }
     if (options.photo == null) {
       await client

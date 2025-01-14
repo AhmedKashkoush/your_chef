@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,14 +28,18 @@ class AccountsScreen extends StatelessWidget {
       body: BlocConsumer<UserBloc, UserState>(
         listener: (context, state) {
           if (state.status == RequestStatus.loading) {
-            AppMessages.showLoadingDialog(context,
-                message: AppStrings.justAMoment);
+            AppMessages.showLoadingDialog(
+              context,
+              message: AppStrings.justAMoment.tr(),
+            );
           } else {
             context.pop();
             if (state.status == RequestStatus.success) {
               context.pushReplacementNamed(AppRoutes.home);
               AppMessages.showSuccessMessage(
-                  context, AppStrings.loggedInSuccessfully);
+                context,
+                AppStrings.loggedInSuccessfully.tr(),
+              );
             }
             if (state.status == RequestStatus.failure) {
               AppMessages.showErrorMessage(
@@ -76,7 +81,7 @@ class _AccountsScreenPortrait extends StatelessWidget {
         const AppLogo(),
         Flexible(child: 14.height),
         Text(
-          AppStrings.chooseAccountToLogin,
+          AppStrings.chooseAccountToLogin.tr(),
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20.sp,
@@ -116,9 +121,9 @@ class _AccountsScreenPortrait extends StatelessWidget {
                 thickness: 1,
               ),
             ),
-            const Text(
-              AppStrings.or,
-              style: TextStyle(color: Colors.grey),
+            Text(
+              AppStrings.or.tr(),
+              style: const TextStyle(color: Colors.grey),
             ),
             Expanded(
               child: Divider(
@@ -131,7 +136,7 @@ class _AccountsScreenPortrait extends StatelessWidget {
         ),
         const Spacer(),
         SecondaryButton(
-          text: AppStrings.loginWithAnotherAccount,
+          text: AppStrings.loginWithAnotherAccount.tr(),
           onPressed: () {
             context.pushReplacementNamed(AppRoutes.auth);
           },
@@ -162,7 +167,7 @@ class _AccountsScreenLandscape extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                AppStrings.chooseAccountToLogin,
+                AppStrings.chooseAccountToLogin.tr(),
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20.sp,
@@ -202,9 +207,9 @@ class _AccountsScreenLandscape extends StatelessWidget {
                       thickness: 1,
                     ),
                   ),
-                  const Text(
-                    AppStrings.or,
-                    style: TextStyle(color: Colors.grey),
+                  Text(
+                    AppStrings.or.tr(),
+                    style: const TextStyle(color: Colors.grey),
                   ),
                   Expanded(
                     child: Divider(
@@ -217,7 +222,7 @@ class _AccountsScreenLandscape extends StatelessWidget {
               ),
               const Spacer(),
               SecondaryButton(
-                text: AppStrings.loginWithAnotherAccount,
+                text: AppStrings.loginWithAnotherAccount.tr(),
                 onPressed: () {
                   context.pushReplacementNamed(AppRoutes.auth);
                 },

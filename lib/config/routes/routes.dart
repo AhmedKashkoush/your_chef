@@ -8,6 +8,7 @@ class AppRoutes {
   static const String home = '/';
   static const String food = '/food';
   static const String restaurant = '/restaurant';
+  static const String languages = '/languages';
   static const String themes = '/themes';
   static const String profile = '/profile';
   static const String categories = '/categories';

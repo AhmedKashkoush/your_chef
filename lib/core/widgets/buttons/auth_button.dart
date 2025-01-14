@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:your_chef/core/constants/strings.dart';
 
@@ -25,7 +26,7 @@ class AuthButton extends StatelessWidget {
   String get _text {
     switch (authType) {
       case AuthType.google:
-        return AppStrings.signInWithGoogle;
+        return AppStrings.signInWithGoogle.tr();
     }
   }
 }

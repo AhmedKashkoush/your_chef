@@ -1,162 +1,156 @@
 class AppStrings {
   const AppStrings._();
-  static const String appName = "Your Chef";
+  static const String appName = "appName";
 
   //Global
-  static const String system = "System";
-  static const String light = "Light";
-  static const String dark = "Dark";
-  static const String retry = "Retry";
+  static const String system = "system";
+  static const String light = "light";
+  static const String dark = "dark";
+  static const String retry = "retry";
+  static const String yes = "yes";
+  static const String no = "no";
 
   //Onboarding
-  static const String onboardingTitle1 = "Orders";
-  static const String onboardingTitle2 = "Payment";
-  static const String onboardingTitle3 = "Restaurants";
+  static const String onboardingTitle1 = "onboardingTitle1";
+  static const String onboardingTitle2 = "onboardingTitle2";
+  static const String onboardingTitle3 = "onboardingTitle3";
 
-  static const String skip = "Skip";
-  static const String getStarted = "Get Started";
+  static const String skip = "skip";
+  static const String getStarted = "getStarted";
 
-  static const String onboardingBody1 =
-      "You can order whatever you want from home easily";
-  static const String onboardingBody2 =
-      "Pay with your own visa card by only entering card number then follow the required steps";
-  static const String onboardingBody3 =
-      "You can know the nearest restaurants from your home or around your area or country (Also you can optionally order from a certain restaurant)";
+  static const String onboardingBody1 = "onboardingBody1";
+  static const String onboardingBody2 = "onboardingBody2";
+  static const String onboardingBody3 = "onboardingBody3";
 
   //Auth
-  static const String welcome = "Welcome to";
-  static const String freePalestine = "Free Palestine";
-  static const String login = "Login";
-  static const String register = "Register";
+  static const String welcome = "welcome";
+  static const String freePalestine = "freePalestine";
+  static const String login = "login";
+  static const String register = "register";
 
-  static const String email = "Email";
-  static const String password = "Password";
-  static const String forgotPassword = "Forgot password?";
-  static const String confirmPassword = "Confirm Password";
-  static const String name = "Name";
-  static const String fName = "First name";
-  static const String lName = "Last name";
-  static const String phone = "Phone";
-  static const String address = "Address";
+  static const String email = "email";
+  static const String password = "password";
+  static const String forgotPassword = "forgotPassword";
+  static const String confirmPassword = "confirmPassword";
+  static const String name = "name";
+  static const String fName = "fName";
+  static const String lName = "lName";
+  static const String phone = "phone";
+  static const String address = "address";
 
-  static const String resetYourEmail = "Reset your email";
-  static const String sendCode = "Send code";
+  static const String resetYourEmail = "resetYourEmail";
+  static const String sendCode = "sendCode";
 
-  static const String otpTitle = "Enter the code sent to";
-  static const String codeNotSent = "Code not sent?";
-  static const String tryAgainAfter = "Try again after";
-  static const String resend = "Resend";
-  static const String verify = "Verify";
+  static const String otpTitle = "otpTitle";
+  static const String codeNotSent = "codeNotSent";
+  static const String tryAgainAfter = "tryAgainAfter";
+  static const String resend = "resend";
+  static const String verify = "verify";
 
-  static const String enterYourName = "Enter your name";
-  static const String enterYourEmail = "Enter your email";
-  static const String enterYourPhone = "Enter your phone";
-  static const String enterYourAddress = "Enter your address";
+  static const String enterYourName = "enterYourName";
+  static const String enterYourEmail = "enterYourEmail";
+  static const String enterYourPhone = "enterYourPhone";
+  static const String enterYourAddress = "enterYourAddress";
 
-  static const String or = "Or";
-  static const String signInWithGoogle = "Sign In With Google";
-  static const String uploadProfileTitle = "Upload a photo for your profile?";
-  static const String uploadProfileBody =
-      "You can complete your profile registration by uploading a new photo or skip this step it is optional";
-  static const String camera = "Camera";
-  static const String gallery = "Gallery";
-  static const String upload = "Upload";
+  static const String or = "or";
+  static const String signInWithGoogle = "signInWithGoogle";
+  static const String uploadProfileTitle = "uploadProfileTitle";
+  static const String uploadProfileBody = "uploadProfileBody";
+  static const String camera = "camera";
+  static const String gallery = "gallery";
+  static const String upload = "upload";
 
-  static const String chooseAccountToLogin = "Choose account to log in";
-  static const String loginWithAnotherAccount = "Login with another account";
+  static const String chooseAccountToLogin = "chooseAccountToLogin";
+  static const String loginWithAnotherAccount = "loginWithAnotherAccount";
 
-  static const String saveAccountMessage =
-      "Would you like to save this account?";
-  static const String save = "Save";
-  static const String accountSaved = "Account saved";
+  static const String saveAccountMessage = "saveAccountMessage";
+  static const String save = "save";
+  static const String accountSaved = "accountSaved";
 
   //Home
-  static const String welcomeUser = "Welcome";
-  static const String homeDisclaimer = "Don't forget to pray for";
-  static const String palestine = "Palestine";
-  static const String todaysOffers = "Today's Offers";
-  static const String availableCategories = "Available Categories";
-  static const String restaurants = "Restaurants";
-  static const String popularFoods = "Popular Foods";
-  static const String onASale = 'On a Sale';
-  static const String viewAll = "View All";
-  static const String egp = "EGP";
-  static const String sale = "Sale";
+  static const String welcomeUser = "welcomeUser";
+  static const String homeDisclaimer = "homeDisclaimer";
+  static const String palestine = "palestine";
+  static const String todaysOffers = "todaysOffers";
+  static const String availableCategories = "availableCategories";
+  static const String restaurants = "restaurants";
+  static const String popularFoods = "popularFoods";
+  static const String onASale = 'onASale';
+  static const String viewAll = "viewAll";
+  static const String egp = "egp";
+  static const String sale = "sale";
 
   //Category
-  static const String exploreByCategories = "Explore by categories";
+  static const String exploreByCategories = "exploreByCategories";
 
   //Wishlist
-  static const String wishlistEmptyMessage =
-      "Currently there are no items in your list";
-  static const String exploreFoods = "Explore foods";
+  static const String wishlistEmptyMessage = "wishlistEmptyMessage";
+  static const String exploreFoods = "exploreFoods";
 
   //Food
-  static const String visit = "Visit";
-  static const String aboutMeal = "About meal";
+  static const String visit = "visit";
+  static const String aboutMeal = "aboutMeal";
 
   //Restaurant
-  static const String location = "Location";
-  static const String contactUs = "Contact us";
-  static const String aboutUs = "About us";
-  static const String specialOffers = "Special offers";
-  static const String ourMenu = "Our menu";
-  static const String other = "Other";
+  static const String location = "location";
+  static const String contactUs = "contactUs";
+  static const String aboutUs = "aboutUs";
+  static const String specialOffers = "specialOffers";
+  static const String ourMenu = "ourMenu";
+  static const String other = "other";
 
   //Settings
-  static const String switchAccounts = "Switch Accounts";
-  static const String privacyAndSecurity = "Privacy & Security";
-  static const String notifications = "Notifications";
-  static const String languages = "Languages";
-  static const String themes = "Themes";
-  static const String privacyPolicy = "Privacy policy";
-  static const String reportAnIssue = "Report An Issue";
-  static const String aboutTheApp = "About The App";
-  static const String addAccount = "Add Account";
+  static const String switchAccounts = "switchAccounts";
+  static const String privacyAndSecurity = "privacyAndSecurity";
+  static const String notifications = "notifications";
+  static const String languages = "languages";
+  static const String themes = "themes";
+  static const String privacyPolicy = "privacyPolicy";
+  static const String reportAnIssue = "reportAnIssue";
+  static const String aboutTheApp = "aboutTheApp";
+  static const String addAccount = "addAccount";
 
   //Profile
-  static const String profile = "Profile";
+  static const String profile = "profile";
 
   //Ratings
-  static const String noRatings = "No ratings";
-  static const String addReview = "Add review";
-  static const String otherReviews = "Other reviews";
+  static const String noRatings = "noRatings";
+  static const String addReview = "addReview";
+  static const String otherReviews = "otherReviews";
 
   //Cart
-  static const String addToCart = "Add to cart";
-  static const String removeFromCart = "Remove from cart";
-  static const String viewInCart = "View in cart";
+  static const String addToCart = "addToCart";
+  static const String removeFromCart = "removeFromCart";
+  static const String viewInCart = "viewInCart";
 
   //Search
-  static const String search = "Search";
-  static const String searchForFoods = "Search for foods";
+  static const String search = "search";
+  static const String searchForFoods = "searchForFoods";
 
   //Confirmations
-  static const String signOutConfirmation =
-      "Are you sure you want to sign out?";
-  static const String removeAccountConfirmation =
-      "Are you sure you want to remove this account?";
-  static const String dismissChanges = "Dismiss changes?";
+  static const String signOutConfirmation = "signOutConfirmation";
+  static const String removeAccountConfirmation = "removeAccountConfirmation";
+  static const String dismissChanges = "dismissChanges";
 
   //? Loading messages
-  static const String justAMoment = "Just a moment...";
-  static const String signingOut = "Signing out...";
-  static const String switchingAccount = "Switching account...";
+  static const String justAMoment = "justAMoment";
+  static const String signingOut = "signingOut";
+  static const String switchingAccount = "switchingAccount";
 
   //*Success messages
-  static const String loggedInSuccessfully = "Logged in successfully";
-  static const String signedOutSuccessfully = "Signed out successfully";
+  static const String loggedInSuccessfully = "loggedInSuccessfully";
+  static const String signedOutSuccessfully = "signedOutSuccessfully";
   static const String switchedAccountSuccessfully =
-      "Switched account successfully";
-  static const String foodAddedToYourWishlist = "Food added to your wishlist";
+      "switchedAccountSuccessfully";
+  static const String foodAddedToYourWishlist = "foodAddedToYourWishlist";
   static const String foodRemovedFromYourWishlist =
-      "Food removed from your wishlist";
-  static const String itemRemoved = "Item removed";
+      "foodRemovedFromYourWishlist";
+  static const String itemRemoved = "itemRemoved";
 
   //! Error messages
   static const String checkYourInternetConnection =
-      "Check your internet connection";
-  static const String invalidCredentials = "Invalid credentials";
-  static const String sessionExpired = "Session expired";
-  static const String somethingWentWrong = "Something went wrong";
+      "checkYourInternetConnection";
+  static const String invalidCredentials = "invalidCredentials";
+  static const String sessionExpired = "sessionExpired";
+  static const String somethingWentWrong = "somethingWentWrong";
 }

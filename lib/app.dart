@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -34,6 +35,9 @@ class YourChefApp extends StatelessWidget {
                 ],
                 child: MaterialApp(
                   debugShowCheckedModeBanner: false,
+                  locale: context.locale,
+                  supportedLocales: context.supportedLocales,
+                  localizationsDelegates: context.localizationDelegates,
                   theme: lightTheme,
                   darkTheme: darkTheme,
                   themeMode: themeMode,

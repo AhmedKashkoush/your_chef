@@ -12,12 +12,12 @@ class AuthTabBarWidget extends StatelessWidget {
       controller: auth.tabController,
       indicatorColor: AppColors.primary,
       labelColor: AppColors.primary,
-      tabs: const [
+      tabs: [
         Tab(
-          text: AppStrings.login,
+          text: AppStrings.login.tr(),
         ),
         Tab(
-          text: AppStrings.register,
+          text: AppStrings.register.tr(),
         ),
       ],
     );

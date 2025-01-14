@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,6 +17,7 @@ class ThemesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        title: Text(AppStrings.themes.tr()),
       ),
       body: BlocBuilder<ThemeCubit, ThemeMode>(
         builder: (context, theme) {
@@ -28,7 +30,7 @@ class ThemesScreen extends StatelessWidget {
                       ? Icons.dark_mode_outlined
                       : Icons.light_mode_outlined,
                 ),
-                title: const Text(AppStrings.system),
+                title: Text(AppStrings.system.tr()),
                 trailing:
                     theme == ThemeMode.system ? const Icon(Icons.check) : null,
                 onTap: () =>
@@ -39,7 +41,7 @@ class ThemesScreen extends StatelessWidget {
                 leading: const Icon(
                   Icons.light_mode_outlined,
                 ),
-                title: const Text(AppStrings.light),
+                title: Text(AppStrings.light.tr()),
                 trailing:
                     theme == ThemeMode.light ? const Icon(Icons.check) : null,
                 onTap: () =>
@@ -50,7 +52,7 @@ class ThemesScreen extends StatelessWidget {
                 leading: const Icon(
                   Icons.dark_mode_outlined,
                 ),
-                title: const Text(AppStrings.dark),
+                title: Text(AppStrings.dark.tr()),
                 trailing:
                     theme == ThemeMode.dark ? const Icon(Icons.check) : null,
                 onTap: () =>

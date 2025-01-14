@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:your_chef/core/constants/strings.dart';
@@ -14,9 +15,9 @@ class RestaurantContactTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: const Text(
-        AppStrings.contactUs,
-        style: TextStyle(
+      title: Text(
+        AppStrings.contactUs.tr(),
+        style: const TextStyle(
           fontWeight: FontWeight.bold,
         ),
       ),

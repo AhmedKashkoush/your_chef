@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -73,7 +74,7 @@ class AccountsBottomSheet extends StatelessWidget {
                         final bool? confirmed =
                             await AppMessages.showConfirmDialog(
                           context,
-                          message: AppStrings.removeAccountConfirmation,
+                          message: AppStrings.removeAccountConfirmation.tr(),
                           content: ListTile(
                             title: Text(
                               savedUsers[index].user.name,
@@ -129,7 +130,7 @@ class AccountsBottomSheet extends StatelessWidget {
               const Divider(),
               ListTile(
                 leading: const Icon(HugeIcons.strokeRoundedUserAdd01),
-                title: const Text(AppStrings.addAccount),
+                title: Text(AppStrings.addAccount.tr()),
                 onTap: () {
                   context.pop();
                   context.pushNamed(AppRoutes.auth);

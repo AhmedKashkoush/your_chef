@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -128,7 +129,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             centerTitle: true,
-            title: const Text(AppStrings.profile),
+            title: Text(AppStrings.profile.tr()),
             actions: [
               if (_canEdit)
                 IconButton(
@@ -142,7 +143,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       final bool? confirmed =
                           await AppMessages.showConfirmDialog(
                         context,
-                        message: AppStrings.dismissChanges,
+                        message: AppStrings.dismissChanges.tr(),
                       );
                       if (confirmed == null || !confirmed) return;
                     }
@@ -207,61 +208,61 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
                 32.height,
-                const Text(
-                  AppStrings.name,
-                  style: TextStyle(
+                Text(
+                  AppStrings.name.tr(),
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 8.height,
                 CustomTextField(
                   readOnly: !_canEdit,
-                  hintText: AppStrings.enterYourName,
+                  hintText: AppStrings.enterYourName.tr(),
                   prefixIcon: const Icon(HugeIcons.strokeRoundedUser),
                   controller: _nameController,
                   enableInteractiveSelection: _canEdit,
                 ),
                 16.height,
-                const Text(
-                  AppStrings.email,
-                  style: TextStyle(
+                Text(
+                  AppStrings.email.tr(),
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 8.height,
                 CustomTextField(
                   readOnly: !_canEdit,
-                  hintText: AppStrings.enterYourEmail,
+                  hintText: AppStrings.enterYourEmail.tr(),
                   prefixIcon: const Icon(HugeIcons.strokeRoundedMail01),
                   controller: _emailController,
                   enableInteractiveSelection: _canEdit,
                 ),
                 16.height,
-                const Text(
-                  AppStrings.phone,
-                  style: TextStyle(
+                Text(
+                  AppStrings.phone.tr(),
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 8.height,
                 CustomTextField(
                   readOnly: !_canEdit,
-                  hintText: AppStrings.enterYourPhone,
+                  hintText: AppStrings.enterYourPhone.tr(),
                   prefixIcon: const Icon(HugeIcons.strokeRoundedCall),
                   controller: _phoneController,
                   enableInteractiveSelection: _canEdit,
                 ),
                 16.height,
-                const Text(
-                  AppStrings.address,
-                  style: TextStyle(
+                Text(
+                  AppStrings.address.tr(),
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 8.height,
                 CustomTextField(
                   readOnly: !_canEdit,
-                  hintText: AppStrings.enterYourAddress,
+                  hintText: AppStrings.enterYourAddress.tr(),
                   prefixIcon: const Icon(HugeIcons.strokeRoundedLocation01),
                   controller: _addressController,
                   maxLines: 3,

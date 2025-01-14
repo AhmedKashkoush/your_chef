@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:your_chef/config/routes/routes.dart';
@@ -34,7 +35,7 @@ class CategoriesSection extends StatelessWidget {
             children: [
               const Divider(),
               SectionHeader(
-                title: AppStrings.availableCategories,
+                title: AppStrings.availableCategories.tr(),
                 onPressed: () {
                   context.pushNamed(
                     AppRoutes.categories,
@@ -59,7 +60,7 @@ class CategoriesSection extends StatelessWidget {
           child: Column(mainAxisSize: MainAxisSize.min, children: [
             const Divider(),
             SectionHeader(
-              title: AppStrings.availableCategories,
+              title: AppStrings.availableCategories.tr(),
               onPressed: () {
                 context.pushNamed(
                   AppRoutes.categories,

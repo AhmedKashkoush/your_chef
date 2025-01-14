@@ -1,4 +1,5 @@
 import 'package:app_settings/app_settings.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -71,7 +72,9 @@ class SettingsScreen extends StatelessWidget {
 
   void _openPrivacyPolicy() => UrlHelper.openUrl(AppUrls.privacyPolicy);
 
-  void _goToLanguages(BuildContext context) {}
+  void _goToLanguages(BuildContext context) {
+    context.pushNamed(AppRoutes.languages);
+  }
 
   void _reportAnIssue() {}
 
@@ -105,7 +108,7 @@ class SettingsScreen extends StatelessWidget {
                 if (state.status == RequestStatus.loading) {
                   AppMessages.showLoadingDialog(
                     context,
-                    message: AppStrings.switchingAccount,
+                    message: AppStrings.switchingAccount.tr(),
                   );
                 } else {
                   context.pop();
@@ -127,7 +130,7 @@ class SettingsScreen extends StatelessWidget {
                     if (!context.mounted) return;
                     AppMessages.showSuccessMessage(
                       context,
-                      AppStrings.switchedAccountSuccessfully,
+                      AppStrings.switchedAccountSuccessfully.tr(),
                     );
                     context.pushReplacementNamed(AppRoutes.home);
                   }
@@ -135,32 +138,32 @@ class SettingsScreen extends StatelessWidget {
               },
               child: ActionTile(
                 onTap: () => _openAccountsSheet(context),
-                title: AppStrings.switchAccounts,
+                title: AppStrings.switchAccounts.tr(),
                 icon: HugeIcons.strokeRoundedUserSwitch,
               ),
             ),
             8.height,
             ActionTile(
               onTap: () => _goToPrivacyAndSecurity(context),
-              title: AppStrings.privacyAndSecurity,
+              title: AppStrings.privacyAndSecurity.tr(),
               icon: HugeIcons.strokeRoundedLockKey,
             ),
             8.height,
             ActionTile(
               onTap: _openNotifications,
-              title: AppStrings.notifications,
+              title: AppStrings.notifications.tr(),
               icon: HugeIcons.strokeRoundedNotification03,
             ),
             8.height,
             ActionTile(
               onTap: () => _goToLanguages(context),
-              title: AppStrings.languages,
+              title: AppStrings.languages.tr(),
               icon: HugeIcons.strokeRoundedLanguageSquare,
             ),
             8.height,
             ActionTile(
               onTap: () => _goToThemes(context),
-              title: AppStrings.themes,
+              title: AppStrings.themes.tr(),
               icon: darkMode
                   ? Icons.dark_mode_outlined
                   : Icons.light_mode_outlined,
@@ -170,19 +173,19 @@ class SettingsScreen extends StatelessWidget {
             8.height,
             ActionTile(
               onTap: _openPrivacyPolicy,
-              title: AppStrings.privacyPolicy,
+              title: AppStrings.privacyPolicy.tr(),
               icon: HugeIcons.strokeRoundedSecurity,
             ),
             8.height,
             ActionTile(
               onTap: _reportAnIssue,
-              title: AppStrings.reportAnIssue,
+              title: AppStrings.reportAnIssue.tr(),
               icon: HugeIcons.strokeRoundedAlert02,
             ),
             8.height,
             ActionTile(
               onTap: () => _goToAboutApp(context),
-              title: AppStrings.aboutTheApp,
+              title: AppStrings.aboutTheApp.tr(),
               icon: HugeIcons.strokeRoundedInformationCircle,
             ),
           ],

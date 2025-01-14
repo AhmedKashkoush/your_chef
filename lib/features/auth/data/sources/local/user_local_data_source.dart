@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:your_chef/core/constants/keys.dart';
 import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/errors/exceptions.dart';
@@ -43,7 +44,7 @@ class SecureStorageUserLocalDataSource extends IUserLocalDataSource {
   @override
   Future<UserModel> getUser() async {
     final String? data = await SecureStorageHelper.read(SharedPrefsKeys.user);
-    if (data == null) throw const AuthException(AppStrings.sessionExpired);
+    if (data == null) throw AuthException(AppStrings.sessionExpired.tr());
     return UserModel.fromJson(jsonDecode(data));
   }
 

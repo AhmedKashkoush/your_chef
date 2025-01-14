@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/dummy/dummy_data.dart';
@@ -21,7 +22,7 @@ class SupabaseCategoryRemoteDataSource extends ICategoryRemoteDataSource {
       GetCategoriesOptions options) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw const NetworkException(AppStrings.checkYourInternetConnection);
+      throw NetworkException(AppStrings.checkYourInternetConnection.tr());
     }
     await Future.delayed(const Duration(seconds: 4));
     return AppDummies.categories.take(options.limit).toList();
@@ -31,7 +32,7 @@ class SupabaseCategoryRemoteDataSource extends ICategoryRemoteDataSource {
   Future<List<CategoryModel>> getAllCategories() async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw const NetworkException(AppStrings.checkYourInternetConnection);
+      throw NetworkException(AppStrings.checkYourInternetConnection.tr());
     }
     await Future.delayed(const Duration(seconds: 4));
     return AppDummies.categories;

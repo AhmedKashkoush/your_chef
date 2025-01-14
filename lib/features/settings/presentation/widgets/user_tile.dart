@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -51,7 +52,7 @@ class UserTile extends StatelessWidget {
               if (state is SignOutLoadingState) {
                 AppMessages.showLoadingDialog(
                   context,
-                  message: AppStrings.signingOut,
+                  message: AppStrings.signingOut.tr(),
                 );
               } else {
                 context.pop();
@@ -66,7 +67,7 @@ class UserTile extends StatelessWidget {
                   if (!context.mounted) return;
                   AppMessages.showSuccessMessage(
                     context,
-                    AppStrings.signedOutSuccessfully,
+                    AppStrings.signedOutSuccessfully.tr(),
                   );
                   context.read<UserBloc>().add(const LogoutEvent());
                   if (context.read<UserBloc>().state.savedUsers.isNotEmpty) {
@@ -96,7 +97,7 @@ class UserTile extends StatelessWidget {
   void _signOut(BuildContext context) async {
     final bool? confirm = await AppMessages.showConfirmDialog(
       context,
-      message: AppStrings.signOutConfirmation,
+      message: AppStrings.signOutConfirmation.tr(),
       confirmIsDanger: true,
     );
 

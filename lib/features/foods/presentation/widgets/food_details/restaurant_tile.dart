@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:your_chef/config/routes/routes.dart';
@@ -56,9 +57,9 @@ class RestaurantTile extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.white,
           ),
-          child: const Text(
-            AppStrings.visit,
-            style: TextStyle(
+          child: Text(
+            AppStrings.visit.tr(),
+            style: const TextStyle(
               color: AppColors.primary,
             ),
           ),
@@ -95,8 +96,8 @@ class RestaurantTile extends StatelessWidget {
                   text: ' (${restaurant.rate})',
                 ),
               ] else
-                const TextSpan(
-                  text: AppStrings.noRatings,
+                TextSpan(
+                  text: AppStrings.noRatings.tr(),
                 )
             ],
           ),

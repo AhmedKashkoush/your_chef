@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -98,7 +99,7 @@ class HomeScreen extends StatelessWidget {
               BlocBuilder<UserBloc, UserState>(
                 builder: (context, state) {
                   return Text(
-                    '${AppStrings.welcomeUser} ${state.user?.name.split(' ').first}! 👋',
+                    '${AppStrings.welcomeUser.tr()} ${state.user?.name.split(' ').first}! 👋',
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -107,12 +108,12 @@ class HomeScreen extends StatelessWidget {
                 },
               ),
               Text.rich(
-                const TextSpan(
-                  text: "${AppStrings.homeDisclaimer} ",
+                TextSpan(
+                  text: "${AppStrings.homeDisclaimer.tr()} ",
                   children: [
                     TextSpan(
-                      text: 'Palestine 🇵🇸',
-                      style: TextStyle(
+                      text: '${AppStrings.palestine.tr()} 🇵🇸',
+                      style: const TextStyle(
                         color: Colors.green,
                         fontWeight: FontWeight.bold,
                       ),

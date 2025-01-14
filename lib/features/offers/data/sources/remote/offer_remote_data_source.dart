@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/dummy/dummy_data.dart';
@@ -19,7 +20,7 @@ class SupabaseOfferRemoteDataSource extends IOfferRemoteDataSource {
   Future<List<OfferModel>> getOffers() async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw const ex.NetworkException(AppStrings.checkYourInternetConnection);
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection.tr());
     }
     await Future.delayed(const Duration(seconds: 4));
     return AppDummies.offers..shuffle();
@@ -30,7 +31,7 @@ class SupabaseOfferRemoteDataSource extends IOfferRemoteDataSource {
       RestaurantOptions options) async {
     final isConnected = await NetworkHelper.isConnected;
     if (!isConnected) {
-      throw const ex.NetworkException(AppStrings.checkYourInternetConnection);
+      throw ex.NetworkException(AppStrings.checkYourInternetConnection.tr());
     }
     await Future.delayed(const Duration(seconds: 4));
     return AppDummies.offers

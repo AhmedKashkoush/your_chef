@@ -1,0 +1,135 @@
+{
+  "appName": "يور شيف",
+
+  "system": "النظام",
+  "light": "الفاتح",
+  "dark": "الداكن",
+  "retry": "إعادة المحاولة",
+  "yes": "نعم",
+  "no": "لا",
+
+  "onboardingTitle1": "الطلبات",
+  "onboardingTitle2": "الدفع",
+  "onboardingTitle3": "المطاعم",
+
+  "skip": "تخطي",
+  "getStarted": "ابدأ الآن",
+
+  "onboardingBody1": "يمكنك طلب ما تريد من المنزل بسهولة",
+  "onboardingBody2": "ادفع باستخدام بطاقة الفيزا الخاصة بك عبر إدخال رقم البطاقة فقط ثم اتبع الخطوات المطلوبة",
+  "onboardingBody3": "يمكنك معرفة أقرب المطاعم من منزلك أو من منطقتك أو بلدك (كما يمكنك اختيار طلب الطعام من مطعم معين)",
+
+  "welcome": "مرحباً في",
+  "freePalestine": "فلسطين حرة",
+  "login": "تسجيل الدخول",
+  "register": "التسجيل",
+
+  "email": "البريد الإلكتروني",
+  "password": "كلمة المرور",
+  "forgotPassword": "هل نسيت كلمة المرور؟",
+  "confirmPassword": "تأكيد كلمة المرور",
+  "name": "الاسم",
+  "fName": "الاسم الأول",
+  "lName": "الاسم الأخير",
+  "phone": "الهاتف",
+  "address": "العنوان",
+
+  "resetYourEmail": "إعادة تعيين بريدك الإلكتروني",
+  "sendCode": "إرسال الكود",
+
+  "otpTitle": "أدخل الكود المرسل إلى",
+  "codeNotSent": "لم يتم إرسال الكود؟",
+  "tryAgainAfter": "حاول مرة أخرى بعد",
+  "resend": "إعادة الإرسال",
+  "verify": "التحقق",
+
+  "enterYourName": "أدخل اسمك",
+  "enterYourEmail": "أدخل بريدك الإلكتروني",
+  "enterYourPhone": "أدخل رقم هاتفك",
+  "enterYourAddress": "أدخل عنوانك",
+
+  "or": "أو",
+  "signInWithGoogle": "تسجيل الدخول باستخدام جوجل",
+  "uploadProfileTitle": "رفع صورة لملفك الشخصي؟",
+  "uploadProfileBody": "يمكنك إكمال تسجيل ملفك الشخصي عن طريق رفع صورة جديدة أو تخطي هذه الخطوة فهي اختيارية",
+  "camera": "الكاميرا",
+  "gallery": "المعرض",
+  "upload": "رفع",
+
+  "chooseAccountToLogin": "اختر حسابًا لتسجيل الدخول",
+  "loginWithAnotherAccount": "تسجيل الدخول باستخدام حساب آخر",
+
+  "saveAccountMessage": "هل ترغب في حفظ هذا الحساب؟",
+  "save": "حفظ",
+  "accountSaved": "تم حفظ الحساب",
+
+  "welcomeUser": "مرحبًا",
+  "homeDisclaimer": "لا تنسى أن تدعو ل",
+  "palestine": "فلسطين",
+  "todaysOffers": "عروض اليوم",
+  "availableCategories": "الفئات المتاحة",
+  "restaurants": "المطاعم",
+  "popularFoods": "الأطعمة الشائعة",
+  "onASale": "في عرض",
+  "viewAll": "عرض الكل",
+  "egp": "ج.م",
+  "sale": "خصم",
+
+  "exploreByCategories": "استكشاف حسب الفئات",
+
+  "wishlistEmptyMessage": "لا توجد عناصر حالياً في قائمتك",
+  "exploreFoods": "استكشاف الأطعمة",
+
+  "visit": "زيارة",
+  "aboutMeal": "عن الوجبة",
+
+  "location": "الموقع",
+  "contactUs": "اتصل بنا",
+  "aboutUs": "عنّا",
+  "specialOffers": "عروض خاصة",
+  "ourMenu": "قائمتنا",
+  "other": "آخر",
+
+  "switchAccounts": "تبديل الحسابات",
+  "privacyAndSecurity": "الخصوصية والأمان",
+  "notifications": "الإشعارات",
+  "languages": "اللغات",
+  "themes": "الثيمات",
+  "privacyPolicy": "سياسة الخصوصية",
+  "reportAnIssue": "الإبلاغ عن مشكلة",
+  "aboutTheApp": "عن التطبيق",
+  "addAccount": "إضافة حساب",
+
+  "profile": "الملف الشخصي",
+
+  "noRatings": "لا توجد تقييمات",
+  "addReview": "أضف تقييمًا",
+  "otherReviews": "تقييمات أخرى",
+
+  "addToCart": "أضف إلى العربة",
+  "removeFromCart": "إزالة من العربة",
+  "viewInCart": "عرض في العربة",
+
+  "search": "بحث",
+  "searchForFoods": "ابحث عن الأطعمة",
+
+  "signOutConfirmation": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+  "removeAccountConfirmation": "هل أنت متأكد أنك تريد إزالة هذا الحساب؟",
+  "dismissChanges": "تجاهل التغييرات؟",
+
+  "justAMoment": "لحظة من فضلك...",
+  "signingOut": "جاري تسجيل الخروج...",
+  "switchingAccount": "جاري تبديل الحساب...",
+
+  "loggedInSuccessfully": "تم تسجيل الدخول بنجاح",
+  "signedOutSuccessfully": "تم تسجيل الخروج بنجاح",
+  "switchedAccountSuccessfully": "تم تبديل الحساب بنجاح",
+  "foodAddedToYourWishlist": "تم إضافة الطعام إلى قائمتك المفضلة",
+  "foodRemovedFromYourWishlist": "تم إزالة الطعام من قائمتك المفضلة",
+  "itemRemoved": "تم إزالة العنصر",
+
+  "checkYourInternetConnection": "تحقق من اتصال الإنترنت",
+  "invalidCredentials": "بيانات اعتماد غير صالحة",
+  "sessionExpired": "انتهت الجلسة",
+  "somethingWentWrong": "حدث خطأ ما"
+}

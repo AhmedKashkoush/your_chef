@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
@@ -35,7 +36,7 @@ class ReviewTile extends StatelessWidget {
               ? StarRatingWidget(
                   rate: rate,
                 )
-              : const Text(AppStrings.noRatings)
+              : Text(AppStrings.noRatings.tr())
         ],
       ),
       isThreeLine: true,

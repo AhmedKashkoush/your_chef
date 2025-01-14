@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:your_chef/core/constants/strings.dart';
@@ -9,14 +10,14 @@ class SearchField extends StatefulWidget {
   final void Function(String)? onSearch;
   final TextEditingController? controller;
   final bool readOnly;
-  final String hint;
+  final String? hint;
   const SearchField({
     super.key,
     this.onTap,
     this.readOnly = false,
     this.controller,
     this.onSearch,
-    this.hint = AppStrings.search,
+    this.hint,
   });
 
   @override
@@ -55,7 +56,7 @@ class _SearchFieldState extends State<SearchField> {
       textInputAction: TextInputAction.search,
       controller: widget.controller,
       readOnly: widget.readOnly,
-      hintText: widget.hint,
+      hintText: widget.hint ?? AppStrings.search.tr(),
       hintStyle: TextStyle(
         color: context.theme.iconTheme.color?.withOpacity(0.5),
       ),

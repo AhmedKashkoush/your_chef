@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -25,7 +26,7 @@ class ChoosePhotoSourceSheet extends StatelessWidget {
             leading: const Icon(
               HugeIcons.strokeRoundedCamera02,
             ),
-            title: const Text(AppStrings.camera),
+            title: Text(AppStrings.camera.tr()),
           ),
           16.height,
           CustomListTile(
@@ -33,7 +34,7 @@ class ChoosePhotoSourceSheet extends StatelessWidget {
             leading: const Icon(
               HugeIcons.strokeRoundedImage02,
             ),
-            title: const Text(AppStrings.gallery),
+            title: Text(AppStrings.gallery.tr()),
           ),
         ],
       ),

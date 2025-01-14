@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:your_chef/core/constants/strings.dart';
@@ -31,7 +32,7 @@ class RestaurantsSection extends StatelessWidget {
             children: [
               const Divider(),
               SectionHeader(
-                title: AppStrings.restaurants,
+                title: AppStrings.restaurants.tr(),
                 onPressed: () {
                   // context.pushNamed(
                   //   AppRoutes.categories,
@@ -57,7 +58,7 @@ class RestaurantsSection extends StatelessWidget {
             children: [
               const Divider(),
               SectionHeader(
-                title: AppStrings.restaurants,
+                title: AppStrings.restaurants.tr(),
                 onPressed: () {},
               ),
               SizedBox(

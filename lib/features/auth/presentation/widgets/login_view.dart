@@ -17,7 +17,7 @@ class LoginView extends StatelessWidget {
               keyboardType: TextInputType.emailAddress,
               controller: login.emailController,
               enabled: state is! LoginLoadingState,
-              hintText: AppStrings.email,
+              hintText: AppStrings.email.tr(),
               inputFormatters: [
                 FilteringTextInputFormatter.deny(RegExp(r'\s')),
               ],
@@ -32,7 +32,7 @@ class LoginView extends StatelessWidget {
               return BlocBuilder<LoginBloc, LoginState>(
                 builder: (context, state) {
                   return CustomTextField(
-                    hintText: AppStrings.password,
+                    hintText: AppStrings.password.tr(),
                     enabled: state is! LoginLoadingState,
                     controller: login.passwordController,
                     obscureText: !visible,
@@ -51,10 +51,10 @@ class LoginView extends StatelessWidget {
         14.height,
         GestureDetector(
           onTap: () => _goToResetEmail(context),
-          child: const Text(
-            AppStrings.forgotPassword,
+          child: Text(
+            AppStrings.forgotPassword.tr(),
             textAlign: TextAlign.end,
-            style: TextStyle(
+            style: const TextStyle(
               color: AppColors.primary,
             ),
           ),
@@ -68,7 +68,9 @@ class LoginView extends StatelessWidget {
 
             if (state is LoginSuccessState) {
               AppMessages.showSuccessMessage(
-                  context, AppStrings.loggedInSuccessfully);
+                context,
+                AppStrings.loggedInSuccessfully.tr(),
+              );
               context.read<UserBloc>().add(SetUserEvent(state.user.user));
               context.pushNamedAndRemoveUntil(
                 AppRoutes.home,
@@ -81,7 +83,7 @@ class LoginView extends StatelessWidget {
               onPressed:
                   state is LoginLoadingState ? () {} : () => _login(context),
               loading: state is LoginLoadingState,
-              text: AppStrings.login,
+              text: AppStrings.login.tr(),
             );
           },
         ),
@@ -95,9 +97,9 @@ class LoginView extends StatelessWidget {
                 thickness: 1,
               ),
             ),
-            const Text(
-              AppStrings.or,
-              style: TextStyle(color: Colors.grey),
+            Text(
+              AppStrings.or.tr(),
+              style: const TextStyle(color: Colors.grey),
             ),
             Expanded(
               child: Divider(
@@ -112,8 +114,10 @@ class LoginView extends StatelessWidget {
         BlocConsumer<GoogleSignInBloc, GoogleSignInState>(
           listener: (context, state) {
             if (state is GoogleSignInLoadingState) {
-              AppMessages.showLoadingDialog(context,
-                  message: AppStrings.justAMoment);
+              AppMessages.showLoadingDialog(
+                context,
+                message: AppStrings.justAMoment.tr(),
+              );
             } else {
               if (context.canPop()) context.pop();
               if (state is GoogleSignInErrorState) {
@@ -123,7 +127,9 @@ class LoginView extends StatelessWidget {
 
               if (state is GoogleSignInSuccessState) {
                 AppMessages.showSuccessMessage(
-                    context, AppStrings.loggedInSuccessfully);
+                  context,
+                  AppStrings.loggedInSuccessfully.tr(),
+                );
                 context.read<UserBloc>().add(SetUserEvent(state.user.user));
                 context.pushNamedAndRemoveUntil(
                   AppRoutes.home,

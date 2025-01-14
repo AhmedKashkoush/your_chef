@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -49,7 +50,7 @@ class WishlistItem extends StatelessWidget {
         child: food.sale > 0
             ? Banner(
                 message:
-                    "${(food.sale * 100).toStringAsFixed(0)}% ${AppStrings.sale}",
+                    "${(food.sale * 100).toStringAsFixed(0)}% ${AppStrings.sale.tr()}",
                 location: BannerLocation.topEnd,
                 child: _buildItem(context),
               )
@@ -168,7 +169,7 @@ class WishlistItem extends StatelessWidget {
                             child: Material(
                               type: MaterialType.transparency,
                               child: Text(
-                                '${(food.price - (food.price * food.sale)).toStringAsFixed(1)} ${AppStrings.egp}',
+                                '${(food.price - (food.price * food.sale)).toStringAsFixed(1)} ${AppStrings.egp.tr()}',
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   color: AppColors.primary.withOpacity(0.8),
@@ -180,7 +181,7 @@ class WishlistItem extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '${food.price} ${AppStrings.egp}',
+                          '${food.price} ${AppStrings.egp.tr()}',
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             height: 0.8,
@@ -203,7 +204,7 @@ class WishlistItem extends StatelessWidget {
                         child: Material(
                           type: MaterialType.transparency,
                           child: Text(
-                            '${food.price} ${AppStrings.egp}',
+                            '${food.price} ${AppStrings.egp.tr()}',
                             // maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -230,8 +231,8 @@ class WishlistItem extends StatelessWidget {
                             text: ' (${food.rate})',
                           ),
                         ] else
-                          const TextSpan(
-                            text: AppStrings.noRatings,
+                          TextSpan(
+                            text: AppStrings.noRatings.tr(),
                           )
                       ],
                       style: TextStyle(

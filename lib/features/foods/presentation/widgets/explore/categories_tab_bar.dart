@@ -38,7 +38,7 @@ class CategoriesTabBar extends StatelessWidget {
                         ),
                         10.width,
                       ],
-                      Text(category.name),
+                      Text(category.name.tr()),
                     ],
                   ),
                 ),

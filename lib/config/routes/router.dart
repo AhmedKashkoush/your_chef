@@ -17,6 +17,7 @@ import 'package:your_chef/features/foods/presentation/screens/explore_foods_scre
 import 'package:your_chef/features/restaurants/domain/entities/restaurant.dart';
 import 'package:your_chef/features/onboarding/screens/onboarding_screen.dart';
 import 'package:your_chef/features/foods/presentation/screens/food_details_screen.dart';
+import 'package:your_chef/features/settings/presentation/screens/languages_screen.dart';
 import 'package:your_chef/features/settings/presentation/screens/profile_screen.dart';
 import 'package:your_chef/features/restaurants/presentation/screens/restaurant_details_screen.dart';
 import 'package:your_chef/features/settings/presentation/screens/themes_screen.dart';
@@ -106,6 +107,10 @@ class AppRouter {
               tag: args['tag'] as String,
             );
           },
+        );
+      case AppRoutes.languages:
+        return _slideTransition(
+          const LanguagesScreen(),
         );
       case AppRoutes.themes:
         return _slideTransition(

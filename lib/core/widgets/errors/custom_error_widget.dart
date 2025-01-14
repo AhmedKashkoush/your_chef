@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:your_chef/core/constants/strings.dart';
@@ -79,7 +80,7 @@ class _CustomErrorWidgetPortrait extends StatelessWidget {
         20.height,
         OutlinedButton.icon(
           onPressed: onRetry,
-          label: const Text(AppStrings.retry),
+          label: Text(AppStrings.retry.tr()),
           icon: const Icon(
             HugeIcons.strokeRoundedRefresh,
           ),
@@ -125,7 +126,7 @@ class _CustomErrorWidgetLandscape extends StatelessWidget {
             20.height,
             OutlinedButton.icon(
               onPressed: onRetry,
-              label: const Text(AppStrings.retry),
+              label: Text(AppStrings.retry.tr()),
               icon: const Icon(
                 HugeIcons.strokeRoundedRefresh,
               ),
