@@ -139,7 +139,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                             vertical: 10.h,
                           ),
                           child: Text(
-                            '${state.foods.length} ${state.foods.length == 1 ? "Item" : "Items"}',
+                            '${state.foods.length} ${state.foods.length == 1 ? AppStrings.item.tr() : AppStrings.items.tr()}',
                             style: context.theme.textTheme.titleLarge!.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
@@ -181,7 +181,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                       vertical: 10.h,
                     ),
                     child: Text(
-                      '${state.foods.length} ${state.foods.length == 1 ? "Item" : "Items"}',
+                      '${state.foods.length} ${state.foods.length == 1 ? AppStrings.item.tr() : AppStrings.items.tr()}',
                       style: context.theme.textTheme.titleLarge!.copyWith(
                         fontWeight: FontWeight.bold,
                       ),

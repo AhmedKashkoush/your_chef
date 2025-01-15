@@ -185,7 +185,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         tag: widget.profileTag,
                         child: UserAvatar(
                           url: state.user!.image,
-                          radius: 72.r,
+                          radius: 128.r,
                           uploadedImage: _image,
                         ),
                       ),

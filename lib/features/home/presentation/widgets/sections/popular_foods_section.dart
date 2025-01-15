@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:your_chef/config/routes/routes.dart';
@@ -31,8 +30,8 @@ class PopularFoodsSection extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               const Divider(),
-              SectionHeader(
-                title: AppStrings.popularFoods.tr(),
+              const SectionHeader(
+                title: AppStrings.popularFoods,
               ),
               CustomErrorWidget(
                 error: state.error,
@@ -53,7 +52,7 @@ class PopularFoodsSection extends StatelessWidget {
             children: [
               const Divider(),
               SectionHeader(
-                title: AppStrings.popularFoods.tr(),
+                title: AppStrings.popularFoods,
                 onPressed: () => context.pushNamed(
                   AppRoutes.foods,
                   arguments: AppStrings.popularFoods,

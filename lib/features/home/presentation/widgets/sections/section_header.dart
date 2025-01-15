@@ -22,7 +22,7 @@ class SectionHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            title,
+            title.tr(),
             style: TextStyle(
               fontSize: 20,
               color: context.theme.iconTheme.color?.withOpacity(0.3),

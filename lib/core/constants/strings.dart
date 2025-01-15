@@ -9,6 +9,8 @@ class AppStrings {
   static const String retry = "retry";
   static const String yes = "yes";
   static const String no = "no";
+  static const String item = "item";
+  static const String items = "items";
 
   //Onboarding
   static const String onboardingTitle1 = "onboardingTitle1";

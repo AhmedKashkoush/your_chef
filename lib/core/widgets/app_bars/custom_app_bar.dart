@@ -42,7 +42,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
               Hero(
                 tag: widget.profileTag,
                 child: UserAvatar(
-                  radius: 20,
+                  radius: 36,
                   url: state.user?.image ?? '',
                   onTap: () => _goToProfile(context),
                 ),

@@ -139,6 +139,7 @@ class WishlistItem extends StatelessWidget {
                       ),
                     ),
                   ),
+                  4.height,
                   HeroMode(
                     enabled: enableHero,
                     child: Hero(
@@ -242,7 +243,7 @@ class WishlistItem extends StatelessWidget {
                   ),
                   10.height,
                   PrimaryButton(
-                    text: 'Add to cart',
+                    text: AppStrings.addToCart.tr(),
                     icon: HugeIcons.strokeRoundedShoppingCart01,
                     onPressed: () {},
                   )

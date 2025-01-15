@@ -24,13 +24,13 @@ class UserTile extends StatelessWidget {
       builder: (context, state) {
         return CustomListTile(
           onTap: () => _goToProfile(context),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 4).r,
-          horizontalTitleGap: 4,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 8).r,
+          horizontalTitleGap: 8,
           leading: Hero(
             tag: 'user-image-settings',
             child: UserAvatar(
               url: state.user?.image ?? '',
-              radius: 40,
+              radius: 48,
             ),
           ),
           // minLeadingWidth: 48,
