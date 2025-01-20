@@ -121,9 +121,14 @@ class AppStrings {
   static const String otherReviews = "otherReviews";
 
   //Cart
+  static const String yourCart = "yourCart";
   static const String addToCart = "addToCart";
   static const String removeFromCart = "removeFromCart";
   static const String viewInCart = "viewInCart";
+  static const String outOfStock = "outOfStock";
+  static const String foodAddedToCart = "foodAddedToCart";
+  static const String foodRemovedFromCart = "foodRemovedFromCart";
+  static const String yourCartIsEmpty = "yourCartIsEmpty";
 
   //Search
   static const String search = "search";

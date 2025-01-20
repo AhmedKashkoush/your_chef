@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:your_chef/features/categories/data/models/category_model.dart';
+import 'package:your_chef/features/foods/data/models/cart_item_model.dart';
 import 'package:your_chef/features/offers/data/models/offer_model.dart';
 import 'package:your_chef/features/foods/data/models/food_model.dart';
 import 'package:your_chef/features/restaurants/data/models/restaurant_model.dart';
@@ -23,8 +24,13 @@ class AppDummies {
     100,
     (i) {
       final int index = Random().nextInt(_foods.length);
+      final price = double.parse(
+        (Random().nextDouble() * 150).toStringAsFixed(1),
+      );
       return FoodModel(
         id: i,
+        stock: Random().nextInt(100),
+        fees: price * Random().nextDouble() * 1,
         category: categories[Random().nextInt(categories.length)],
         restaurant: restaurants[max(Random().nextInt(restaurants.length),
             1)], // Random().nextInt(1000),
@@ -39,9 +45,7 @@ class AppDummies {
         rate: double.parse(
           max(Random().nextDouble() * 5, 0).toStringAsFixed(1),
         ),
-        price: double.parse(
-          (Random().nextDouble() * 150).toStringAsFixed(1),
-        ),
+        price: price,
         sale: double.parse(
           (Random().nextDouble().round() * 0.9).toStringAsFixed(1),
         ),
@@ -49,11 +53,8 @@ class AppDummies {
     },
   );
 
-  static List<FoodModel> foodsWishlist = [
-    // ...foods,
-    // ...foods,
-    // ...foods,
-  ];
+  static List<FoodModel> foodsWishlist = [];
+  static List<CartItemModel> cart = [];
 
   static final List<OfferModel> offers = List.from(_offers)
       .cast<String>()

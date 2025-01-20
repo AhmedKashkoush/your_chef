@@ -2,6 +2,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:your_chef/common/blocs/cart/cart_bloc.dart';
 import 'package:your_chef/features/auth/data/sources/remote/auth_remote_data_source.dart';
 import 'package:your_chef/features/auth/domain/repositories/auth_repository.dart';
 import 'package:your_chef/features/auth/domain/usecases/auth/login_usecase.dart';
@@ -19,10 +20,20 @@ import 'package:your_chef/features/categories/data/repositories/category_reposit
 import 'package:your_chef/features/categories/data/sources/remote/category_remote_data_source.dart';
 import 'package:your_chef/features/categories/domain/repositories/category_repository.dart';
 import 'package:your_chef/features/categories/domain/usecases/get_all_categories_usecase.dart';
+import 'package:your_chef/features/foods/data/repositories/cart_repository_impl.dart';
 import 'package:your_chef/features/foods/data/repositories/food_repository_impl.dart';
+import 'package:your_chef/features/foods/data/sources/remote/cart_remote_data_source.dart';
 import 'package:your_chef/features/foods/data/sources/remote/food_remote_data_source.dart';
+import 'package:your_chef/features/foods/domain/repositories/cart_repository.dart';
 import 'package:your_chef/features/foods/domain/repositories/food_repository.dart';
 import 'package:your_chef/features/categories/domain/usecases/get_categories_usecase.dart';
+import 'package:your_chef/features/foods/domain/usecases/cart/add_food_to_cart_usecase.dart';
+import 'package:your_chef/features/foods/domain/usecases/cart/decrement_cart_item_usecase.dart';
+import 'package:your_chef/features/foods/domain/usecases/cart/empty_cart_usecase.dart';
+import 'package:your_chef/features/foods/domain/usecases/cart/get_cart_fees_usecase.dart';
+import 'package:your_chef/features/foods/domain/usecases/cart/get_cart_total_usecase.dart';
+import 'package:your_chef/features/foods/domain/usecases/cart/get_cart_usecase.dart';
+import 'package:your_chef/features/foods/domain/usecases/cart/increment_cart_item_usecase.dart';
 import 'package:your_chef/features/foods/domain/usecases/foods/get_foods_by_category_usecase.dart';
 import 'package:your_chef/features/foods/presentation/blocs/explore/categories/get_explore_categories_bloc.dart';
 import 'package:your_chef/features/foods/presentation/blocs/explore/foods/get_explore_foods_bloc.dart';
@@ -70,6 +81,7 @@ import 'features/auth/data/repositories/auth_repository_impl.dart';
 import 'features/auth/domain/usecases/auth/google_sign_in_usecase.dart';
 import 'features/auth/presentation/bloc/google_sign_in/google_sign_in_bloc.dart';
 import 'features/categories/presentation/bloc/get_all_categories_bloc.dart';
+import 'features/foods/domain/usecases/cart/remove_food_from_cart_usecase.dart';
 import 'features/foods/domain/usecases/foods/get_on_sale_foods_usecase.dart';
 
 final GetIt locator = GetIt.instance;
@@ -145,6 +157,12 @@ void _initRemoteSources() {
       locator<SupabaseClient>(),
     ),
   );
+  //*Cart
+  locator.registerLazySingleton<ICartRemoteDataSource>(
+    () => SupabaseCartRemoteDataSource(
+      locator<SupabaseClient>(),
+    ),
+  );
 }
 
 //? Local Sources
@@ -189,6 +207,10 @@ void _initRepositories() {
   //*Wishlist
   locator.registerLazySingleton<IWishlistRepository>(
     () => WishlistRepository(locator<IWishlistRemoteDataSource>()),
+  );
+  //*Cart
+  locator.registerLazySingleton<ICartRepository>(
+    () => CartRepository(locator<ICartRemoteDataSource>()),
   );
 }
 
@@ -287,6 +309,32 @@ void _initUseCases() {
   locator.registerLazySingleton<RemoveFoodFromWishlistUseCase>(
     () => RemoveFoodFromWishlistUseCase(locator<IWishlistRepository>()),
   );
+
+  //*Cart
+  locator.registerLazySingleton<GetCartUseCase>(
+    () => GetCartUseCase(locator<ICartRepository>()),
+  );
+  locator.registerLazySingleton<GetCartTotalUseCase>(
+    () => GetCartTotalUseCase(locator<ICartRepository>()),
+  );
+  locator.registerLazySingleton<GetCartFeesUseCase>(
+    () => GetCartFeesUseCase(locator<ICartRepository>()),
+  );
+  locator.registerLazySingleton<EmptyCartUseCase>(
+    () => EmptyCartUseCase(locator<ICartRepository>()),
+  );
+  locator.registerLazySingleton<AddFoodToCartUseCase>(
+    () => AddFoodToCartUseCase(locator<ICartRepository>()),
+  );
+  locator.registerLazySingleton<RemoveFoodFromCartUseCase>(
+    () => RemoveFoodFromCartUseCase(locator<ICartRepository>()),
+  );
+  locator.registerLazySingleton<IncrementCartItemUseCase>(
+    () => IncrementCartItemUseCase(locator<ICartRepository>()),
+  );
+  locator.registerLazySingleton<DecrementCartItemUseCase>(
+    () => DecrementCartItemUseCase(locator<ICartRepository>()),
+  );
 }
 
 //?Blocs
@@ -377,6 +425,19 @@ void _initBlocs() {
       locator<GetFoodsWishlistUseCase>(),
       locator<AddFoodToWishlistUseCase>(),
       locator<RemoveFoodFromWishlistUseCase>(),
+    ),
+  );
+  //*Cart
+  locator.registerFactory<CartBloc>(
+    () => CartBloc(
+      locator<GetCartUseCase>(),
+      locator<GetCartTotalUseCase>(),
+      locator<GetCartFeesUseCase>(),
+      locator<EmptyCartUseCase>(),
+      locator<AddFoodToCartUseCase>(),
+      locator<RemoveFoodFromCartUseCase>(),
+      locator<IncrementCartItemUseCase>(),
+      locator<DecrementCartItemUseCase>(),
     ),
   );
   //*Settings

@@ -108,9 +108,14 @@
   "addReview": "أضف تقييمًا",
   "otherReviews": "تقييمات أخرى",
 
+  "yourCart": "عربتك",
   "addToCart": "أضف إلى العربة",
   "removeFromCart": "إزالة من العربة",
   "viewInCart": "عرض في العربة",
+  "outOfStock": "نفذ",
+  "foodAddedToCart": "تمت اضافة الوجبة في العربة",
+  "foodRemovedFromCart": "تمت ازالة الوجبة من العربة",
+  "yourCartIsEmpty": "عربتك فارغة",
 
   "search": "بحث",
   "searchForFoods": "ابحث عن الأطعمة",

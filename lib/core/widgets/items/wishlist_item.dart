@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:your_chef/common/blocs/cart/cart_bloc.dart';
 import 'package:your_chef/config/routes/routes.dart';
 import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/constants/strings.dart';
@@ -242,10 +243,31 @@ class WishlistItem extends StatelessWidget {
                     ),
                   ),
                   10.height,
-                  PrimaryButton(
-                    text: AppStrings.addToCart.tr(),
-                    icon: HugeIcons.strokeRoundedShoppingCart01,
-                    onPressed: () {},
+                  BlocBuilder<CartBloc, CartState>(
+                    buildWhen: (previous, current) =>
+                        previous.items != current.items,
+                    builder: (context, state) {
+                      final inCart =
+                          state.items.any((item) => item.food.id == food.id);
+                      return PrimaryButton(
+                        text: inCart
+                            ? AppStrings.viewInCart.tr()
+                            : AppStrings.addToCart.tr(),
+                        backgroundColor:
+                            inCart ? Colors.green : AppColors.primary,
+                        icon: HugeIcons.strokeRoundedShoppingCart01,
+                        onPressed: () {
+                          if (!inCart) {
+                            context.read<CartBloc>().add(
+                                  AddFoodToCartEvent(
+                                    food,
+                                  ),
+                                );
+                            return;
+                          }
+                        },
+                      );
+                    },
                   )
                 ],
               ),

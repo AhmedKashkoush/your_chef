@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:your_chef/common/blocs/cart/cart_bloc.dart';
 
 import 'package:your_chef/config/routes/router.dart';
 import 'package:your_chef/config/themes/theme_cubit.dart';
@@ -27,10 +28,13 @@ class YourChefApp extends StatelessWidget {
               return MultiBlocProvider(
                 providers: [
                   BlocProvider(
+                    create: (_) => locator<UserBloc>(),
+                  ),
+                  BlocProvider(
                     create: (_) => locator<WishlistBloc>(),
                   ),
                   BlocProvider(
-                    create: (_) => locator<UserBloc>(),
+                    create: (_) => locator<CartBloc>()..add(GetCartEvent()),
                   ),
                 ],
                 child: MaterialApp(

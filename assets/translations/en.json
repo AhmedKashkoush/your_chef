@@ -108,9 +108,14 @@
   "addReview": "Add review",
   "otherReviews": "Other reviews",
 
+  "yourCart": "Your cart",
   "addToCart": "Add to cart",
   "removeFromCart": "Remove from cart",
   "viewInCart": "View in cart",
+  "outOfStock": "Out of stock",
+  "foodAddedToCart": "Food added to cart",
+  "foodRemovedFromCart": "Food removed from cart",
+  "yourCartIsEmpty": "Your cart is empty",
 
   "search": "Search",
   "searchForFoods": "Search for foods",

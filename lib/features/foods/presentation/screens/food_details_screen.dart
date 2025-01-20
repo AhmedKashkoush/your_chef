@@ -51,8 +51,6 @@ class FoodDetailsScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: AddToCartSection(
-        inCart: true,
-        count: 4,
         food: food,
       ),
     );
@@ -347,36 +345,6 @@ class _FoodDetailsPortraitState extends State<_FoodDetailsPortrait> {
                       )
                     : null,
               ),
-              // const Divider(),
-              // ExpansionTile(
-              //   maintainState: true,
-              //   initiallyExpanded: true,
-              //   shape: const RoundedRectangleBorder(
-              //     side: BorderSide.none,
-              //   ),
-              //   title: const Text(
-              //     AppStrings.aboutMeal,
-              //     style: TextStyle(
-              //       height: 0.9,
-              //       fontSize: 20,
-              //       fontWeight: FontWeight.bold,
-              //     ),
-              //   ),
-              //   childrenPadding: EdgeInsets.symmetric(horizontal: 16.w),
-              //   children: [
-              //     Hero(
-              //       tag: '${widget.food.id}description',
-              //       child: Text(
-              //         widget.food.description,
-              //         maxLines: null,
-              //         style: TextStyle(
-              //           color: context.theme.iconTheme.color?.withOpacity(0.8),
-              //           fontSize: 18,
-              //         ),
-              //       ),
-              //     ),
-              //   ],
-              // ),
 
               ListTile(
                 title: Hero(
