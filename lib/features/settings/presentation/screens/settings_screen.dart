@@ -111,7 +111,7 @@ class SettingsScreen extends StatelessWidget {
                     message: AppStrings.switchingAccount.tr(),
                   );
                 } else {
-                  context.pop();
+                  AppMessages.dismissLoadingDialog(context);
                   if (state.status == RequestStatus.failure) {
                     AppMessages.showErrorMessage(
                       context,

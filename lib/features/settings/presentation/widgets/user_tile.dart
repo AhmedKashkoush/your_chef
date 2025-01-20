@@ -55,7 +55,7 @@ class UserTile extends StatelessWidget {
                   message: AppStrings.signingOut.tr(),
                 );
               } else {
-                context.pop();
+                AppMessages.dismissLoadingDialog(context);
                 if (state is SignOutErrorState) {
                   AppMessages.showErrorMessage(
                     context,

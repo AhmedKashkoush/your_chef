@@ -119,7 +119,7 @@ class LoginView extends StatelessWidget {
                 message: AppStrings.justAMoment.tr(),
               );
             } else {
-              if (context.canPop()) context.pop();
+              AppMessages.dismissLoadingDialog(context);
               if (state is GoogleSignInErrorState) {
                 AppMessages.showErrorMessage(
                     context, state.message, state.type);

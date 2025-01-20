@@ -121,7 +121,7 @@ class AppStrings {
   static const String otherReviews = "otherReviews";
 
   //Cart
-  static const String yourCart = "yourCart";
+  static const String myCart = "myCart";
   static const String addToCart = "addToCart";
   static const String removeFromCart = "removeFromCart";
   static const String viewInCart = "viewInCart";
@@ -129,6 +129,11 @@ class AppStrings {
   static const String foodAddedToCart = "foodAddedToCart";
   static const String foodRemovedFromCart = "foodRemovedFromCart";
   static const String yourCartIsEmpty = "yourCartIsEmpty";
+  static const String subtotal = "subtotal";
+  static const String fees = "fees";
+  static const String total = "total";
+  static const String itemUpdated = "itemUpdated";
+  static const String checkout = "checkout";
 
   //Search
   static const String search = "search";

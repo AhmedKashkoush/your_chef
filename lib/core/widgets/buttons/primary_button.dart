@@ -13,6 +13,8 @@ class PrimaryButton extends StatelessWidget {
     this.backgroundColor,
     this.textColor,
     this.count = 0,
+    this.fontSize,
+    this.padding,
   });
 
   final int count;
@@ -21,6 +23,8 @@ class PrimaryButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final String text;
   final Color? backgroundColor, textColor;
+  final double? fontSize;
+  final EdgeInsets? padding;
 
   Widget _buildText() {
     return Text(
@@ -29,6 +33,7 @@ class PrimaryButton extends StatelessWidget {
       style: TextStyle(
         color: textColor ?? Colors.white,
         fontWeight: FontWeight.bold,
+        fontSize: fontSize,
       ),
     );
   }
@@ -55,44 +60,47 @@ class PrimaryButton extends StatelessWidget {
                 ),
               ),
             )
-          : Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (icon != null) ...[
-                  Flexible(
-                    child: Icon(
-                      icon,
-                      color: Colors.white,
-                    ),
-                  ),
-                  if (text.isNotEmpty) Flexible(child: 4.width),
-                ],
-                if (text.isNotEmpty && icon != null)
-                  Flexible(
-                    flex: 3,
-                    child: _buildText(),
-                  )
-                else
-                  _buildText(),
-                if (count > 0) ...[
-                  4.width,
-                  Container(
-                    padding: const EdgeInsets.all(6).r,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.black,
-                    ),
-                    child: Text(
-                      count.toString(),
-                      style: const TextStyle(
+          : Padding(
+              padding: padding ?? EdgeInsets.zero,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (icon != null) ...[
+                    Flexible(
+                      child: Icon(
+                        icon,
                         color: Colors.white,
-                        fontSize: 12,
                       ),
                     ),
-                  ),
-                ]
-              ],
+                    if (text.isNotEmpty) Flexible(child: 4.width),
+                  ],
+                  if (text.isNotEmpty && icon != null)
+                    Flexible(
+                      flex: 3,
+                      child: _buildText(),
+                    )
+                  else
+                    _buildText(),
+                  if (count > 0) ...[
+                    4.width,
+                    Container(
+                      padding: const EdgeInsets.all(6).r,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.black,
+                      ),
+                      child: Text(
+                        count.toString(),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  ]
+                ],
+              ),
             ),
     );
   }

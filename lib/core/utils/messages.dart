@@ -10,6 +10,7 @@ import 'package:your_chef/core/widgets/loading/pizza_loading.dart';
 
 class AppMessages {
   const AppMessages._();
+  static bool _loading = false;
   static Future<bool?> showConfirmDialog(
     BuildContext context, {
     required String message,
@@ -65,6 +66,8 @@ class AppMessages {
     required String message,
     bool usePizza = true,
   }) {
+    if (_loading) return;
+    _loading = true;
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -94,10 +97,18 @@ class AppMessages {
     );
   }
 
+  static void dismissLoadingDialog(
+    BuildContext context,
+  ) {
+    if (!_loading) return;
+    _loading = false;
+    context.pop();
+  }
+
   static void showSuccessMessage(BuildContext context, String message,
       [bool cancelPrevious = true]) {
     if (cancelPrevious) {
-      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
     }
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -128,7 +139,7 @@ class AppMessages {
   static void showErrorMessage(BuildContext context, String message,
       [ErrorType type = ErrorType.normal, bool cancelPrevious = true]) {
     if (cancelPrevious) {
-      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
     }
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(

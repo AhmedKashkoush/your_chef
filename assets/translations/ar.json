@@ -108,7 +108,7 @@
   "addReview": "أضف تقييمًا",
   "otherReviews": "تقييمات أخرى",
 
-  "yourCart": "عربتك",
+  "myCart": "عربتي",
   "addToCart": "أضف إلى العربة",
   "removeFromCart": "إزالة من العربة",
   "viewInCart": "عرض في العربة",
@@ -116,6 +116,11 @@
   "foodAddedToCart": "تمت اضافة الوجبة في العربة",
   "foodRemovedFromCart": "تمت ازالة الوجبة من العربة",
   "yourCartIsEmpty": "عربتك فارغة",
+  "subtotal": "المجموع الفرعي",
+  "fees": "الرسوم",
+  "total": "المجموع",
+  "itemUpdated": "تم تحديث العنصر",
+  "checkout": "دفع",
 
   "search": "بحث",
   "searchForFoods": "ابحث عن الأطعمة",

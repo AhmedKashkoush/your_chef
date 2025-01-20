@@ -4,11 +4,14 @@ class CartCalculationsWidget extends StatelessWidget {
   final String label;
   final double fontSize;
   final num price;
+  final Color? labelColor, priceColor;
   const CartCalculationsWidget({
     super.key,
     required this.label,
     required this.fontSize,
     required this.price,
+    this.labelColor,
+    this.priceColor,
   });
 
   @override
@@ -21,7 +24,8 @@ class CartCalculationsWidget extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: fontSize,
-            color: context.theme.iconTheme.color?.withOpacity(0.5),
+            color:
+                labelColor ?? context.theme.iconTheme.color?.withOpacity(0.5),
           ),
         ),
         Text(
@@ -29,7 +33,8 @@ class CartCalculationsWidget extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: fontSize,
-            color: AppColors.primary,
+            color:
+                priceColor ?? context.theme.iconTheme.color?.withOpacity(0.5),
           ),
         ),
       ],

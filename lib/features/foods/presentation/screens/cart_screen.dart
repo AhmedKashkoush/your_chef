@@ -19,6 +19,7 @@ import 'package:your_chef/core/utils/network_helper.dart';
 import 'package:your_chef/core/widgets/buttons/custom_icon_button.dart';
 import 'package:your_chef/core/widgets/buttons/primary_button.dart';
 import 'package:your_chef/core/widgets/errors/custom_error_widget.dart';
+import 'package:your_chef/core/widgets/loading/pizza_loading.dart';
 import 'package:your_chef/core/widgets/loading/skeleton_loading_widget.dart';
 import 'package:your_chef/core/widgets/rating/star_rating_widget.dart';
 import 'package:your_chef/features/foods/domain/entities/cart_item.dart';
@@ -26,6 +27,8 @@ import 'package:your_chef/features/foods/domain/entities/cart_item.dart';
 part '../widgets/cart/cart_calculations_widget.dart';
 part '../widgets/cart/empty_cart_widget.dart';
 part '../widgets/cart/cart_item_card.dart';
+part '../widgets/cart/order_overview_widget.dart';
+part '../widgets/cart/cart_counter.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -35,6 +38,13 @@ class CartScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        actions: [
+          BlocBuilder<CartBloc, CartState>(builder: (context, state) {
+            return CartCounter(
+              count: state.items.length,
+            );
+          })
+        ],
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -43,7 +53,7 @@ class CartScreen extends StatelessWidget {
             ),
             10.width,
             Text(
-              AppStrings.yourCart.tr(),
+              AppStrings.myCart.tr(),
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
               ),
@@ -55,14 +65,9 @@ class CartScreen extends StatelessWidget {
       ),
       backgroundColor: context.theme.colorScheme.surface,
       body: BlocConsumer<CartBloc, CartState>(
-        listenWhen: (previous, current) =>
-            previous.status != current.status && current.message.isNotEmpty,
+        listenWhen: (previous, current) => previous.status != current.status,
         listener: (context, state) {
-          if (state.status == RequestStatus.success) {
-            if (state.message.isNotEmpty) {
-              AppMessages.showSuccessMessage(context, state.message);
-            }
-          }
+          AppMessages.dismissLoadingDialog(context);
         },
         builder: (context, state) {
           if (state.items.isEmpty) {
@@ -90,49 +95,7 @@ class CartScreen extends StatelessWidget {
           return _buildList(items: state.items, loading: false);
         },
       ),
-      extendBody: true,
-      bottomNavigationBar: BlocBuilder<CartBloc, CartState>(
-          buildWhen: (previous, current) => previous.total != current.total,
-          builder: (context, state) {
-            if (state.items.isNotEmpty &&
-                state.status == RequestStatus.success) {
-              return Container(
-                color: context.theme.scaffoldBackgroundColor,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0).r,
-                  child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        CartCalculationsWidget(
-                          label: 'Subtotal',
-                          fontSize: 14.sp,
-                          price: state.total,
-                        ),
-                        10.height,
-                        CartCalculationsWidget(
-                          label: 'Fees',
-                          fontSize: 14.sp,
-                          price: state.fees,
-                        ),
-                        10.height,
-                        CartCalculationsWidget(
-                          label: 'Total',
-                          fontSize: 18.sp,
-                          price: state.total + state.fees,
-                        ),
-                        10.height,
-                        PrimaryButton(
-                          text:
-                              'Checkout ${(state.total + state.fees).toStringAsFixed(2)} ${AppStrings.egp.tr()}',
-                          onPressed: () {},
-                        ),
-                      ]),
-                ),
-              );
-            }
-            return const SizedBox.shrink();
-          }),
+      bottomNavigationBar: const OrderOverviewWidget(),
     );
   }
 

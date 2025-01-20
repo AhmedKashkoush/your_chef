@@ -31,7 +31,7 @@ class EmptyCartWidget extends StatelessWidget {
               text: AppStrings.exploreFoods.tr(),
               icon: Icons.explore_outlined,
               onPressed: () {
-                context.pushNamed(AppRoutes.foods);
+                context.pushReplacementNamed(AppRoutes.foods);
               },
             ),
           ],

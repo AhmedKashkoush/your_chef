@@ -110,7 +110,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                   message: AppStrings.justAMoment.tr(),
                 );
               } else {
-                Navigator.pop(context);
+                AppMessages.dismissLoadingDialog(context);
                 if (state.status == RequestStatus.success) {
                   AppMessages.showSuccessMessage(
                     context,

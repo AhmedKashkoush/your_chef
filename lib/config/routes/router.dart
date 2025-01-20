@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:your_chef/common/blocs/cart/cart_bloc.dart';
 import 'package:your_chef/config/routes/routes.dart';
 import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/options/options.dart';
@@ -111,7 +112,12 @@ class AppRouter {
         );
       case AppRoutes.cart:
         return _slideTransition(
-          const CartScreen(),
+          Builder(builder: (context) {
+            return BlocProvider.value(
+              value: context.read<CartBloc>()..add(GetCartEvent()),
+              child: const CartScreen(),
+            );
+          }),
         );
       case AppRoutes.languages:
         return _slideTransition(

@@ -33,7 +33,7 @@ class AccountsScreen extends StatelessWidget {
               message: AppStrings.justAMoment.tr(),
             );
           } else {
-            context.pop();
+            AppMessages.dismissLoadingDialog(context);
             if (state.status == RequestStatus.success) {
               context.pushReplacementNamed(AppRoutes.home);
               AppMessages.showSuccessMessage(

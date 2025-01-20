@@ -32,7 +32,7 @@ class AddToCartSection extends StatelessWidget {
               AppMessages.showLoadingDialog(context,
                   message: AppStrings.justAMoment.tr());
             } else {
-              context.pop();
+              AppMessages.dismissLoadingDialog(context);
               if (state.status == RequestStatus.failure) {
                 AppMessages.showErrorMessage(
                     context, state.error, state.errorType);
@@ -75,7 +75,8 @@ class AddToCartSection extends StatelessWidget {
                           .where((item) => item.food.id == food.id)
                           .first
                           .quantity,
-                      onPressed: () => context.pushNamed(AppRoutes.cart),
+                      onPressed: () =>
+                          context.pushReplacementNamed(AppRoutes.cart),
                     ),
                   ),
                 ],

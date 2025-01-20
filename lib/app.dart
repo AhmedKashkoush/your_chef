@@ -34,7 +34,7 @@ class YourChefApp extends StatelessWidget {
                     create: (_) => locator<WishlistBloc>(),
                   ),
                   BlocProvider(
-                    create: (_) => locator<CartBloc>()..add(GetCartEvent()),
+                    create: (_) => locator<CartBloc>(),
                   ),
                 ],
                 child: MaterialApp(

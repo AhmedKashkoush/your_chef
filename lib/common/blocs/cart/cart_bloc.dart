@@ -114,57 +114,69 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           message: '',
         ),
       );
+      add(GetCartTotalEvent());
+      add(GetCartFeesEvent());
     });
   }
 
   FutureOr<void> _getCartTotal(
       GetCartTotalEvent event, Emitter<CartState> emit) async {
-    emit(state.copyWith(status: RequestStatus.loading));
-    final result = await getCartTotalUseCase();
-    result.fold((failure) {
-      emit(state.copyWith(
-        status: RequestStatus.failure,
-        error: failure.message,
-        message: '',
-        errorType: switch (failure.runtimeType) {
-          const (NetworkFailure) => ErrorType.network,
-          const (AuthFailure) => ErrorType.auth,
-          const (ServerFailure) => ErrorType.normal,
-          _ => ErrorType.normal,
-        },
-      ));
-    }, (total) {
-      emit(state.copyWith(
-        total: total,
-        status: RequestStatus.success,
-        message: '',
-      ));
-    });
+    num total = 0;
+    for (var item in state.items) {
+      total += item.food.price * item.quantity;
+    }
+    emit(state.copyWith(total: total));
+    // emit(state.copyWith(status: RequestStatus.loading));
+    // final result = await getCartTotalUseCase();
+    // result.fold((failure) {
+    //   emit(state.copyWith(
+    //     status: RequestStatus.failure,
+    //     error: failure.message,
+    //     message: '',
+    //     errorType: switch (failure.runtimeType) {
+    //       const (NetworkFailure) => ErrorType.network,
+    //       const (AuthFailure) => ErrorType.auth,
+    //       const (ServerFailure) => ErrorType.normal,
+    //       _ => ErrorType.normal,
+    //     },
+    //   ));
+    // }, (total) {
+    //   emit(state.copyWith(
+    //     total: total,
+    //     status: RequestStatus.success,
+    //     message: '',
+    //   ));
+    // });
   }
 
   FutureOr<void> _getCartFees(
       GetCartFeesEvent event, Emitter<CartState> emit) async {
-    emit(state.copyWith(status: RequestStatus.loading));
-    final result = await getCartFeesUseCase();
-    result.fold((failure) {
-      emit(state.copyWith(
-        status: RequestStatus.failure,
-        error: failure.message,
-        message: '',
-        errorType: switch (failure.runtimeType) {
-          const (NetworkFailure) => ErrorType.network,
-          const (AuthFailure) => ErrorType.auth,
-          const (ServerFailure) => ErrorType.normal,
-          _ => ErrorType.normal,
-        },
-      ));
-    }, (fees) {
-      emit(state.copyWith(
-        fees: fees,
-        status: RequestStatus.success,
-        message: '',
-      ));
-    });
+    num fees = 0;
+    for (var item in state.items) {
+      fees += item.food.fees * item.quantity;
+    }
+    emit(state.copyWith(fees: fees));
+    // emit(state.copyWith(status: RequestStatus.loading));
+    // final result = await getCartFeesUseCase();
+    // result.fold((failure) {
+    //   emit(state.copyWith(
+    //     status: RequestStatus.failure,
+    //     error: failure.message,
+    //     message: '',
+    //     errorType: switch (failure.runtimeType) {
+    //       const (NetworkFailure) => ErrorType.network,
+    //       const (AuthFailure) => ErrorType.auth,
+    //       const (ServerFailure) => ErrorType.normal,
+    //       _ => ErrorType.normal,
+    //     },
+    //   ));
+    // }, (fees) {
+    //   emit(state.copyWith(
+    //     fees: fees,
+    //     status: RequestStatus.success,
+    //     message: '',
+    //   ));
+    // });
   }
 
   FutureOr<void> _addFoodToCart(
@@ -187,9 +199,13 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       emit(state.copyWith(
         status: RequestStatus.success,
         message: AppStrings.foodAddedToCart.tr(),
-        items: state.items,
+        items: [
+          ...state.items,
+          CartItem(id: event.food.id, food: event.food, quantity: 1),
+        ],
       ));
-      add(GetCartEvent());
+      add(GetCartTotalEvent());
+      add(GetCartFeesEvent());
     });
   }
 
@@ -210,13 +226,16 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         },
       ));
     }, (_) {
-      state.items.removeWhere((item) => item.id == event.food.id);
+      final newItems = List<CartItem>.from(state.items)
+          .where((item) => item.id != event.food.id)
+          .toList();
       emit(state.copyWith(
         status: RequestStatus.success,
         message: AppStrings.foodRemovedFromCart.tr(),
-        items: state.items,
+        items: newItems,
       ));
-      add(GetCartEvent());
+      add(GetCartTotalEvent());
+      add(GetCartFeesEvent());
     });
   }
 
@@ -244,7 +263,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       emit(
         state.copyWith(
           status: RequestStatus.success,
-          message: 'Item updated',
+          message: AppStrings.itemUpdated.tr(),
           items: state.items,
         ),
       );
@@ -277,7 +296,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       emit(
         state.copyWith(
           status: RequestStatus.success,
-          message: 'Item updated',
+          message: AppStrings.itemUpdated.tr(),
           items: state.items,
         ),
       );

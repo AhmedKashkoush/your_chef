@@ -36,8 +36,7 @@ class SupabaseCartRemoteDataSource implements ICartRemoteDataSource {
     if (!hasStock) {
       throw ex.ServerException(AppStrings.outOfStock.tr());
     }
-    AppDummies.cart.add(
-        CartItemModel(id: AppDummies.cart.length, food: food, quantity: 1));
+    AppDummies.cart.add(CartItemModel(id: food.id, food: food, quantity: 1));
   }
 
   @override
