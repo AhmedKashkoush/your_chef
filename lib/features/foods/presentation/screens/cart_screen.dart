@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -12,17 +10,22 @@ import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/dummy/dummy_data.dart';
 import 'package:your_chef/core/extensions/navigation_extension.dart';
+import 'package:your_chef/core/extensions/number_extension.dart';
+
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/utils/messages.dart';
 import 'package:your_chef/core/utils/network_helper.dart';
 import 'package:your_chef/core/widgets/buttons/custom_icon_button.dart';
 import 'package:your_chef/core/widgets/buttons/primary_button.dart';
+import 'package:your_chef/core/widgets/counters/cart_item_counter.dart';
 import 'package:your_chef/core/widgets/errors/custom_error_widget.dart';
-import 'package:your_chef/core/widgets/loading/pizza_loading.dart';
 import 'package:your_chef/core/widgets/loading/skeleton_loading_widget.dart';
 import 'package:your_chef/core/widgets/rating/star_rating_widget.dart';
 import 'package:your_chef/features/foods/domain/entities/cart_item.dart';
+import 'package:your_chef/features/foods/presentation/blocs/cart/add_remove/add_remove_cart_bloc.dart';
+import 'package:your_chef/features/foods/presentation/blocs/cart/quantity/cart_quantity_bloc.dart';
+import 'package:your_chef/locator.dart';
 
 part '../widgets/cart/cart_calculations_widget.dart';
 part '../widgets/cart/empty_cart_widget.dart';
@@ -64,38 +67,51 @@ class CartScreen extends StatelessWidget {
         surfaceTintColor: Colors.transparent,
       ),
       backgroundColor: context.theme.colorScheme.surface,
-      body: BlocConsumer<CartBloc, CartState>(
-        listenWhen: (previous, current) => previous.status != current.status,
-        listener: (context, state) {
-          AppMessages.dismissLoadingDialog(context);
-        },
-        builder: (context, state) {
-          if (state.items.isEmpty) {
-            if (state.status == RequestStatus.loading) {
-              return _buildList(
-                items: _loadingList,
-                loading: true,
-              );
-            }
-            if (state.status == RequestStatus.failure) {
-              return CustomErrorWidget(
-                  error: state.error,
-                  type: state.errorType,
-                  onRetry: () {
-                    context.read<CartBloc>().add(GetCartEvent());
-                  });
-            }
-            if (state.status == RequestStatus.success) {
-              return const EmptyCartWidget();
-            }
-          }
-          if (state.status == RequestStatus.initial) {
-            return const SizedBox.shrink();
-          }
-          return _buildList(items: state.items, loading: false);
-        },
+      body: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          BlocConsumer<CartBloc, CartState>(
+            listener: (context, state) {
+              if (state.status == RequestStatus.failure) {
+                if (state.items.isNotEmpty) {
+                  AppMessages.showErrorMessage(
+                    context,
+                    state.error,
+                    state.errorType,
+                  );
+                }
+              }
+            },
+            builder: (context, state) {
+              if (state.status == RequestStatus.loading) {
+                return _buildList(
+                  items: _loadingList,
+                  loading: true,
+                );
+              }
+              if (state.status == RequestStatus.failure) {
+                if (state.items.isEmpty) {
+                  return CustomErrorWidget(
+                      error: state.error,
+                      type: state.errorType,
+                      onRetry: () {
+                        context.read<CartBloc>().add(GetCartEvent());
+                      });
+                }
+                return _buildList(items: state.items, loading: false);
+              }
+              if (state.status == RequestStatus.success) {
+                if (state.items.isEmpty) return const EmptyCartWidget();
+
+                return _buildList(items: state.items, loading: false);
+              }
+
+              return const SizedBox.shrink();
+            },
+          ),
+          const OrderOverviewWidget(),
+        ],
       ),
-      bottomNavigationBar: const OrderOverviewWidget(),
     );
   }
 
@@ -112,6 +128,7 @@ class CartScreen extends StatelessWidget {
     return SkeletonLoadingWidget(
       loading: loading,
       child: ListView.separated(
+        padding: EdgeInsets.only(bottom: 180.0.h),
         itemBuilder: (_, index) => CartItemCard(
           item: items[index],
           tag: 'cart',

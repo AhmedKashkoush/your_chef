@@ -11,6 +11,17 @@ class CartItem extends Equatable {
     required this.quantity,
   });
 
+  CartItem copyWith({
+    int? id,
+    int? quantity,
+    Food? food,
+  }) =>
+      CartItem(
+        id: id ?? this.id,
+        quantity: quantity ?? this.quantity,
+        food: food ?? this.food,
+      );
+
   @override
   List<Object?> get props => [id, food, quantity];
 }

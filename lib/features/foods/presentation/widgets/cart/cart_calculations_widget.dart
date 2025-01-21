@@ -29,7 +29,7 @@ class CartCalculationsWidget extends StatelessWidget {
           ),
         ),
         Text(
-          '${price.toStringAsFixed(2)} ${AppStrings.egp.tr()}',
+          '${price.asThousands} ${AppStrings.egp.tr()}',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: fontSize,

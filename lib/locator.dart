@@ -35,6 +35,8 @@ import 'package:your_chef/features/foods/domain/usecases/cart/get_cart_total_use
 import 'package:your_chef/features/foods/domain/usecases/cart/get_cart_usecase.dart';
 import 'package:your_chef/features/foods/domain/usecases/cart/increment_cart_item_usecase.dart';
 import 'package:your_chef/features/foods/domain/usecases/foods/get_foods_by_category_usecase.dart';
+import 'package:your_chef/features/foods/presentation/blocs/cart/add_remove/add_remove_cart_bloc.dart';
+import 'package:your_chef/features/foods/presentation/blocs/cart/quantity/cart_quantity_bloc.dart';
 import 'package:your_chef/features/foods/presentation/blocs/explore/categories/get_explore_categories_bloc.dart';
 import 'package:your_chef/features/foods/presentation/blocs/explore/foods/get_explore_foods_bloc.dart';
 import 'package:your_chef/features/home/presentation/bloc/categories/get_home_categories_bloc.dart';
@@ -431,11 +433,17 @@ void _initBlocs() {
   locator.registerFactory<CartBloc>(
     () => CartBloc(
       locator<GetCartUseCase>(),
-      locator<GetCartTotalUseCase>(),
-      locator<GetCartFeesUseCase>(),
       locator<EmptyCartUseCase>(),
+    ),
+  );
+  locator.registerFactory<AddRemoveCartBloc>(
+    () => AddRemoveCartBloc(
       locator<AddFoodToCartUseCase>(),
       locator<RemoveFoodFromCartUseCase>(),
+    ),
+  );
+  locator.registerFactory<CartQuantityBloc>(
+    () => CartQuantityBloc(
       locator<IncrementCartItemUseCase>(),
       locator<DecrementCartItemUseCase>(),
     ),

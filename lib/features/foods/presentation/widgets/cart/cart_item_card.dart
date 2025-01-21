@@ -103,7 +103,7 @@ class CartItemCard extends StatelessWidget {
                     )
                   else
                     Text(
-                      '${item.food.price} ${AppStrings.egp.tr()}',
+                      '${item.food.price.asThousands} ${AppStrings.egp.tr()}',
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: AppColors.primary.withOpacity(0.8),
@@ -118,117 +118,59 @@ class CartItemCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomIconButton(
-                  icon: const Icon(HugeIcons.strokeRoundedShoppingCartRemove02),
-                  onPressed: () {
-                    context
-                        .read<CartBloc>()
-                        .add(RemoveFoodFromCartEvent(item.food));
-                  },
+                BlocProvider(
+                  create: (context) => locator<AddRemoveCartBloc>(),
+                  child: Builder(builder: (context) {
+                    return BlocListener<AddRemoveCartBloc, AddRemoveCartState>(
+                      listener: (context, state) {
+                        if (state is AddToCartLoadingState) {
+                          AppMessages.showLoadingDialog(
+                            context,
+                            message: AppStrings.justAMoment.tr(),
+                          );
+                        } else {
+                          AppMessages.dismissLoadingDialog(context);
+                          if (state is AddToCartFailureState) {
+                            AppMessages.showErrorMessage(
+                                context, state.error, state.errorType);
+                          }
+                          if (state is AddToCartSuccessState) {
+                            final items = context.read<CartBloc>().state.items;
+
+                            items.removeWhere(
+                                (cartItem) => cartItem.food.id == item.food.id);
+
+                            context.read<CartBloc>().add(
+                                  UpdateCartEvent(items),
+                                );
+                            AppMessages.showSuccessMessage(
+                              context,
+                              state.message,
+                            );
+                          }
+                        }
+                      },
+                      child: CustomIconButton(
+                        icon: const Icon(
+                            HugeIcons.strokeRoundedShoppingCartRemove02),
+                        onPressed: () {
+                          context
+                              .read<AddRemoveCartBloc>()
+                              .add(RemoveFromCartEvent(item.food));
+                        },
+                      ),
+                    );
+                  }),
                 ),
-                CartItemCounter(item: item),
+                BlocProvider(
+                  create: (context) => locator<CartQuantityBloc>(),
+                  child: CartItemCounter(item: item),
+                ),
               ],
             )
           ],
         ),
       ),
-    );
-  }
-}
-
-class CartItemCounter extends StatefulWidget {
-  final CartItem item;
-  const CartItemCounter({super.key, required this.item});
-
-  @override
-  State<CartItemCounter> createState() => _CartItemCounterState();
-}
-
-class _CartItemCounterState extends State<CartItemCounter> {
-  late int _counter = widget.item.quantity;
-  Timer? _debounce;
-
-  @override
-  void dispose() {
-    _debounce?.cancel();
-    super.dispose();
-  }
-
-  void _increment(BuildContext context) {
-    _debounce?.cancel();
-
-    setState(() {
-      _counter++;
-    });
-    _debounce = Timer(const Duration(seconds: 1), () {
-      context.read<CartBloc>().add(
-            IncrementCartItemEvent(
-              CartItem(
-                id: widget.item.id,
-                food: widget.item.food,
-                quantity: _counter,
-              ),
-            ),
-          );
-    });
-  }
-
-  void _decrement(BuildContext context) {
-    if (_counter == 1) return;
-    setState(() {
-      _counter--;
-    });
-    _debounce?.cancel();
-    _debounce = Timer(const Duration(seconds: 1), () {
-      context.read<CartBloc>().add(
-            IncrementCartItemEvent(
-              CartItem(
-                id: widget.item.id,
-                food: widget.item.food,
-                quantity: _counter,
-              ),
-            ),
-          );
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        CustomIconButton(
-          onPressed: () => _decrement(context),
-          icon: const Icon(Icons.remove),
-          backgroundColor: context.theme.iconTheme.color?.withOpacity(0.2),
-        ),
-        10.width,
-        BlocConsumer<CartBloc, CartState>(
-          listenWhen: (previous, current) => previous.status != current.status,
-          listener: (context, state) {
-            if (state.status == RequestStatus.failure) {
-              AppMessages.showErrorMessage(
-                  context, state.error, state.errorType);
-              _counter = widget.item.quantity;
-            }
-            if (state.status == RequestStatus.success &&
-                state.message.isNotEmpty) {
-              AppMessages.showSuccessMessage(
-                context,
-                state.message,
-              );
-            }
-          },
-          builder: (context, state) {
-            return Text(_counter.toString());
-          },
-        ),
-        10.width,
-        CustomIconButton(
-          onPressed: () => _increment(context),
-          icon: const Icon(Icons.add),
-          backgroundColor: context.theme.iconTheme.color?.withOpacity(0.2),
-        ),
-      ],
     );
   }
 }

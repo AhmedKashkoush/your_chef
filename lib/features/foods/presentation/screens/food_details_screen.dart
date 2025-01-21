@@ -12,6 +12,7 @@ import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/dummy/dummy_data.dart';
 import 'package:your_chef/core/extensions/navigation_extension.dart';
+import 'package:your_chef/core/extensions/number_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/utils/messages.dart';
@@ -22,10 +23,12 @@ import 'package:your_chef/core/widgets/layout/orientation_widget.dart';
 import 'package:your_chef/core/widgets/rating/star_rating_widget.dart';
 import 'package:your_chef/core/widgets/tiles/review_tile.dart';
 import 'package:your_chef/features/foods/domain/entities/food.dart';
+import 'package:your_chef/features/foods/presentation/blocs/cart/add_remove/add_remove_cart_bloc.dart';
 import 'package:your_chef/features/foods/presentation/widgets/food_details/add_to_cart_section.dart';
 import 'package:your_chef/features/foods/presentation/widgets/food_details/food_tile.dart';
 import 'package:your_chef/features/foods/presentation/widgets/food_details/restaurant_tile.dart';
 import 'package:your_chef/common/blocs/wishlist/wishlist_bloc.dart';
+import 'package:your_chef/locator.dart';
 
 class FoodDetailsScreen extends StatelessWidget {
   const FoodDetailsScreen({
@@ -39,19 +42,22 @@ class FoodDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: OrientationWidget(
-        portrait: _FoodDetailsPortrait(
-          food: food,
-          tag: tag,
+    return BlocProvider(
+      create: (context) => locator<AddRemoveCartBloc>(),
+      child: Scaffold(
+        body: OrientationWidget(
+          portrait: _FoodDetailsPortrait(
+            food: food,
+            tag: tag,
+          ),
+          landscape: _FoodDetailsLandscape(
+            food: food,
+            tag: tag,
+          ),
         ),
-        landscape: _FoodDetailsLandscape(
+        bottomNavigationBar: AddToCartSection(
           food: food,
-          tag: tag,
         ),
-      ),
-      bottomNavigationBar: AddToCartSection(
-        food: food,
       ),
     );
   }
@@ -294,7 +300,7 @@ class _FoodDetailsPortraitState extends State<_FoodDetailsPortrait> {
                   child: Material(
                     type: MaterialType.transparency,
                     child: Text(
-                      '${(widget.food.price - (widget.food.price * widget.food.sale)).toStringAsFixed(1)} ${AppStrings.egp.tr()}',
+                      '${(widget.food.price - (widget.food.price * widget.food.sale)).asThousands} ${AppStrings.egp.tr()}',
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         color: AppColors.primary,
@@ -306,7 +312,7 @@ class _FoodDetailsPortraitState extends State<_FoodDetailsPortrait> {
                 ),
                 subtitle: widget.food.sale > 0
                     ? Text(
-                        '${widget.food.price} ${AppStrings.egp.tr()}',
+                        '${widget.food.price.asThousands} ${AppStrings.egp.tr()}',
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           color:

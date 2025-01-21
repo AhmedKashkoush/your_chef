@@ -9,13 +9,18 @@ import 'package:your_chef/config/routes/routes.dart';
 import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/extensions/navigation_extension.dart';
+import 'package:your_chef/core/extensions/number_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
+import 'package:your_chef/core/utils/messages.dart';
 import 'package:your_chef/core/widgets/buttons/custom_icon_button.dart';
 import 'package:your_chef/core/widgets/buttons/primary_button.dart';
 import 'package:your_chef/core/widgets/rating/star_rating_widget.dart';
+import 'package:your_chef/features/foods/domain/entities/cart_item.dart';
 import 'package:your_chef/features/foods/domain/entities/food.dart';
 import 'package:your_chef/common/blocs/wishlist/wishlist_bloc.dart';
+import 'package:your_chef/features/foods/presentation/blocs/cart/add_remove/add_remove_cart_bloc.dart';
+import 'package:your_chef/locator.dart';
 
 class WishlistItem extends StatelessWidget {
   final Food food;
@@ -171,7 +176,7 @@ class WishlistItem extends StatelessWidget {
                             child: Material(
                               type: MaterialType.transparency,
                               child: Text(
-                                '${(food.price - (food.price * food.sale)).toStringAsFixed(1)} ${AppStrings.egp.tr()}',
+                                '${(food.price - (food.price * food.sale)).asThousands} ${AppStrings.egp.tr()}',
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   color: AppColors.primary.withOpacity(0.8),
@@ -183,7 +188,7 @@ class WishlistItem extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '${food.price} ${AppStrings.egp.tr()}',
+                          '${food.price.asThousands} ${AppStrings.egp.tr()}',
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             height: 0.8,
@@ -206,7 +211,7 @@ class WishlistItem extends StatelessWidget {
                         child: Material(
                           type: MaterialType.transparency,
                           child: Text(
-                            '${food.price} ${AppStrings.egp.tr()}',
+                            '${food.price.asThousands} ${AppStrings.egp.tr()}',
                             // maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -243,31 +248,73 @@ class WishlistItem extends StatelessWidget {
                     ),
                   ),
                   10.height,
-                  BlocBuilder<CartBloc, CartState>(
-                    buildWhen: (previous, current) =>
-                        previous.items != current.items,
-                    builder: (context, state) {
-                      final inCart =
-                          state.items.any((item) => item.food.id == food.id);
-                      return PrimaryButton(
-                        text: inCart
-                            ? AppStrings.viewInCart.tr()
-                            : AppStrings.addToCart.tr(),
-                        backgroundColor:
-                            inCart ? Colors.green : AppColors.primary,
-                        icon: HugeIcons.strokeRoundedShoppingCart01,
-                        onPressed: () {
-                          if (!inCart) {
-                            context.read<CartBloc>().add(
-                                  AddFoodToCartEvent(
-                                    food,
-                                  ),
-                                );
-                            return;
-                          }
+                  BlocProvider(
+                    create: (context) => locator<AddRemoveCartBloc>(),
+                    child: Builder(builder: (context) {
+                      return BlocBuilder<CartBloc, CartState>(
+                        builder: (context, state) {
+                          final inCart = state.items
+                              .any((item) => item.food.id == food.id);
+                          return BlocListener<AddRemoveCartBloc,
+                              AddRemoveCartState>(
+                            listener: (context, state) {
+                              if (state is AddToCartLoadingState) {
+                                AppMessages.showLoadingDialog(context,
+                                    message: AppStrings.justAMoment.tr());
+                              } else {
+                                AppMessages.dismissLoadingDialog(context);
+                                if (state is AddToCartFailureState) {
+                                  AppMessages.showErrorMessage(
+                                    context,
+                                    state.error,
+                                    state.errorType,
+                                  );
+                                }
+                                if (state is AddToCartSuccessState) {
+                                  final items =
+                                      context.read<CartBloc>().state.items;
+
+                                  items.add(
+                                    CartItem(
+                                      id: food.id,
+                                      food: food,
+                                      quantity: 1,
+                                    ),
+                                  );
+
+                                  context.read<CartBloc>().add(
+                                        UpdateCartEvent(items),
+                                      );
+                                  AppMessages.showSuccessMessage(
+                                    context,
+                                    state.message,
+                                  );
+                                }
+                              }
+                            },
+                            child: PrimaryButton(
+                              text: inCart
+                                  ? AppStrings.viewInCart.tr()
+                                  : AppStrings.addToCart.tr(),
+                              backgroundColor:
+                                  inCart ? Colors.green : AppColors.primary,
+                              icon: HugeIcons.strokeRoundedShoppingCart01,
+                              onPressed: () {
+                                if (!inCart) {
+                                  context.read<AddRemoveCartBloc>().add(
+                                        AddToCartEvent(
+                                          food,
+                                        ),
+                                      );
+                                  return;
+                                }
+                                context.pushNamed(AppRoutes.cart);
+                              },
+                            ),
+                          );
                         },
                       );
-                    },
+                    }),
                   )
                 ],
               ),

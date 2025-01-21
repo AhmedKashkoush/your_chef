@@ -6,6 +6,7 @@ import 'package:your_chef/config/routes/routes.dart';
 import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/extensions/navigation_extension.dart';
+import 'package:your_chef/core/extensions/number_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/widgets/rating/star_rating_widget.dart';
@@ -135,7 +136,7 @@ class FoodItem extends StatelessWidget {
                     Material(
                       type: MaterialType.transparency,
                       child: Text(
-                        '${food.price} ${AppStrings.egp.tr()}',
+                        '${food.price.asThousands} ${AppStrings.egp.tr()}',
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           height: 0.8,
@@ -154,7 +155,7 @@ class FoodItem extends StatelessWidget {
                         child: Material(
                           type: MaterialType.transparency,
                           child: Text(
-                            '${(food.price - (food.price * food.sale)).toStringAsFixed(1)} ${AppStrings.egp.tr()}',
+                            '${(food.price - (food.price * food.sale)).asThousands} ${AppStrings.egp.tr()}',
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               color: AppColors.primary.withOpacity(0.8),
@@ -175,7 +176,7 @@ class FoodItem extends StatelessWidget {
                     child: Material(
                       type: MaterialType.transparency,
                       child: Text(
-                        '${food.price} ${AppStrings.egp.tr()}',
+                        '${food.price.asThousands} ${AppStrings.egp.tr()}',
                         // maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(

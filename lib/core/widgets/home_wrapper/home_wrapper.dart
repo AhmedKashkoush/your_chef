@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:your_chef/common/blocs/cart/cart_bloc.dart';
 import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/extensions/media_query_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
@@ -134,37 +135,40 @@ class _HomeWrapperState extends State<HomeWrapper> {
         body: SafeArea(
           top: false,
           bottom: false,
-          child: Stack(
-            children: [
-              Row(
-                children: [
-                  if (context.isLandscape)
-                    Container(
-                      width: 36.w,
-                      color: context.theme.colorScheme.surface,
+          child: BlocProvider.value(
+            value: context.read<CartBloc>()..add(GetCartEvent()),
+            child: Stack(
+              children: [
+                Row(
+                  children: [
+                    if (context.isLandscape)
+                      Container(
+                        width: 36.w,
+                        color: context.theme.colorScheme.surface,
+                      ),
+                    Expanded(
+                      child: PageView(
+                        controller: _controller,
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: _screens
+                            .map(
+                              (screen) => PersistentView(
+                                child: screen,
+                              ),
+                            )
+                            .toList(),
+                      ),
                     ),
-                  Expanded(
-                    child: PageView(
-                      controller: _controller,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: _screens
-                          .map(
-                            (screen) => PersistentView(
-                              child: screen,
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                ],
-              ),
-              if (context.isLandscape)
-                _BottomBarLandscape(
-                  icons: _icons,
-                  currentIndex: _currentIndex,
-                  onTap: _changeIndex,
+                  ],
                 ),
-            ],
+                if (context.isLandscape)
+                  _BottomBarLandscape(
+                    icons: _icons,
+                    currentIndex: _currentIndex,
+                    onTap: _changeIndex,
+                  ),
+              ],
+            ),
           ),
         ),
         bottomNavigationBar: context.isPortrait

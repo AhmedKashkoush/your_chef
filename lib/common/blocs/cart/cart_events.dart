@@ -12,6 +12,14 @@ final class GetCartEvent extends CartEvent {
   List<Object> get props => [];
 }
 
+final class UpdateCartEvent extends CartEvent {
+  final List<CartItem> cartItems;
+
+  const UpdateCartEvent(this.cartItems);
+  @override
+  List<Object> get props => [];
+}
+
 final class EmptyCartEvent extends CartEvent {
   @override
   List<Object> get props => [];
