@@ -1,9 +1,11 @@
 import 'package:equatable/equatable.dart';
+import 'package:your_chef/core/enums/gender.dart';
 
 import '../../domain/entities/user.dart';
 
 class UserModel extends Equatable {
   final String id, name, phone, email, address, image;
+  final Gender? gender;
 
   const UserModel({
     required this.id,
@@ -12,10 +14,11 @@ class UserModel extends Equatable {
     required this.email,
     required this.address,
     required this.image,
+    required this.gender,
   });
 
   @override
-  List<Object?> get props => [id, name, phone, email, address, image];
+  List<Object?> get props => [id, name, phone, email, address, image, gender];
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
@@ -25,6 +28,8 @@ class UserModel extends Equatable {
       email: json['email'],
       address: json['address'],
       image: json['image'],
+      gender:
+          json['gender'] != null ? Gender.values.byName(json['gender']) : null,
     );
   }
 
@@ -36,6 +41,7 @@ class UserModel extends Equatable {
       'email': email,
       'address': address,
       'image': image,
+      'gender': gender?.name,
     };
   }
 
@@ -46,6 +52,7 @@ class UserModel extends Equatable {
         email: email,
         address: address,
         image: image,
+        gender: gender,
       );
 
   factory UserModel.fromEntity(User user) => UserModel(
@@ -55,5 +62,6 @@ class UserModel extends Equatable {
         email: user.email,
         address: user.address,
         image: user.image,
+        gender: user.gender,
       );
 }

@@ -1,6 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 
-class NetworkHelper {
+final class NetworkHelper {
   const NetworkHelper._();
   static late final Connectivity _connectivity;
 

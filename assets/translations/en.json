@@ -9,6 +9,8 @@
   "no": "No",
   "item": "Item",
   "items": "Items",
+  "male": "Male",
+  "female": "Female",
 
   "onboardingTitle1": "Orders",
   "onboardingTitle2": "Payment",
@@ -128,6 +130,9 @@
   "signOutConfirmation": "Are you sure you want to sign out?",
   "removeAccountConfirmation": "Are you sure you want to remove this account?",
   "dismissChanges": "Dismiss changes?",
+
+  "cameraPermissionMessage": "Please give permission to access the camera from app settings",
+  "galleryPermissionMessage": "Please give permission to access the gallery from app settings",
 
   "justAMoment": "Just a moment...",
   "signingOut": "Signing out...",

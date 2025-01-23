@@ -1,3 +1,4 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,6 +9,7 @@ import 'package:your_chef/common/blocs/user/user_bloc.dart';
 import 'package:your_chef/config/routes/routes.dart';
 import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/constants/strings.dart';
+import 'package:your_chef/core/enums/gender.dart';
 import 'package:your_chef/core/errors/error_types.dart';
 import 'package:your_chef/core/extensions/media_query_extension.dart';
 import 'package:your_chef/core/extensions/navigation_extension.dart';
@@ -15,12 +17,14 @@ import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/options/options.dart';
 import 'package:your_chef/core/utils/messages.dart';
 import 'package:your_chef/core/widgets/buttons/auth_button.dart';
+import 'package:your_chef/core/widgets/buttons/country_phone_picker_widget.dart';
 import 'package:your_chef/core/widgets/buttons/primary_button.dart';
 import 'package:your_chef/core/widgets/fields/custom_text_field.dart';
 import 'package:your_chef/core/widgets/icons/app_logo.dart';
 import 'package:your_chef/core/widgets/inherited/auth/auth_inherited_widget.dart';
 import 'package:your_chef/core/widgets/layout/orientation_widget.dart';
 import 'package:your_chef/core/widgets/texts/logo_text.dart';
+import 'package:your_chef/core/widgets/tiles/gender_tile.dart';
 import 'package:your_chef/features/auth/presentation/bloc/google_sign_in/google_sign_in_bloc.dart';
 import 'package:your_chef/features/auth/presentation/bloc/login/login_bloc.dart';
 import 'package:your_chef/features/auth/presentation/bloc/register/register_bloc.dart';
@@ -58,6 +62,9 @@ class _AuthScreenState extends State<AuthScreen>
           ValueNotifier<bool>(false),
       _registerPasswordVisibility = ValueNotifier<bool>(false),
       _registerConfirmVisibility = ValueNotifier<bool>(false);
+  final ValueNotifier<Country> _countryNotifier =
+      ValueNotifier(Country.parse('EG'));
+  final ValueNotifier<Gender> _genderNotifier = ValueNotifier(Gender.male);
 
   @override
   void dispose() {
@@ -74,6 +81,8 @@ class _AuthScreenState extends State<AuthScreen>
     _registerConfirmController.dispose();
     _registerPasswordVisibility.dispose();
     _registerConfirmVisibility.dispose();
+    _countryNotifier.dispose();
+    _genderNotifier.dispose();
     super.dispose();
   }
 
@@ -118,6 +127,8 @@ class _AuthScreenState extends State<AuthScreen>
           passwordVisibility: _registerPasswordVisibility,
           confirmController: _registerConfirmController,
           confirmVisibility: _registerConfirmVisibility,
+          countryNotifier: _countryNotifier,
+          genderNotifier: _genderNotifier,
         ),
         child: OrientationWidget(
           portrait: _AuthScreenPortrait(),

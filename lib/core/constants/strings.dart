@@ -6,11 +6,15 @@ class AppStrings {
   static const String system = "system";
   static const String light = "light";
   static const String dark = "dark";
+  static const String arabic = "العربية";
+  static const String english = "English";
   static const String retry = "retry";
   static const String yes = "yes";
   static const String no = "no";
   static const String item = "item";
   static const String items = "items";
+  static const String male = "male";
+  static const String female = "female";
 
   //Onboarding
   static const String onboardingTitle1 = "onboardingTitle1";
@@ -143,6 +147,10 @@ class AppStrings {
   static const String signOutConfirmation = "signOutConfirmation";
   static const String removeAccountConfirmation = "removeAccountConfirmation";
   static const String dismissChanges = "dismissChanges";
+
+  //** Permission messages **/
+  static const String cameraPermissionMessage = "cameraPermissionMessage";
+  static const String galleryPermissionMessage = "galleryPermissionMessage";
 
   //? Loading messages
   static const String justAMoment = "justAMoment";

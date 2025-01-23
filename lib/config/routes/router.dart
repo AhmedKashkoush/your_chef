@@ -62,7 +62,7 @@ class AppRouter {
         );
       case AppRoutes.resetEmail:
         return _slideTransition(
-          const EmailResetScreen(),
+          builder: (_) => const EmailResetScreen(),
         );
       case AppRoutes.otp:
         return MaterialPageRoute(
@@ -74,17 +74,24 @@ class AppRouter {
           ),
         );
       case AppRoutes.home:
+        CartBloc? bloc;
         return MaterialPageRoute(
-          builder: (context) => HomeWrapper(
-            savedUser: settings.arguments as SavedUser?,
-          ),
+          builder: (context) {
+            bloc ??= context.read<CartBloc>()..add(GetCartEvent());
+            return BlocProvider.value(
+              value: bloc!,
+              child: HomeWrapper(
+                savedUser: settings.arguments as SavedUser?,
+              ),
+            );
+          },
         );
       case AppRoutes.categories:
-        return _slideTransition(const CategoriesScreen());
+        return _slideTransition(builder: (_) => const CategoriesScreen());
       case AppRoutes.foods:
         final String? selected = settings.arguments as String?;
         return _slideTransition(
-          ExploreFoodsScreen(
+          builder: (_) => ExploreFoodsScreen(
             selected: selected ?? AppStrings.popularFoods,
           ),
         );
@@ -111,25 +118,28 @@ class AppRouter {
           },
         );
       case AppRoutes.cart:
+        CartBloc? bloc;
         return _slideTransition(
-          Builder(builder: (context) {
+          builder: (context) {
+            bloc ??= context.read<CartBloc>()..add(GetCartEvent());
+
             return BlocProvider.value(
-              value: context.read<CartBloc>()..add(GetCartEvent()),
+              value: bloc!,
               child: const CartScreen(),
             );
-          }),
+          },
         );
       case AppRoutes.languages:
         return _slideTransition(
-          const LanguagesScreen(),
+          builder: (_) => const LanguagesScreen(),
         );
       case AppRoutes.themes:
         return _slideTransition(
-          const ThemesScreen(),
+          builder: (_) => const ThemesScreen(),
         );
       case AppRoutes.profile:
         return _slideTransition(
-          ProfileScreen(
+          builder: (_) => ProfileScreen(
             profileTag: settings.arguments as String,
           ),
         );
@@ -138,7 +148,8 @@ class AppRouter {
     }
   }
 
-  static PageRouteBuilder _slideTransition(Widget page) {
+  static PageRouteBuilder _slideTransition(
+      {required Widget Function(BuildContext) builder}) {
     return PageRouteBuilder(
       transitionsBuilder: (_, animation, __, child) => SlideTransition(
         position:
@@ -150,7 +161,7 @@ class AppRouter {
         ),
         child: child,
       ),
-      pageBuilder: (_, __, ___) => page,
+      pageBuilder: (context, _, __) => builder.call(context),
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:your_chef/core/constants/keys.dart';
 import 'package:your_chef/core/constants/strings.dart';
+import 'package:your_chef/core/enums/gender.dart';
 import 'package:your_chef/core/errors/exceptions.dart' as ex;
 import 'package:your_chef/core/options/options.dart';
 import 'package:your_chef/core/utils/network_helper.dart';
@@ -101,6 +102,7 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
       email: options.email,
       address: options.address,
       image: '',
+      gender: options.gender,
     );
     await client.from('users').insert(data.toJson());
     await client.auth.signOut();
@@ -155,6 +157,9 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
         email: user.email ?? '',
         address: '',
         image: googleUser.photoUrl ?? '',
+        gender: user.userMetadata?['gender'] != null
+            ? Gender.values.byName(user.userMetadata?['gender'])
+            : null,
       );
       await client.from('users').insert(data.toJson());
       final Map<String, dynamic> newData =

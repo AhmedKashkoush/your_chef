@@ -11,6 +11,7 @@ import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/utils/messages.dart';
+import 'package:your_chef/core/utils/permission_helper.dart';
 import 'package:your_chef/core/widgets/avatars/user_avatar.dart';
 import 'package:your_chef/core/widgets/bottom_sheets/choose_photo_source_sheet.dart';
 import 'package:your_chef/core/widgets/fields/custom_text_field.dart';
@@ -36,44 +37,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   File? _image;
 
-  Future<bool> _checkPermissions() async {
-    const String cameraMessage =
-        'Please give permission to access the camera from app settings';
-    const String galleryMessage =
-        'Please give permission to access the gallery from app settings';
-    PermissionStatus status = await Permission.camera.request();
-    if (status == PermissionStatus.permanentlyDenied) {
-      if (!mounted) return false;
-      AppMessages.showErrorMessage(context, cameraMessage);
-      return false;
+  Future<bool> _checkPermissions(Permission permission) async {
+    if (permission == Permission.camera) {
+      return await PermissionHelper.requestPermission(Permission.camera,
+          onError: () {
+        if (!mounted) return;
+        AppMessages.showErrorMessage(
+          context,
+          AppStrings.cameraPermissionMessage.tr(),
+        );
+      });
     }
-    if (status == PermissionStatus.denied) {
-      status = await Permission.camera.request();
-      if (status == PermissionStatus.denied) {
-        if (!mounted) return false;
-        AppMessages.showErrorMessage(context, cameraMessage);
-        return false;
-      }
-    }
-    status = await Permission.photos.request();
-    if (status == PermissionStatus.permanentlyDenied) {
-      if (!mounted) return false;
-      AppMessages.showErrorMessage(context, galleryMessage);
-      return false;
-    }
-    if (status == PermissionStatus.denied) {
-      status = await Permission.camera.request();
-      if (status == PermissionStatus.denied) {
-        if (!mounted) return false;
-        AppMessages.showErrorMessage(context, galleryMessage);
-        return false;
-      }
+
+    if (permission == Permission.photos) {
+      return await PermissionHelper.requestPermission(Permission.photos,
+          onError: () {
+        if (!mounted) return;
+        AppMessages.showErrorMessage(
+          context,
+          AppStrings.galleryPermissionMessage.tr(),
+        );
+      });
     }
     return true;
   }
 
   void _pickImage(ImageSource source) async {
-    if (!await _checkPermissions()) return;
+    final permission =
+        source == ImageSource.camera ? Permission.camera : Permission.photos;
+    if (!await _checkPermissions(permission)) return;
     final XFile? image = await ImagePicker().pickImage(source: source);
     if (image == null) return;
     setState(() {

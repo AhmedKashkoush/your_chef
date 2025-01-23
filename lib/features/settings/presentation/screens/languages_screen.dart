@@ -82,7 +82,7 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
           10.height,
           CustomListTile(
             leading: _buildLanguageIcon(countryCode: 'US'),
-            title: const Text('English'),
+            title: const Text(AppStrings.english),
             trailing:
                 _savedLocale == AppLocales.en ? const Icon(Icons.check) : null,
             onTap: () async {
@@ -95,7 +95,7 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
           10.height,
           CustomListTile(
             leading: _buildLanguageIcon(countryCode: 'EG'),
-            title: const Text('العربية'),
+            title: const Text(AppStrings.arabic),
             trailing:
                 _savedLocale == AppLocales.ar ? const Icon(Icons.check) : null,
             onTap: () async {

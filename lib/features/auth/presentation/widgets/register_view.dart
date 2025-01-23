@@ -15,6 +15,8 @@ class RegisterView extends StatelessWidget {
     register.emailController.clear();
     register.passwordController.clear();
     register.confirmController.clear();
+    register.countryNotifier.value = Country.parse('EG');
+    register.genderNotifier.value = Gender.male;
   }
 
   @override
@@ -70,17 +72,60 @@ class RegisterView extends StatelessWidget {
                 ],
               ),
               10.height,
-              CustomTextField(
-                keyboardType: TextInputType.phone,
-                controller: register.phoneController,
-                validator: _validatePhone,
-                enabled: state is! RegisterLoadingState,
-                inputFormatters: [
-                  LengthLimitingTextInputFormatter(11),
-                  FilteringTextInputFormatter.digitsOnly,
+              ValueListenableBuilder(
+                  valueListenable: register.genderNotifier,
+                  builder: (context, gender, _) {
+                    return Row(
+                      children: [
+                        Expanded(
+                          child: GenderTile(
+                            enabled: state is! RegisterLoadingState,
+                            value: Gender.male,
+                            selected: gender,
+                            onSelect: (gender) =>
+                                register.genderNotifier.value = gender,
+                          ),
+                        ),
+                        10.width,
+                        Expanded(
+                          child: GenderTile(
+                            enabled: state is! RegisterLoadingState,
+                            value: Gender.female,
+                            selected: gender,
+                            onSelect: (gender) =>
+                                register.genderNotifier.value = gender,
+                          ),
+                        ),
+                      ],
+                    );
+                  }),
+              10.height,
+              Row(
+                children: [
+                  ValueListenableBuilder(
+                      valueListenable: register.countryNotifier,
+                      builder: (context, country, _) {
+                        return CountryPhonePickerWidget(
+                          country: country,
+                          onSelect: (country) =>
+                              register.countryNotifier.value = country,
+                        );
+                      }),
+                  10.width,
+                  Expanded(
+                    child: CustomTextField(
+                      keyboardType: TextInputType.phone,
+                      controller: register.phoneController,
+                      validator: _validatePhone,
+                      enabled: state is! RegisterLoadingState,
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(11),
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
+                      hintText: AppStrings.phone.tr(),
+                    ),
+                  ),
                 ],
-                hintText: AppStrings.phone.tr(),
-                prefixIcon: const Icon(HugeIcons.strokeRoundedCall),
               ),
               10.height,
               CustomTextField(
@@ -255,11 +300,14 @@ class RegisterView extends StatelessWidget {
         '${register.fNameController.text.trim()} ${register.lNameController.text.trim()}';
     final RegisterOptions options = RegisterOptions(
       name: fullName,
-      phone: register.phoneController.text.trim(),
+      gender: register.genderNotifier.value,
+      phone:
+          "+${register.countryNotifier.value.phoneCode}${register.phoneController.text.trim()}",
       address: register.addressController.text.trim(),
       email: register.emailController.text.trim(),
       password: register.passwordController.text.trim(),
     );
+
     context.read<RegisterBloc>().add(
           RegisterSubmitEvent(
             options,

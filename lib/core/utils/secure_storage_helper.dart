@@ -1,6 +1,6 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class SecureStorageHelper {
+final class SecureStorageHelper {
   const SecureStorageHelper._();
   static const _storage = FlutterSecureStorage();
 

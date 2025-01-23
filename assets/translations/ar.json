@@ -9,6 +9,8 @@
   "no": "لا",
   "item": "عنصر",
   "items": "عناصر",
+  "male": "ذكر",
+  "female": "أنثى",
 
   "onboardingTitle1": "الطلبات",
   "onboardingTitle2": "الدفع",
@@ -128,6 +130,9 @@
   "signOutConfirmation": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
   "removeAccountConfirmation": "هل أنت متأكد أنك تريد إزالة هذا الحساب؟",
   "dismissChanges": "تجاهل التغييرات؟",
+
+  "cameraPermissionMessage": "منفضلك قم بمنح الصلاحية للوصول إلى الكاميرا من إعدادات التطبيق",
+  "galleryPermissionMessage": "منفضلك قم بمنح الصلاحية للوصول إلى المعرض من إعدادات التطبيق",
 
   "justAMoment": "لحظة من فضلك...",
   "signingOut": "جاري تسجيل الخروج...",

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:your_chef/core/enums/gender.dart';
 import 'package:your_chef/features/restaurants/domain/entities/restaurant.dart';
 import 'package:your_chef/features/auth/domain/entities/user.dart';
 
@@ -17,12 +18,14 @@ class LoginOptions extends AppOptions {
 
 class RegisterOptions extends AppOptions {
   final String name, phone, address, email, password;
+  final Gender gender;
   const RegisterOptions({
     required this.name,
     required this.phone,
     required this.address,
     required this.email,
     required this.password,
+    required this.gender,
   });
 }
 

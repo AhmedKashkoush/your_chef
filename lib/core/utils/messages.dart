@@ -8,7 +8,7 @@ import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/widgets/loading/pizza_loading.dart';
 
-class AppMessages {
+final class AppMessages {
   const AppMessages._();
   static bool _loading = false;
   static Future<bool?> showConfirmDialog(

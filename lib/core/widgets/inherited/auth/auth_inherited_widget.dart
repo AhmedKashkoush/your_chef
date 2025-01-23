@@ -1,4 +1,6 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:your_chef/core/enums/gender.dart';
 
 class AuthInheritedWidget extends InheritedWidget {
   final TabController tabController;
@@ -42,6 +44,8 @@ class RegisterConfig {
       addressController,
       confirmController;
   final ValueNotifier<bool> passwordVisibility, confirmVisibility;
+  final ValueNotifier<Country> countryNotifier;
+  final ValueNotifier<Gender> genderNotifier;
   final GlobalKey<FormState> formKey;
 
   RegisterConfig({
@@ -54,6 +58,8 @@ class RegisterConfig {
     required this.confirmController,
     required this.passwordVisibility,
     required this.confirmVisibility,
+    required this.countryNotifier,
+    required this.genderNotifier,
     required this.formKey,
   });
 }
