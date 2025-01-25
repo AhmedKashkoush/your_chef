@@ -20,6 +20,7 @@ import 'package:your_chef/core/widgets/buttons/custom_icon_button.dart';
 import 'package:your_chef/core/widgets/buttons/primary_button.dart';
 import 'package:your_chef/core/widgets/counters/cart_item_counter.dart';
 import 'package:your_chef/core/widgets/errors/custom_error_widget.dart';
+import 'package:your_chef/core/widgets/loading/pizza_loading.dart';
 import 'package:your_chef/core/widgets/loading/skeleton_loading_widget.dart';
 import 'package:your_chef/core/widgets/rating/star_rating_widget.dart';
 import 'package:your_chef/features/foods/domain/entities/cart_item.dart';
@@ -41,8 +42,26 @@ class CartScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        leading: context.canPop()
+            ? Padding(
+                padding: const EdgeInsets.all(8.0).r,
+                child: CustomIconButton(
+                  icon: const BackButtonIcon(),
+                  onPressed: () => context.pop(),
+                ),
+              )
+            : null,
         actions: [
           BlocBuilder<CartBloc, CartState>(builder: (context, state) {
+            if (state.status == RequestStatus.loading) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0).r,
+                child: PizzaLoading(
+                  size: 32.r,
+                  color: AppColors.primary,
+                ),
+              );
+            }
             return CartCounter(
               count: state.items.length,
             );

@@ -18,24 +18,27 @@ class GenderTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      enabled: enabled,
-      selected: value == selected,
-      selectedTileColor: AppColors.primary,
-      selectedColor: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10).r,
+    return Material(
+      type: MaterialType.transparency,
+      child: ListTile(
+        enabled: enabled,
+        selected: value == selected,
+        selectedTileColor: AppColors.primary,
+        selectedColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10).r,
+        ),
+        // titleTextStyle: TextStyle(
+        //   fontWeight: FontWeight.bold,
+        //   fontSize: 18.sp,
+        // ),
+        onTap: () => onSelect(value),
+        leading: Icon(
+          value == Gender.male ? Icons.male : Icons.female,
+          size: 32.r,
+        ),
+        title: Text(value.name.tr()),
       ),
-      // titleTextStyle: TextStyle(
-      //   fontWeight: FontWeight.bold,
-      //   fontSize: 18.sp,
-      // ),
-      onTap: () => onSelect(value),
-      leading: Icon(
-        value == Gender.male ? Icons.male : Icons.female,
-        size: 32.r,
-      ),
-      title: Text(value.name.tr()),
     );
   }
 }

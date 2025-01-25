@@ -124,6 +124,8 @@ class _FoodDetailsPortraitState extends State<_FoodDetailsPortrait> {
       slivers: [
         SliverAppBar(
           pinned: true,
+          surfaceTintColor: Colors.transparent,
+          backgroundColor: context.theme.scaffoldBackgroundColor,
           titleSpacing: 0,
           // floating: true,
           expandedHeight: 260.h,

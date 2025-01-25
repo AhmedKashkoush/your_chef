@@ -7,11 +7,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/dummy/dummy_data.dart';
+import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/options/options.dart';
 import 'package:your_chef/core/utils/messages.dart';
 import 'package:your_chef/core/utils/network_helper.dart';
+import 'package:your_chef/core/widgets/buttons/custom_icon_button.dart';
 import 'package:your_chef/core/widgets/errors/custom_error_widget.dart';
 import 'package:your_chef/core/widgets/fields/search_field.dart';
 import 'package:your_chef/core/widgets/items/food_item.dart';
@@ -56,6 +58,15 @@ class _ExploreFoodsScreenState extends State<ExploreFoodsScreen>
           appBar: AppBar(
             backgroundColor: context.theme.scaffoldBackgroundColor,
             title: Text(AppStrings.exploreFoods.tr()),
+            leading: context.canPop()
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0).r,
+                    child: CustomIconButton(
+                      icon: const BackButtonIcon(),
+                      onPressed: () => context.pop(),
+                    ),
+                  )
+                : null,
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(kToolbarHeight * 2),
               child: Column(

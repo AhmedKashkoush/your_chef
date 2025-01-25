@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
@@ -14,6 +15,7 @@ import 'package:your_chef/core/utils/messages.dart';
 import 'package:your_chef/core/utils/permission_helper.dart';
 import 'package:your_chef/core/widgets/avatars/user_avatar.dart';
 import 'package:your_chef/core/widgets/bottom_sheets/choose_photo_source_sheet.dart';
+import 'package:your_chef/core/widgets/buttons/custom_icon_button.dart';
 import 'package:your_chef/core/widgets/fields/custom_text_field.dart';
 import 'package:your_chef/common/blocs/user/user_bloc.dart';
 
@@ -122,9 +124,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
             backgroundColor: Colors.transparent,
             centerTitle: true,
             title: Text(AppStrings.profile.tr()),
+            leading: context.canPop()
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0).r,
+                    child: CustomIconButton(
+                      icon: const BackButtonIcon(),
+                      onPressed: () => context.pop(),
+                    ),
+                  )
+                : null,
             actions: [
               if (_canEdit)
-                IconButton(
+                CustomIconButton(
                   onPressed: () async {
                     bool showConfirmationMessage = _image != null ||
                         _nameController.text != state.user!.name ||
@@ -152,7 +163,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   },
                   icon: const Icon(Icons.close),
                 ),
-              IconButton(
+              CustomIconButton(
                 onPressed: () {
                   setState(() {
                     _canEdit = !_canEdit;
@@ -188,8 +199,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           scale: !_canEdit ? 0 : 1,
                           duration: const Duration(milliseconds: 300),
                           curve: Curves.easeInOut,
-                          child: IconButton.filled(
+                          child: CustomIconButton(
                             onPressed: () => _showPhotoSourceSheet(context),
+                            backgroundColor: AppColors.primary,
+                            color: Colors.white,
                             icon: const Icon(
                               HugeIcons.strokeRoundedEdit02,
                             ),
