@@ -14,7 +14,7 @@ import 'package:your_chef/features/auth/presentation/screens/email_reset_screen.
 import 'package:your_chef/features/auth/presentation/screens/otp_screen.dart';
 import 'package:your_chef/features/categories/presentation/screens/categories_screen.dart';
 import 'package:your_chef/features/foods/domain/entities/food.dart';
-import 'package:your_chef/features/foods/presentation/screens/cart_screen.dart';
+import 'package:your_chef/features/orders/presentation/screens/cart_screen.dart';
 import 'package:your_chef/features/foods/presentation/screens/explore_foods_screen.dart';
 import 'package:your_chef/features/restaurants/domain/entities/restaurant.dart';
 import 'package:your_chef/features/onboarding/screens/onboarding_screen.dart';

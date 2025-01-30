@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:your_chef/features/foods/data/models/food_model.dart';
-import 'package:your_chef/features/foods/domain/entities/cart_item.dart';
+import 'package:your_chef/features/orders/domain/entities/cart_item.dart';
 
 class CartItemModel extends Equatable {
   final int id, quantity;

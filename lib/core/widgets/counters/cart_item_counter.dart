@@ -8,8 +8,8 @@ import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/utils/messages.dart';
 import 'package:your_chef/core/widgets/buttons/custom_icon_button.dart';
-import 'package:your_chef/features/foods/domain/entities/cart_item.dart';
-import 'package:your_chef/features/foods/presentation/blocs/cart/quantity/cart_quantity_bloc.dart';
+import 'package:your_chef/features/orders/domain/entities/cart_item.dart';
+import 'package:your_chef/features/orders/presentation/blocs/cart/quantity/cart_quantity_bloc.dart';
 
 class CartItemCounter extends StatefulWidget {
   final CartItem item;
@@ -100,6 +100,7 @@ class _CartItemCounterState extends State<CartItemCounter> {
                 items[index] = items[index].copyWith(
                   quantity: _counter,
                 );
+
                 context.read<CartBloc>().add(
                       UpdateCartEvent(items),
                     );

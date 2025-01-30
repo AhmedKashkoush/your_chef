@@ -4,8 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:your_chef/config/themes/theme_cubit.dart';
 import 'package:your_chef/core/constants/strings.dart';
+import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
+import 'package:your_chef/core/widgets/buttons/custom_icon_button.dart';
 import 'package:your_chef/core/widgets/tiles/custom_list_tile.dart';
 
 class ThemesScreen extends StatelessWidget {
@@ -18,6 +20,15 @@ class ThemesScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: Text(AppStrings.themes.tr()),
+        leading: context.canPop()
+            ? Padding(
+                padding: const EdgeInsets.all(8.0).r,
+                child: CustomIconButton(
+                  icon: const BackButtonIcon(),
+                  onPressed: () => context.pop(),
+                ),
+              )
+            : null,
       ),
       body: BlocBuilder<ThemeCubit, ThemeMode>(
         builder: (context, theme) {

@@ -12,6 +12,7 @@ class CartItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: ValueKey(item.id),
       color: context.theme.scaffoldBackgroundColor,
       child: Padding(
         padding: const EdgeInsets.all(16.0).r,

@@ -92,7 +92,8 @@
   "aboutUs": "عنّا",
   "specialOffers": "عروض خاصة",
   "ourMenu": "قائمتنا",
-  "other": "آخر",
+  "other": "آخرى",
+  "weWillAddMenuSoon": "سيتم اضافة قائمة قريبا",
 
   "switchAccounts": "تبديل الحسابات",
   "privacyAndSecurity": "الخصوصية والأمان",
@@ -138,6 +139,7 @@
   "signingOut": "جاري تسجيل الخروج...",
   "switchingAccount": "جاري تبديل الحساب...",
 
+  "accountCreated": "تم انشاء الحساب",
   "loggedInSuccessfully": "تم تسجيل الدخول بنجاح",
   "signedOutSuccessfully": "تم تسجيل الخروج بنجاح",
   "switchedAccountSuccessfully": "تم تبديل الحساب بنجاح",

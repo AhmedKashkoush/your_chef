@@ -52,14 +52,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
 
     if (permission == Permission.photos) {
-      return await PermissionHelper.requestPermission(Permission.photos,
+      final result = await PermissionHelper.requestPermission(Permission.photos,
           onError: () {
-        if (!mounted) return;
-        AppMessages.showErrorMessage(
-          context,
-          AppStrings.galleryPermissionMessage.tr(),
-        );
+        // if (!mounted) return;
+        // AppMessages.showErrorMessage(
+        //   context,
+        //   AppStrings.galleryPermissionMessage.tr(),
+        // );
       });
+
+      if (!result) {
+        return await PermissionHelper.requestPermission(Permission.storage,
+            onError: () {
+          if (!mounted) return;
+          AppMessages.showErrorMessage(
+            context,
+            AppStrings.galleryPermissionMessage.tr(),
+          );
+        });
+      }
     }
     return true;
   }

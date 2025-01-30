@@ -69,7 +69,10 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
       lastLogin: DateTime.now(),
     );
     await _checkIfUserSaved(savedUser);
-
+    await SecureStorageHelper.write(
+      SharedPrefsKeys.user,
+      jsonEncode(signedUser.toJson()),
+    );
     return savedUser;
   }
 
@@ -173,6 +176,10 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
         lastLogin: DateTime.now(),
       );
       await _checkIfUserSaved(savedUser);
+      await SecureStorageHelper.write(
+        SharedPrefsKeys.user,
+        jsonEncode(signedUser.toJson()),
+      );
       return savedUser;
     }
     final UserModel signedUser = UserModel.fromJson(data);
@@ -184,6 +191,10 @@ class SupabaseAuthRemoteDataSource implements IAuthRemoteDataSource {
       lastLogin: DateTime.now(),
     );
     await _checkIfUserSaved(savedUser);
+    await SecureStorageHelper.write(
+      SharedPrefsKeys.user,
+      jsonEncode(signedUser.toJson()),
+    );
     return savedUser;
   }
 

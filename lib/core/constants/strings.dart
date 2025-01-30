@@ -104,6 +104,7 @@ class AppStrings {
   static const String specialOffers = "specialOffers";
   static const String ourMenu = "ourMenu";
   static const String other = "other";
+  static const String weWillAddMenuSoon = "We will add menu soon";
 
   //Settings
   static const String switchAccounts = "switchAccounts";
@@ -158,6 +159,7 @@ class AppStrings {
   static const String switchingAccount = "switchingAccount";
 
   //*Success messages
+  static const String accountCreated = "accountCreated";
   static const String loggedInSuccessfully = "loggedInSuccessfully";
   static const String signedOutSuccessfully = "signedOutSuccessfully";
   static const String switchedAccountSuccessfully =

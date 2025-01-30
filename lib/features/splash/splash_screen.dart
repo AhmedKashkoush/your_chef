@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:your_chef/config/routes/routes.dart';
 import 'package:your_chef/core/constants/colors.dart';
 import 'package:your_chef/core/extensions/navigation_extension.dart';
@@ -37,20 +38,22 @@ class SplashScreen extends StatelessWidget {
             }
           },
           child: Scaffold(
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Spacer(
-                    flex: 2,
+            body: Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const AppLogo(),
+                      10.height,
+                      const LogoText(),
+                    ],
                   ),
-                  const AppLogo(),
-                  10.height,
-                  const LogoText(),
-                  const Spacer(),
-                  BlocConsumer<SplashCubit, SplashState>(
+                ),
+                Positioned(
+                  bottom: 100.h,
+                  child: BlocConsumer<SplashCubit, SplashState>(
                     listener: (context, state) {
                       if (state is SplashUnSkippedOnboardingState) {
                         context.pushReplacementNamed(AppRoutes.onboarding);
@@ -63,19 +66,26 @@ class SplashScreen extends StatelessWidget {
                       }
                     },
                     builder: (context, state) {
-                      return state is SplashLoadingState
-                          ? const Center(
-                              child: PizzaLoading(
-                                color: AppColors.primary,
-                                size: 80,
-                              ),
-                            )
-                          : const SizedBox.shrink();
+                      return AnimatedOpacity(
+                        opacity: state is SplashLoadingState ? 1 : 0,
+                        duration: const Duration(milliseconds: 600),
+                        curve: Curves.easeInOut,
+                        child: AnimatedScale(
+                          scale: state is SplashLoadingState ? 1 : 0,
+                          duration: const Duration(milliseconds: 600),
+                          curve: Curves.easeInOut,
+                          child: const Center(
+                            child: PizzaLoading(
+                              color: AppColors.primary,
+                              size: 80,
+                            ),
+                          ),
+                        ),
+                      );
                     },
                   ),
-                  const Spacer(),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         );

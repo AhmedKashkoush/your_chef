@@ -50,44 +50,26 @@ class _UploadProfilePhotoScreenState extends State<UploadProfilePhotoScreen> {
     }
 
     if (permission == Permission.photos) {
-      return await PermissionHelper.requestPermission(Permission.photos,
+      final result = await PermissionHelper.requestPermission(Permission.photos,
           onError: () {
-        if (!mounted) return;
-        AppMessages.showErrorMessage(
-          context,
-          AppStrings.galleryPermissionMessage.tr(),
-        );
+        // if (!mounted) return;
+        // AppMessages.showErrorMessage(
+        //   context,
+        //   AppStrings.galleryPermissionMessage.tr(),
+        // );
       });
-    }
-    // PermissionStatus status = await Permission.camera.request();
-    // if (status == PermissionStatus.permanentlyDenied) {
-    //   if (!mounted) return false;
-    //   AppMessages.showErrorMessage(context, cameraMessage);
-    //   return false;
-    // }
-    // if (status == PermissionStatus.denied) {
-    //   status = await Permission.camera.request();
-    //   if (status == PermissionStatus.denied) {
-    //     if (!mounted) return false;
-    //     AppMessages.showErrorMessage(context, cameraMessage);
-    //     return false;
-    //   }
-    // }
 
-    // status = await Permission.photos.request();
-    // if (status == PermissionStatus.permanentlyDenied) {
-    //   if (!mounted) return false;
-    //   AppMessages.showErrorMessage(context, galleryMessage);
-    //   return false;
-    // }
-    // if (status == PermissionStatus.denied) {
-    //   status = await Permission.camera.request();
-    //   if (status == PermissionStatus.denied) {
-    //     if (!mounted) return false;
-    //     AppMessages.showErrorMessage(context, galleryMessage);
-    //     return false;
-    //   }
-    // }
+      if (!result) {
+        return await PermissionHelper.requestPermission(Permission.storage,
+            onError: () {
+          if (!mounted) return;
+          AppMessages.showErrorMessage(
+            context,
+            AppStrings.galleryPermissionMessage.tr(),
+          );
+        });
+      }
+    }
     return true;
   }
 

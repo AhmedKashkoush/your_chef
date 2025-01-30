@@ -23,9 +23,9 @@ import 'package:your_chef/core/widgets/errors/custom_error_widget.dart';
 import 'package:your_chef/core/widgets/loading/pizza_loading.dart';
 import 'package:your_chef/core/widgets/loading/skeleton_loading_widget.dart';
 import 'package:your_chef/core/widgets/rating/star_rating_widget.dart';
-import 'package:your_chef/features/foods/domain/entities/cart_item.dart';
-import 'package:your_chef/features/foods/presentation/blocs/cart/add_remove/add_remove_cart_bloc.dart';
-import 'package:your_chef/features/foods/presentation/blocs/cart/quantity/cart_quantity_bloc.dart';
+import 'package:your_chef/features/orders/domain/entities/cart_item.dart';
+import 'package:your_chef/features/orders/presentation/blocs/cart/add_remove/add_remove_cart_bloc.dart';
+import 'package:your_chef/features/orders/presentation/blocs/cart/quantity/cart_quantity_bloc.dart';
 import 'package:your_chef/locator.dart';
 
 part '../widgets/cart/cart_calculations_widget.dart';

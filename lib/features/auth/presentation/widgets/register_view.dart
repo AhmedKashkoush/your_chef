@@ -34,7 +34,10 @@ class RegisterView extends StatelessWidget {
           if (!context.mounted) return;
           tabController.animateTo(0);
           _clearControllers(context);
-          AppMessages.showSuccessMessage(context, 'Account Created');
+          AppMessages.showSuccessMessage(
+            context,
+            AppStrings.accountCreated.tr(),
+          );
         }
       },
       builder: (context, state) {

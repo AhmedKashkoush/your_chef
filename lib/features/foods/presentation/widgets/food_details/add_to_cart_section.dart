@@ -10,10 +10,10 @@ import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/utils/messages.dart';
 import 'package:your_chef/core/widgets/buttons/primary_button.dart';
 import 'package:your_chef/core/widgets/counters/cart_item_counter.dart';
-import 'package:your_chef/features/foods/domain/entities/cart_item.dart';
+import 'package:your_chef/features/orders/domain/entities/cart_item.dart';
 import 'package:your_chef/features/foods/domain/entities/food.dart';
-import 'package:your_chef/features/foods/presentation/blocs/cart/add_remove/add_remove_cart_bloc.dart';
-import 'package:your_chef/features/foods/presentation/blocs/cart/quantity/cart_quantity_bloc.dart';
+import 'package:your_chef/features/orders/presentation/blocs/cart/add_remove/add_remove_cart_bloc.dart';
+import 'package:your_chef/features/orders/presentation/blocs/cart/quantity/cart_quantity_bloc.dart';
 import 'package:your_chef/locator.dart';
 
 class AddToCartSection extends StatelessWidget {

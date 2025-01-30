@@ -1,14 +1,15 @@
 import 'dart:async';
 
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:your_chef/core/errors/error_types.dart';
 import 'package:your_chef/core/errors/failures.dart';
 import 'package:your_chef/core/utils/network_helper.dart';
-import 'package:your_chef/features/foods/domain/entities/cart_item.dart';
+import 'package:your_chef/features/orders/domain/entities/cart_item.dart';
 import 'package:your_chef/features/foods/domain/entities/food.dart';
-import 'package:your_chef/features/foods/domain/usecases/cart/empty_cart_usecase.dart';
-import 'package:your_chef/features/foods/domain/usecases/cart/get_cart_usecase.dart';
+import 'package:your_chef/features/orders/domain/usecases/cart/empty_cart_usecase.dart';
+import 'package:your_chef/features/orders/domain/usecases/cart/get_cart_usecase.dart';
 
 part 'cart_events.dart';
 part 'cart_states.dart';
@@ -32,7 +33,10 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     // this.incrementCartItemUseCase,
     // this.decrementCartItemUseCase,
   ) : super(const CartState()) {
-    on<GetCartEvent>(_getCart);
+    on<GetCartEvent>(
+      _getCart,
+      transformer: restartable(),
+    );
     on<UpdateCartEvent>(_updateCart);
     on<EmptyCartEvent>(_emptyCart);
     on<GetCartTotalEvent>(_getCartTotal);

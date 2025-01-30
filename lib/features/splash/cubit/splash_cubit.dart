@@ -16,6 +16,7 @@ class SplashCubit extends Cubit<SplashState> {
       emit(const SplashUnSkippedOnboardingState());
       return;
     }
+
     emit(const SplashLoadingState());
   }
 }

@@ -4,7 +4,7 @@ import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/dummy/dummy_data.dart';
 import 'package:your_chef/core/errors/exceptions.dart' as ex;
 import 'package:your_chef/core/utils/network_helper.dart';
-import 'package:your_chef/features/foods/data/models/cart_item_model.dart';
+import 'package:your_chef/features/orders/data/models/cart_item_model.dart';
 import 'package:your_chef/features/foods/data/models/food_model.dart';
 
 abstract class ICartRemoteDataSource {

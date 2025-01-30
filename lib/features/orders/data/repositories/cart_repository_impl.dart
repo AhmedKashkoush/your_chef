@@ -3,12 +3,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/errors/exceptions.dart';
 import 'package:your_chef/core/errors/failures.dart';
-import 'package:your_chef/features/foods/data/models/cart_item_model.dart';
+import 'package:your_chef/features/orders/data/models/cart_item_model.dart';
 import 'package:your_chef/features/foods/data/models/food_model.dart';
-import 'package:your_chef/features/foods/data/sources/remote/cart_remote_data_source.dart';
-import 'package:your_chef/features/foods/domain/entities/cart_item.dart';
+import 'package:your_chef/features/orders/data/sources/remote/cart_remote_data_source.dart';
+import 'package:your_chef/features/orders/domain/entities/cart_item.dart';
 import 'package:your_chef/features/foods/domain/entities/food.dart';
-import 'package:your_chef/features/foods/domain/repositories/cart_repository.dart';
+import 'package:your_chef/features/orders/domain/repositories/cart_repository.dart';
 
 class CartRepository extends ICartRepository {
   final ICartRemoteDataSource remoteDataSource;

@@ -8,8 +8,8 @@ import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/errors/error_types.dart';
 import 'package:your_chef/core/errors/failures.dart';
 import 'package:your_chef/features/foods/domain/entities/food.dart';
-import 'package:your_chef/features/foods/domain/usecases/cart/add_food_to_cart_usecase.dart';
-import 'package:your_chef/features/foods/domain/usecases/cart/remove_food_from_cart_usecase.dart';
+import 'package:your_chef/features/orders/domain/usecases/cart/add_food_to_cart_usecase.dart';
+import 'package:your_chef/features/orders/domain/usecases/cart/remove_food_from_cart_usecase.dart';
 
 part 'add_remove_cart_events.dart';
 part 'add_remove_cart_states.dart';

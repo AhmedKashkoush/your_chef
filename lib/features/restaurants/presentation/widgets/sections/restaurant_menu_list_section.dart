@@ -40,7 +40,7 @@ class RestaurantMenuListSection extends StatelessWidget {
           ),
           10.height,
           Text(
-            'We will add menu soon',
+            AppStrings.weWillAddMenuSoon.tr(),
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20.sp,

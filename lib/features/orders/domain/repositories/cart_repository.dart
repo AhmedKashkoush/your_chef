@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:your_chef/core/errors/failures.dart';
-import 'package:your_chef/features/foods/domain/entities/cart_item.dart';
+import 'package:your_chef/features/orders/domain/entities/cart_item.dart';
 import 'package:your_chef/features/foods/domain/entities/food.dart';
 
 abstract class ICartRepository {

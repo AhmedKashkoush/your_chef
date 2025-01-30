@@ -23,7 +23,7 @@ import 'package:your_chef/core/widgets/layout/orientation_widget.dart';
 import 'package:your_chef/core/widgets/rating/star_rating_widget.dart';
 import 'package:your_chef/core/widgets/tiles/review_tile.dart';
 import 'package:your_chef/features/foods/domain/entities/food.dart';
-import 'package:your_chef/features/foods/presentation/blocs/cart/add_remove/add_remove_cart_bloc.dart';
+import 'package:your_chef/features/orders/presentation/blocs/cart/add_remove/add_remove_cart_bloc.dart';
 import 'package:your_chef/features/foods/presentation/widgets/food_details/add_to_cart_section.dart';
 import 'package:your_chef/features/foods/presentation/widgets/food_details/food_tile.dart';
 import 'package:your_chef/features/foods/presentation/widgets/food_details/restaurant_tile.dart';

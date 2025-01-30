@@ -40,7 +40,13 @@ class SupabaseUserRemoteDataSource extends IUserRemoteDataSource {
       throw ex.NetworkException(AppStrings.checkYourInternetConnection.tr());
     }
     final User? user = client.auth.currentUser;
-    if (user == null) throw ex.AuthException(AppStrings.sessionExpired.tr());
+    if (user == null) {
+      await client.auth.signOut();
+      await SecureStorageHelper.delete(
+        SharedPrefsKeys.user,
+      );
+      throw ex.AuthException(AppStrings.sessionExpired.tr());
+    }
     final Map<String, dynamic> data =
         await client.from('users').select('*').eq('id', user.id).single();
     return UserModel.fromJson(data);
@@ -62,6 +68,9 @@ class SupabaseUserRemoteDataSource extends IUserRemoteDataSource {
       )
           .catchError((error) async {
         await client.auth.signOut();
+        await SecureStorageHelper.delete(
+          SharedPrefsKeys.user,
+        );
         throw ex.AuthException(AppStrings.sessionExpired.tr());
       });
     }
@@ -75,14 +84,18 @@ class SupabaseUserRemoteDataSource extends IUserRemoteDataSource {
       )
           .catchError((error) async {
         await client.auth.signOut();
-
+        await SecureStorageHelper.delete(
+          SharedPrefsKeys.user,
+        );
         throw ex.AuthException(AppStrings.sessionExpired.tr());
       });
     }
     final User? user = response.session?.user;
     if (user == null) {
       await client.auth.signOut();
-
+      await SecureStorageHelper.delete(
+        SharedPrefsKeys.user,
+      );
       throw ex.AuthException(AppStrings.sessionExpired.tr());
     }
     final Map<String, dynamic> data =
@@ -90,13 +103,15 @@ class SupabaseUserRemoteDataSource extends IUserRemoteDataSource {
 
     if (data.isEmpty) {
       await client.auth.signOut();
-
+      await SecureStorageHelper.delete(
+        SharedPrefsKeys.user,
+      );
       throw ex.AuthException(AppStrings.invalidCredentials.tr());
     }
     final UserModel signedUser = UserModel.fromJson(data);
 
     final String? savedUsersData =
-        await SecureStorageHelper.read(SharedPrefsKeys.user);
+        await SecureStorageHelper.read(SharedPrefsKeys.savedUsers);
 
     if (savedUsersData != null) {
       final List<SavedUserModel> savedUsers =
@@ -112,7 +127,7 @@ class SupabaseUserRemoteDataSource extends IUserRemoteDataSource {
             'idToken': savedUser.idToken,
             'accessToken': savedUser.accessToken,
             'password': savedUser.password,
-            'lastLogin': DateTime.now(),
+            'lastLogin': DateTime.now().toIso8601String(),
           },
         ),
       );
@@ -122,6 +137,10 @@ class SupabaseUserRemoteDataSource extends IUserRemoteDataSource {
         jsonEncode(savedUsers.map((user) => user.toJson()).toList()),
       );
     }
+    await SecureStorageHelper.write(
+      SharedPrefsKeys.user,
+      jsonEncode(signedUser.toJson()),
+    );
     return signedUser;
   }
 
@@ -156,5 +175,8 @@ class SupabaseUserRemoteDataSource extends IUserRemoteDataSource {
   @override
   Future<void> signOut() async {
     await client.auth.signOut();
+    await SecureStorageHelper.delete(
+      SharedPrefsKeys.user,
+    );
   }
 }

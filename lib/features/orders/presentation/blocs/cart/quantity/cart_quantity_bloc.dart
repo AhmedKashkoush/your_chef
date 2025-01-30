@@ -7,9 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:your_chef/core/constants/strings.dart';
 import 'package:your_chef/core/errors/error_types.dart';
 import 'package:your_chef/core/errors/failures.dart';
-import 'package:your_chef/features/foods/domain/entities/cart_item.dart';
-import 'package:your_chef/features/foods/domain/usecases/cart/decrement_cart_item_usecase.dart';
-import 'package:your_chef/features/foods/domain/usecases/cart/increment_cart_item_usecase.dart';
+import 'package:your_chef/features/orders/domain/entities/cart_item.dart';
+import 'package:your_chef/features/orders/domain/usecases/cart/decrement_cart_item_usecase.dart';
+import 'package:your_chef/features/orders/domain/usecases/cart/increment_cart_item_usecase.dart';
 
 part 'cart_quantity_events.dart';
 part 'cart_quantity_states.dart';

@@ -16,10 +16,10 @@ import 'package:your_chef/core/utils/messages.dart';
 import 'package:your_chef/core/widgets/buttons/custom_icon_button.dart';
 import 'package:your_chef/core/widgets/buttons/primary_button.dart';
 import 'package:your_chef/core/widgets/rating/star_rating_widget.dart';
-import 'package:your_chef/features/foods/domain/entities/cart_item.dart';
+import 'package:your_chef/features/orders/domain/entities/cart_item.dart';
 import 'package:your_chef/features/foods/domain/entities/food.dart';
 import 'package:your_chef/common/blocs/wishlist/wishlist_bloc.dart';
-import 'package:your_chef/features/foods/presentation/blocs/cart/add_remove/add_remove_cart_bloc.dart';
+import 'package:your_chef/features/orders/presentation/blocs/cart/add_remove/add_remove_cart_bloc.dart';
 import 'package:your_chef/locator.dart';
 
 class WishlistItem extends StatelessWidget {

@@ -6,9 +6,11 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:your_chef/config/locales/locales.dart';
 import 'package:your_chef/core/constants/keys.dart';
 import 'package:your_chef/core/constants/strings.dart';
+import 'package:your_chef/core/extensions/navigation_extension.dart';
 import 'package:your_chef/core/extensions/space_extension.dart';
 import 'package:your_chef/core/extensions/theme_extension.dart';
 import 'package:your_chef/core/utils/shared_preferences_helper.dart';
+import 'package:your_chef/core/widgets/buttons/custom_icon_button.dart';
 import 'package:your_chef/core/widgets/tiles/custom_list_tile.dart';
 
 class LanguagesScreen extends StatefulWidget {
@@ -48,6 +50,15 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: Text(AppStrings.languages.tr()),
+        leading: context.canPop()
+            ? Padding(
+                padding: const EdgeInsets.all(8.0).r,
+                child: CustomIconButton(
+                  icon: const BackButtonIcon(),
+                  onPressed: () => context.pop(),
+                ),
+              )
+            : null,
       ),
       body: ListView(
         padding: const EdgeInsets.all(12).r,

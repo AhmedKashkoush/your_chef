@@ -54,5 +54,6 @@ class SavedUserModel extends Equatable {
       );
 
   @override
-  List<Object?> get props => [user, provider, idToken, accessToken, password];
+  List<Object?> get props =>
+      [user, provider, idToken, accessToken, password, lastLogin];
 }

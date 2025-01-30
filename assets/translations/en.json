@@ -93,6 +93,7 @@
   "specialOffers": "Special offers",
   "ourMenu": "Our menu",
   "other": "Other",
+  "weWillAddMenuSoon": "We will add menu soon",
 
   "switchAccounts": "Switch Accounts",
   "privacyAndSecurity": "Privacy & Security",
@@ -138,6 +139,7 @@
   "signingOut": "Signing out...",
   "switchingAccount": "Switching account...",
 
+  "accountCreated": "Account Created",
   "loggedInSuccessfully": "Logged in successfully",
   "signedOutSuccessfully": "Signed out successfully",
   "switchedAccountSuccessfully": "Switched account successfully",
